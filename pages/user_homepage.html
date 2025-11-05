@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/user_homepage.css">
+</head>
+<body>
+    <div class="container">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <h3 class="left">Bon</h3>
+                <h3>ten</h3>
+            </div>
+
+            <nav class="nav-menu">
+
+            <a href="#" class="nav-item active">Home</a>
+            <a href="#" class="nav-item">Explore</a>
+            <a href="#" class="nav-item">History</a>
+            <a href="#" class="nav-item">Dashboard</a>
+
+            </nav>
+
+            <div class="lower-menu">
+                <a href="#" class="nav-item">Settings</a>
+                <a href="#" class="logout">Logout</a>
+
+            </div>
+
+        </aside>
+
+        <div class="topnav">
+            <div class="user_section">
+                <div class="profile_picture">
+                    <img src="../assets/user.jpg" alt="Profile Picture">
+                </div>
+                <div class="user_info">
+                    <h4 class="username">Jerome Adedze</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero_wrapper">
+            <div class="hero">
+                <div class="welcome">
+                    <h1>Welcome back, Jerome!</h1>
+                    <p>ready to explore what's happening near you?</p>
+                </div>
+                <button class="explore_button">
+                    Find Events Near Me
+                    <img src="../assets/search.png" alt="Search" class="button_icon">
+                </button>
+            </div>
+
+            <aside class="schedule_widget">
+                <div class="widget_header">
+                    <h3 class="widget_title">Upcoming Schedule</h3>
+                    <select class="month_selector">
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                        
+                    </select>
+                </div>
+
+                <div class="schedule_items">
+                    <div class="schedule_item blue">
+                        <div class="schedule_time">9:45 AM - 11:15 AM</div>
+                        <div class="schedule_name">Ballon d'or</div>
+                        <div class="schedule_location">Norton Motulsky, Ashesi University</div>
+                    </div>
+
+                    <div class="schedule_item orange">
+                        <div class="schedule_time">8:00 PM - 11:30 PM</div>
+                        <div class="schedule_name">Y2K Neon Party</div>
+                        <div class="schedule_location">Bloom Bar</div>
+                    </div>
+
+                    <div class="schedule_item red">
+                        <div class="schedule_time">6:00 PM - 10:00 PM</div>
+                        <div class="schedule_name">Ashchella Festival</div>
+                        <div class="schedule_location">Independence Square</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <section class="upcoming_events">
+            <h2 class="section_title">Events For You</h2>
+
+            <div class="carousel_container">
+                <button class="carousel_nav prev">‹</button>
+
+                <div class="events_carousel">
+                    <div class="event_card">
+                        <span class="event_badge">Comedy</span>
+                        <div class="bookmark_icon">⬜</div>
+                        <img src="../assets/ashchella.jpg" alt="Ashchella" class="event_image">
+                        <div class="event_info">
+                            <h3 class="event_title">Ashchella</h3>
+                            <p class="event_description">Some description</p>
+                            <button class="rsvp_button">RSVP →</button>
+                        </div>
+                    </div>
+
+                    <div class="event_card">
+                        <span class="event_badge">Fashion</span>
+                        <div class="bookmark_icon">⬜</div>
+                        <img src="../assets/y2k.JPG" alt="Y2K Neon" class="event_image">
+                        <div class="event_info">
+                            <h3 class="event_title">Y2K Neon</h3>
+                            <p class="event_description">Some description</p>
+                            <button class="rsvp_button">RSVP →</button>
+                        </div>
+                    </div>
+
+                    <div class="event_card">
+                        <span class="event_badge">Fashion</span>
+                        <div class="bookmark_icon">⬜</div>
+                        <img src="../assets/tidalrave.jpg" alt="Tidal Rave" class="event_image">
+                        <div class="event_info">
+                            <h3 class="event_title">Tidal Rave</h3>
+                            <p class="event_description">Some description</p>
+                            <button class="rsvp_button">RSVP →</button>
+                        </div>
+                    </div>
+
+                    <div class="event_card">
+                        <span class="event_badge">Comedy</span>
+                        <div class="bookmark_icon">⬜</div>
+                        <img src="../assets/gff.jpg" alt="GFF" class="event_image">
+                        <div class="event_info">
+                            <h3 class="event_title">GFF</h3>
+                            <p class="event_description">Some description</p>
+                            <button class="rsvp_button">RSVP →</button>
+                        </div>
+                    </div>
+
+                    <div class="event_card">
+                        <span class="event_badge">Concert</span>
+                        <div class="bookmark_icon">⬜</div>
+                        <img src="../assets/imullar.jpg" alt="iMullar" class="event_image">
+                        <div class="event_info">
+                            <h3 class="event_title">iMullar</h3>
+                            <p class="event_description">Some description</p>
+                            <button class="rsvp_button">RSVP →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel_nav next">›</button>
+            </div>
+        </section>
+
+        <section class="explore_section">
+            <h2 class="explore_title">Explore</h2>
+            <div class="arrow_down">▼</div>
+        </section>
+
+    </div>
+
+    <script>
+        // Carousel navigation functionality
+        const carousel = document.querySelector('.events_carousel');
+        const prevBtn = document.querySelector('.carousel_nav.prev');
+        const nextBtn = document.querySelector('.carousel_nav.next');
+
+        const cardWidth = 280;
+        const gap = 20;
+        const scrollAmount = cardWidth + gap;
+
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        // Bookmark functionality
+        const bookmarkIcons = document.querySelectorAll('.bookmark_icon');
+
+        bookmarkIcons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                if (icon.classList.contains('bookmarked')) {
+                    icon.classList.remove('bookmarked');
+                    icon.textContent = '⬜';
+                } else {
+                    icon.classList.add('bookmarked');
+                    icon.textContent = '🔖';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
