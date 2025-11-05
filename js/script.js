@@ -45,7 +45,7 @@ showLoginForm();
 // You can add form submission handling here as needed
 
 
-const images= ['../assets/C72A3583-F9E4-4A54-AC04-7AD4D325244C.jpg','../assets/ASH03076-Enhanced-NR.JPG','../assets/DSC07901.JPG'];
+const images= ['../assets/ashchella.JPG','../assets/imullar.jpg','../assets/y2k.JPG'];
 
 function changeBackgroundImage() {
     const randomIndex = Math.floor(Math.random() * images.length);
