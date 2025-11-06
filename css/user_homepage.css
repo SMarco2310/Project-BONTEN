@@ -242,6 +242,7 @@ body {
     font-family: var(--secondary-font);
     font-size: 18px;
     font-weight: 400;
+    padding-left: 50px;
     color: var(--secondary-color);
 }
 
@@ -256,57 +257,116 @@ body {
     cursor: pointer;
 }
 
-.schedule_items {
+.Your-plans {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 190px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
 }
 
-.schedule_item {
-    background-color: #f5f5f5;
-    padding: 12px 15px;
+.Your-plans::-webkit-scrollbar {
+    width: 6px;
+}
+
+.Your-plans::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 3px;
+}
+
+.Your-plans::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+.Your-plans::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.event {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #333;
     border-radius: 8px;
-    border-left: 4px solid;
 }
 
-.schedule_item.blue {
-    border-left-color: #114b8d;
-    background-color: #E8F0F8;
+.event:hover {
+    background-color: #1a1a1a;
+    transition: background-color 0.3s ease;
 }
 
-.schedule_item.orange {
-    border-left-color: #ee8931;
-    background-color: #FFF5E8;
+.event img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
-.schedule_item.red {
-    border-left-color: #cf3d3d;
-    background-color: #F8E8E8;
+.event .details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
 }
 
-.schedule_item.green {
-    border-left-color: #4cae51;
-    background-color: #E8F8E8;
+.event .details .event_title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--tertiary-color);
 }
 
-.schedule_time {
+.event .details .event_time {
+    font-size: 10px;
+    color: #888;
+    font-weight: 400;
+}
+
+.event .event_actions {
+    flex-shrink: 0;
+}
+
+.event .edit_event {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.event .edit_event:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.view_more_link {
+    display: block;
+    text-align: center;
+    color: var(--secondary-color);
+    text-decoration: none;
     font-size: 12px;
-    font-weight: 500;
-    color: #1a1a1a;
-    margin-bottom: 4px;
+    font-weight: 400;
+    margin-top: 16px;
+    padding: 8px;
+    transition: color 0.3s ease;
 }
 
-.schedule_name {
-    font-size: 14px;
-    font-weight: 500;
-    color: #000;
-    margin-bottom: 3px;
+.view_more_link:hover {
+    color: var(--tertiary-color);
 }
 
-.schedule_location {
-    font-size: 11px;
-    color: #666;
-}
+
 
 /* Events Section */
 .upcoming_events {
