@@ -28,6 +28,7 @@ p.secondary{
 p.diff-font{
     font-family: var(--secondary-font-i);
     font-weight: 600;
+    background: none;
 }
 
 h1{
@@ -202,6 +203,7 @@ button:hover{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: none;
 }
 
 .desc-comments{
