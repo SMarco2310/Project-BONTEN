@@ -1,0 +1,260 @@
+:root{
+    /* * Colors */
+    --primary-color: #101014;
+    --secondary-color: #C05F47;
+    --tertiary-color: #FFFFFF;
+    --primary-font: "Poppins", sans-serif;
+    --secondary-font: "CalvinoTrial", sans-serif;
+    --secondary-font-i: "CalvinoItalicVarTrial", sans-serif;
+}
+
+html{
+    height: 100vh;
+}
+
+*{
+    background-color: var(--primary-color);
+}
+
+p{
+    font-family: var(--primary-font);
+    color: var(--tertiary-color);
+}
+
+p.secondary{
+    color: var(--secondary-color);
+}
+
+p.diff-font{
+    font-family: var(--secondary-font-i);
+    font-weight: 600;
+}
+
+h1{
+    font-family: var(--primary-font);
+    color: var(--tertiary-color);
+    font-size: 1.5rem;
+}
+
+h1.diff-font{
+    font-family: var(--secondary-font);
+    color: var(--tertiary-color);
+    font-size: 1.5rem;
+}
+
+button{
+    background-color: var(--secondary-color);
+    color: #FFFFFF;
+    width: 85px;
+    height: 25px;
+    border: 1px solid #C06D47;
+    border-radius: 5.5px;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+/* TODO: Use an anchor tag to switch pages or actual onClick listener to switch pages */
+button:hover{
+    cursor: pointer;
+}
+
+.nav{
+    display: flex;
+    flex: 3;
+    justify-content: space-between;
+    padding: 20px;
+    padding-top: 0;
+    padding-left: 40px;
+    padding-right: 50px;
+}
+
+.logo{
+    display: flex;
+    text-align: center;
+}
+
+.icons{
+    display: flex;
+    align-items: center;
+    gap: 100px;
+}
+
+.icon-container{
+    width: 15px;
+    height: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.icon-container img{
+    width: 100%;
+    height: 100%;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-icon-container{
+    width: 40px;
+    height: 40px;
+}
+
+.user-icon-container img{
+    width: 100%;
+    height: 100%;
+}
+
+.content{
+    display: flex;
+    height: 80vh;
+    flex: 1;
+    gap: 4%;
+    margin-top: 30px;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.left-nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.welcome-banner *{
+    background-color: green;
+}
+
+#accra-text{
+    position: absolute;
+    top: 70%;
+    right: 14px;
+    background: none;
+}
+
+.mid{
+    width: 100%;
+    height: 100%;
+}
+
+.events{
+    text-align: center;
+}
+
+.event-banner{
+    height: 85%;
+    padding: 40px;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 5px;
+    display: flex;
+    gap: 9%;
+    justify-content: space-between;
+}
+
+.event-image{
+    border: 1px solid #292929;
+    border-radius: 5px;
+    width: 80%;
+    padding: 2%;
+    overflow: hidden;
+    background-image: url('/assets/ashchella.JPG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.event-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.desc-comments{
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.desc, .comments{
+    padding: 20px;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 5px;
+    width: 90%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+}
+
+#desc-text{
+    height: 150%;
+    width: 95%;
+}
+
+#desc-text p{
+    margin: 0;
+}
+
+.desc-user{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 2%;
+}
+
+.desc-icons{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20%;
+}
+
+.box-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 4%;
+}
+
+.box{
+    height: 56px;
+    width: 56px;
+    background-color: #1C1C1C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box img{
+    background-color: #1C1C1C;
+    height: 40%;
+    width: 40%;
+    opacity: 50%;
+}
+
+.rsvp{
+    display: flex;
+    align-items: flex-end;
+}
+
+.stars{
+    display: flex;
+}
+
+.stars img{
+    width:10px;
+    height: 20px;
+}
+
+.comments-nav{
+    display: flex;
+    justify-content: flex-end;
+    gap: 2%;
+}

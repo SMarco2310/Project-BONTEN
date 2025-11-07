@@ -4,37 +4,28 @@ const switchToLoginLink = document.getElementById('switch-to-login');
 const switchToSignUpLink = document.getElementById('switch-to-signup');
 const leftSide = document.querySelector('.left-side');
 const tabNameText = document.querySelector('.tab-name');
-
 // Function to show the login form and hide the sign-up form
 function showLoginForm() {
     signUpForm.style.display = 'none';
-
     loginForm.style.cssText = 'display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;';
-
     const paragraphs = loginForm.querySelectorAll('label p');
-
     paragraphs.forEach(paragraph => {
         paragraph.style.cssText = 'padding-bottom: 10px;';
     });
-
     loginForm.style.transition = 'all 0.7s ease-in-out';
     tabNameText.textContent = 'Login';
 }
 
-
 // Function to show the sign-up form and hide the login form
 function showSignUpForm() {
     loginForm.style.display = 'none';
-
     // Recommended fix: Use cssText
     signUpForm.style.cssText = 'display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;';
     const paragraphs = signUpForm.querySelectorAll('label p');
-
     paragraphs.forEach(paragraph => {
         paragraph.style.cssText = 'padding-bottom: 10px;';
     });
     signUpForm.style.transition = 'all 0.7s ease-in-out';
-
     tabNameText.textContent = 'Sign Up';
 }
 

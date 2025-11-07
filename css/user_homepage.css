@@ -371,11 +371,9 @@ body {
 
 /* Events Section */
 
-
 .upcoming_events {
     margin-left: 180px;
     padding: 0 40px 50px 40px;
-
 }
 
 .event-container {
@@ -390,7 +388,6 @@ body {
     font-weight: 400;
     padding-left: 50px;
     text-align: center;
-
     margin-bottom: 40px;
     color: var(--tertiary-color);
 }
@@ -430,9 +427,6 @@ body {
     padding: 20px 0;
     scroll-snap-type: x mandatory;
 }
-
-/* Smooth scroll snap for each card */
-
 .events_carousel::-webkit-scrollbar {
     height: 8px;
 }
@@ -462,6 +456,7 @@ body {
 
 .event_card:hover {
     transform: translateY(-5px);
+    transition: transform 0.3s;
 }
 
 /* Event Badge (Comedy, Fashion, etc) */
