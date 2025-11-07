@@ -64,10 +64,12 @@
 
             <div class="mid">
                 <div class="event-banner">
-                    <div class="event-image">
+                    <div class="event-image" id="event-img">
                         <div class="event-header">
-                            <p class="diff-font">Ashchella</p>
-                            <button>Concert</button>
+                            <!-- * Event Name(T) -->
+                            <p class="diff-font" id="event-name"></p> 
+                            <!-- * Event Tag(T) -->
+                            <button id="event-tag"></button>
                         </div>
                     </div>
 
@@ -78,7 +80,8 @@
                             </div>
                             <!-- TODO: Change this afterwards to accomodate for templating -->
                             <div id="desc-text">
-                                <p>Some description</p>
+                                <!-- * Event Description(T) -->
+                                <p id="event-description">Some description</p>
                             </div>
                             <div class="desc-icons">
                                 <div class="box-container">
@@ -130,5 +133,6 @@
             </div>
         </div>
     </main>
+    <script src="/js/event.js" defer></script>
 </body>
 </html>
