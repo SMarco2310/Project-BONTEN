@@ -20,23 +20,24 @@ body {
 }
 
 /* Sidebar Navigation */
+
 .sidebar {
     background-color: #0a0a0a;
-    width: 180px;
+    width: 190px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 40px 25px;
-    position: fixed;
+    padding: 19.05px 40px 25px;
+    position:fixed;
     left: 0;
     top: 0;
 }
 
-.sidebar .logo {
+.logo {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 80px;
+    margin-bottom: 70px;
     gap: 0;
 }
 
@@ -94,19 +95,19 @@ body {
 
 /* Top Navigation Bar */
 .topnav {
-    margin-left: 180px;
+    margin-left: 190px;
     height: 70px;
-    width: calc(100% - 180px);
+    width: calc(100% - 190px);
     background-color: #0a0a0a;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0 40px;
     border-bottom: 1px solid #1a1a1a;
-    position: fixed;
+    position:absolute;
     top: 0;
     right: 0;
-    z-index: 100;
+    /* z-index: 100; */
 }
 
 .user_section {
