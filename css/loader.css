@@ -1,0 +1,54 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('../assets/loader.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* HTML: <div class="loader"></div> */
+/* Loader Style was gotten from an existing css style design from: https://css-loaders.com/filling/ */
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  font-size: 48px;
+  line-height: 1.5;
+  font-family: system-ui, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1.5px #aa5945;
+  background: linear-gradient(to right, #aa5945 0%, #d17c6b 50%, #aa5945 100%) 0 0/200% 100% text;
+  background:
+    radial-gradient(1.13em at 50% 1.6em, #b76a4d 99%, #0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+    radial-gradient(1.13em at 50% -0.8em, #0000 99%, #b76a4d 101%) 50% .8em/3.2em 100% repeat-x text;
+  animation: l9 2s linear infinite;
+}
+
+.loader:before {
+  content: "We Outside";
+}
+
+@keyframes l9 {
+  to {background-position: calc(50% + 1.6em) 0, calc(50% + 3.2em) .8em}
+}
+
+
+
+
+
