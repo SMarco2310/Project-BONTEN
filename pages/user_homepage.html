@@ -6,6 +6,7 @@
     <title>Homepage</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/user_homepage.css">
+    <script src="../js/user_homepage.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -80,9 +81,9 @@
 
                     <div class="event">
                         
-                        <img src="../assets/detty.webp" alt="Event Icon" class="event_icon">
+                        <img src="../assets/global.jpg" alt="Event Icon" class="event_icon">
                         <div class="details">
-                            <h4 class="event_title">Detty December</h4>
+                            <h4 class="event_title">Global Football</h4>
                             <p class="event_time">December 1, 2023 - 6:00 PM</p>
                         </div>
                         <div class="event_actions">
@@ -92,9 +93,9 @@
                     </div>
 
                     <div class="event">
-                        <img src="../assets/rapperholic.jpeg" alt="Event Icon" class="event_icon">
+                        <img src="../assets/t&b.jpg" alt="Event Icon" class="event_icon">
                         <div class="details">
-                            <h4 class="event_title">Rapperholic</h4>
+                            <h4 class="event_title">Tanks & Bikinis</h4>
                             <p class="event_time">December 15, 2023 - 7:00 PM</p>
                         </div>
                         <div class="event_actions">
@@ -149,9 +150,9 @@
 
         <section class="upcoming_events">
             <h2 class="section_title" style="font-style: italic; font-family: 'Times New Roman', Times, serif; font-weight: 500;">Events For You</h2>
-
-            <div class="carousel_container">
-                <button class="carousel_nav prev">‹</button>
+            <div class="event-container">
+                <div class="carousel_container">
+                    <button class="carousel_nav prev">‹</button>
 
                 <div class="events_carousel">
 
@@ -237,9 +238,98 @@
 
                 <button class="carousel_nav next">›</button>
 
-                
+
             </div>
-            
+            <aside class="schedule_widget">
+                <div class="widget_header">
+                    <h3 class="widget_title">Your Friends </h3>
+                    <select class="month_selector">
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                        
+                    </select>
+                </div>
+
+                <div class="Your-plans">
+
+                        <div class="event">
+                            
+                            <img src="../assets/jerome.jpeg" alt="Event Icon" class="event_icon">
+                            <div class="details">
+                                <h4 class="event_title">Jerome</h4>
+                                <p class="event_time">Going For Ashchella</p>
+                            </div>
+                            <div class="event_actions">
+                                <button class="edit_event">View plans</button>
+                            </div>
+
+                        </div>
+
+                        <div class="event">
+                            <img src="../assets/eldad.jpg" alt="Event Icon" class="event_icon">
+                            <div class="details">
+                                <h4 class="event_title">Eldad</h4>
+                                <p class="event_time">Attending Global Football festival</p>
+                            </div>
+                            <div class="event_actions">
+                                <button class="edit_event">View plans</button>
+                            </div>
+
+                        </div>
+
+                        <div class="event">
+                            <img src="../assets/tidalrave.jpg" alt="Event Icon" class="event_icon">
+                            <div class="details">
+                                <h4 class="event_title">Tidal Rave</h4>
+                                <p class="event_time">December 20, 2023 - 8:00 PM</p>
+                            </div>
+                            <div class="event_actions">
+                                <button class="edit_event">View plans</button>
+                            </div>
+
+                        </div>
+
+                        <div class="event">
+                            <img src="../assets/ashchella.jpg" alt="Event Icon" class="event_icon">
+                            <div class="details">
+                                <h4 class="event_title">Ashchella</h4>
+                                <p class="event_time">December 25, 2023 - 5:00 PM</p>
+                            </div>
+                            <div class="event_actions">
+                                <button class="edit_event">View plans</button>
+                            </div>
+
+                        </div>
+
+                        <div class="event">
+                            <img src="../assets/y2k.JPG" alt="Event Icon" class="event_icon">
+                            <div class="details">
+                                <h4 class="event_title">Y2K Neon</h4>
+                                <p class="event_time">December 28, 2023 - 9:00 PM</p>
+                            </div>
+                            <div class="event_actions">
+                                <button class="edit_event">View plans</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <a href="#" class="view_more_link">View all plans →</a>
+
+            </aside>
+            </div>
+
 
 
         </section>
@@ -250,46 +340,6 @@
         </section>
 
     </div>
-
-    <script>
-        // Carousel navigation functionality
-        const carousel = document.querySelector('.events_carousel');
-        const prevBtn = document.querySelector('.carousel_nav.prev');
-        const nextBtn = document.querySelector('.carousel_nav.next');
-
-        const cardWidth = 280;
-        const gap = 20;
-        const scrollAmount = cardWidth + gap;
-
-        prevBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-
-        nextBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-
-        // Bookmark functionality
-        const bookmarkIcons = document.querySelectorAll('.bookmark_icon');
-
-        bookmarkIcons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                if (icon.classList.contains('bookmarked')) {
-                    icon.classList.remove('bookmarked');
-                    icon.textContent = '⬜';
-                } else {
-                    icon.classList.add('bookmarked');
-                    icon.textContent = '🔖';
-                }
-            });
-        });
-    </script>
 
 </body>
 </html>

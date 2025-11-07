@@ -222,9 +222,10 @@ body {
     height: 18px;
 }
 
-/* Schedule Widget - Right side of hero */
+/* Schedule Widget - Right side of hero and events section */
 .schedule_widget {
     width: 320px;
+    min-width: 320px;
     background-color: #0d0d0d;
     border-radius: 12px;
     padding: 20px;
@@ -369,16 +370,27 @@ body {
 
 
 /* Events Section */
+
+
 .upcoming_events {
-    margin-left: 220px;
+    margin-left: 180px;
     padding: 0 40px 50px 40px;
+
+}
+
+.event-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 .section_title {
     font-family: var(--secondary-font);
     font-size: 28px;
     font-weight: 400;
+    padding-left: 50px;
     text-align: center;
+
     margin-bottom: 40px;
     color: var(--tertiary-color);
 }
@@ -388,7 +400,8 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
 }
 
 /* Carousel Navigation Buttons */
@@ -415,7 +428,10 @@ body {
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 20px 0;
+    scroll-snap-type: x mandatory;
 }
+
+/* Smooth scroll snap for each card */
 
 .events_carousel::-webkit-scrollbar {
     height: 8px;
@@ -440,11 +456,12 @@ body {
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
+    scroll-snap-align: start;
+    transition: transform 0.3s ease-in-out;
 }
 
 .event_card:hover {
     transform: translateY(-5px);
-    transition: transform 0.3s;
 }
 
 /* Event Badge (Comedy, Fashion, etc) */
