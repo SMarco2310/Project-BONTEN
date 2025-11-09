@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organizer Dashboard - Bonten</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/organizer_homepage.css" />
+    <link rel="icon" href="/assets/bonten.png" type="image/x-icon" />
+    <script src="../js/organizer_homepage.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="logo">
+          <h3 class="left">Bon</h3>
+          <h3>ten</h3>
+        </div>
+
+        <nav class="nav-menu">
+          <a href="organizer_homepage.html" class="nav-item active">Home</a>
+          <a href="#" class="nav-item">Create an Event</a>
+          <a href="history.html" class="nav-item">History</a>
+        </nav>
+
+        <div class="lower-menu">
+          <a href="settings.html" class="nav-item">Settings</a>
+          <a href="index.html" class="logout">Logout</a>
+        </div>
+      </aside>
+
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-right">
+          <div class="user-profile">
+            <img
+              src="../assets/jerome.jpeg"
+              alt="Profile"
+              class="profile-avatar"
+            />
+            <span class="username">Jerome Adedze</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+          <h1 class="welcome-title">Welcome back, Jerome!</h1>
+          <p class="welcome-subtitle">
+            Here's an overview of your events and performance
+          </p>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          <!-- Summary Card -->
+          <div class="dashboard-card summary-card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Summary</h2>
+                <p class="card-subtitle">Track your ticket sales</p>
+              </div>
+              <select class="month-dropdown">
+                <option>January</option>
+                <option>February</option>
+                <option>March</option>
+                <option>April</option>
+                <option>May</option>
+                <option>June</option>
+                <option>July</option>
+                <option>August</option>
+                <option>September</option>
+                <option>October</option>
+                <option>November</option>
+                <option>December</option>
+              </select>
+            </div>
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon"></div>
+                  <div class="metric-arrow">→</div>
+                </div>
+                <div class="metric-value">GHC7000</div>
+                <div class="metric-label">Total Revenue</div>
+                <div class="metric-change negative">-11.5%</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon"></div>
+                  <div class="metric-arrow">→</div>
+                </div>
+                <div class="metric-value">12000</div>
+                <div class="metric-label">Tickets Sold</div>
+                <div class="metric-change negative">-11.5%</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon"></div>
+                  <div class="metric-arrow">→</div>
+                </div>
+                <div class="metric-value">5</div>
+                <div class="metric-label">Active Events</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Statistics Card -->
+          <div class="dashboard-card statistics-card">
+            <div class="card-header">
+              <h2 class="card-title">Statistics</h2>
+              <div class="card-actions">
+                <button class="icon-btn"></button>
+                <button class="icon-btn"></button>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="statisticsChart" class="statistics-chart"></canvas>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color sales-color"></div>
+                <span>Sales</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color returns-color"></div>
+                <span>Returns</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Engagement Section -->
+          <div class="dashboard-card engagement-card">
+            <div class="engagement-metrics">
+              <div class="metric-card small">
+                <div class="metric-header">
+                  <div class="metric-icon"></div>
+                </div>
+                <div class="metric-value">4.4/5</div>
+                <div class="metric-label">Avg. Rating</div>
+              </div>
+              <div class="metric-card small">
+                <div class="metric-header">
+                  <div class="metric-icon"></div>
+                </div>
+                <div class="metric-value">5.6%</div>
+                <div class="metric-label">Engagement Rate</div>
+              </div>
+            </div>
+            <div class="search-container">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search for event insights"
+              />
+              <button class="search-btn">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Event Reviews Card -->
+          <div class="dashboard-card reviews-card">
+            <div class="card-header">
+              <h2 class="card-title">Event Reviews</h2>
+              <button class="icon-btn"></button>
+            </div>
+            <table class="reviews-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Comment</th>
+                  <th>Date</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Guy Hawkins</td>
+                  <td>The event was great, the music was amazing!</td>
+                  <td>May 29, 2024</td>
+                  <td>
+                    <div class="rating-stars">
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star">★</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Robert Fox</td>
+                  <td>Love the event, the food was amazing!</td>
+                  <td>May 11, 2024</td>
+                  <td>
+                    <div class="rating-stars">
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
