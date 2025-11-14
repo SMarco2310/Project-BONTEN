@@ -32,20 +32,25 @@
                         
 
             <!-- This is the form for the login -->
-            <form id="login-form" name="login-form" action="loading_page.html" onsubmit="return validatePassword()">
+            <form id="login-form" name="login-form" action="loading_page.html">
                 <label for="email-field">
                     <p>Email</p>
                     <input type="email" name="mail-field" id="email-field" placeholder="Enter your email" aria-required="true" required>
                 </label>
 
                 <label for="password-field">
-                    <p>Password</p>
-                    <input type="password" name="pass-field" id="password-field" placeholder="********" aria-required="true" required>
+                <p>Password</p>
+                <div class="password-wrapper">
+                    <input type="password" name="pass-field" id="password-field" placeholder="********" required>
+                    <button type="button" class="pwd-eye">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                    </button>
+                </div>
                 </label>
-
                 <p id="password-cue"></p>
 
                 <label for="login-submit-btn">
+                    
                     <input 
                     style="background: linear-gradient(to bottom, #cc653c,#d87652); font-weight: 550;color: white; border: none; height: 40px; font-size: x-small;"
                      type="submit" value="Login" id="login-submit-btn">
@@ -58,9 +63,14 @@
              <!-- Should change the action to the page that corresponds to the users -->
             <!-- Fix the page transitions -->
              <form id="signup-form"  name="signup-form" action="user_homepage.html" onsubmit="return validatePassword()">
-                <label for="name-field">
-                    <p>Name</p>
-                    <input type="text" name="name" id="name-field" placeholder="Enter your name">
+                <label for="first-name-field">
+                    <p>First Name</p>
+                    <input type="text" name="first-name" id="first-name-field" placeholder="Enter your first name">
+                </label>
+
+                <label for="last-name-field">
+                    <p>Last Name</p>
+                    <input type="text" name="last-name" id="last-name-field" placeholder="Enter your last name">
                 </label>
 
                 <label for="email-field">
@@ -68,13 +78,23 @@
                     <input type="email" name="mail-field" id="email-field" placeholder="Enter your email" aria-required="true" required>
                 </label>
 
+                
                 <label for="password-field">
-                    <p>Password</p>
-                    <input type="password" name="pass-field" id="password-field" placeholder="********" aria-required="true" required>
+                <p>Password</p>
+                <div class="password-wrapper">
+                    <input type="password" name="pass-field" id="password-field" placeholder="********" required>
+                    <button type="button" class="pwd-eye">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                    </button>
+                </div>
                 </label>
 
                 <p id="password-cue"></p>
 
+                <label for="phoneNumber-field">
+                    <p>Phone Number</p>
+                    <input type="tel" name="phoneNumber-field" id="phoneNumber-field" placeholder="Enter your phoneNumber" aria-required="true" required>
+                </label>
                 <label for="role-field">
                     <p>Role</p>
                     <select name="role" id="role-field" required>
