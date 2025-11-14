@@ -75,17 +75,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let selectedEvent;
 
+    // First, check if there's event data from explore page in sessionStorage
+    const storedEventData = sessionStorage.getItem('currentEvent');
+    if (storedEventData) {
+        try {
+            const eventData = JSON.parse(storedEventData);
+            // Use the stored data from explore page
+            backgroundBox.style.backgroundImage = `url('${eventData.image}')`;
+            eventNameText.innerHTML = eventData.name;
+            eventTagText.innerHTML = eventData.badge;
+            eventDescriptionText.innerHTML = 'Join us for an unforgettable evening of music, culture, and community! This exclusive event brings together talented performers, amazing food, and great company in a vibrant atmosphere.';
+            console.log('Loaded event from sessionStorage:', eventData);
+            return;
+        } catch (e) {
+            console.error('Error parsing stored event data:', e);
+        }
+    }
+
+    // Fallback to existing event lookup logic
     if (eventId) {
         const cleanEventId = eventId.trim().toLowerCase();
-        
-        console.log(`Starting search for: [${cleanEventId}]`); // <-- New log
+
+        console.log(`Starting search for: [${cleanEventId}]`);
 
         selectedEvent = events.find(event => {
             const idFromArr = event.id.trim().toLowerCase();
-            
-            // This log will show us the *exact* comparison
-            console.log(`Comparing... Array ID: [${idFromArr}] --- URL ID: [${cleanEventId}]`); 
-            
+
+            console.log(`Comparing... Array ID: [${idFromArr}] --- URL ID: [${cleanEventId}]`);
+
             return idFromArr === cleanEventId;
         });
     }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/user_homepage.css">
     <link rel="icon" href="/assets/bonten.png" type="image/x-icon">
+    <script src="../js/language.js"></script>
     <script src="../js/user_homepage.js" defer></script>
 </head>
 <body>
@@ -22,16 +23,16 @@
 
             <nav class="nav-menu">
 
-            <a href="../pages/user_homepage.html" class="nav-item active">Home</a>
-            <a href="../pages/explore.html" class="nav-item">Explore</a>
-            <a href="../pages/history.html" class="nav-item">History</a>
-            
+            <a href="../pages/user_homepage.html" class="nav-item active" data-translate="home">Home</a>
+            <a href="../pages/explore.html" class="nav-item" data-translate="explore">Explore</a>
+            <a href="../pages/history.html" class="nav-item" data-translate="history">History</a>
+
 
             </nav>
 
             <div class="lower-menu">
-                <a href="../pages/settings.html" class="nav-item">Settings</a>
-                <a href="index.html" class="logout">Logout</a>
+                <a href="../pages/settings.html" class="nav-item" data-translate="settings">Settings</a>
+                <a href="index.html" class="logout" data-translate="logout">Logout</a>
 
             </div>
 
@@ -54,7 +55,7 @@
                     <h1>Welcome back, Jerome!</h1>
                     <p>ready to explore what's happening near you?</p>
                 </div>
-                <a href="explore.html" style="text-decoration: none;">
+                <a href="explore.html#search-section" style="text-decoration: none;">
                     <button class="explore_button">
                         Find Events Near Me
                         <img src="../assets/search.png" alt="Search" class="button_icon">
@@ -147,14 +148,14 @@
 
                 </div>
 
-                <a href="#" class="view_more_link">View all plans →</a>
+                <a href="history.html" class="view_more_link">View all plans →</a>
 
             </aside>
             
         </div>
 
         <section class="upcoming_events">
-            <h2 class="section_title" style="font-style: italic; font-family: 'Times New Roman', Times, serif; font-weight: 500;">Events For You</h2>
+            <h2 class="section_title" style="font-style: italic; font-family: 'Times New Roman', Times, serif; font-weight: 500;" data-translate="eventsForYou">Events For You</h2>
             <div class="event-container">
                 <div class="carousel_container">
                     <button class="carousel_nav prev">‹</button>
@@ -168,7 +169,7 @@
                         <div class="event_info">
                             <h3 class="event_title">Detty December</h3>
                             <p class="event_description">Ghana's biggest holiday celebration featuring music, parties, and cultural festivities throughout December</p>
-                            <a href="event.html?id=detty-december"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=detty-december"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -179,7 +180,7 @@
                         <div class="event_info">
                             <h3 class="event_title">Rapperholic</h3>
                             <p class="event_description">Sarkodie's flagship annual hip-hop concert featuring Ghana's biggest rap and music stars</p>
-                            <a href="event.html?id=rapperholic"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=rapperholic"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -190,7 +191,7 @@
                         <div class="event_info">
                             <h3 class="event_title">Ashchella</h3>
                             <p class="event_description">A vibrant celebration of music, art, fashion, and African culture at Ashesi University</p>
-                            <a href="event.html?id=ashchella"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=ashchella"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -201,7 +202,7 @@
                         <div class="event_info">
                             <h3 class="event_title">Y2K Neon</h3>
                             <p class="event_description">A nostalgic throwback party celebrating early 2000s culture with neon vibes and retro music</p>
-                            <a href="event.html?id=y2k-neon"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=y2k-neon"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -212,7 +213,7 @@
                         <div class="event_info">
                             <h3 class="event_title">Tidal Rave</h3>
                             <p class="event_description">Ghana's biggest beach festival featuring Afrobeats, hip-hop, and dancehall with multiple experience zones</p>
-                            <a href="event.html?id=tidal-rave"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=tidal-rave"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -223,7 +224,7 @@
                         <div class="event_info">
                             <h3 class="event_title">GFF</h3>
                             <p class="event_description">Ghana's biggest food carnival celebrating culinary culture with dishes from all 16 regions</p>
-                            <a href="event.html?id=global-footbal-festival"><button class="rsvp_button">RSVP →</button></a>
+                            <a href="event.html?id=global-footbal-festival"><button class="rsvp_button">Read More →</button></a>
                         </div>
                     </div>
 
@@ -234,7 +235,7 @@
                         <div class="event_info">
                             <h3 class="event_title">iMullar</h3>
                             <p class="event_description">An exclusive music concert experience featuring top-tier performances and entertainment</p>
-                            <a href="event.html?id=imullar"><button class="rsvp_button" >RSVP →</button></a> 
+                            <a href="event.html?id=imullar"><button class="rsvp_button">Read More →</button></a>
                         </div>
 
                     </div>
@@ -329,7 +330,7 @@
 
                     </div>
 
-                    <a href="#" class="view_more_link">View all plans →</a>
+                    <a href="history.html" class="view_more_link">View all plans →</a>
 
             </aside>
             </div>
@@ -343,46 +344,6 @@
         </section>
 
     </div>
-
-    <script>
-        // Carousel navigation functionality
-        const carousel = document.querySelector('.events_carousel');
-        const prevBtn = document.querySelector('.carousel_nav.prev');
-        const nextBtn = document.querySelector('.carousel_nav.next');
-
-        const cardWidth = 280;
-        const gap = 20;
-        const scrollAmount = cardWidth + gap;
-
-        prevBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-
-        nextBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        });
-
-        // Bookmark functionality
-        const bookmarkIcons = document.querySelectorAll('.bookmark_icon');
-
-        bookmarkIcons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                if (icon.classList.contains('bookmarked')) {
-                    icon.classList.remove('bookmarked');
-                    icon.textContent = '⬜';
-                } else {
-                    icon.classList.add('bookmarked');
-                    icon.textContent = '🔖';
-                }
-            });
-        });
-    </script>
 
 </body>
 </html>
