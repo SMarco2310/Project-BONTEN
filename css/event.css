@@ -1,5 +1,5 @@
 :root{
-    /* * Colors */
+    
     --primary-color: #101014;
     --secondary-color: #C05F47;
     --tertiary-color: #FFFFFF;
@@ -53,7 +53,7 @@ button{
     font-family: "Helvetica Neue", sans-serif;
 }
 
-/* TODO: Use an anchor tag to switch pages or actual onClick listener to switch pages */
+
 button:hover{
     cursor: pointer;
 }
@@ -211,7 +211,7 @@ button:hover{
     flex-direction: column;
     gap: 5%;
     justify-content: space-between;
-    width: 100%;
+    width: fit-content;
 }
 
 .desc, .comments{
@@ -225,14 +225,20 @@ button:hover{
     gap: 10%;
 }
 
+.desc{
+    height: fit-content;
+}
+
 #desc-text{
-    height: 150%;
+    height: fit-content;
     width: 95%;
     background: transparent;
 }
 
 #desc-text p{
     margin: 0;
+    font-size: 14px;
+    padding: 8px 0;
     background: transparent;
 }
 
@@ -275,7 +281,30 @@ button:hover{
 
 .rsvp{
     display: flex;
-    align-items: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
+.rsvp button {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rsvp button:hover {
+    background-color: #b85f48;
+    transform: scale(1.05);
 }
 
 .stars{
@@ -297,7 +326,7 @@ button:hover{
 }
 
 
-/* Comments Scroll Container */
+
 .comments-scroll-container {
     max-height: 250px;
     overflow-y: auto;
@@ -308,7 +337,7 @@ button:hover{
     gap: 15px;
 }
 
-/* Comments List Container - New Scrollable Component */
+
 .comments-list {
     display: flex;
     flex-direction: column;
@@ -320,7 +349,8 @@ button:hover{
     margin-top: 15px;
 }
 
-/* Custom Scrollbar for Comments */
+
+
 .comments-list::-webkit-scrollbar {
     width: 8px;
 }
@@ -339,7 +369,7 @@ button:hover{
     background: #d67158;
 }
 
-/* Comment Item */
+
 .comment-item {
     background-color: #0d0d0d;
     border: 1px solid #333;
@@ -353,7 +383,7 @@ button:hover{
     transform: translateX(5px);
 }
 
-/* Comment Header */
+
 .comment-header {
     display: flex;
     align-items: center;
@@ -407,7 +437,7 @@ button:hover{
     background: transparent;
 }
 
-/* Comment Text */
+
 .comment-text {
     margin-bottom: 8px;
     background: transparent;
@@ -422,7 +452,7 @@ button:hover{
     background: transparent;
 }
 
-/* Comment Time */
+
 .comment-time {
     font-family: var(--primary-font);
     font-size: 11px;
@@ -448,7 +478,7 @@ button:hover{
     background: #555;
 }
 
-/* Comment Item */
+
 .comment-item {
     background-color: #1a1a1a;
     border: 1px solid #333;
@@ -491,7 +521,7 @@ button:hover{
     background: transparent;
 }
 
-/* Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -559,7 +589,7 @@ button:hover{
     text-align: left;
 }
 
-/* Form Fields */
+
 .modal-form {
     display: flex;
     flex-direction: column;
@@ -612,6 +642,7 @@ button:hover{
     transition: background-color 0.3s ease;
     margin-top: 10px;
     width: 100%;
+    height: fit-content;
     font-family: var(--primary-font);
 }
 
@@ -619,7 +650,7 @@ button:hover{
     background-color: #d67158;
 }
 
-/* Tickets Modal Specific */
+
 .tickets-form {
     display: flex;
     flex-direction: column;
@@ -689,7 +720,7 @@ button:hover{
     border-color: var(--secondary-color);
 }
 
-/* Event Page with Consistent Sidebar Design */
+
 .main-body-event {
     min-height: calc(100vh - 70px);
     background-color: var(--primary-color);
@@ -711,10 +742,10 @@ button:hover{
     background: transparent;
 }
 
-/* Event Banner */
+
 .event-banner {
-    width: 100%;
-    height: 400px;
+    width: 90%;
+    height: 500px;
     border-radius: 12px;
     overflow: hidden;
     position: relative;
@@ -768,12 +799,25 @@ button:hover{
     border: none;
     padding: 8px 20px;
     border-radius: 20px;
+    width: fit-content;
+    height: fit-content;
     font-size: 14px;
     font-weight: 400;
     font-family: var(--primary-font);
 }
 
-/* Description and Comments Wrapper */
+#event-tag {
+    padding: 8px 20px;
+    height:fit-content;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+#event-tag:hover {
+    background-color: #d67158;
+}
+
+
 .desc-comments-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -810,7 +854,7 @@ button:hover{
     background: transparent;
 }
 
-/* Description Actions */
+
 .desc-actions {
     display: flex;
     justify-content: space-between;
@@ -869,7 +913,7 @@ button:hover{
     background-color: #d67158;
 }
 
-/* Updated Comments Styles */
+
 .user-avatar {
     width: 40px;
     height: 40px;
@@ -901,7 +945,7 @@ button:hover{
     background: transparent;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
     .main-body-event {
         margin-left: 180px;

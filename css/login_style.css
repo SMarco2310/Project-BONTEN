@@ -10,7 +10,7 @@ body{
     
 }
 
-/* make the style the inputes  */
+
 #email-field,#password-field,#name-field,#role-field {
     border: solid 1px #f9f9f8;
     background-color: #020b13;
@@ -30,14 +30,14 @@ option{
     width: 100%;
     margin: auto;
     border-radius: 5px;
-    /* border: 5px solid black; */
+    
     overflow: hidden;
 }
 
 .left-side{
     display: flex;
     flex-direction: column;
-    /* background-color: rgb(154, 41, 38); */
+    
     background-image:linear-gradient(rgba(147, 84, 45, 0.36), rgba(0, 0, 0, 0.5)), url(../assets/C72A3583-F9E4-4A54-AC04-7AD4D325244C.jpg);
     background-size: cover;
     background-position: center;
@@ -84,7 +84,7 @@ input, button, select{
 }
 
 button, #submit-btn{
-    /* background-color: rgb(154, 41, 38); */
+    
     background-color: #AD3537;
     cursor: pointer;
     color: whitesmoke;
