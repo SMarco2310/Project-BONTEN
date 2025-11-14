@@ -1,25 +1,25 @@
-/* Global Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styles */
+
 body {
     background-color: var(--primary-color);
     font-family: var(--primary-font);
     overflow-x: hidden;
 }
 
-/* Main Container */
+
 .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* Sidebar Navigation */
+
 .sidebar {
     background-color: #0a0a0a;
     width: 180px;
@@ -146,12 +146,361 @@ body {
 .main-body {
     min-height: calc(100vh - 70px);
     background-color: var(--primary-color);
+    margin-left: 180px;
+    margin-top: 70px;
+    padding: 40px;
 }
 
-.main-body h2 {
-    color: var(--tertiary-color);
-    text-align: center;
-    margin-top: 400px;
-    margin-left: 100px;
+
+.settings-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.settings-title {
+    font-family: var(--secondary-font);
+    font-size: 36px;
     font-weight: 400;
+    color: var(--tertiary-color);
+    margin-bottom: 30px;
+}
+
+
+.settings-content {
+    background-color: transparent;
+}
+
+/* Profile Section */
+.profile-section {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 40px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #333;
+}
+
+.profile-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #555;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--tertiary-color);
+    margin: 0;
+}
+
+.profile-email {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+.edit-button {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #d67158;
+}
+
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+
+.settings-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-size: 15px;
+    color: var(--tertiary-color);
+    font-weight: 400;
+}
+
+.form-group input,
+.form-group select {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 14px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.form-group input[readonly],
+.form-group select[disabled] {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.form-group input:not([readonly]),
+.form-group select:not([disabled]) {
+    cursor: text;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    padding-right: 45px;
+}
+
+.form-group select option[disabled] {
+    color: #666;
+}
+
+.form-group select:invalid {
+    color: #666;
+}
+
+
+.settings-right {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--tertiary-color);
+    margin: 0 0 5px 0;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px 18px;
+}
+
+.contact-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(192, 95, 71, 0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.contact-value {
+    font-size: 14px;
+    color: var(--tertiary-color);
+    margin: 0;
+}
+
+.contact-value-input {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.contact-value-input:not([readonly]) {
+    background-color: #0d0d0d;
+    border-color: var(--secondary-color);
+    padding: 8px 12px;
+    
+}
+
+.contact-value-input:focus {
+    outline: none;
+    border-color: #d67158;
+}
+
+.contact-value-input[readonly] {
+    cursor: default;
+}
+
+.contact-time {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.add-contact-button {
+    background-color: rgba(192, 95, 71, 0.05);
+    color: var(--secondary-color);
+    border: 1px solid rgba(192, 95, 71, 0.3);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.add-contact-button:hover {
+    background-color: rgba(192, 95, 71, 0.15);
+    border-color: var(--secondary-color);
+}
+
+/* Email Edit Buttons */
+.edit-contact-btn,
+.save-contact-btn {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: auto;
+}
+
+.edit-contact-btn:hover,
+.save-contact-btn:hover {
+    background-color: #d67158;
+}
+
+.contact-input {
+    background-color: #0d0d0d;
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
+    width: 100%;
+}
+
+.contact-input:focus {
+    outline: none;
+    border-color: #d67158;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-body {
+        margin-left: 180px;
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-body {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .profile-section {
+        padding: 25px;
+    }
+
+    .settings-title {
+        font-size: 28px;
+    }
 }

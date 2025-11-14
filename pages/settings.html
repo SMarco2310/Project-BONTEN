@@ -4,31 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/event.css">
     <link rel="stylesheet" href="../css/settings.css">
     <link rel="icon" href="/assets/bonten.png" type="image/x-icon">
+    <script src="../js/language.js"></script>
 </head>
 <body>
 <div class="container">
 
         <aside class="sidebar">
-            <div class="logo">
-                <h3 class="left">Bon</h3>
-                <h3>ten</h3>
-            </div>
+            <a href="user_homepage.html" style="text-decoration: none;">
+                <div class="logo">
+                    <h3 class="left">Bon</h3>
+                    <h3>ten</h3>
+                </div>
+            </a>
 
             <nav class="nav-menu">
 
-            <a href="../pages/user_homepage.html" class="nav-item">Home</a>
-            <a href="../pages/explore.html" class="nav-item">Explore</a>
-            <a href="../pages/history.html" class="nav-item">History</a>
+            <a href="../pages/user_homepage.html" class="nav-item" data-translate="home">Home</a>
+            <a href="../pages/explore.html" class="nav-item" data-translate="explore">Explore</a>
+            <a href="../pages/history.html" class="nav-item" data-translate="history">History</a>
 
 
             </nav>
 
             <div class="lower-menu">
-                <a href="../pages/settings.html" class="nav-item active">Settings</a>
-                <a href="index.html" class="logout">Logout</a>
+                <a href="../pages/settings.html" class="nav-item active" data-translate="settings">Settings</a>
+                <a href="index.html" class="logout" data-translate="logout">Logout</a>
 
             </div>
 
@@ -46,10 +50,219 @@
         </div>
 
         <div class="main-body">
-            <h2> Coming soon</h2>
+            <div class="settings-container">
+                <h1 class="settings-title" data-translate="settingsTitle">Settings</h1>
+
+                <div class="settings-content">
+                    <!-- Profile Section -->
+                    <div class="profile-section">
+                        <div class="profile-header">
+                            <div class="profile-left">
+                                <div class="profile-avatar">
+                                    <img src="../assets/jerome.jpeg" alt="Profile Avatar">
+                                </div>
+                                <div class="profile-details">
+                                    <h2 class="profile-name">Jerome Adedze</h2>
+                                    <p class="profile-email">jeromeadedze@gmail.com</p>
+                                </div>
+                            </div>
+                            <button class="edit-button" id="main-edit-btn" data-translate="edit">Edit</button>
+                        </div>
+
+                        <!-- Left Column - Personal Info -->
+                        <div class="settings-grid">
+                            <div class="settings-left">
+                                <div class="form-group">
+                                    <label for="fullname" data-translate="fullName">Full Name</label>
+                                    <input type="text" id="fullname" placeholder="Jerome Selorm Adedze" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender" data-translate="gender">Gender</label>
+                                    <input type="text" id="gender" placeholder="Male" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="language" data-translate="language">Language</label>
+                                    <select id="language" disabled>
+                                        <option value="en" selected>English</option>
+                                        <option value="fr">Français (French)</option>
+                                        <option value="es">Español (Spanish)</option>
+                                        <option value="de">Deutsch (German)</option>
+                                        <option value="tw">Twi</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="country" data-translate="country">Country</label>
+                                    <select id="country" disabled>
+                                        <option value="GH" selected>Ghana</option>
+                                        <option value="US">United States</option>
+                                        <option value="GB">United Kingdom</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="NG">Nigeria</option>
+                                        <option value="KE">Kenya</option>
+                                        <option value="ZA">South Africa</option>
+                                        <option value="FR">France</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="ES">Spain</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="timezone" data-translate="timeZone">Time Zone</label>
+                                    <select id="timezone" disabled>
+                                        <option value="" disabled selected>GMT</option>
+                                        <option value="GMT">GMT</option>
+                                        <option value="EST">EST</option>
+                                        <option value="PST">PST</option>
+                                        <option value="CST">CST</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Right Column - Contact Info -->
+                            <div class="settings-right">
+                                <div class="contact-section">
+                                    <h3 class="contact-title" data-translate="myEmailAddress">My email Address</h3>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="#C05F47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M22 6L12 13L2 6" stroke="#C05F47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="contact-details">
+                                            <input type="email" class="contact-value-input" id="email-input" value="alexarawles@gmail.com" readonly>
+                                            <p class="contact-time">1 month ago</p>
+                                        </div>
+                                    </div>
+                                    <button class="add-contact-button" data-translate="addEmailAddress">+Add Email Address</button>
+                                </div>
+
+                                <div class="contact-section">
+                                    <h3 class="contact-title" data-translate="phoneNumber">Phone Number</h3>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 16.92V19.92C22 20.92 21.1 21.92 20 21.92C10.6 21.42 2.03999 12.86 1.53999 3.45996C1.48999 2.35996 2.48999 1.45996 3.48999 1.45996H6.48999C7.48999 1.45996 8.38999 2.25996 8.48999 3.25996C8.67999 5.25996 9.07999 7.21996 9.68999 9.08996C9.98999 9.98996 9.68999 10.99 8.98999 11.59L7.18999 13.09C8.87999 16.57 11.42 19.12 14.9 20.81L16.4 19.01C17 18.31 18.01 18.01 18.91 18.31C20.78 18.92 22.74 19.32 24.74 19.51C25.73 19.62 26.53 20.52 26.53 21.52Z" stroke="#C05F47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="contact-details">
+                                            <input type="tel" class="contact-value-input" id="phone-input" value="+233 24 123 4567" readonly>
+                                            <p class="contact-time">1 month ago</p>
+                                        </div>
+                                    </div>
+                                    <button class="add-contact-button" data-translate="addPhoneNumber">+Add Phone Number</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
+
+    <script>
+        // Main edit functionality for all fields
+        const mainEditBtn = document.getElementById('main-edit-btn');
+        let isEditing = false;
+
+        // Get all form fields
+        const fullnameInput = document.getElementById('fullname');
+        const genderInput = document.getElementById('gender');
+        const languageSelect = document.getElementById('language');
+        const countrySelect = document.getElementById('country');
+        const timezoneSelect = document.getElementById('timezone');
+        const emailInput = document.getElementById('email-input');
+        const phoneInput = document.getElementById('phone-input');
+
+        mainEditBtn.addEventListener('click', () => {
+            if (!isEditing) {
+                
+                isEditing = true;
+                const lang = localStorage.getItem('userLanguage') || 'en';
+                const t = translations[lang] || translations['en'];
+                mainEditBtn.textContent = t.save || 'Save';
+                mainEditBtn.style.backgroundColor = '#28a745'; 
+
+                
+                fullnameInput.removeAttribute('readonly');
+                genderInput.removeAttribute('readonly');
+                languageSelect.removeAttribute('disabled');
+                countrySelect.removeAttribute('disabled');
+                timezoneSelect.removeAttribute('disabled');
+                emailInput.removeAttribute('readonly');
+                phoneInput.removeAttribute('readonly');
+
+                
+                fullnameInput.style.borderColor = 'var(--secondary-color)';
+                genderInput.style.borderColor = 'var(--secondary-color)';
+                languageSelect.style.borderColor = 'var(--secondary-color)';
+                countrySelect.style.borderColor = 'var(--secondary-color)';
+                timezoneSelect.style.borderColor = 'var(--secondary-color)';
+                emailInput.style.borderColor = 'var(--secondary-color)';
+                phoneInput.style.borderColor = 'var(--secondary-color)';
+            } else {
+                // Save changes and disable editing
+                isEditing = false;
+                const lang = localStorage.getItem('userLanguage') || 'en';
+                const t = translations[lang] || translations['en'];
+                mainEditBtn.textContent = t.edit || 'Edit';
+                mainEditBtn.style.backgroundColor = ''; 
+
+                // Disable all inputs
+                fullnameInput.setAttribute('readonly', 'readonly');
+                genderInput.setAttribute('readonly', 'readonly');
+                languageSelect.setAttribute('disabled', 'disabled');
+                countrySelect.setAttribute('disabled', 'disabled');
+                timezoneSelect.setAttribute('disabled', 'disabled');
+                emailInput.setAttribute('readonly', 'readonly');
+                phoneInput.setAttribute('readonly', 'readonly');
+
+                // Remove visual feedback
+                fullnameInput.style.borderColor = '';
+                genderInput.style.borderColor = '';
+                languageSelect.style.borderColor = '';
+                countrySelect.style.borderColor = '';
+                timezoneSelect.style.borderColor = '';
+                emailInput.style.borderColor = '';
+                phoneInput.style.borderColor = '';
+
+                // Save language preference to localStorage
+                const selectedLanguage = languageSelect.value;
+                localStorage.setItem('userLanguage', selectedLanguage);
+
+                // Update translations
+                updateTranslations(selectedLanguage);
+  
+                // Apply language change immediately
+                if (typeof updatePageLanguage === 'function') {
+                    updatePageLanguage(selectedLanguage);
+                }
+
+                // Here you would typically save the data to a backend
+                console.log('Changes saved:', {
+                    fullname: fullnameInput.value,
+                    gender: genderInput.value,
+                    language: languageSelect.value,
+                    country: countrySelect.value,
+                    timezone: timezoneSelect.value,
+                    email: emailInput.value,
+                    phone: phoneInput.value
+                });
+            }
+        });
+
+        // Load saved language preference on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('userLanguage');
+            if (savedLanguage) {
+                languageSelect.value = savedLanguage;
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -6,11 +6,12 @@
     <title>Homepage - BONTEN</title>
     <link rel="stylesheet" href="/css/event.css">
     <link rel="icon" href="/assets/bonten.png" type="image/x-icon">
+    <script src="/js/language.js"></script>
 </head>
-<!-- * Website body -->
+
 <body>
     <main>
-        <!-- * Navbar -->
+        
         <div class="nav">
             <a href="user_homepage.html" style="text-decoration: none;">
                 <div class="logo">
@@ -50,14 +51,14 @@
             <div class="left">
                 <div class="left-nav">
                     <div class="top">
-                        <p>Home</p>
-                        <p>Explore</p>
-                        <p>History</p>
+                        <p data-translate="home">Home</p>
+                        <p data-translate="explore">Explore</p>
+                        <p data-translate="history">History</p>
                         <p>Dashboard</p>
                     </div>
                     <div class="bottom">
-                        <p>Settings</p>
-                        <p class="secondary">Logout</p>
+                        <p data-translate="settings">Settings</p>
+                        <p class="secondary" data-translate="logout">Logout</p>
                     </div>
                 </div>
             </div>
@@ -66,9 +67,9 @@
                 <div class="event-banner">
                     <div class="event-image" id="event-img">
                         <div class="event-header">
-                            <!-- * Event Name(T) -->
+                            
                             <p class="diff-font" id="event-name"></p> 
-                            <!-- * Event Tag(T) -->
+                            
                             <button id="event-tag"></button>
                         </div>
                     </div>
@@ -78,9 +79,9 @@
                             <div class="desc-title">
                                 <h2 style="font-family: 'Inter', sans-serif; color: #FFFFFF; margin: 0;">Description</h2>
                             </div>
-                            <!-- TODO: Change this afterwards to accomodate for templating -->
+                            
                             <div id="desc-text">
-                                <!-- * Event Description(T) -->
+                                
                                 <p id="event-description">Some description</p>
                             </div>
                             <div class="desc-icons">

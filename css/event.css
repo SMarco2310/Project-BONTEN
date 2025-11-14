@@ -12,7 +12,7 @@ html{
     height: 100vh;
 }
 
-*{
+body {
     background-color: var(--primary-color);
 }
 
@@ -228,10 +228,12 @@ button:hover{
 #desc-text{
     height: 150%;
     width: 95%;
+    background: transparent;
 }
 
 #desc-text p{
     margin: 0;
+    background: transparent;
 }
 
 .desc-user{
@@ -278,6 +280,7 @@ button:hover{
 
 .stars{
     display: flex;
+    background: transparent;
 }
 
 .stars img{
@@ -293,3 +296,659 @@ button:hover{
     gap: 2%;
 }
 
+
+/* Comments Scroll Container */
+.comments-scroll-container {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Comments List Container - New Scrollable Component */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+    background: transparent;
+    margin-top: 15px;
+}
+
+/* Custom Scrollbar for Comments */
+.comments-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+    background: #d67158;
+}
+
+/* Comment Item */
+.comment-item {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.comment-item:hover {
+    border-color: var(--secondary-color);
+    transform: translateX(5px);
+}
+
+/* Comment Header */
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    background: transparent;
+}
+
+.comment-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: transparent;
+}
+
+.comment-user-info {
+    flex: 1;
+    background: transparent;
+}
+
+.comment-user-name {
+    font-family: var(--primary-font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--tertiary-color);
+    margin: 0 0 5px 0;
+    background: transparent;
+}
+
+.comment-rating {
+    display: flex;
+    gap: 3px;
+    background: transparent;
+}
+
+.comment-rating img {
+    width: 14px;
+    height: 14px;
+    background: transparent;
+}
+
+/* Comment Text */
+.comment-text {
+    margin-bottom: 8px;
+    background: transparent;
+}
+
+.comment-text p {
+    font-family: var(--primary-font);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #ccc;
+    margin: 0;
+    background: transparent;
+}
+
+/* Comment Time */
+.comment-time {
+    font-family: var(--primary-font);
+    font-size: 11px;
+    color: #888;
+    background: transparent;
+}
+
+.comments-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-scroll-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 3px;
+}
+
+.comments-scroll-container::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+.comments-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Comment Item */
+.comment-item {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.comment-header {
+    margin-bottom: 10px;
+    background: transparent;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.user-name {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    background: transparent;
+}
+
+.comment-text p {
+    color: #ccc;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    background: transparent;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 450px;
+    width: 90%;
+    z-index: 1001;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 30px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: var(--tertiary-color);
+}
+
+.modal-title {
+    font-family: var(--primary-font);
+    color: var(--tertiary-color);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 30px 0;
+    text-align: left;
+}
+
+/* Form Fields */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field label {
+    color: var(--tertiary-color);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: var(--primary-font);
+    background: transparent;
+}
+
+.form-field input {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
+    transition: border-color 0.3s ease;
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.form-field input::placeholder {
+    color: #666;
+}
+
+.modal-button {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+    font-family: var(--primary-font);
+}
+
+.modal-button:hover {
+    background-color: #d67158;
+}
+
+/* Tickets Modal Specific */
+.tickets-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.ticket-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #333;
+}
+
+.ticket-option:last-of-type {
+    border-bottom: none;
+}
+
+.ticket-option label {
+    color: var(--tertiary-color);
+    font-size: 16px;
+    font-weight: 400;
+    font-family: var(--primary-font);
+    background: transparent;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.qty-btn {
+    background-color: #0d0d0d;
+    border: 1px solid #444;
+    color: var(--tertiary-color);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.qty-btn:hover {
+    background-color: #333;
+    border-color: var(--secondary-color);
+}
+
+.qty-input {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 6px;
+    width: 60px;
+    height: 35px;
+    text-align: center;
+    color: var(--tertiary-color);
+    font-size: 16px;
+    font-family: var(--primary-font);
+}
+
+.qty-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+/* Event Page with Consistent Sidebar Design */
+.main-body-event {
+    min-height: calc(100vh - 70px);
+    background-color: var(--primary-color);
+    margin-left: 180px;
+    margin-top: 70px;
+    padding: 40px;
+}
+
+.event-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: transparent;
+}
+
+.event-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background: transparent;
+}
+
+/* Event Banner */
+.event-banner {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.event-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/ashchella.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    position: relative;
+}
+
+.event-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+}
+
+.event-header {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 2;
+    background: transparent;
+}
+
+.event-name-text {
+    font-family: var(--secondary-font-i);
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--tertiary-color);
+    margin: 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    background: transparent;
+}
+
+.event-tag {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: var(--primary-font);
+}
+
+/* Description and Comments Wrapper */
+.desc-comments-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: transparent;
+}
+
+.desc-section,
+.comments-section {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-header h2 {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--tertiary-color);
+    margin: 0;
+    background: transparent;
+}
+
+.desc-text p {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    font-family: var(--primary-font);
+    background: transparent;
+}
+
+/* Description Actions */
+.desc-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 20px;
+    background: transparent;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    background: transparent;
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.icon-box:hover {
+    background-color: #252525;
+}
+
+.icon-box img {
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    background: transparent;
+}
+
+.rsvp-button {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--primary-font);
+    transition: background-color 0.3s ease;
+    width: auto;
+    height: auto;
+}
+
+.rsvp-button:hover {
+    background-color: #d67158;
+}
+
+/* Updated Comments Styles */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: transparent;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+}
+
+.stars img {
+    width: 14px;
+    height: 14px;
+    background: transparent;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-body-event {
+        margin-left: 180px;
+        padding: 30px 20px;
+    }
+
+    .desc-comments-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .event-name-text {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-body-event {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .event-banner {
+        height: 300px;
+    }
+
+    .event-header {
+        top: 20px;
+        left: 20px;
+        right: 20px;
+    }
+
+    .event-name-text {
+        font-size: 28px;
+    }
+
+    .desc-section,
+    .comments-section {
+        padding: 20px;
+    }
+
+    .desc-actions {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
