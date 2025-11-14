@@ -96,7 +96,7 @@ body {
 }
 
 
-/* Top Navigation Bar */
+
 .topnav {
     margin-left: 180px;
     height: 70px;
@@ -170,7 +170,7 @@ body {
     background-color: transparent;
 }
 
-/* Profile Section */
+
 .profile-section {
     background-color: #0d0d0d;
     border: 1px solid #333;
@@ -436,7 +436,7 @@ body {
     border-color: var(--secondary-color);
 }
 
-/* Email Edit Buttons */
+
 .edit-contact-btn,
 .save-contact-btn {
     background-color: var(--secondary-color);
@@ -472,7 +472,7 @@ body {
     border-color: #d67158;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
     .settings-grid {
         grid-template-columns: 1fr;
