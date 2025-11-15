@@ -1,25 +1,25 @@
-/* Global Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styles */
+
 body {
     background-color: var(--primary-color);
     font-family: var(--primary-font);
     overflow-x: hidden;
 }
 
-/* Main Container */
+
 .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* Sidebar Navigation */
+
 .sidebar {
     background-color: #0a0a0a;
     width: 180px;
@@ -92,7 +92,7 @@ body {
 }
 
 
-/* Top Navigation Bar */
+
 .topnav {
     margin-left: 180px;
     height: 70px;
@@ -138,7 +138,7 @@ body {
     font-weight: 400;
 }
 
-/* Hero Wrapper - Contains hero and schedule widget side by side */
+
 .hero_wrapper {
     margin-left: 220px;
     margin-top: 90px;
@@ -148,7 +148,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* Hero Section */
+
 .hero {
     flex: 1;
     height: 320px;
@@ -222,7 +222,7 @@ body {
     height: 18px;
 }
 
-/* Schedule Widget - Right side of hero and events section */
+
 .schedule_widget {
     width: 320px;
     min-width: 320px;
@@ -369,7 +369,7 @@ body {
 
 
 
-/* Events Section */
+
 
 .upcoming_events {
     margin-left: 180px;
@@ -392,7 +392,7 @@ body {
     color: var(--tertiary-color);
 }
 
-/* Carousel Container */
+
 .carousel_container {
     display: flex;
     align-items: center;
@@ -401,7 +401,7 @@ body {
     min-width: 0;
 }
 
-/* Carousel Navigation Buttons */
+
 .carousel_nav {
     background-color: rgba(255, 255, 255, 0.1);
     border: none;
@@ -418,7 +418,7 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Events Carousel Scrollable Area */
+
 .events_carousel {
     display: flex;
     gap: 20px;
@@ -440,7 +440,7 @@ body {
     border-radius: 4px;
 }
 
-/* Event Card */
+
 .event_card {
     min-width: 280px;
     max-width: 280px;
@@ -459,7 +459,7 @@ body {
     transition: transform 0.3s;
 }
 
-/* Event Badge (Comedy, Fashion, etc) */
+
 .event_badge {
     position: absolute;
     top: 12px;
@@ -473,7 +473,7 @@ body {
     z-index: 2;
 }
 
-/* Bookmark Icon */
+
 .bookmark_icon {
     position: absolute;
     top: 12px;
@@ -504,14 +504,14 @@ body {
     }
 }
 
-/* Event Card Image */
+
 .event_image {
     width: 100%;
     height: 280px;
     object-fit: cover;
 }
 
-/* Event Card Info Section */
+
 .event_info {
     padding: 18px;
 }
@@ -530,7 +530,7 @@ body {
     margin-bottom: 18px;
 }
 
-/* RSVP Button */
+
 .rsvp_button {
     background-color: white;
     color: black;
@@ -546,7 +546,7 @@ body {
     background-color: #e5e5e5;
 }
 
-/* Explore Section at Bottom */
+
 .explore_section {
     margin-left: 220px;
     padding: 60px 40px 80px;

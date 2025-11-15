@@ -12,6 +12,14 @@ const translations = {
         eventsForYou: "Events For You",
         upcomingEvents: "Upcoming Events",
         createEvent: "Create Event",
+        welcomeBack: "Welcome back",
+        readyToExplore: "ready to explore what's happening near you?",
+        findEventsNearMe: "Find Events Near Me",
+        yourPlans: "Your Plans",
+        yourFriends: "Your Friends",
+        viewDetails: "View details",
+        viewPlans: "View plans",
+        viewAllPlans: "View all plans",
 
         // Explore Page
         eventsSuggestedForYou: "Events Suggested For You",
@@ -44,7 +52,13 @@ const translations = {
         addPhoneNumber: "+Add Phone Number",
 
         // History Page
-        comingSoon: "Coming soon"
+        comingSoon: "Coming soon",
+        pastEvents: "Past Events",
+        eventsRegisteredFor: "Events you've registered for",
+        eventsAttended: "Events you've attended",
+        viewDetails: "View Details",
+        cancelRSVP: "Cancel RSVP",
+        writeReview: "Write Review"
     },
     fr: {
         // Navigation
@@ -90,7 +104,13 @@ const translations = {
         addPhoneNumber: "+Ajouter un Numéro de Téléphone",
 
         // History Page
-        comingSoon: "Bientôt disponible"
+        comingSoon: "Bientôt disponible",
+        pastEvents: "Événements Passés",
+        eventsRegisteredFor: "Événements auxquels vous êtes inscrit",
+        eventsAttended: "Événements auxquels vous avez assisté",
+        viewDetails: "Voir les Détails",
+        cancelRSVP: "Annuler RSVP",
+        writeReview: "Écrire un Avis"
     },
     es: {
         // Navigation
@@ -136,7 +156,13 @@ const translations = {
         addPhoneNumber: "+Agregar Número de Teléfono",
 
         // History Page
-        comingSoon: "Próximamente"
+        comingSoon: "Próximamente",
+        pastEvents: "Eventos Pasados",
+        eventsRegisteredFor: "Eventos a los que te has registrado",
+        eventsAttended: "Eventos a los que has asistido",
+        viewDetails: "Ver Detalles",
+        cancelRSVP: "Cancelar RSVP",
+        writeReview: "Escribir Reseña"
     },
     de: {
         // Navigation
@@ -182,7 +208,13 @@ const translations = {
         addPhoneNumber: "+Telefonnummer Hinzufügen",
 
         // History Page
-        comingSoon: "Demnächst"
+        comingSoon: "Demnächst",
+        pastEvents: "Vergangene Events",
+        eventsRegisteredFor: "Events, für die Sie registriert sind",
+        eventsAttended: "Events, an denen Sie teilgenommen haben",
+        viewDetails: "Details Anzeigen",
+        cancelRSVP: "RSVP Stornieren",
+        writeReview: "Bewertung Schreiben"
     },
     tw: {
         // Navigation
@@ -228,7 +260,13 @@ const translations = {
         addPhoneNumber: "+Fa Fon Nɔma Ka Ho",
 
         // History Page
-        comingSoon: "Ɛreba"
+        comingSoon: "Ɛreba",
+        pastEvents: "Dwumadie a Atwam",
+        eventsRegisteredFor: "Dwumadie a Woakyerɛw Din",
+        eventsAttended: "Dwumadie a Woakɔ",
+        viewDetails: "Hwɛ Nsɛm",
+        cancelRSVP: "Twa RSVP",
+        writeReview: "Kyerɛw Adwene"
     }
 };
 
