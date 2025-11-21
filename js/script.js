@@ -42,10 +42,76 @@ switchToSignUpLink.addEventListener('click', (e) => {
     showSignUpForm();
 });
 
-// Initially, show the login form and hide the sign-up form   
+// Initially, show the login form and hide the sign-up form
 showLoginForm();
 
-// You can add form submission handling here as needed
+// Handle signup form submission - redirect based on role
+signUpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const roleField = document.getElementById('role-field');
+    const selectedRole = roleField.value;
+
+    // Store user data in sessionStorage for use in dashboard
+    const firstName = document.getElementById('first-name-field').value;
+    const lastName = document.getElementById('last-name-field').value;
+    const email = document.getElementById('email-field').value;
+
+    sessionStorage.setItem('userData', JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        role: selectedRole
+    }));
+
+    // Redirect based on role
+    if (selectedRole === 'event-organizer') {
+        window.location.href = 'manager_dashboard.html';
+    } else {
+        window.location.href = 'user_homepage.html';
+    }
+});
+
+// Handle login form submission
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = loginForm.querySelector('#email-field').value;
+
+    // For demo purposes, check if user data exists in sessionStorage
+    // In production, this would validate credentials against database
+    const storedUserData = sessionStorage.getItem('userData');
+
+    if (storedUserData) {
+        const userData = JSON.parse(storedUserData);
+        // Redirect based on stored role
+        if (userData.role === 'event-organizer') {
+            window.location.href = 'manager_dashboard.html';
+        } else {
+            window.location.href = 'user_homepage.html';
+        }
+    } else {
+        // Demo mode: Check email pattern for role (manager emails contain 'manager' or 'organizer')
+        // Or default to user homepage
+        const isManager = email.toLowerCase().includes('manager') ||
+                         email.toLowerCase().includes('organizer') ||
+                         email.toLowerCase().includes('admin');
+
+        // Store mock user data
+        sessionStorage.setItem('userData', JSON.stringify({
+            firstName: 'Demo',
+            lastName: 'User',
+            email: email,
+            role: isManager ? 'event-organizer' : 'user'
+        }));
+
+        if (isManager) {
+            window.location.href = 'manager_dashboard.html';
+        } else {
+            window.location.href = 'user_homepage.html';
+        }
+    }
+});
 
 
 function togglePasswordVisibility() {
