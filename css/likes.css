@@ -1,0 +1,370 @@
+/* Likes/Favorites Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --primary-color: #101014;
+    --secondary-color: #C05F47;
+    --tertiary-color: #FFFFFF;
+    --background-dark: #0a0a0c;
+    --card-bg: #1a1a1e;
+    --border-color: #2a2a2e;
+    --text-muted: #888;
+}
+
+body {
+    background-color: var(--background-dark);
+    color: var(--tertiary-color);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 60px 1fr;
+    min-height: 100vh;
+}
+
+/* Sidebar - same as my_tickets */
+.sidebar {
+    grid-row: 1 / -1;
+    background-color: var(--primary-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+}
+
+.logo h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.logo .left {
+    color: var(--secondary-color);
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.nav-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--tertiary-color);
+}
+
+.nav-item.active {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+}
+
+.lower-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.logout {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.logout:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+}
+
+/* Top Nav */
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-title {
+    color: var(--tertiary-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.user_section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile_picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile_picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.username {
+    color: var(--tertiary-color);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Main Content */
+.main-body {
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.likes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.likes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.likes-count {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.likes-count span {
+    color: var(--tertiary-color);
+    font-weight: 600;
+}
+
+.sort-dropdown select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--tertiary-color);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.sort-dropdown select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+/* Likes Grid */
+.likes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.like-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.like-card:hover {
+    border-color: var(--secondary-color);
+    transform: translateY(-4px);
+}
+
+.like-card-image {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.like-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.like-card:hover .like-card-image img {
+    transform: scale(1.05);
+}
+
+.unlike-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.unlike-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.event-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.like-card-content {
+    padding: 20px;
+}
+
+.like-card-content .event-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.like-card-content .event-date {
+    color: var(--secondary-color);
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.like-card-content .event-location {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.like-card-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-view {
+    flex: 1;
+    background-color: transparent;
+    color: var(--tertiary-color);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-view:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-muted);
+}
+
+.btn-rsvp {
+    flex: 1;
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-rsvp:hover {
+    background-color: #d67158;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state svg {
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    color: var(--tertiary-color);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #d67158;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .likes-grid {
+        grid-template-columns: 1fr;
+    }
+}

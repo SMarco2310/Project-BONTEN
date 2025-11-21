@@ -54,8 +54,15 @@
                 <h1 class="settings-title" data-translate="settingsTitle">Settings</h1>
 
                 <div class="settings-content">
+                    <!-- Settings Navigation -->
+                    <div class="settings-tabs">
+                        <button class="settings-tab active" data-section="profile">Profile</button>
+                        <button class="settings-tab" data-section="notifications">Notifications</button>
+                        <button class="settings-tab" data-section="security">Security</button>
+                    </div>
+
                     <!-- Profile Section -->
-                    <div class="profile-section">
+                    <div class="profile-section settings-panel active" id="profile-panel">
                         <div class="profile-header">
                             <div class="profile-left">
                                 <div class="profile-avatar">
@@ -156,6 +163,138 @@
                                     <button class="add-contact-button" data-translate="addPhoneNumber">+Add Phone Number</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="settings-panel" id="notifications-panel">
+                        <h2 class="panel-title">Notification Preferences</h2>
+                        <p class="panel-subtitle">Choose how you want to be notified about events and updates</p>
+
+                        <div class="notification-group">
+                            <h4>Email Notifications</h4>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Event Updates</span>
+                                    <span class="toggle-description">Updates about events you're attending</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailEventUpdates" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Event Reminders</span>
+                                    <span class="toggle-description">Reminders before events you're attending</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailReminders" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Promotional Emails</span>
+                                    <span class="toggle-description">Special offers and new events</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailPromo">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Weekly Digest</span>
+                                    <span class="toggle-description">Summary of upcoming events in your area</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailDigest" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="notification-group">
+                            <h4>Push Notifications</h4>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Event Day Alerts</span>
+                                    <span class="toggle-description">Notifications on event day</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="pushEventDay" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Ticket Confirmations</span>
+                                    <span class="toggle-description">When your ticket purchase is confirmed</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="pushTickets" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="save-btn" id="saveNotificationsBtn">Save Preferences</button>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="settings-panel" id="security-panel">
+                        <h2 class="panel-title">Security Settings</h2>
+                        <p class="panel-subtitle">Manage your account security</p>
+
+                        <div class="security-item">
+                            <h4>Change Password</h4>
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                            <button class="secondary-btn" id="updatePasswordBtn">Update Password</button>
+                        </div>
+
+                        <div class="security-item">
+                            <h4>Two-Factor Authentication</h4>
+                            <p class="security-description">Add an extra layer of security to your account</p>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <span class="toggle-label">Enable 2FA</span>
+                                    <span class="toggle-description">Use SMS or authenticator app for login</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enable2FA">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="security-item">
+                            <h4>Active Sessions</h4>
+                            <p class="security-description">Devices currently logged into your account</p>
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <span class="session-device">Chrome on MacOS</span>
+                                    <span class="session-location">Accra, Ghana - Current session</span>
+                                </div>
+                            </div>
+                            <button class="secondary-btn" id="logoutAllBtn">Logout All Devices</button>
+                        </div>
+
+                        <div class="danger-zone">
+                            <h4>Danger Zone</h4>
+                            <p class="security-description">These actions are irreversible</p>
+                            <button class="danger-btn" id="deleteAccountBtn">Delete Account</button>
                         </div>
                     </div>
                 </div>
@@ -262,6 +401,86 @@
                 languageSelect.value = savedLanguage;
             }
         });
+
+        // Tab switching functionality
+        const settingsTabs = document.querySelectorAll('.settings-tab');
+        const settingsPanels = document.querySelectorAll('.settings-panel');
+
+        settingsTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const section = tab.dataset.section;
+
+                // Update tabs
+                settingsTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update panels
+                settingsPanels.forEach(panel => panel.classList.remove('active'));
+                const targetPanel = document.getElementById(`${section}-panel`);
+                if (targetPanel) targetPanel.classList.add('active');
+            });
+        });
+
+        // Notifications save button
+        const saveNotificationsBtn = document.getElementById('saveNotificationsBtn');
+        saveNotificationsBtn?.addEventListener('click', () => {
+            showToast('Notification preferences saved', 'success');
+        });
+
+        // Password update
+        const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+        updatePasswordBtn?.addEventListener('click', () => {
+            const currentPwd = document.getElementById('currentPassword').value;
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+
+            if (!currentPwd || !newPwd || !confirmPwd) {
+                showToast('Please fill in all password fields', 'error');
+                return;
+            }
+            if (newPwd.length < 8) {
+                showToast('Password must be at least 8 characters', 'error');
+                return;
+            }
+            if (newPwd !== confirmPwd) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            showToast('Password updated successfully', 'success');
+        });
+
+        // Logout all devices
+        const logoutAllBtn = document.getElementById('logoutAllBtn');
+        logoutAllBtn?.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout from all devices?')) {
+                showToast('Logged out from all devices', 'success');
+            }
+        });
+
+        // Delete account
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        deleteAccountBtn?.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                showToast('Account deletion requested', 'info');
+            }
+        });
+
+        // Toast function
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 3000);
+        }
     </script>
 
 </body>
