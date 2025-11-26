@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Settings - BONTEN</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/manager_settings.css">
-    <link rel="icon" href="/assets/bonten.png" type="image/x-icon">
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="../public/css/manager_settings.css">
+    <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="../js/manager_settings.js" defer></script>
+    <script src="../public/js/manager_settings.js" defer></script>
 </head>
 <body>
     <div class="container">
 
         <aside class="sidebar">
-            <a href="manager_dashboard.html" style="text-decoration: none;">
+            <a href="./manager_dashboard.html" style="text-decoration: none;">
                 <div class="logo">
                     <h3 class="left">Bon</h3>
                     <h3>ten</h3>
@@ -22,14 +22,14 @@
             </a>
 
             <nav class="nav-menu">
-                <a href="manager_dashboard.html" class="nav-item">Home</a>
-                <a href="manager_history.html" class="nav-item">History</a>
-                <a href="create_event.html" class="nav-item">Create Event</a>
+                <a href="./manager_dashboard.html" class="nav-item">Home</a>
+                <a href="./manager_history.html" class="nav-item">History</a>
+                <a href="./create_event.html" class="nav-item">Create Event</a>
             </nav>
 
             <div class="lower-menu">
-                <a href="manager_settings.html" class="nav-item active">Settings</a>
-                <a href="index.html" class="logout">Logout</a>
+                <a href="./manager_settings.html" class="nav-item active">Settings</a>
+                <a href="./index.html" class="logout">Logout</a>
             </div>
 
         </aside>
@@ -38,7 +38,7 @@
             <h2 class="page-title">Settings</h2>
             <div class="user_section">
                 <div class="profile_picture">
-                    <img src="../assets/jerome.jpeg" alt="Profile Picture" id="headerAvatar">
+                    <img src="../public/assets/jerome.jpeg" alt="Profile Picture" id="headerAvatar">
                 </div>
                 <div class="user_info">
                     <h4 class="username" id="headerName">Jerome Adedze</h4>
@@ -92,7 +92,7 @@
                         <form id="profileForm" class="settings-form">
                             <div class="avatar-upload">
                                 <div class="avatar-preview" id="avatarPreview">
-                                    <img src="../assets/jerome.jpeg" alt="Profile" id="profileAvatar">
+                                    <img src="../public/assets/jerome.jpeg" alt="Profile" id="profileAvatar">
                                 </div>
                                 <div class="avatar-actions">
                                     <button type="button" class="btn-secondary" id="changeAvatarBtn">Change Photo</button>

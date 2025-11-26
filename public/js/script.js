@@ -66,9 +66,9 @@ signUpForm.addEventListener('submit', (e) => {
 
     // Redirect based on role
     if (selectedRole === 'event-organizer') {
-        window.location.href = 'manager_dashboard.html';
+        window.location.href = '../../views/manager_dashboard.html';
     } else {
-        window.location.href = 'user_homepage.html';
+        window.location.href = '../../views/user_homepage.html';
     }
 });
 
@@ -86,9 +86,9 @@ loginForm.addEventListener('submit', (e) => {
         const userData = JSON.parse(storedUserData);
         // Redirect based on stored role
         if (userData.role === 'event-organizer') {
-            window.location.href = 'manager_dashboard.html';
+            window.location.href = '../../views/manager_dashboard.html';
         } else {
-            window.location.href = 'user_homepage.html';
+            window.location.href = '../../views/user_homepage.html';
         }
     } else {
         // Demo mode: Check email pattern for role (manager emails contain 'manager' or 'organizer')
@@ -106,9 +106,9 @@ loginForm.addEventListener('submit', (e) => {
         }));
 
         if (isManager) {
-            window.location.href = 'manager_dashboard.html';
+            window.location.href = '../../views/manager_dashboard.html';
         } else {
-            window.location.href = 'user_homepage.html';
+            window.location.href = '../../views/user_homepage.html';
         }
     }
 });

@@ -340,7 +340,7 @@ class DashboardController {
         const statsExpandBtn = document.getElementById('statsExpandBtn');
         if (statsExpandBtn) {
             statsExpandBtn.addEventListener('click', () => {
-                window.location.href = 'manager_history.html';
+                window.location.href = '../../views/manager_history.html';
             });
         }
 
@@ -348,7 +348,7 @@ class DashboardController {
         const addReviewBtn = document.getElementById('addReviewBtn');
         if (addReviewBtn) {
             addReviewBtn.addEventListener('click', () => {
-                window.location.href = 'manager_history.html';
+                window.location.href = '../../views/manager_history.html';
             });
         }
 
@@ -362,7 +362,7 @@ class DashboardController {
         if (revenueCard) {
             revenueCard.style.cursor = 'pointer';
             revenueCard.addEventListener('click', () => {
-                window.location.href = 'manager_history.html?sort=revenue-desc';
+                window.location.href = '../../views/manager_history.html?sort=revenue-desc';
             });
         }
 
@@ -371,7 +371,7 @@ class DashboardController {
         if (ticketsCard) {
             ticketsCard.style.cursor = 'pointer';
             ticketsCard.addEventListener('click', () => {
-                window.location.href = 'manager_history.html?sort=tickets-desc';
+                window.location.href = '../../views/manager_history.html?sort=tickets-desc';
             });
         }
 
@@ -380,7 +380,7 @@ class DashboardController {
         if (eventsCard) {
             eventsCard.style.cursor = 'pointer';
             eventsCard.addEventListener('click', () => {
-                window.location.href = 'manager_history.html?status=active';
+                window.location.href = '../../views/manager_history.html?status=active';
             });
         }
 
@@ -389,7 +389,7 @@ class DashboardController {
         if (ratingCard) {
             ratingCard.style.cursor = 'pointer';
             ratingCard.addEventListener('click', () => {
-                window.location.href = 'manager_history.html?status=completed';
+                window.location.href = '../../views/manager_history.html?status=completed';
             });
         }
 
@@ -398,7 +398,7 @@ class DashboardController {
         if (engagementCard) {
             engagementCard.style.cursor = 'pointer';
             engagementCard.addEventListener('click', () => {
-                window.location.href = 'manager_history.html';
+                window.location.href = '../../views/manager_history.html';
             });
         }
 
@@ -407,7 +407,7 @@ class DashboardController {
             arrow.style.cursor = 'pointer';
             arrow.addEventListener('click', (e) => {
                 e.stopPropagation();
-                window.location.href = 'manager_history.html';
+                window.location.href = '../../views/manager_history.html';
             });
         });
     }
