@@ -757,9 +757,9 @@ class HistoryController {
         // Store the event data in sessionStorage for the create event page to load
         this.dataService.getEventDetails(eventId).then(event => {
             sessionStorage.setItem('editEventData', JSON.stringify(event));
-            window.location.href = `create_event.html?edit=${eventId}`;
+            window.location.href = `../../views/create_event.html?edit=${eventId}`;
         }).catch(() => {
-            window.location.href = `create_event.html?edit=${eventId}`;
+            window.location.href = `../../views/create_event.html?edit=${eventId}`;
         });
     }
 
@@ -772,9 +772,9 @@ class HistoryController {
             delete duplicateData.status;
             duplicateData.name = `${event.name} (Copy)`;
             sessionStorage.setItem('duplicateEventData', JSON.stringify(duplicateData));
-            window.location.href = `create_event.html?duplicate=${eventId}`;
+            window.location.href = `../../views/create_event.html?duplicate=${eventId}`;
         }).catch(() => {
-            window.location.href = `create_event.html?duplicate=${eventId}`;
+            window.location.href = `../../views/create_event.html?duplicate=${eventId}`;
         });
     }
 
