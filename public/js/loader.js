@@ -1,4 +1,4 @@
 
 setTimeout(() => {
-    window.location.href = '../../views/user_homepage.html';
+    window.location.href = 'user_homepage.html';
 }, 3000);
