@@ -100,7 +100,7 @@ body {
     background-color: #0a0a0a;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 40px;
     border-bottom: 1px solid #1a1a1a;
     position: fixed;
@@ -113,14 +113,15 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: opacity 0.3s ease;
+    text-decoration: none;
+}
+
+.user_section:hover {
+    opacity: 0.8;
 }
 
 .topnav .profile_picture {
-    display: flex;
-    align-items: center;
-}
-
-.topnav .profile_picture img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -136,6 +137,7 @@ body {
     color: var(--tertiary-color);
     font-size: 14px;
     font-weight: 400;
+    margin: 0;
 }
 
 
@@ -573,6 +575,7 @@ body {
 
     .topnav {
         margin-left: 150px;
+        width: calc(100% - 150px);
     }
 
     .sidebar {
@@ -602,6 +605,7 @@ body {
 
     .topnav {
         margin-left: 100px;
+        width: calc(100% - 100px);
         padding: 15px 20px;
     }
 
@@ -652,6 +656,7 @@ body {
 
     .topnav {
         margin-left: 0;
+        width: 100%;
         padding: 12px 15px;
     }
 
@@ -682,7 +687,7 @@ body {
         font-size: 13px;
     }
 
-    .profile_picture {
+    .topnav .profile_picture {
         width: 35px;
         height: 35px;
     }
