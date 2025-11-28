@@ -22,7 +22,7 @@ function showLoginForm() {
 // Function to show the sign-up form and hide the login form
 function showSignUpForm() {
     loginForm.style.display = 'none';
-    
+
     signUpForm.style.cssText = 'display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;';
     const paragraphs = signUpForm.querySelectorAll('label p');
     paragraphs.forEach(paragraph => {
@@ -95,8 +95,8 @@ loginForm.addEventListener('submit', (e) => {
         // Demo mode: Check email pattern for role (manager emails contain 'manager' or 'organizer')
         // Or default to user homepage
         const isManager = email.toLowerCase().includes('manager') ||
-                         email.toLowerCase().includes('organizer') ||
-                         email.toLowerCase().includes('admin');
+            email.toLowerCase().includes('organizer') ||
+            email.toLowerCase().includes('admin');
 
         // Store mock user data
         sessionStorage.setItem('userData', JSON.stringify({
@@ -131,7 +131,7 @@ function togglePasswordVisibility() {
 passwordFieldBtn.addEventListener('click', togglePasswordVisibility);
 
 
-const images= ['../assets/ashchella.JPG','../assets/imullar.jpg','../assets/y2k.JPG', '../assets/gff.jpg', '../assets/detty.webp'];
+const images = ['../public/assets/ashchella.JPG', '../public/assets/imullar.jpg', '../public/assets/y2k.JPG', '../public/assets/gff.jpg', '../public/assets/detty.webp'];
 
 function changeBackgroundImage() {
     const randomIndex = Math.floor(Math.random() * images.length);
@@ -139,7 +139,7 @@ function changeBackgroundImage() {
     leftSide.style.transition = 'background-image 1s ease-in-out';
     leftSide.style.backgroundSize = 'cover';
     leftSide.style.backgroundPosition = 'center';
-    
+
 }
 
 // Change background image every 2.5 seconds
