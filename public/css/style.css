@@ -6,3 +6,14 @@
     --primary-font: "Poppins", sans-serif;
     --secondary-font: "CalvinoTrial", sans-serif;
 }
+
+/* UserWay Accessibility Widget - Bottom Right Positioning */
+#userway_accessibility,
+[id*="userway"],
+[class*="userway"],
+[class*="uwidget"] {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 9999 !important;
+}
