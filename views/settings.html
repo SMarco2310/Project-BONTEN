@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../public/css/settings.css">
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <script src="../public/js/language.js"></script>
+    <script src="../public/js/profile_loader.js"></script>
 </head>
 <body>
 <div class="container">
@@ -66,7 +67,13 @@
                         <div class="profile-header">
                             <div class="profile-left">
                                 <div class="profile-avatar">
-                                    <img src="../public/assets/jerome.jpeg" alt="Profile Avatar">
+                                    <img src="../public/assets/jerome.jpeg" alt="Profile Avatar" id="profile-avatar-img">
+                                    <div class="avatar-overlay">
+                                        <label for="profile-upload" class="upload-label">
+                                            <span>Change Photo</span>
+                                        </label>
+                                        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                                    </div>
                                 </div>
                                 <div class="profile-details">
                                     <h2 class="profile-name">Jerome Adedze</h2>
@@ -481,7 +488,44 @@
 
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // Profile picture upload functionality
+        const profileUpload = document.getElementById('profile-upload');
+        const profileAvatarImg = document.getElementById('profile-avatar-img');
+
+        profileUpload?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    profileAvatarImg.src = event.target.result;
+
+                    const topnavProfilePics = document.querySelectorAll('.topnav .profile_picture img');
+                    topnavProfilePics.forEach(img => {
+                        img.src = event.target.result;
+                    });
+
+                    localStorage.setItem('userProfilePicture', event.target.result);
+                    showToast('Profile picture updated successfully!', 'success');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showToast('Please select a valid image file', 'error');
+            }
+        });
+
+        window.addEventListener('load', () => {
+            const savedProfilePic = localStorage.getItem('userProfilePicture');
+            if (savedProfilePic) {
+                profileAvatarImg.src = savedProfilePic;
+                const topnavProfilePics = document.querySelectorAll('.topnav .profile_picture img');
+                topnavProfilePics.forEach(img => {
+                    img.src = savedProfilePic;
+                });
+            }
+        });
     </script>
 
+<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
 </body>
 </html>

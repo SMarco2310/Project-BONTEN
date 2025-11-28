@@ -1,49 +1,21 @@
-/**
- * Manager Dashboard - Functional Metrics System
- *
- * This module provides a data abstraction layer that allows metrics to work
- * with mock data now and easily switch to real database data later.
- *
- * To connect to a real database:
- * 1. Replace the mock implementations in DashboardDataService
- * 2. Update the fetch methods to call your API endpoints
- * 3. The UI will automatically update with real data
- */
-
-// ============================================================================
-// DATA SERVICE LAYER - Replace these methods with real API calls
-// ============================================================================
+// https://www.chartjs.org/docs/latest/
 
 class DashboardDataService {
     constructor() {
-        // Base API URL - update when connecting to real backend
         this.apiBaseUrl = '/api';
-
-        // Flag to toggle between mock and real data
         this.useMockData = true;
     }
 
-    /**
-     * Fetch summary metrics (revenue, tickets, events)
-     * @param {string} period - The time period (month name)
-     * @returns {Promise<Object>} Summary metrics data
-     */
     async getSummaryMetrics(period = 'january') {
         if (this.useMockData) {
             return this._getMockSummaryMetrics(period);
         }
 
-        // Real API implementation
         const response = await fetch(`${this.apiBaseUrl}/metrics/summary?period=${period}`);
         if (!response.ok) throw new Error('Failed to fetch summary metrics');
         return response.json();
     }
 
-    /**
-     * Fetch statistics data for charts
-     * @param {string} period - The time period
-     * @returns {Promise<Object>} Chart data
-     */
     async getStatisticsData(period = 'january') {
         if (this.useMockData) {
             return this._getMockStatisticsData(period);
@@ -54,10 +26,6 @@ class DashboardDataService {
         return response.json();
     }
 
-    /**
-     * Fetch secondary metrics (rating, engagement)
-     * @returns {Promise<Object>} Secondary metrics
-     */
     async getSecondaryMetrics() {
         if (this.useMockData) {
             return this._getMockSecondaryMetrics();
@@ -68,11 +36,6 @@ class DashboardDataService {
         return response.json();
     }
 
-    /**
-     * Fetch event reviews
-     * @param {string} searchQuery - Optional search query
-     * @returns {Promise<Array>} List of reviews
-     */
     async getEventReviews(searchQuery = '') {
         if (this.useMockData) {
             return this._getMockEventReviews(searchQuery);
@@ -86,10 +49,6 @@ class DashboardDataService {
         return response.json();
     }
 
-    /**
-     * Fetch manager profile data
-     * @returns {Promise<Object>} Manager profile
-     */
     async getManagerProfile() {
         if (this.useMockData) {
             return this._getMockManagerProfile();
@@ -100,11 +59,6 @@ class DashboardDataService {
         return response.json();
     }
 
-    /**
-     * Export dashboard data
-     * @param {string} format - Export format (csv, pdf, xlsx)
-     * @returns {Promise<Blob>} Exported data
-     */
     async exportData(format = 'csv') {
         if (this.useMockData) {
             return this._getMockExportData(format);
@@ -115,12 +69,7 @@ class DashboardDataService {
         return response.blob();
     }
 
-    // ========================================================================
-    // MOCK DATA IMPLEMENTATIONS - Replace with real API calls
-    // ========================================================================
-
     _getMockSummaryMetrics(period) {
-        // Simulated data that varies by month
         const monthlyData = {
             january: { revenue: 7000, tickets: 12000, events: 5, revenueChange: 11.5, ticketsChange: -11.5 },
             february: { revenue: 8500, tickets: 14500, events: 6, revenueChange: 21.4, ticketsChange: 20.8 },
@@ -149,7 +98,6 @@ class DashboardDataService {
     }
 
     _getMockStatisticsData(period) {
-        // Generate realistic monthly sales/returns data
         const baseData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             sales: [32000, 45000, 28000, 52000, 38000, 48000, 55000, 42000, 35000, 58000, 62000, 48000],
@@ -164,7 +112,7 @@ class DashboardDataService {
             avgRating: 4.4,
             maxRating: 5,
             engagementRate: 5.6,
-            ratingTrend: 'down', // 'up', 'down', 'stable'
+            ratingTrend: 'down',
             engagementTrend: 'down'
         });
     }
@@ -213,7 +161,6 @@ class DashboardDataService {
             }
         ];
 
-        // Filter by search query if provided
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
             return Promise.resolve(
@@ -228,7 +175,6 @@ class DashboardDataService {
     }
 
     _getMockManagerProfile() {
-        // Check if user data exists in sessionStorage (from signup)
         const storedUserData = sessionStorage.getItem('userData');
         if (storedUserData) {
             const userData = JSON.parse(storedUserData);
@@ -242,7 +188,6 @@ class DashboardDataService {
             });
         }
 
-        // Default mock data
         return Promise.resolve({
             id: 1,
             firstName: 'Jerome',
@@ -254,7 +199,6 @@ class DashboardDataService {
     }
 
     _getMockExportData(format) {
-        // Generate CSV data as example
         const csvContent = `Date,Revenue,Tickets Sold,Events
 January,7000,12000,5
 February,8500,14500,6
@@ -268,10 +212,6 @@ June,11200,18500,8`;
     }
 }
 
-// ============================================================================
-// DASHBOARD CONTROLLER - Handles UI updates and user interactions
-// ============================================================================
-
 class DashboardController {
     constructor() {
         this.dataService = new DashboardDataService();
@@ -283,7 +223,6 @@ class DashboardController {
 
     async init() {
         try {
-            // Load initial data
             await this.loadManagerProfile();
             await this.loadAllMetrics();
             this.setupEventListeners();
@@ -294,7 +233,6 @@ class DashboardController {
     }
 
     setupEventListeners() {
-        // Period selector change
         const periodSelector = document.getElementById('summaryPeriod');
         if (periodSelector) {
             periodSelector.addEventListener('change', (e) => {
@@ -303,13 +241,11 @@ class DashboardController {
             });
         }
 
-        // Export button
         const exportBtn = document.getElementById('exportBtn');
         if (exportBtn) {
             exportBtn.addEventListener('click', () => this.handleExport());
         }
 
-        // Search input - navigates to history with search
         const searchInput = document.getElementById('insightsSearch');
         if (searchInput) {
             let debounceTimer;
@@ -320,7 +256,6 @@ class DashboardController {
                 }, 300);
             });
 
-            // Press Enter to go to history page with search
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && searchInput.value.trim()) {
                     window.location.href = `manager_history.html?search=${encodeURIComponent(searchInput.value.trim())}`;
@@ -328,7 +263,6 @@ class DashboardController {
             });
         }
 
-        // Stats settings button - opens chart settings
         const statsSettingsBtn = document.getElementById('statsSettingsBtn');
         if (statsSettingsBtn) {
             statsSettingsBtn.addEventListener('click', () => {
@@ -336,7 +270,6 @@ class DashboardController {
             });
         }
 
-        // Stats expand button - goes to full analytics
         const statsExpandBtn = document.getElementById('statsExpandBtn');
         if (statsExpandBtn) {
             statsExpandBtn.addEventListener('click', () => {
@@ -344,7 +277,6 @@ class DashboardController {
             });
         }
 
-        // Add review button - navigates to history reviews section
         const addReviewBtn = document.getElementById('addReviewBtn');
         if (addReviewBtn) {
             addReviewBtn.addEventListener('click', () => {
@@ -352,12 +284,10 @@ class DashboardController {
             });
         }
 
-        // Metric cards - make them clickable
         this.setupMetricCardClicks();
     }
 
     setupMetricCardClicks() {
-        // Total Revenue card - go to history filtered by revenue
         const revenueCard = document.querySelector('.metric-card:has(#totalRevenue)');
         if (revenueCard) {
             revenueCard.style.cursor = 'pointer';
@@ -366,7 +296,6 @@ class DashboardController {
             });
         }
 
-        // Tickets Sold card - go to history sorted by tickets
         const ticketsCard = document.querySelector('.metric-card:has(#ticketsSold)');
         if (ticketsCard) {
             ticketsCard.style.cursor = 'pointer';
@@ -375,7 +304,6 @@ class DashboardController {
             });
         }
 
-        // Active Events card - go to history filtered by active
         const eventsCard = document.querySelector('.metric-card:has(#activeEvents)');
         if (eventsCard) {
             eventsCard.style.cursor = 'pointer';
@@ -384,7 +312,6 @@ class DashboardController {
             });
         }
 
-        // Avg Rating card - go to history sorted by completed (has ratings)
         const ratingCard = document.querySelector('.metric-card.secondary:has(#avgRating)');
         if (ratingCard) {
             ratingCard.style.cursor = 'pointer';
@@ -393,7 +320,6 @@ class DashboardController {
             });
         }
 
-        // Engagement Rate card
         const engagementCard = document.querySelector('.metric-card.secondary:has(#engagementRate)');
         if (engagementCard) {
             engagementCard.style.cursor = 'pointer';
@@ -402,7 +328,6 @@ class DashboardController {
             });
         }
 
-        // Metric arrows - make them navigate
         document.querySelectorAll('.metric-arrow').forEach(arrow => {
             arrow.style.cursor = 'pointer';
             arrow.addEventListener('click', (e) => {
@@ -432,13 +357,11 @@ class DashboardController {
         try {
             const profile = await this.dataService.getManagerProfile();
 
-            // Update welcome name
             const welcomeName = document.getElementById('welcomeName');
             if (welcomeName) {
                 welcomeName.textContent = profile.firstName;
             }
 
-            // Update header name
             const managerName = document.getElementById('managerName');
             if (managerName) {
                 managerName.textContent = `${profile.firstName} ${profile.lastName}`;
@@ -452,33 +375,28 @@ class DashboardController {
         try {
             const metrics = await this.dataService.getSummaryMetrics(this.currentPeriod);
 
-            // Update total revenue
             const revenueEl = document.getElementById('totalRevenue');
             if (revenueEl) {
                 revenueEl.textContent = `${metrics.currency}${metrics.totalRevenue.toLocaleString()}`;
                 revenueEl.classList.remove('loading');
             }
 
-            // Update revenue change
             const revenueChangeEl = document.getElementById('revenueChange');
             if (revenueChangeEl) {
                 this.updateChangeIndicator(revenueChangeEl, metrics.revenueChange);
             }
 
-            // Update tickets sold
             const ticketsEl = document.getElementById('ticketsSold');
             if (ticketsEl) {
                 ticketsEl.textContent = metrics.ticketsSold.toLocaleString();
                 ticketsEl.classList.remove('loading');
             }
 
-            // Update tickets change
             const ticketsChangeEl = document.getElementById('ticketsChange');
             if (ticketsChangeEl) {
                 this.updateChangeIndicator(ticketsChangeEl, metrics.ticketsChange);
             }
 
-            // Update active events
             const eventsEl = document.getElementById('activeEvents');
             if (eventsEl) {
                 eventsEl.textContent = metrics.activeEvents;
@@ -522,14 +440,11 @@ class DashboardController {
 
         const ctx = canvas.getContext('2d');
 
-        // Destroy existing chart if any
         if (this.chartInstance) {
             this.chartInstance.destroy();
         }
 
-        // Check if Chart.js is available
         if (typeof Chart === 'undefined') {
-            // Load Chart.js dynamically
             this.loadChartJS().then(() => {
                 this.createChart(ctx, data);
             });
@@ -636,19 +551,16 @@ class DashboardController {
         try {
             const metrics = await this.dataService.getSecondaryMetrics();
 
-            // Update average rating
             const ratingEl = document.getElementById('avgRating');
             if (ratingEl) {
                 ratingEl.textContent = `${metrics.avgRating}/${metrics.maxRating}`;
             }
 
-            // Update engagement rate
             const engagementEl = document.getElementById('engagementRate');
             if (engagementEl) {
                 engagementEl.textContent = `${metrics.engagementRate}%`;
             }
 
-            // Update trend icons
             this.updateTrendIcon('avgRating', metrics.ratingTrend);
             this.updateTrendIcon('engagementRate', metrics.engagementTrend);
         } catch (error) {
@@ -743,7 +655,6 @@ class DashboardController {
             this.showToast('Preparing export...');
             const blob = await this.dataService.exportData('csv');
 
-            // Create download link
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -761,7 +672,6 @@ class DashboardController {
     }
 
     showToast(message, type = 'info') {
-        // Remove existing toasts
         const existingToast = document.querySelector('.toast');
         if (existingToast) {
             existingToast.remove();
@@ -772,32 +682,16 @@ class DashboardController {
         toast.textContent = message;
         document.body.appendChild(toast);
 
-        // Auto-remove after 3 seconds
         setTimeout(() => {
             toast.remove();
         }, 3000);
     }
 }
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
-
-/**
- * Format currency values
- * @param {number} value - The value to format
- * @param {string} currency - Currency code (default: GHC)
- * @returns {string} Formatted currency string
- */
 function formatCurrency(value, currency = 'GHC') {
     return `${currency}${value.toLocaleString()}`;
 }
 
-/**
- * Format large numbers with K/M suffix
- * @param {number} value - The value to format
- * @returns {string} Formatted number string
- */
 function formatNumber(value) {
     if (value >= 1000000) {
         return (value / 1000000).toFixed(1) + 'M';
@@ -808,27 +702,15 @@ function formatNumber(value) {
     return value.toString();
 }
 
-/**
- * Calculate percentage change between two values
- * @param {number} current - Current value
- * @param {number} previous - Previous value
- * @returns {number} Percentage change
- */
 function calculatePercentageChange(current, previous) {
     if (previous === 0) return 0;
     return ((current - previous) / previous) * 100;
 }
 
-// ============================================================================
-// INITIALIZE DASHBOARD
-// ============================================================================
-
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.dashboardController = new DashboardController();
 });
 
-// Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         DashboardDataService,

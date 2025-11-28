@@ -5,6 +5,7 @@ const switchToSignUpLink = document.getElementById('switch-to-signup');
 const leftSide = document.querySelector('.left-side');
 const tabNameText = document.querySelector('.tab-name');
 const passwordFieldBtn = document.querySelector('.pwd-eye');
+
 // Function to show the login form and hide the sign-up form
 function showLoginForm() {
     signUpForm.style.display = 'none';
@@ -21,7 +22,7 @@ function showLoginForm() {
 // Function to show the sign-up form and hide the login form
 function showSignUpForm() {
     loginForm.style.display = 'none';
-    // Recommended fix: Use cssText
+    
     signUpForm.style.cssText = 'display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;';
     const paragraphs = signUpForm.querySelectorAll('label p');
     paragraphs.forEach(paragraph => {

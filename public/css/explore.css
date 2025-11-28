@@ -213,12 +213,12 @@ body {
     scroll-behavior: smooth;
     padding: 10px 5px;
     flex: 1;
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .events-carousel::-webkit-scrollbar {
-    display: none; 
+    display: none;
 }
 
 
@@ -330,6 +330,7 @@ body {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -403,7 +404,7 @@ body {
 
 .search-section {
     margin-bottom: 40px;
-    scroll-margin-top: 90px; 
+    scroll-margin-top: 90px;
 }
 
 .search-container {
@@ -523,5 +524,217 @@ body {
 
     .filter-select {
         width: 100%;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 150px;
+        padding: 30px 20px;
+    }
+
+    .main-content {
+        margin-left: 150px;
+        padding: 25px;
+    }
+
+    .topnav {
+        margin-left: 150px;
+    }
+
+    .event-card {
+        min-width: 180px;
+    }
+
+    .events-section h2 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+
+    .topnav {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .user_section {
+        gap: 8px;
+    }
+
+    .profile_picture {
+        width: 35px;
+        height: 35px;
+    }
+
+    .username {
+        font-size: 14px;
+    }
+
+    .search-container {
+        padding: 20px 15px;
+    }
+
+    .search-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .search-btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .event-card {
+        min-width: 160px;
+        max-width: 180px;
+    }
+
+    .card-content {
+        padding: 12px;
+    }
+
+    .event-name {
+        font-size: 15px;
+    }
+
+    .event-location {
+        font-size: 12px;
+    }
+
+    .carousel-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px 10px;
+    }
+
+    .topnav {
+        padding: 12px 10px;
+    }
+
+    .username {
+        display: none;
+    }
+
+    .profile_picture {
+        width: 32px;
+        height: 32px;
+    }
+
+    .search-container h1 {
+        font-size: 20px;
+    }
+
+    .search-input {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    .filter-select {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .events-section {
+        margin-bottom: 30px;
+    }
+
+    .events-section h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .event-card {
+        min-width: 140px;
+        max-width: 150px;
+    }
+
+    .card-image {
+        height: 140px;
+    }
+
+    .event-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    .card-content {
+        padding: 10px;
+    }
+
+    .event-name {
+        font-size: 14px;
+    }
+
+    .event-location {
+        font-size: 11px;
+    }
+
+    .carousel-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+    }
+
+    .no-results {
+        padding: 25px 15px;
+    }
+
+    .no-results h3 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .event-card {
+        min-width: 120px;
+        max-width: 130px;
+    }
+
+    .card-image {
+        height: 120px;
+    }
+
+    .events-section h2 {
+        font-size: 16px;
+    }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .sidebar {
+        padding: 20px 15px;
+    }
+
+    .logo {
+        margin-bottom: 40px;
+    }
+
+    .nav-menu {
+        gap: 20px;
     }
 }

@@ -712,3 +712,93 @@ body {
         width: 90%;
     }
 }
+
+
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 150px;
+        padding: 25px;
+    }
+
+    .sidebar {
+        width: 150px;
+    }
+
+    .topnav {
+        margin-left: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100px;
+        padding: 30px 15px;
+    }
+
+    .main-content {
+        margin-left: 100px;
+        padding: 20px 15px;
+    }
+
+    .topnav {
+        margin-left: 100px;
+        padding: 15px;
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .history-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 180px;
+        position: fixed;
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px 10px;
+    }
+
+    .topnav {
+        margin-left: 0;
+        padding: 12px 10px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .section-subtitle {
+        font-size: 13px;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .event-name {
+        font-size: 16px;
+    }
+
+    .view-btn, .cancel-btn, .review-btn {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+}
