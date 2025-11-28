@@ -241,11 +241,6 @@ class DashboardController {
             });
         }
 
-        const exportBtn = document.getElementById('exportBtn');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', () => this.handleExport());
-        }
-
         const searchInput = document.getElementById('insightsSearch');
         if (searchInput) {
             let debounceTimer;
@@ -260,20 +255,6 @@ class DashboardController {
                 if (e.key === 'Enter' && searchInput.value.trim()) {
                     window.location.href = `manager_history.html?search=${encodeURIComponent(searchInput.value.trim())}`;
                 }
-            });
-        }
-
-        const statsSettingsBtn = document.getElementById('statsSettingsBtn');
-        if (statsSettingsBtn) {
-            statsSettingsBtn.addEventListener('click', () => {
-                this.showToast('Statistics settings - Coming soon!');
-            });
-        }
-
-        const statsExpandBtn = document.getElementById('statsExpandBtn');
-        if (statsExpandBtn) {
-            statsExpandBtn.addEventListener('click', () => {
-                window.location.href = '../../views/manager_history.html';
             });
         }
 
@@ -650,26 +631,6 @@ class DashboardController {
         });
     }
 
-    async handleExport() {
-        try {
-            this.showToast('Preparing export...');
-            const blob = await this.dataService.exportData('csv');
-
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `dashboard-export-${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-
-            this.showToast('Export downloaded successfully!', 'success');
-        } catch (error) {
-            console.error('Export failed:', error);
-            this.showToast('Export failed. Please try again.', 'error');
-        }
-    }
 
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');

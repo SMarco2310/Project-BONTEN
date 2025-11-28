@@ -108,35 +108,6 @@ body {
     gap: 20px;
 }
 
-.accessibility-widget {
-    margin-left: auto;
-}
-
-.accessibility-btn {
-    background: rgba(192, 95, 71, 0.1);
-    border: 1px solid var(--secondary-color);
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.accessibility-btn:hover {
-    background: var(--secondary-color);
-    transform: scale(1.05);
-}
-
-.accessibility-btn svg {
-    color: var(--secondary-color);
-}
-
-.accessibility-btn:hover svg {
-    color: var(--tertiary-color);
-}
 
 .topnav-search {
     flex: 1;

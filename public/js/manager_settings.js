@@ -1,8 +1,3 @@
-/**
- * Manager Settings Page Controller
- *
- * Handles profile, payment details, notifications, and security settings
- */
 
 class ManagerSettingsController {
     constructor() {
@@ -27,9 +22,6 @@ class ManagerSettingsController {
         this.setupModalHandlers();
     }
 
-    // ========================================================================
-    // USER PROFILE
-    // ========================================================================
 
     loadUserProfile() {
         const userData = sessionStorage.getItem('userData');
@@ -83,9 +75,6 @@ class ManagerSettingsController {
         this.currentSection = section;
     }
 
-    // ========================================================================
-    // PROFILE HANDLERS
-    // ========================================================================
 
     setupProfileHandlers() {
         const profileForm = document.getElementById('profileForm');
@@ -186,9 +175,6 @@ class ManagerSettingsController {
         this.showToast('Profile saved successfully', 'success');
     }
 
-    // ========================================================================
-    // PAYMENT HANDLERS
-    // ========================================================================
 
     loadPaymentData() {
         const paymentData = sessionStorage.getItem('paymentData');
@@ -397,9 +383,7 @@ class ManagerSettingsController {
         this.showToast('Mobile Money saved successfully', 'success');
     }
 
-    // ========================================================================
-    // NOTIFICATION HANDLERS
-    // ========================================================================
+
 
     setupNotificationHandlers() {
         const notificationsForm = document.getElementById('notificationsForm');
@@ -424,9 +408,6 @@ class ManagerSettingsController {
         this.showToast('Notification preferences saved', 'success');
     }
 
-    // ========================================================================
-    // SECURITY HANDLERS
-    // ========================================================================
 
     setupSecurityHandlers() {
         const updatePasswordBtn = document.getElementById('updatePasswordBtn');
@@ -480,9 +461,6 @@ class ManagerSettingsController {
         this.showToast('Password updated successfully', 'success');
     }
 
-    // ========================================================================
-    // MODAL HANDLERS
-    // ========================================================================
 
     setupModalHandlers() {
         // Bank modal
@@ -524,9 +502,6 @@ class ManagerSettingsController {
         }
     }
 
-    // ========================================================================
-    // UTILITIES
-    // ========================================================================
 
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');

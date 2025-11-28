@@ -1027,11 +1027,11 @@ class CreateEventController {
             }
         }
 
-        // Handle tags
+        
         this.tags = data.tags || [];
         this.renderTags();
 
-        // ===== Step 2: Date & Location =====
+        
         const eventStartDate = document.getElementById('eventStartDate');
         const eventStartTime = document.getElementById('eventStartTime');
         const eventEndDate = document.getElementById('eventEndDate');
