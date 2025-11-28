@@ -1,13 +1,3 @@
-/**
- * Create Event Page - Multi-step Form with Validation
- *
- * This module handles event creation with a data service layer
- * ready for database integration.
- */
-
-// ============================================================================
-// DATA SERVICE LAYER
-// ============================================================================
 
 class EventDataService {
     constructor() {
@@ -15,16 +5,8 @@ class EventDataService {
         this.useMockData = true;
     }
 
-    /**
-     * Create a new event
-     * @param {Object} eventData - Event data
-     * @returns {Promise<Object>} Created event
-     */
     async createEvent(eventData) {
-        if (this.useMockData) {
-            return this._getMockCreateEvent(eventData);
-        }
-
+        if (this.useMockData) return this._getMockCreateEvent(eventData);
         const response = await fetch(`${this.apiBaseUrl}/events`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -34,16 +16,8 @@ class EventDataService {
         return response.json();
     }
 
-    /**
-     * Save event as draft
-     * @param {Object} eventData - Event data
-     * @returns {Promise<Object>} Saved draft
-     */
     async saveDraft(eventData) {
-        if (this.useMockData) {
-            return this._getMockSaveDraft(eventData);
-        }
-
+        if (this.useMockData) return this._getMockSaveDraft(eventData);
         const response = await fetch(`${this.apiBaseUrl}/events/draft`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -53,19 +27,10 @@ class EventDataService {
         return response.json();
     }
 
-    /**
-     * Upload event image
-     * @param {File} file - Image file
-     * @returns {Promise<Object>} Upload result with URL
-     */
     async uploadImage(file) {
-        if (this.useMockData) {
-            return this._getMockUploadImage(file);
-        }
-
+        if (this.useMockData) return this._getMockUploadImage(file);
         const formData = new FormData();
         formData.append('image', file);
-
         const response = await fetch(`${this.apiBaseUrl}/upload/image`, {
             method: 'POST',
             body: formData
@@ -74,32 +39,15 @@ class EventDataService {
         return response.json();
     }
 
-    /**
-     * Get event by ID (for editing)
-     * @param {string} eventId - Event ID
-     * @returns {Promise<Object>} Event data
-     */
     async getEvent(eventId) {
-        if (this.useMockData) {
-            return this._getMockGetEvent(eventId);
-        }
-
+        if (this.useMockData) return this._getMockGetEvent(eventId);
         const response = await fetch(`${this.apiBaseUrl}/events/${eventId}`);
         if (!response.ok) throw new Error('Failed to fetch event');
         return response.json();
     }
 
-    /**
-     * Update an existing event
-     * @param {string} eventId - Event ID
-     * @param {Object} eventData - Updated event data
-     * @returns {Promise<Object>} Update result
-     */
     async updateEvent(eventId, eventData) {
-        if (this.useMockData) {
-            return this._getMockUpdateEvent(eventId, eventData);
-        }
-
+        if (this.useMockData) return this._getMockUpdateEvent(eventId, eventData);
         const response = await fetch(`${this.apiBaseUrl}/events/${eventId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -179,9 +127,7 @@ class EventDataService {
     }
 }
 
-// ============================================================================
-// FORM CONTROLLER
-// ============================================================================
+
 
 class CreateEventController {
     constructor() {
@@ -216,9 +162,6 @@ class CreateEventController {
         this.loadDraftIfExists();
     }
 
-    // ========================================================================
-    // STEP NAVIGATION
-    // ========================================================================
 
     setupStepNavigation() {
         const nextBtn = document.getElementById('nextBtn');
@@ -468,9 +411,6 @@ class CreateEventController {
         });
     }
 
-    // ========================================================================
-    // DATA COLLECTION
-    // ========================================================================
 
     collectStepData() {
         switch (this.currentStep) {
@@ -515,9 +455,6 @@ class CreateEventController {
         this.hasUnsavedChanges = true;
     }
 
-    // ========================================================================
-    // FORM INPUTS
-    // ========================================================================
 
     setupFormInputs() {
         // Character counters
@@ -658,9 +595,6 @@ class CreateEventController {
         if (imageInput) imageInput.value = '';
     }
 
-    // ========================================================================
-    // TAGS INPUT
-    // ========================================================================
 
     setupTagsInput() {
         const tagsInput = document.getElementById('tagsInput');
@@ -700,9 +634,6 @@ class CreateEventController {
         `).join('');
     }
 
-    // ========================================================================
-    // TICKET SYSTEM
-    // ========================================================================
 
     setupTicketSystem() {
         const ticketTypeRadios = document.querySelectorAll('input[name="ticketType"]');
@@ -908,9 +839,6 @@ class CreateEventController {
         }
     }
 
-    // ========================================================================
-    // PUBLISH & SAVE
-    // ========================================================================
 
     async publishEvent() {
         this.collectStepData();
@@ -1139,7 +1067,7 @@ class CreateEventController {
             }
         }
 
-        // ===== Step 3: Tickets =====
+
         const freeTicketQuantity = document.getElementById('freeTicketQuantity');
         const requireApproval = document.getElementById('requireApproval');
         const collectPhone = document.getElementById('collectPhone');
@@ -1182,9 +1110,6 @@ class CreateEventController {
         if (data.allowRefunds !== undefined && allowRefunds) allowRefunds.checked = data.allowRefunds;
     }
 
-    // ========================================================================
-    // MODALS
-    // ========================================================================
 
     setupModals() {
         // Success modal
@@ -1254,10 +1179,6 @@ class CreateEventController {
         if (modal) modal.style.display = 'none';
     }
 
-    // ========================================================================
-    // BEFORE UNLOAD
-    // ========================================================================
-
     setupBeforeUnload() {
         window.addEventListener('beforeunload', (e) => {
             if (this.hasUnsavedChanges) {
@@ -1277,10 +1198,6 @@ class CreateEventController {
             });
         });
     }
-
-    // ========================================================================
-    // UTILITIES
-    // ========================================================================
 
     formatCategory(category) {
         const categories = {
@@ -1336,9 +1253,6 @@ class CreateEventController {
     }
 }
 
-// ============================================================================
-// INITIALIZE
-// ============================================================================
 
 let createEventController;
 
