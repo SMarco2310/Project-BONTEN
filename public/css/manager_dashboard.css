@@ -99,7 +99,7 @@ body {
     background-color: var(--primary-color);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 40px;
     position: fixed;
     top: 0;
@@ -137,9 +137,15 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: opacity 0.3s ease;
+    text-decoration: none;
 }
 
-.topnav .profile_picture img {
+.user_section:hover {
+    opacity: 0.8;
+}
+
+.topnav .profile_picture {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -150,6 +156,7 @@ body {
     color: var(--tertiary-color);
     font-size: 14px;
     font-weight: normal;
+    margin: 0;
 }
 
 /* Main Content Area */
