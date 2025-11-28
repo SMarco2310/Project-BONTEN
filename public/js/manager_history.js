@@ -103,9 +103,6 @@ class HistoryDataService {
         return response.blob();
     }
 
-    // ========================================================================
-    // MOCK DATA IMPLEMENTATIONS
-    // ========================================================================
 
     _getMockManagerEvents(filters = {}) {
         const allEvents = [

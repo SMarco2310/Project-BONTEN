@@ -1,23 +1,3 @@
-/**
- * Auto-Scroll Carousel Implementation
- * 
- * Sources and References:
- * - MDN Web Docs - Element.scrollBy(): https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
- * - MDN Web Docs - setInterval(): https://developer.mozilla.org/en-US/docs/Web/API/setInterval
- * - W3Schools - JavaScript Slideshow: https://www.w3schools.com/howto/howto_js_slideshow.asp
- * - CSS-Tricks - CSS Only Carousel: https://css-tricks.com/css-only-carousel/
- * - MDN Web Docs - Page Visibility API: https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
- * - Web.dev - Intersection Observer API: https://web.dev/intersectionobserver/
- * - MDN Web Docs - Mouse Events: https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
- * - Google Developers - Smooth Scrolling: https://developers.google.com/web/updates/2018/07/css-scroll-snap
- * 
- * Implementation follows modern web standards for:
- * - Accessibility (pause on hover, respect user interactions)
- * - Performance (pause when page not visible)
- * - User Experience (smooth scrolling, intuitive controls)
- * - Progressive Enhancement (graceful degradation without JavaScript)
- */
-
 // https://www.w3schools.com/howto/howto_js_slideshow.asp
 // https://css-tricks.com/css-only-carousel/
 
@@ -120,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (hasScrollableContent) {
                 startAutoScroll();
-                console.log('✅ Auto-scroll started for carousel:', carousel.id || 'unnamed');
+                console.log(' Auto-scroll started for carousel:', carousel.id || 'unnamed');
             } else {
-                console.log('❌ Carousel does not have scrollable content:', carousel.id || 'unnamed');
+                console.log('Carousel does not have scrollable content:', carousel.id || 'unnamed');
             }
         }, 1000);
     });
