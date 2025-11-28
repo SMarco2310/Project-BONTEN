@@ -99,13 +99,45 @@ body {
     background-color: var(--primary-color);
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 0 40px;
     position: fixed;
     top: 0;
     right: 0;
     z-index: 100;
     gap: 20px;
+}
+
+.accessibility-widget {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.accessibility-btn {
+    background: rgba(192, 95, 71, 0.1);
+    border: 1px solid var(--secondary-color);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.accessibility-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.accessibility-btn svg {
+    color: var(--secondary-color);
+}
+
+.accessibility-btn:hover svg {
+    color: var(--tertiary-color);
 }
 
 .user_section {
