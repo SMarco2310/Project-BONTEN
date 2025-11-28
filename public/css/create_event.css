@@ -109,9 +109,7 @@ body {
 }
 
 .accessibility-widget {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-left: auto;
 }
 
 .accessibility-btn {
