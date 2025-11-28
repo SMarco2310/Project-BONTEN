@@ -204,9 +204,7 @@ class Database
         return $this->conn->real_escape_string(htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8'));
     }
 
-    /**
-     * Close database connection
-     */
+
     public function close()
     {
         if ($this->conn !== null) {
@@ -229,9 +227,7 @@ class Database
         ];
     }
 
-    /**
-     * Destructor - close connection when object is destroyed
-     */
+
     public function __destruct()
     {
         $this->close();
