@@ -565,3 +565,133 @@ body {
     font-size: 20px;
     color: #999;
 }
+
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 150px;
+    }
+
+    .topnav {
+        margin-left: 150px;
+    }
+
+    .sidebar {
+        width: 150px;
+    }
+
+    .welcome_section {
+        margin-left: 170px;
+        padding: 40px 30px;
+    }
+
+    .explore_section {
+        margin-left: 170px;
+        padding: 50px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100px;
+    }
+
+    .main-content {
+        margin-left: 100px;
+        padding: 20px;
+    }
+
+    .topnav {
+        margin-left: 100px;
+        padding: 15px 20px;
+    }
+
+    .welcome_section {
+        margin-left: 120px;
+        padding: 30px 20px;
+    }
+
+    .upcoming_section {
+        margin-left: 120px;
+        padding: 40px 20px;
+    }
+
+    .explore_section {
+        margin-left: 120px;
+        padding: 40px 20px;
+    }
+
+    .welcome_title {
+        font-size: 32px;
+    }
+
+    .event_grid {
+        gap: 20px;
+    }
+
+    .event_card {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1000;
+        width: 180px;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .topnav {
+        margin-left: 0;
+        padding: 12px 15px;
+    }
+
+    .welcome_section {
+        margin-left: 0;
+        padding: 25px 15px;
+    }
+
+    .upcoming_section {
+        margin-left: 0;
+        padding: 30px 15px;
+    }
+
+    .explore_section {
+        margin-left: 0;
+        padding: 30px 15px;
+    }
+
+    .welcome_title {
+        font-size: 24px;
+    }
+
+    .welcome_subtitle {
+        font-size: 14px;
+    }
+
+    .username {
+        font-size: 13px;
+    }
+
+    .profile_picture {
+        width: 35px;
+        height: 35px;
+    }
+
+    .event_card {
+        min-width: 150px;
+    }
+
+    .event_title {
+        font-size: 16px;
+    }
+}

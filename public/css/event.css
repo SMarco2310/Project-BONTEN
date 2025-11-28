@@ -1,5 +1,5 @@
+/* https://www.w3schools.com/css/css3_variables.asp */
 :root{
-    
     --primary-color: #101014;
     --secondary-color: #C05F47;
     --tertiary-color: #FFFFFF;
@@ -17,8 +17,8 @@ body {
 }
 
 p{
-    font-family: var(--primary-font);
     color: var(--tertiary-color);
+    font-family: var(--primary-font);
 }
 
 p.secondary{
@@ -26,60 +26,56 @@ p.secondary{
 }
 
 p.diff-font{
+    background: none;
     font-family: var(--secondary-font-i);
     font-weight: 600;
-    background: none;
 }
 
 h1{
-    font-family: var(--primary-font);
-    color: var(--tertiary-color);
     font-size: 1.5rem;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
 }
 
 h1.diff-font{
     font-family: var(--secondary-font);
-    color: var(--tertiary-color);
     font-size: 1.5rem;
+    color: var(--tertiary-color);
 }
 
 button{
-    background-color: var(--secondary-color);
     color: #FFFFFF;
-    width: 85px;
-    height: 25px;
+    background-color: var(--secondary-color);
     border: 1px solid #C06D47;
-    border-radius: 5.5px;
+    height: 25px;
+    width: 85px;
     font-family: "Helvetica Neue", sans-serif;
+    border-radius: 5.5px;
 }
-
 
 button:hover{
     cursor: pointer;
 }
 
 .nav{
-    display: flex;
-    flex: 3;
-    justify-content: space-between;
-    padding: 20px;
     padding-top: 0;
-    padding-left: 40px;
     padding-right: 50px;
-    
+    display: flex;
+    padding: 20px;
+    flex: 3;
+    padding-left: 40px;
+    justify-content: space-between;
 }
 
-
 .logo{
-    display: flex;
     text-align: center;
+    display: flex;
     padding-top: 10px;
-
 }
 
 .logo h3{
-    font-size: 28px;
     font-weight: 500;
+    font-size: 28px;
 }
 
 .logo .left {
@@ -91,30 +87,30 @@ button:hover{
 }
 
 .logo:hover{
+    transform: scale(1.1);
     cursor: pointer;
     transition-duration: 0.5s;
-    transform: scale(1.1);
 }
 
 .icons{
-    display: flex;
     align-items: center;
     gap: 100px;
+    display: flex;
 }
 
 .icon-container{
-    width: 15px;
-    height: 15px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: 15px;
+    flex-direction: column;
     text-align: center;
+    height: 15px;
 }
 
 .icon-container:hover{
+    transform: scale(1.1);
     cursor: pointer;
     transition-duration: 0.5s;
-    transform: scale(1.1);
 }
 
 .icon-container img{
@@ -123,53 +119,52 @@ button:hover{
 }
 
 .user{
+    gap: 5px;
     display: flex;
     align-items: center;
-    gap: 5px;
 }
 
 .user-icon-container{
+    padding-right: 10px;
     width: 40px;
     height: 40px;
-    padding-right: 10px;
-    
 }
 
 .user-icon-container img{
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
     object-fit: cover;
-    
+    width: 45px;
+    border-radius: 50%;
+    height: 45px;
 }
 
 .top p:hover{
-    cursor: pointer;
-    transition-duration: 0.5s;
     transform: scale(1.1);
+    transition-duration: 0.5s;
+    cursor: pointer;
 }
+
 .bottom p:hover{
     cursor: pointer;
-    transition-duration: 0.5s;
     transform: scale(1.1);
+    transition-duration: 0.5s;
 }
 
 .content{
-    display: flex;
-    height: 80vh;
     flex: 1;
     gap: 4%;
-    margin-top: 30px;
-    padding: 20px;
+    display: flex;
     padding-left: 40px;
+    height: 80vh;
+    padding: 20px;
+    margin-top: 30px;
     padding-right: 40px;
 }
 
 .left-nav{
+    height: 100%;
+    justify-content: space-between;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
 }
 
 .welcome-banner *{
@@ -177,10 +172,10 @@ button:hover{
 }
 
 #accra-text{
+    background: none;
+    right: 14px;
     position: absolute;
     top: 70%;
-    right: 14px;
-    background: none;
 }
 
 .mid{
@@ -193,51 +188,51 @@ button:hover{
 }
 
 .event-banner{
-    height: 85%;
     padding: 40px;
-    border: 0.5px solid #FFFFFF;
     border-radius: 5px;
+    height: 85%;
     display: flex;
     gap: 9%;
+    border: 0.5px solid #FFFFFF;
     justify-content: space-between;
 }
 
 .event-image{
-    border: 1px solid #292929;
-    border-radius: 5px;
-    width: 80%;
-    padding: 2%;
-    overflow: hidden;
     background-image: url('/assets/ashchella.JPG');
-    background-size: cover;
+    padding: 2%;
+    border: 1px solid #292929;
+    overflow: hidden;
     background-position: center;
+    width: 80%;
+    background-size: cover;
+    border-radius: 5px;
     background-repeat: no-repeat;
 }
 
 .event-header{
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     background: none;
+    justify-content: space-between;
+    display: flex;
 }
 
 .desc-comments{
-    display: flex;
     flex-direction: column;
-    gap: 5%;
     justify-content: space-between;
+    gap: 5%;
     width: fit-content;
+    display: flex;
 }
 
 .desc, .comments{
-    padding: 20px;
     border: 0.5px solid #FFFFFF;
-    border-radius: 5px;
-    width: 90%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
     gap: 10%;
+    padding: 20px;
+    flex-direction: column;
+    width: 90%;
+    display: flex;
+    height: 50%;
+    border-radius: 5px;
 }
 
 .desc{
@@ -245,86 +240,86 @@ button:hover{
 }
 
 #desc-text{
-    height: fit-content;
     width: 95%;
+    height: fit-content;
     background: transparent;
 }
 
 #desc-text p{
-    margin: 0;
-    font-size: 14px;
     padding: 8px 0;
+    margin: 0;
     background: transparent;
+    font-size: 14px;
 }
 
 .desc-user{
-    display: flex;
-    align-items: center;
-    text-align: center;
     gap: 2%;
+    align-items: center;
+    display: flex;
+    text-align: center;
 }
 
 .desc-icons{
+    justify-content: space-between;
     height: 100%;
     display: flex;
-    justify-content: space-between;
     gap: 20%;
 }
 
 .box-container{
-    height: 100%;
-    width: 100%;
-    display: flex;
     gap: 4%;
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
 .box{
-    height: 56px;
-    width: 56px;
-    background-color: #1C1C1C;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    height: 56px;
+    background-color: #1C1C1C;
+    justify-content: center;
+    display: flex;
+    width: 56px;
 }
 
 .box img{
-    background-color: #1C1C1C;
-    height: 40%;
-    width: 40%;
     opacity: 50%;
+    background-color: #1C1C1C;
+    width: 40%;
+    height: 40%;
 }
 
 .rsvp{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 20px;
     padding-top: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    align-items: center;
     border-top: 1px solid #333;
+    display: flex;
 }
 
 .rsvp button {
-    background-color: var(--secondary-color);
-    color: var(--tertiary-color);
-    border: none;
-    padding: 10px 24px;
     border-radius: 8px;
-    font-size: 14px;
+    color: var(--tertiary-color);
+    padding: 10px 24px;
+    background-color: var(--secondary-color);
     font-weight: 500;
+    border: none;
     width: fit-content;
+    font-size: 14px;
+    transition: all 0.3s ease;
     height: fit-content;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .rsvp button:hover {
-    background-color: #b85f48;
     transform: scale(1.05);
+    background-color: #b85f48;
 }
 
 .stars{
-    display: flex;
     background: transparent;
+    display: flex;
 }
 
 .stars img{
@@ -332,39 +327,32 @@ button:hover{
     height: 20px;
 }
 
-
-
 .comments-nav{
-    display: flex;
     justify-content: flex-end;
+    display: flex;
     gap: 2%;
 }
 
-
-
 .comments-scroll-container {
-    max-height: 250px;
-    overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 10px;
-    display: flex;
-    flex-direction: column;
     gap: 15px;
+    max-height: 250px;
+    display: flex;
+    padding-right: 10px;
+    overflow-y: auto;
+    flex-direction: column;
 }
-
 
 .comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-height: 500px;
     overflow-y: auto;
-    padding-right: 10px;
+    max-height: 500px;
     background: transparent;
+    gap: 20px;
     margin-top: 15px;
+    padding-right: 10px;
+    flex-direction: column;
+    display: flex;
 }
-
-
 
 .comments-list::-webkit-scrollbar {
     width: 8px;
@@ -376,53 +364,51 @@ button:hover{
 }
 
 .comments-list::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
     border-radius: 4px;
+    background: var(--secondary-color);
 }
 
 .comments-list::-webkit-scrollbar-thumb:hover {
     background: #d67158;
 }
 
-
 .comment-item {
-    background-color: #0d0d0d;
     border: 1px solid #333;
-    border-radius: 8px;
     padding: 15px;
+    background-color: #0d0d0d;
     transition: border-color 0.3s ease, transform 0.2s ease;
+    border-radius: 8px;
 }
 
 .comment-item:hover {
-    border-color: var(--secondary-color);
     transform: translateX(5px);
+    border-color: var(--secondary-color);
 }
 
-
 .comment-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
     margin-bottom: 10px;
+    gap: 12px;
+    display: flex;
     background: transparent;
+    align-items: center;
 }
 
 .comment-user-avatar {
-    width: 40px;
     height: 40px;
-    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
+    width: 40px;
     flex-shrink: 0;
     background-color: #1a1a1a;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 50%;
 }
 
 .comment-user-avatar img {
-    width: 100%;
     height: 100%;
     object-fit: cover;
+    width: 100%;
     background: transparent;
 }
 
@@ -432,47 +418,45 @@ button:hover{
 }
 
 .comment-user-name {
-    font-family: var(--primary-font);
-    font-size: 14px;
     font-weight: 500;
-    color: var(--tertiary-color);
     margin: 0 0 5px 0;
     background: transparent;
+    font-size: 14px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
 }
 
 .comment-rating {
-    display: flex;
     gap: 3px;
+    display: flex;
     background: transparent;
 }
 
 .comment-rating img {
-    width: 14px;
     height: 14px;
     background: transparent;
+    width: 14px;
 }
 
-
 .comment-text {
-    margin-bottom: 8px;
     background: transparent;
+    margin-bottom: 8px;
 }
 
 .comment-text p {
+    color: #ccc;
+    background: transparent;
+    margin: 0;
+    line-height: 1.6;
     font-family: var(--primary-font);
     font-size: 13px;
-    line-height: 1.6;
-    color: #ccc;
-    margin: 0;
-    background: transparent;
 }
 
-
 .comment-time {
-    font-family: var(--primary-font);
     font-size: 11px;
-    color: #888;
     background: transparent;
+    color: #888;
+    font-family: var(--primary-font);
 }
 
 .comments-scroll-container::-webkit-scrollbar {
@@ -480,8 +464,8 @@ button:hover{
 }
 
 .comments-scroll-container::-webkit-scrollbar-track {
-    background: #1a1a1a;
     border-radius: 3px;
+    background: #1a1a1a;
 }
 
 .comments-scroll-container::-webkit-scrollbar-thumb {
@@ -493,60 +477,58 @@ button:hover{
     background: #555;
 }
 
-
 .comment-item {
-    background-color: #1a1a1a;
-    border: 1px solid #333;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 10px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
 }
 
 .comment-header {
-    margin-bottom: 10px;
     background: transparent;
+    margin-bottom: 10px;
 }
 
 .comment-user {
-    display: flex;
     align-items: center;
-    gap: 12px;
+    display: flex;
     background: transparent;
+    gap: 12px;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
     gap: 5px;
+    flex-direction: column;
+    display: flex;
 }
 
 .user-name {
-    color: #FFFFFF;
-    font-size: 14px;
     font-weight: 500;
     margin: 0;
     background: transparent;
+    color: #FFFFFF;
+    font-size: 14px;
 }
 
 .comment-text p {
-    color: #ccc;
-    font-size: 13px;
-    line-height: 1.5;
     margin: 0;
+    font-size: 13px;
     background: transparent;
+    line-height: 1.5;
+    color: #ccc;
 }
 
-
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
+    top: 0;
+    position: fixed;
+    width: 100%;
     z-index: 1000;
-    align-items: center;
+    display: none;
     justify-content: center;
+    align-items: center;
 }
 
 .modal.active {
@@ -554,41 +536,41 @@ button:hover{
 }
 
 .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     height: 100%;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+    top: 0;
+    position: absolute;
     backdrop-filter: blur(5px);
+    left: 0;
 }
 
 .modal-content {
-    position: relative;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 12px;
     padding: 40px;
-    max-width: 450px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
     width: 90%;
+    position: relative;
+    border-radius: 12px;
     z-index: 1001;
+    max-width: 450px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .modal-close {
-    position: absolute;
-    top: 15px;
     right: 15px;
-    background: none;
-    border: none;
     color: #888;
-    font-size: 30px;
+    height: auto;
     cursor: pointer;
     width: auto;
-    height: auto;
     padding: 0;
-    line-height: 1;
+    border: none;
+    top: 15px;
+    background: none;
     transition: color 0.3s ease;
+    position: absolute;
+    line-height: 1;
+    font-size: 30px;
 }
 
 .modal-close:hover {
@@ -596,49 +578,48 @@ button:hover{
 }
 
 .modal-title {
-    font-family: var(--primary-font);
-    color: var(--tertiary-color);
-    font-size: 24px;
     font-weight: 500;
-    margin: 0 0 30px 0;
     text-align: left;
+    color: var(--tertiary-color);
+    margin: 0 0 30px 0;
+    font-family: var(--primary-font);
+    font-size: 24px;
 }
 
-
 .modal-form {
-    display: flex;
-    flex-direction: column;
     gap: 20px;
+    flex-direction: column;
+    display: flex;
 }
 
 .form-field {
+    gap: 8px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .form-field label {
-    color: var(--tertiary-color);
-    font-size: 14px;
     font-weight: 400;
     font-family: var(--primary-font);
     background: transparent;
+    font-size: 14px;
+    color: var(--tertiary-color);
 }
 
 .form-field input {
-    background-color: #0d0d0d;
-    border: 1px solid #333;
     border-radius: 8px;
+    font-family: var(--primary-font);
     padding: 14px 18px;
     font-size: 14px;
-    color: var(--tertiary-color);
-    font-family: var(--primary-font);
+    border: 1px solid #333;
+    background-color: #0d0d0d;
     transition: border-color 0.3s ease;
+    color: var(--tertiary-color);
 }
 
 .form-field input:focus {
-    outline: none;
     border-color: var(--secondary-color);
+    outline: none;
 }
 
 .form-field input::placeholder {
@@ -647,36 +628,35 @@ button:hover{
 
 .modal-button {
     background-color: var(--secondary-color);
-    color: var(--tertiary-color);
-    border: none;
-    border-radius: 8px;
-    padding: 14px 24px;
-    font-size: 16px;
-    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-    width: 100%;
+    font-size: 16px;
     height: fit-content;
+    padding: 14px 24px;
+    transition: background-color 0.3s ease;
     font-family: var(--primary-font);
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    margin-top: 10px;
+    color: var(--tertiary-color);
+    width: 100%;
 }
 
 .modal-button:hover {
     background-color: #d67158;
 }
 
-
 .tickets-form {
+    gap: 25px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
 }
 
 .ticket-option {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #333;
 }
 
@@ -685,146 +665,144 @@ button:hover{
 }
 
 .ticket-option label {
-    color: var(--tertiary-color);
-    font-size: 16px;
     font-weight: 400;
-    font-family: var(--primary-font);
     background: transparent;
+    font-size: 16px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
 }
 
 .quantity-control {
+    gap: 15px;
     display: flex;
     align-items: center;
-    gap: 15px;
 }
 
 .qty-btn {
-    background-color: #0d0d0d;
-    border: 1px solid #444;
-    color: var(--tertiary-color);
-    width: 35px;
-    height: 35px;
     border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+    height: 35px;
+    border: 1px solid #444;
     justify-content: center;
+    cursor: pointer;
+    width: 35px;
+    font-size: 20px;
+    align-items: center;
+    background-color: #0d0d0d;
+    display: flex;
     transition: all 0.3s ease;
+    color: var(--tertiary-color);
 }
 
 .qty-btn:hover {
-    background-color: #333;
     border-color: var(--secondary-color);
+    background-color: #333;
 }
 
 .qty-input {
-    background-color: #0d0d0d;
-    border: 1px solid #333;
-    border-radius: 6px;
-    width: 60px;
     height: 35px;
+    border: 1px solid #333;
     text-align: center;
-    color: var(--tertiary-color);
-    font-size: 16px;
+    background-color: #0d0d0d;
     font-family: var(--primary-font);
+    border-radius: 6px;
+    font-size: 16px;
+    width: 60px;
+    color: var(--tertiary-color);
 }
 
 .qty-input:focus {
-    outline: none;
     border-color: var(--secondary-color);
+    outline: none;
 }
 
-
 .main-body-event {
+    padding: 40px;
+    margin-top: 70px;
+    margin-left: 180px;
     min-height: calc(100vh - 70px);
     background-color: var(--primary-color);
-    margin-left: 180px;
-    margin-top: 70px;
-    padding: 40px;
 }
 
 .event-container {
-    max-width: 1400px;
-    margin: 0 auto;
     background: transparent;
+    margin: 0 auto;
+    max-width: 1400px;
 }
 
 .event-content {
-    display: flex;
-    flex-direction: column;
     gap: 30px;
     background: transparent;
+    flex-direction: column;
+    display: flex;
 }
 
-
 .event-banner {
-    width: 90%;
+    overflow: hidden;
     height: 500px;
     border-radius: 12px;
-    overflow: hidden;
+    width: 90%;
     position: relative;
 }
 
 .event-image {
-    width: 100%;
+    background-position: center;
     height: 100%;
     background-image: url('../assets/ashchella.jpg');
-    background-size: cover;
-    background-position: center;
     background-color: transparent;
     position: relative;
+    width: 100%;
+    background-size: cover;
 }
 
 .event-image::before {
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+    top: 0;
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
 }
 
 .event-header {
+    background: transparent;
+    justify-content: space-between;
+    right: 40px;
+    left: 40px;
+    z-index: 2;
+    align-items: flex-start;
+    display: flex;
     position: absolute;
     top: 30px;
-    left: 40px;
-    right: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    z-index: 2;
-    background: transparent;
 }
 
 .event-name-text {
-    font-family: var(--secondary-font-i);
-    font-size: 42px;
-    font-weight: 600;
     color: var(--tertiary-color);
+    font-weight: 600;
     margin: 0;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    font-family: var(--secondary-font-i);
     background: transparent;
+    font-size: 42px;
 }
 
 .event-tag {
-    background-color: var(--secondary-color);
-    color: var(--tertiary-color);
-    border: none;
-    padding: 8px 20px;
     border-radius: 20px;
-    width: fit-content;
+    background-color: var(--secondary-color);
     height: fit-content;
-    font-size: 14px;
     font-weight: 400;
+    color: var(--tertiary-color);
+    padding: 8px 20px;
     font-family: var(--primary-font);
+    width: fit-content;
+    border: none;
+    font-size: 14px;
 }
 
 #event-tag {
-    padding: 8px 20px;
     height:fit-content;
     width: fit-content;
+    padding: 8px 20px;
     transition: background-color 0.3s ease;
 }
 
@@ -832,69 +810,67 @@ button:hover{
     background-color: #d67158;
 }
 
-
 .desc-comments-wrapper {
-    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    display: grid;
     background: transparent;
+    gap: 30px;
 }
 
 .desc-section,
 .comments-section {
-    background-color: #0d0d0d;
-    border: 1px solid #333;
-    border-radius: 12px;
     padding: 30px;
-    display: flex;
-    flex-direction: column;
+    border-radius: 12px;
     gap: 20px;
+    border: 1px solid #333;
+    background-color: #0d0d0d;
+    flex-direction: column;
+    display: flex;
 }
 
 .section-header h2 {
-    font-family: var(--primary-font);
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--tertiary-color);
     margin: 0;
     background: transparent;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--tertiary-color);
+    font-family: var(--primary-font);
 }
 
 .desc-text p {
-    color: #ccc;
     font-size: 14px;
     line-height: 1.6;
-    margin: 0;
-    font-family: var(--primary-font);
     background: transparent;
+    color: #ccc;
+    font-family: var(--primary-font);
+    margin: 0;
 }
 
-
 .desc-actions {
-    display: flex;
-    justify-content: space-between;
     align-items: flex-end;
+    justify-content: space-between;
     margin-top: auto;
-    padding-top: 20px;
+    display: flex;
     background: transparent;
+    padding-top: 20px;
 }
 
 .social-icons {
-    display: flex;
     gap: 12px;
     background: transparent;
+    display: flex;
 }
 
 .icon-box {
-    width: 50px;
-    height: 50px;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
+    border-radius: 8px;
+    align-items: center;
+    height: 50px;
+    justify-content: center;
+    display: flex;
+    background-color: #1a1a1a;
+    width: 50px;
+    border: 1px solid #333;
     transition: background-color 0.3s ease;
 }
 
@@ -903,68 +879,66 @@ button:hover{
 }
 
 .icon-box img {
-    width: 24px;
     height: 24px;
-    opacity: 0.5;
+    width: 24px;
     background: transparent;
+    opacity: 0.5;
 }
 
 .rsvp-button {
-    background-color: var(--secondary-color);
-    color: var(--tertiary-color);
-    border: none;
-    padding: 12px 28px;
     border-radius: 8px;
-    font-size: 15px;
+    padding: 12px 28px;
     font-weight: 500;
     cursor: pointer;
-    font-family: var(--primary-font);
-    transition: background-color 0.3s ease;
-    width: auto;
     height: auto;
+    width: auto;
+    font-family: var(--primary-font);
+    font-size: 15px;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s ease;
+    color: var(--tertiary-color);
+    border: none;
 }
 
 .rsvp-button:hover {
     background-color: #d67158;
 }
 
-
 .user-avatar {
-    width: 40px;
     height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #444;
-    display: flex;
     align-items: center;
+    background-color: #444;
     justify-content: center;
+    overflow: hidden;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
 }
 
 .user-avatar img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    width: 100%;
     background: transparent;
+    height: 100%;
 }
 
 .user-details {
+    background: transparent;
+    gap: 5px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    background: transparent;
 }
 
 .stars img {
-    width: 14px;
-    height: 14px;
     background: transparent;
+    height: 14px;
+    width: 14px;
 }
-
 
 @media (max-width: 1024px) {
     .main-body-event {
-        margin-left: 180px;
         padding: 30px 20px;
+        margin-left: 180px;
     }
 
     .desc-comments-wrapper {
@@ -987,9 +961,9 @@ button:hover{
     }
 
     .event-header {
-        top: 20px;
-        left: 20px;
         right: 20px;
+        left: 20px;
+        top: 20px;
     }
 
     .event-name-text {
@@ -1002,9 +976,9 @@ button:hover{
     }
 
     .desc-actions {
-        flex-direction: column;
-        gap: 15px;
         align-items: stretch;
+        gap: 15px;
+        flex-direction: column;
     }
 
     .social-icons {

@@ -1,15 +1,4 @@
-/**
- * Manager History Page - Event Management History
- *
- * This module provides a data abstraction layer for event history management.
- * To connect to a real database:
- * 1. Replace the mock implementations in HistoryDataService
- * 2. Update the fetch methods to call your API endpoints
- */
 
-// ============================================================================
-// DATA SERVICE LAYER
-// ============================================================================
 
 class HistoryDataService {
     constructor() {
@@ -407,9 +396,6 @@ iMullar Experience,Nov 20 2023,450,45000,Completed,4.6`;
     }
 }
 
-// ============================================================================
-// HISTORY CONTROLLER
-// ============================================================================
 
 class HistoryController {
     constructor() {
@@ -929,9 +915,7 @@ class HistoryController {
     }
 }
 
-// ============================================================================
-// INITIALIZE
-// ============================================================================
+
 
 let historyController;
 
