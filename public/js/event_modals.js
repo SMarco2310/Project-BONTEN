@@ -114,36 +114,44 @@ function payWithPaystack() {
             vip_quantity: vipQty
         })
     })
-        .then(response => response.json())
+        .then(async response => {
+            const text = await response.text();
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error('Server response:', text);
+                throw new Error('The server returned an invalid response. If you are using Live Server, please use a PHP server instead. Response start: ' + text.substring(0, 50));
+            }
+        })
         .then(data => {
             if (data.status) {
-                const paystack = new PaystackPop();
-                paystack.newTransaction({
+                const handler = PaystackPop.setup({
                     key: data.public_key, // Get public key from backend response
                     email: email,
                     amount: data.amount, // Amount in kobo
                     ref: data.reference,
-                    onSuccess: function (transaction) {
-                        alert('Payment successful! Reference: ' + transaction.reference);
+                    onClose: function () {
+                        alert('Transaction was closed.');
+                    },
+                    callback: function (response) {
+                        alert('Payment successful! Reference: ' + response.reference);
                         // Verify transaction on backend (optional but recommended)
-                        // window.location.href = 'verify_payment.html?reference=' + transaction.reference;
+                        // window.location.href = 'verify_payment.html?reference=' + response.reference;
                         ticketsModal.style.display = 'none';
                         // Reset form
                         document.getElementById('regular').value = 0;
                         document.getElementById('vip').value = 0;
                         updateTotals();
-                    },
-                    onCancel: function () {
-                        alert('Transaction was closed.');
                     }
                 });
+                handler.openIframe();
             } else {
                 alert('Error initializing payment: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            alert('An error occurred: ' + error.message);
         })
         .finally(() => {
             checkoutBtn.innerText = originalText;

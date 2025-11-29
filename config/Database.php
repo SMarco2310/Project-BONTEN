@@ -35,7 +35,7 @@ class Database
             );
         }
 
-        echo "Database connection established successfully.";
+        // echo "Database connection established successfully.";
 
         return $this->conn;
     }

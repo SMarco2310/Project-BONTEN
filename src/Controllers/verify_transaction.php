@@ -1,9 +1,9 @@
 <?php
 // api/verify_transaction.php
 header("Content-Type: application/json");
-require_once "../config/Database.php";
+require_once "../../config/Database.php";
 
-$secret_key = "YOUR_PAYSTACK_SECRET_KEY"; // REPLACE THIS
+$secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3"; // REPLACE THIS
 
 if (isset($_GET["reference"])) {
     $reference = $_GET["reference"];
