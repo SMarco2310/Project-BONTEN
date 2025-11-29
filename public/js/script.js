@@ -131,7 +131,7 @@ function togglePasswordVisibility() {
 passwordFieldBtn.addEventListener('click', togglePasswordVisibility);
 
 
-const images= ['../assets/ashchella.JPG','../assets/imullar.jpg','../assets/y2k.JPG', '../assets/gff.jpg', '../assets/detty.webp'];
+const images= ['../public/assets/ashchella.JPG','../public/assets/imullar.jpg','../public/assets/y2k.JPG', '../public/assets/gff.jpg', '../public/assets/detty.webp'];
 
 function changeBackgroundImage() {
     const randomIndex = Math.floor(Math.random() * images.length);
