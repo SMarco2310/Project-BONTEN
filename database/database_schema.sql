@@ -1,4 +1,4 @@
--- Copy and paste this entire file into phpMyAdmin SQL tab
+
 
 CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
