@@ -352,7 +352,7 @@ body {
 }
 
 .event-location::before {
-    content: "📍";
+    content: "";
     font-size: 12px;
 }
 
