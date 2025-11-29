@@ -17,15 +17,54 @@ $input = json_decode(file_get_contents("php://input"), true);
 $email = $input["email"] ?? "";
 $regular_quantity = $input["regular_quantity"] ?? 0;
 $vip_quantity = $input["vip_quantity"] ?? 0;
+$event_id = $input["event_id"] ?? 0;
 
-if (empty($email) || ($regular_quantity == 0 && $vip_quantity == 0)) {
+if (empty($email) || ($regular_quantity == 0 && $vip_quantity == 0) || $event_id == 0) {
     echo json_encode(["status" => false, "message" => "Invalid input"]);
     exit();
 }
 
-// 4. Calculate Amount
-$price_regular = 150;
-$price_vip = 300;
+// 4. Get ticket prices from database
+$database = new Database();
+$conn = $database->connect();
+
+$price_regular = 0;
+$price_vip = 0;
+$regular_ticket_id = null;
+$vip_ticket_id = null;
+
+$stmt = $conn->prepare("SELECT ticket_id, ticket_name, price, quantity, sold FROM tickets WHERE event_id = ?");
+$stmt->bind_param("i", $event_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+while ($ticket = $result->fetch_assoc()) {
+    $ticket_name_lower = strtolower($ticket['ticket_name']);
+    if (strpos($ticket_name_lower, 'regular') !== false) {
+        $price_regular = $ticket['price'];
+        $regular_ticket_id = $ticket['ticket_id'];
+        // Check availability
+        $available = $ticket['quantity'] - $ticket['sold'];
+        if ($regular_quantity > $available) {
+            echo json_encode(["status" => false, "message" => "Not enough Regular tickets available"]);
+            $conn->close();
+            exit();
+        }
+    } elseif (strpos($ticket_name_lower, 'vip') !== false) {
+        $price_vip = $ticket['price'];
+        $vip_ticket_id = $ticket['ticket_id'];
+        // Check availability
+        $available = $ticket['quantity'] - $ticket['sold'];
+        if ($vip_quantity > $available) {
+            echo json_encode(["status" => false, "message" => "Not enough VIP tickets available"]);
+            $conn->close();
+            exit();
+        }
+    }
+}
+$stmt->close();
+
+// Calculate Amount
 $amount_ghs = ($regular_quantity * $price_regular) + ($vip_quantity * $price_vip);
 $amount_kobo = $amount_ghs * 100;
 
@@ -36,10 +75,13 @@ $fields = [
     "amount" => $amount_kobo,
     "currency" => "GHS",
     "callback_url" =>
-        "http://localhost/project-bonten/views/verify_payment.html", // UPDATE THIS URL
+        "http://localhost/project-bonten/views/verify_payment.php", // UPDATE THIS URL
     "metadata" => [
+        "event_id" => $event_id,
         "regular_quantity" => $regular_quantity,
         "vip_quantity" => $vip_quantity,
+        "regular_ticket_id" => $regular_ticket_id,
+        "vip_ticket_id" => $vip_ticket_id,
     ],
 ];
 
@@ -67,33 +109,30 @@ $response = json_decode($result, true);
 
 // 6. Save to Database using MySQLi
 if ($response["status"]) {
-    // Connect using your class
-    $database = new Database();
-    $conn = $database->connect();
-
     $reference = $response["data"]["reference"];
     $status = "pending";
-    
+
     // Construct ticket type string (e.g., "Regular: 2, VIP: 1")
     $ticketTypeParts = [];
     if ($regular_quantity > 0) $ticketTypeParts[] = "Regular: $regular_quantity";
     if ($vip_quantity > 0) $ticketTypeParts[] = "VIP: $vip_quantity";
     $ticketType = implode(", ", $ticketTypeParts);
-    
+
     $total_quantity = $regular_quantity + $vip_quantity;
 
     // MySQLi Prepared Statement
     $stmt = $conn->prepare(
-        "INSERT INTO bookings (reference, email, ticket_type, quantity, amount, status) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO bookings (reference, email, event_id, ticket_type, quantity, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
     );
 
     if ($stmt) {
         // Types: s = string, i = integer, d = double
-        // order: reference(s), email(s), ticket_type(s), quantity(i), amount(d), status(s)
+        // order: reference(s), email(s), event_id(i), ticket_type(s), quantity(i), amount(d), status(s)
         $stmt->bind_param(
-            "sssiis",
+            "ssiisis",
             $reference,
             $email,
+            $event_id,
             $ticketType,
             $total_quantity,
             $amount_ghs,

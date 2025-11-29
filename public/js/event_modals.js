@@ -53,17 +53,19 @@ if (rsvpBtn) {
 
 if (ticketsBtn) {
     ticketsBtn.addEventListener('click', () => {
-        
+
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
-       
+        // Check if user is logged in (password field won't exist)
+        const isLoggedIn = !passwordInput;
+
         const isEmailValid = validateEmailField(emailInput);
 
-      
-        const isPasswordValid = validatePasswordField(passwordInput);
+        // Only validate password if user is not logged in
+        const isPasswordValid = isLoggedIn ? true : validatePasswordField(passwordInput);
 
-       
+
         if (isEmailValid && isPasswordValid) {
             rsvpModal.style.display = 'none';
             ticketsModal.style.display = 'flex';
@@ -88,15 +90,19 @@ modalOverlays.forEach(overlay => {
 
 
 const qtyButtons = document.querySelectorAll('.qty-btn');
-const regularPrice = 150;
-const vipPrice = 300;
+// Use prices from PHP if available, otherwise fallback to defaults
+const regularPriceFromDB = typeof regularPrice !== 'undefined' ? regularPrice : 150;
+const vipPriceFromDB = typeof vipPrice !== 'undefined' ? vipPrice : 300;
 
 function updateTotals() {
-    const regularQty = parseInt(document.getElementById('regular').value) || 0;
-    const vipQty = parseInt(document.getElementById('vip').value) || 0;
+    const regularInput = document.getElementById('regular');
+    const vipInput = document.getElementById('vip');
 
-    const regularTotal = regularQty * regularPrice;
-    const vipTotal = vipQty * vipPrice;
+    const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
+    const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
+
+    const regularTotal = regularQty * regularPriceFromDB;
+    const vipTotal = vipQty * vipPriceFromDB;
     const grandTotal = regularTotal + vipTotal;
 
     document.getElementById('regular-subtotal').textContent = regularTotal.toFixed(2);
@@ -109,9 +115,12 @@ qtyButtons.forEach(btn => {
         const target = btn.getAttribute('data-target');
         const input = document.getElementById(target);
         let value = parseInt(input.value);
+        const maxQty = parseInt(input.getAttribute('max')) || 999;
 
-        if (btn.classList.contains('plus')) {
+        if (btn.classList.contains('plus') && value < maxQty) {
             input.value = value + 1;
+        } else if (btn.classList.contains('plus') && value >= maxQty) {
+            alert('No more tickets available for this type.');
         } else if (btn.classList.contains('minus') && value > 0) {
             input.value = value - 1;
         }
@@ -129,12 +138,18 @@ if (checkoutBtn) {
 
 function payWithPaystack() {
     const email = document.getElementById('email').value;
-    const regularQty = parseInt(document.getElementById('regular').value) || 0;
-    const vipQty = parseInt(document.getElementById('vip').value) || 0;
+    const regularInput = document.getElementById('regular');
+    const vipInput = document.getElementById('vip');
+
+    const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
+    const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
+
+    // Get event_id from global scope (set by PHP)
+    const currentEventId = typeof eventId !== 'undefined' ? eventId : 0;
 
     if (!email) {
         alert('Please enter your email in the RSVP form first.');
-       
+
         ticketsModal.style.display = 'none';
         rsvpModal.style.display = 'flex';
         return;
@@ -145,12 +160,17 @@ function payWithPaystack() {
         return;
     }
 
+    if (currentEventId === 0) {
+        alert('Error: Event information is missing.');
+        return;
+    }
+
     const checkoutBtn = document.getElementById('checkout-btn');
     const originalText = checkoutBtn.innerText;
     checkoutBtn.innerText = 'Processing...';
     checkoutBtn.disabled = true;
 
-   
+
     fetch('../src/Controllers/initialize_transaction.php', {
         method: 'POST',
         headers: {
@@ -158,6 +178,7 @@ function payWithPaystack() {
         },
         body: JSON.stringify({
             email: email,
+            event_id: currentEventId,
             regular_quantity: regularQty,
             vip_quantity: vipQty
         })
