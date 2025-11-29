@@ -13,7 +13,7 @@ $conn = $db->connect();
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user data
+
 $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -154,7 +154,7 @@ $db->close();
                     </div>
                 </section>
 
-                <!-- Past Events Section -->
+                
                 <section class="history-section">
                     <div class="section-header">
                         <h2 class="section-title" data-translate="pastEvents">Past Events</h2>
@@ -247,7 +247,7 @@ $db->close();
 
     </div>
 
-    <!-- Cancel RSVP Modal -->
+
     <div id="cancel-modal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-content cancel-modal-content">

@@ -93,7 +93,7 @@ $last_name = $name_parts[1] ?? '';
 
             <nav class="nav-menu">
                 <a href="./manager_dashboard.php" class="nav-item">Home</a>
-                <a href="./manager_history.html" class="nav-item">History</a>
+                <a href="./manager_history.php" class="nav-item">History</a>
                 <a href="./create_event.html" class="nav-item">Create Event</a>
             </nav>
 

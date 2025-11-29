@@ -1,3 +1,56 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
+    header("Location: index.php");
+    exit();
+}
+
+require_once '../config/Database.php';
+
+$db = new Database();
+$conn = $db->connect();
+
+$manager_id = $_SESSION['user_id'];
+$full_name = $_SESSION['full_name'];
+$profile_picture = $_SESSION['profile_picture'];
+
+// Get summary statistics
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM events WHERE manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$total_events = $stmt->get_result()->fetch_assoc()['total'];
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT SUM(t.sold) as total_sold
+                        FROM tickets t
+                        JOIN events e ON t.event_id = e.event_id
+                        WHERE e.manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$tickets_sold = $stmt->get_result()->fetch_assoc()['total_sold'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as total_revenue
+                        FROM tickets t
+                        JOIN events e ON t.event_id = e.event_id
+                        WHERE e.manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$total_revenue = $stmt->get_result()->fetch_assoc()['total_revenue'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT AVG(r.rating) as avg_rating
+                        FROM reviews r
+                        JOIN events e ON r.event_id = e.event_id
+                        WHERE e.manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
+$stmt->close();
+
+$db->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +67,7 @@
     <div class="container">
 
         <aside class="sidebar">
-            <a href="./manager_dashboard.html" style="text-decoration: none;">
+            <a href="./manager_dashboard.php" style="text-decoration: none;">
                 <div class="logo">
                     <h3 class="left">Bon</h3>
                     <h3>ten</h3>
@@ -22,31 +75,31 @@
             </a>
 
             <nav class="nav-menu">
-                <a href="./manager_dashboard.html" class="nav-item">Home</a>
-                <a href="./manager_history.html" class="nav-item active">History</a>
-                <a href="./create_event.html" class="nav-item">Create Event</a>
+                <a href="./manager_dashboard.php" class="nav-item">Home</a>
+                <a href="./manager_history.php" class="nav-item active">History</a>
+                <a href="./create_event.php" class="nav-item">Create Event</a>
             </nav>
 
             <div class="lower-menu">
-                <a href="./manager_settings.html" class="nav-item">Settings</a>
-                <a href="./index.html" class="logout">Logout</a>
+                <a href="./manager_settings.php" class="nav-item">Settings</a>
+                <a href="./index.php" class="logout">Logout</a>
             </div>
 
         </aside>
 
         <div class="topnav">
             <a
-                href="./manager_settings.html"
+                href="./manager_settings.php"
                 class="user_section"
                 style="cursor: pointer; text-decoration: none"
             >
                 <img
-                    src="../public/assets/jerome.jpeg"
+                    src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
                     alt="Profile Picture"
                     class="profile_picture"
                 />
                 <div class="user_info">
-                    <h4 class="username" id="managerName">Jerome Adedze</h4>
+                    <h4 class="username" id="managerName"><?php echo htmlspecialchars($full_name); ?></h4>
                 </div>
             </a>
 
@@ -96,22 +149,22 @@
             <!-- Stats Summary -->
             <div class="stats-summary">
                 <div class="stat-item">
-                    <span class="stat-value" id="totalEvents">0</span>
+                    <span class="stat-value" id="totalEvents"><?php echo $total_events; ?></span>
                     <span class="stat-label">Total Events</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
-                    <span class="stat-value" id="totalTicketsSold">0</span>
+                    <span class="stat-value" id="totalTicketsSold"><?php echo number_format($tickets_sold); ?></span>
                     <span class="stat-label">Tickets Sold</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
-                    <span class="stat-value" id="totalRevenue">GHC 0</span>
+                    <span class="stat-value" id="totalRevenue">GHC <?php echo number_format($total_revenue); ?></span>
                     <span class="stat-label">Total Revenue</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
-                    <span class="stat-value" id="avgRating">0.0</span>
+                    <span class="stat-value" id="avgRating"><?php echo number_format($avg_rating, 1); ?></span>
                     <span class="stat-label">Avg. Rating</span>
                 </div>
             </div>
@@ -273,6 +326,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="managerIdData" value="<?php echo $manager_id; ?>">
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>

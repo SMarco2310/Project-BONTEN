@@ -1,5 +1,5 @@
 <?php
-// api/verify_transaction.php
+
 header("Content-Type: application/json");
 include_once "../../config/Database.php";
 
@@ -8,7 +8,7 @@ $secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3"; // REPLACE THI
 if (isset($_GET["reference"])) {
     $reference = $_GET["reference"];
 
-    // Verify with Paystack
+
     $curl = curl_init();
     curl_setopt_array($curl, [
         CURLOPT_URL =>
@@ -33,7 +33,7 @@ if (isset($_GET["reference"])) {
     $result = json_decode($response, true);
 
     if ($result["status"] && $result["data"]["status"] === "success") {
-        // Update Database using MySQLi
+        
         $database = new Database();
         $conn = $database->connect();
 

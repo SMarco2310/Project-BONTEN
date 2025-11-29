@@ -13,7 +13,7 @@ $conn = $db->connect();
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch user data
+
 $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -23,6 +23,23 @@ $stmt->close();
 
 $full_name = $user['full_name'] ?? 'User';
 $profile_picture = $user['profile_picture'] ?? 'user.jpg';
+
+
+$events = [];
+$stmt = $conn->prepare("
+    SELECT e.event_id, e.name, e.description, e.image_path, e.location, e.city,
+           e.event_date, e.event_time, c.name as category_name
+    FROM events e
+    LEFT JOIN categories c ON e.category_id = c.category_id
+    WHERE e.status = 'active'
+    ORDER BY e.event_date ASC, e.created_at DESC
+");
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $events[] = $row;
+}
+$stmt->close();
 
 $db->close();
 ?>
@@ -118,246 +135,34 @@ $db->close();
 
                 <!-- Trending Events Section -->
                 <section class="events-section">
-                    <h2 class="section-title" data-translate="trendingEvents">Trending Events</h2>
+                    <h2 class="section-title" data-translate="trendingEvents">All Events</h2>
                     <div class="carousel-wrapper">
                         <button class="carousel-arrow prev">‹</button>
                         <div class="events-carousel" id="trending-carousel">
 
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/a.png" alt="Afro Nation">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Afro Nation</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> East Legon </span>
+                            <?php if (count($events) > 0): ?>
+                                <?php foreach ($events as $event): ?>
+                                <a href="event.php?id=<?php echo $event['event_id']; ?>" style="text-decoration: none; color: inherit;">
+                                    <div class="event-card">
+                                        <div class="card-image">
+                                            <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/hero.png'); ?>"
+                                                 alt="<?php echo htmlspecialchars($event['name']); ?>">
+                                            <span class="event-badge"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
+                                        </div>
+                                        <div class="card-content">
+                                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                            <div class="event-meta">
+                                                <span class="event-location"><?php echo htmlspecialchars($event['city'] ?? $event['location']); ?></span>
+                                            </div>
+                                        </div>
                                     </div>
+                                </a>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div style="padding: 40px; text-align: center; color: #999;">
+                                    <p>No events available at the moment. Check back soon!</p>
                                 </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/sank.jpg" alt="Sankrofi">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name"> Sankrofi </h3>
-                                    <div class="event-meta">
-                                        <span class="event-location">  Asahley Botwe </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/phoenix.avif" alt="Phoenix">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name"> Phoenix</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Kumasi </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/bO.jpg" alt="Band Out!">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Band Out!</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Oyarifa</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/osibisa.avif" alt="Osibisa">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Osibisa</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Jazz Bar</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <button class="carousel-arrow next">›</button>
-                    </div>
-                </section>
-
-
-                                <!-- Events Around You Section -->
-                <section class="events-section">
-                    <h2 class="section-title" data-translate="eventsSuggestedForYou">Events Around You</h2>
-                    <div class="carousel-wrapper">
-                        <button class="carousel-arrow prev">‹</button>
-                        <div class="events-carousel" id="suggested-carousel">
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/tgma.jpg" alt="TGMA">
-                                    <span class="event-badge">Awards Ceremony</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">TGMA</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> AICC </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/waakye.JPG" alt="Waakye Festival">
-                                    <span class="event-badge">Food Festival</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Waakye Festival</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Adenta </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/gh.jpg" alt=" Black Stars">
-                                    <span class="event-badge">Football</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Ghana World Cup Qualifiers </h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Accra Sports Stadium</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/nsmq.jpg" alt="NSMQ">
-                                    <span class="event-badge">Quiz</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">NSMQ</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> AICC </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/beehive.webp" alt="Beehive Festival">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name"> Beehive Festival</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Bloombar </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <button class="carousel-arrow next">›</button>
-                    </div>
-                </section>
-
-
-                                <!-- Events Suggested For You Section -->
-                <section class="events-section">
-                    <h2 class="section-title" data-translate="eventsSuggestedForYou">Events Suggested For You</h2>
-                    <div class="carousel-wrapper">
-                        <button class="carousel-arrow prev">‹</button>
-                        <div class="events-carousel" id="suggested-carousel">
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/ashchella.jpg" alt="Ashchella">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Ashchella</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Ashesi University</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/y2k.JPG" alt="Y2K Neon">
-                                    <span class="event-badge">Beach</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Y2K Neon</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Lemon Beach</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/tidalrave.jpg" alt="Tidal Rave">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">Tidal Rave</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Labadi Beach</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/gff.jpg" alt="GFF">
-                                    <span class="event-badge">Food</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">GFF</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Accra Mall</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="event-card">
-                                <div class="card-image">
-                                    <img src="../public/assets/imullar.jpg" alt="iMullar">
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="event-name">iMullar</h3>
-                                    <div class="event-meta">
-                                        <span class="event-location"> Jazz Bar</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endif; ?>
 
                         </div>
                         <button class="carousel-arrow next">›</button>

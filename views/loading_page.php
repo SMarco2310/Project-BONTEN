@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// If user is already logged in, redirect them to appropriate page
+
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['user_type'] === 'manager') {
         header("Location: manager_dashboard.php");

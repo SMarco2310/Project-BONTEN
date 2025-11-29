@@ -42,7 +42,7 @@ function formatTimeAgo(date) {
 
 async function loadCommentsFromDatabase(eventId) {
     try {
-        const response = await fetch(`/api/events/${eventId}/comments`);
+        const response = await fetch(`../api/comments.php?action=list&event_id=${eventId}`);
         if (!response.ok) throw new Error('Failed to fetch comments');
         return await response.json();
     } catch (error) {
@@ -77,16 +77,29 @@ function renderComments(comments) {
 
 async function addComment(eventId, commentData) {
     try {
-        const response = await fetch(`/api/events/${eventId}/comments`, {
+        const response = await fetch(`../api/comments.php?action=add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(commentData)
+            body: JSON.stringify({
+                event_id: eventId,
+                comment: commentData.comment
+            })
         });
 
-        if (!response.ok) throw new Error('Failed to add comment');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to add comment');
+        }
 
-        const newComment = await response.json();
+        const result = await response.json();
+        const newComment = result.comment;
+
         const container = document.getElementById('comments-container');
+        const noCommentsDiv = container.querySelector('.no-comments');
+        if (noCommentsDiv) {
+            noCommentsDiv.remove();
+        }
+
         const commentElement = createCommentElement(newComment);
         container.insertBefore(commentElement, container.firstChild);
 
