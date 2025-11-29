@@ -294,7 +294,7 @@ body {
 }
 
 .event-location::before {
-    content: "📍";
+    content: "";
     margin-right: 4px;
     font-size: 11px;
 }
