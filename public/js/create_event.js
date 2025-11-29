@@ -78,7 +78,7 @@ class EventDataService {
         const draftId = 'draft_' + Date.now();
         console.log('Saving draft:', { id: draftId, ...eventData });
 
-        // Store in sessionStorage
+        
         const drafts = JSON.parse(sessionStorage.getItem('eventDrafts') || '[]');
         drafts.push({ id: draftId, ...eventData, status: 'draft', savedAt: new Date().toISOString() });
         sessionStorage.setItem('eventDrafts', JSON.stringify(drafts));
@@ -91,7 +91,7 @@ class EventDataService {
     }
 
     _getMockUploadImage(file) {
-        // Create a local URL for preview
+        
         const url = URL.createObjectURL(file);
         return Promise.resolve({
             success: true,
@@ -101,7 +101,7 @@ class EventDataService {
     }
 
     _getMockGetEvent(eventId) {
-        // Try to find event in sessionStorage
+        
         const events = JSON.parse(sessionStorage.getItem('createdEvents') || '[]');
         const event = events.find(e => e.id === eventId);
         return Promise.resolve(event || null);
@@ -110,7 +110,7 @@ class EventDataService {
     _getMockUpdateEvent(eventId, eventData) {
         console.log('Updating event:', { id: eventId, ...eventData });
 
-        // Update in sessionStorage
+        
         const events = JSON.parse(sessionStorage.getItem('createdEvents') || '[]');
         const index = events.findIndex(e => e.id === eventId);
 
@@ -240,9 +240,7 @@ class CreateEventController {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ========================================================================
-    // FORM VALIDATION
-    // ========================================================================
+
 
     validateCurrentStep() {
         const validations = {
@@ -263,7 +261,7 @@ class CreateEventController {
         const eventCategory = document.getElementById('eventCategory');
         const eventDescription = document.getElementById('eventDescription');
 
-        // Clear previous errors
+        
         this.clearErrors();
 
         if (!eventName?.value.trim()) {
@@ -341,7 +339,7 @@ class CreateEventController {
             }
         }
 
-        // Validate location fields for in-person/hybrid events
+        
         if (eventType === 'in-person' || eventType === 'hybrid') {
             const venue = document.getElementById('eventVenue');
             const city = document.getElementById('eventCity');
@@ -457,7 +455,7 @@ class CreateEventController {
 
 
     setupFormInputs() {
-        // Character counters
+       
         const eventName = document.getElementById('eventName');
         const eventDescription = document.getElementById('eventDescription');
         const nameCount = document.getElementById('nameCount');
@@ -479,7 +477,7 @@ class CreateEventController {
             this.hasUnsavedChanges = true;
         });
 
-        // Set min date to today
+        
         const today = new Date().toISOString().split('T')[0];
         const startDate = document.getElementById('eventStartDate');
         const endDate = document.getElementById('eventEndDate');
@@ -498,9 +496,7 @@ class CreateEventController {
         });
     }
 
-    // ========================================================================
-    // IMAGE UPLOAD
-    // ========================================================================
+
 
     setupImageUpload() {
         const imagePreview = document.getElementById('imagePreview');
@@ -514,7 +510,7 @@ class CreateEventController {
             const file = e.target.files?.[0];
             if (!file) return;
 
-            // Validate file
+            
             if (!file.type.startsWith('image/')) {
                 this.showToast('Please select an image file', 'error');
                 return;
@@ -527,14 +523,14 @@ class CreateEventController {
 
             this.imageFile = file;
 
-            // Show preview
+            
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.imagePreviewUrl = e.target.result;
                 imagePreview.style.backgroundImage = `url(${e.target.result})`;
                 imagePreview.classList.add('has-image');
 
-                // Add remove button if not exists
+               
                 if (!imagePreview.querySelector('.remove-image')) {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
@@ -552,7 +548,7 @@ class CreateEventController {
             this.hasUnsavedChanges = true;
         });
 
-        // Drag and drop
+        
         imagePreview?.addEventListener('dragover', (e) => {
             e.preventDefault();
             imagePreview.style.borderColor = 'var(--secondary-color)';
@@ -734,9 +730,7 @@ class CreateEventController {
         `).join('');
     }
 
-    // ========================================================================
-    // EVENT TYPE TOGGLE
-    // ========================================================================
+
 
     setupEventTypeToggle() {
         const eventTypeRadios = document.querySelectorAll('input[name="eventType"]');
@@ -758,10 +752,8 @@ class CreateEventController {
         });
     }
 
-    // ========================================================================
-    // REVIEW POPULATION
-    // ========================================================================
 
+    
     populateReview() {
         // Image
         const reviewImageSrc = document.getElementById('reviewImageSrc');
@@ -794,7 +786,7 @@ class CreateEventController {
         }
         document.getElementById('reviewDateTime').textContent = dateTimeStr;
 
-        // Location
+       
         let locationStr = '-';
         if (this.formData.eventType === 'online') {
             locationStr = `Online (${this.formData.platform || 'TBD'})`;
@@ -804,7 +796,7 @@ class CreateEventController {
         }
         document.getElementById('reviewLocation').textContent = locationStr;
 
-        // Tickets
+       
         const reviewTickets = document.getElementById('reviewTickets');
         if (reviewTickets) {
             if (this.formData.ticketType === 'free') {
@@ -907,16 +899,15 @@ class CreateEventController {
             this.isEditMode = true;
             this.editingEventId = editId;
 
-            // Try to load from sessionStorage first (passed from history page)
             const editData = sessionStorage.getItem('editEventData');
             if (editData) {
                 const eventData = JSON.parse(editData);
                 this.populateFormWithData(eventData);
-                sessionStorage.removeItem('editEventData'); // Clean up
+                sessionStorage.removeItem('editEventData'); 
                 this.updatePageTitle('Edit Event');
                 this.showToast('Editing event', 'info');
             } else {
-                // Fallback: fetch from API
+               
                 this.dataService.getEvent(editId).then(event => {
                     if (event) {
                         this.populateFormWithData(event);
@@ -930,7 +921,7 @@ class CreateEventController {
             return;
         }
 
-        // Handle duplicate mode
+    
         if (duplicateId) {
             this.isDuplicateMode = true;
 
@@ -938,14 +929,14 @@ class CreateEventController {
             if (duplicateData) {
                 const eventData = JSON.parse(duplicateData);
                 this.populateFormWithData(eventData);
-                sessionStorage.removeItem('duplicateEventData'); // Clean up
+                sessionStorage.removeItem('duplicateEventData');
                 this.updatePageTitle('Duplicate Event');
                 this.showToast('Creating copy of event', 'info');
             }
             return;
         }
 
-        // Handle draft mode (original functionality)
+        
         if (draftId) {
             const drafts = JSON.parse(sessionStorage.getItem('eventDrafts') || '[]');
             const draft = drafts.find(d => d.id === draftId);
@@ -958,14 +949,14 @@ class CreateEventController {
     }
 
     updatePageTitle(title) {
-        // Update page title
+        
         const pageTitle = document.querySelector('.create-event-header h1');
         if (pageTitle) pageTitle.textContent = title;
 
-        // Update browser tab title
+       
         document.title = `${title} - BONTEN`;
 
-        // Update publish button text for edit mode
+       
         if (this.isEditMode) {
             const publishBtn = document.getElementById('publishBtn');
             if (publishBtn) {
@@ -982,10 +973,10 @@ class CreateEventController {
     }
 
     populateFormWithData(data) {
-        // Store form data
+        
         this.formData = { ...data };
 
-        // ===== Step 1: Basic Information =====
+
         const eventName = document.getElementById('eventName');
         const eventCategory = document.getElementById('eventCategory');
         const eventVisibility = document.getElementById('eventVisibility');
@@ -1004,7 +995,7 @@ class CreateEventController {
             if (descCount) descCount.textContent = data.description.length;
         }
 
-        // Handle image
+      
         if (data.image || data.imageUrl) {
             const imagePreview = document.getElementById('imagePreview');
             this.imagePreviewUrl = data.image || data.imageUrl;
@@ -1012,7 +1003,7 @@ class CreateEventController {
                 imagePreview.style.backgroundImage = `url(${this.imagePreviewUrl})`;
                 imagePreview.classList.add('has-image');
 
-                // Add remove button
+               
                 if (!imagePreview.querySelector('.remove-image')) {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
@@ -1058,7 +1049,7 @@ class CreateEventController {
         if (data.streamUrl && eventStreamUrl) eventStreamUrl.value = data.streamUrl;
         if (data.capacity && eventCapacity) eventCapacity.value = data.capacity;
 
-        // Handle event type
+       
         if (data.eventType) {
             const eventTypeRadio = document.querySelector(`input[name="eventType"][value="${data.eventType}"]`);
             if (eventTypeRadio) {
@@ -1073,7 +1064,8 @@ class CreateEventController {
         const collectPhone = document.getElementById('collectPhone');
         const allowRefunds = document.getElementById('allowRefunds');
 
-        // Handle ticket type
+
+        
         if (data.ticketType) {
             const ticketTypeRadio = document.querySelector(`input[name="ticketType"][value="${data.ticketType}"]`);
             if (ticketTypeRadio) {
@@ -1094,7 +1086,7 @@ class CreateEventController {
 
         if (data.freeQuantity && freeTicketQuantity) freeTicketQuantity.value = data.freeQuantity;
 
-        // Handle paid tickets
+
         if (data.tickets && data.tickets.length > 0) {
             this.tickets = data.tickets.map((ticket, index) => ({
                 ...ticket,
@@ -1104,7 +1096,6 @@ class CreateEventController {
             this.renderTickets();
         }
 
-        // Handle checkboxes
         if (data.requireApproval !== undefined && requireApproval) requireApproval.checked = data.requireApproval;
         if (data.collectPhone !== undefined && collectPhone) collectPhone.checked = data.collectPhone;
         if (data.allowRefunds !== undefined && allowRefunds) allowRefunds.checked = data.allowRefunds;
@@ -1112,12 +1103,12 @@ class CreateEventController {
 
 
     setupModals() {
-        // Success modal
+       
         const viewEventBtn = document.getElementById('viewEventBtn');
         const goToDashboardBtn = document.getElementById('goToDashboardBtn');
 
         viewEventBtn?.addEventListener('click', () => {
-            // Navigate to event page
+          
             this.showToast('Redirecting to event...');
             setTimeout(() => {
                 window.location.href = 'manager_history.html';
@@ -1128,7 +1119,7 @@ class CreateEventController {
             window.location.href = 'manager_dashboard.html';
         });
 
-        // Discard modal
+       
         const discardModal = document.getElementById('discard-modal');
         const keepEditingBtn = document.getElementById('keepEditingBtn');
         const discardBtn = document.getElementById('discardBtn');
@@ -1142,7 +1133,7 @@ class CreateEventController {
             window.location.href = 'manager_dashboard.html';
         });
 
-        // Close buttons
+   
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = btn.closest('.modal');
@@ -1150,7 +1141,7 @@ class CreateEventController {
             });
         });
 
-        // Overlay clicks
+     
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', () => {
                 const modal = overlay.closest('.modal');
@@ -1187,7 +1178,7 @@ class CreateEventController {
             }
         });
 
-        // Handle sidebar navigation clicks
+        
         document.querySelectorAll('.nav-item, .logout').forEach(link => {
             link.addEventListener('click', (e) => {
                 if (this.hasUnsavedChanges) {

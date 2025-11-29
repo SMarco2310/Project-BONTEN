@@ -1,6 +1,5 @@
-// Event page modal functionality
 
-// Modal functionality
+
 const rsvpModal = document.getElementById('rsvp-modal');
 const ticketsModal = document.getElementById('tickets-modal');
 const rsvpBtn = document.getElementById('rsvp-btn');
@@ -8,22 +7,71 @@ const ticketsBtn = document.getElementById('tickets-btn');
 const closeButtons = document.querySelectorAll('.modal-close');
 const modalOverlays = document.querySelectorAll('.modal-overlay');
 
-// Open RSVP modal
+
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+
+if (emailInput) {
+    
+    emailInput.addEventListener('input', () => {
+        if (emailInput.value.length > 0) {
+            removeError(emailInput);
+        }
+    });
+
+    
+    emailInput.addEventListener('blur', () => {
+        if (emailInput.value.length > 0) {
+            validateEmailField(emailInput);
+        }
+    });
+}
+
+if (passwordInput) {
+   
+    passwordInput.addEventListener('input', () => {
+        if (passwordInput.value.length > 0) {
+            removeError(passwordInput);
+        }
+    });
+
+
+    passwordInput.addEventListener('blur', () => {
+        if (passwordInput.value.length > 0) {
+            validatePasswordField(passwordInput);
+        }
+    });
+}
+
+
 if (rsvpBtn) {
     rsvpBtn.addEventListener('click', () => {
         rsvpModal.style.display = 'flex';
     });
 }
 
-// Open Tickets modal from RSVP modal
+
 if (ticketsBtn) {
     ticketsBtn.addEventListener('click', () => {
-        rsvpModal.style.display = 'none';
-        ticketsModal.style.display = 'flex';
+        
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+       
+        const isEmailValid = validateEmailField(emailInput);
+
+      
+        const isPasswordValid = validatePasswordField(passwordInput);
+
+       
+        if (isEmailValid && isPasswordValid) {
+            rsvpModal.style.display = 'none';
+            ticketsModal.style.display = 'flex';
+        }
     });
 }
 
-// Close modals
+
 closeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         rsvpModal.style.display = 'none';
@@ -38,7 +86,7 @@ modalOverlays.forEach(overlay => {
     });
 });
 
-// Ticket quantity controls and Price Calculation
+
 const qtyButtons = document.querySelectorAll('.qty-btn');
 const regularPrice = 150;
 const vipPrice = 300;
@@ -72,7 +120,7 @@ qtyButtons.forEach(btn => {
 });
 
 
-// Paystack Payment Integration
+
 const checkoutBtn = document.getElementById('checkout-btn');
 
 if (checkoutBtn) {
@@ -86,7 +134,7 @@ function payWithPaystack() {
 
     if (!email) {
         alert('Please enter your email in the RSVP form first.');
-        // Switch back to RSVP modal
+       
         ticketsModal.style.display = 'none';
         rsvpModal.style.display = 'flex';
         return;
@@ -102,7 +150,7 @@ function payWithPaystack() {
     checkoutBtn.innerText = 'Processing...';
     checkoutBtn.disabled = true;
 
-    // Initialize transaction on backend
+   
     fetch('../src/Controllers/initialize_transaction.php', {
         method: 'POST',
         headers: {
@@ -126,9 +174,9 @@ function payWithPaystack() {
         .then(data => {
             if (data.status) {
                 const handler = PaystackPop.setup({
-                    key: data.public_key, // Get public key from backend response
+                    key: data.public_key, 
                     email: email,
-                    amount: data.amount, // Amount in kobo
+                    amount: data.amount, 
                     currency: 'GHS',
                     ref: data.reference,
                     onClose: function () {
@@ -136,10 +184,10 @@ function payWithPaystack() {
                     },
                     callback: function (response) {
                         alert('Payment successful! Reference: ' + response.reference);
-                        // Verify transaction on backend (optional but recommended)
-                        // window.location.href = 'verify_payment.html?reference=' + response.reference;
+
+
                         ticketsModal.style.display = 'none';
-                        // Reset form
+                        
                         document.getElementById('regular').value = 0;
                         document.getElementById('vip').value = 0;
                         updateTotals();

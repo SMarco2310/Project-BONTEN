@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Usage Examples</title>
+    <script src="./public/js/validation.js"></script>
+</head>
+<body>
+    <!--
+    ================================================================================
+    HOW TO USE VALIDATION IN YOUR LOGIN, SIGNUP, AND OTHER PAGES
+    ================================================================================
+    -->
+
+    <h1>Validation Usage Examples</h1>
+
+    <!--
+    ================================================================================
+    EXAMPLE 1: Basic Login Form
+    ================================================================================
+    -->
+    <h2>Example 1: Login Form</h2>
+    <form id="login-form">
+        <div>
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" placeholder="Enter your email">
+        </div>
+        <div>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" placeholder="Enter your password">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        // Login form validation
+        const loginForm = document.getElementById('login-form');
+        const loginEmail = document.getElementById('login-email');
+        const loginPassword = document.getElementById('login-password');
+
+        // Validate when user clicks submit
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop form from submitting
+
+            // Validate both fields
+            const isEmailValid = validateEmailField(loginEmail);
+            const isPasswordValid = validatePasswordField(loginPassword);
+
+            // If both are valid, proceed with login
+            if (isEmailValid && isPasswordValid) {
+                console.log('Form is valid! Proceeding with login...');
+                // Here you would send the data to your server
+                // fetch('/login', { ... })
+            }
+        });
+
+        // Optional: Real-time validation as user types
+        loginEmail.addEventListener('blur', () => {
+            if (loginEmail.value.length > 0) {
+                validateEmailField(loginEmail);
+            }
+        });
+
+        loginPassword.addEventListener('blur', () => {
+            if (loginPassword.value.length > 0) {
+                validatePasswordField(loginPassword);
+            }
+        });
+
+        // Clear errors when user starts typing
+        loginEmail.addEventListener('input', () => {
+            removeError(loginEmail);
+        });
+
+        loginPassword.addEventListener('input', () => {
+            removeError(loginPassword);
+        });
+    </script>
+
+    <hr>
+
+    <!--
+    ================================================================================
+    EXAMPLE 2: Simple Check Without UI
+    ================================================================================
+    -->
+    <h2>Example 2: Quick Validation (No UI)</h2>
+    <button onclick="checkEmailQuick()">Check if email is valid</button>
+
+    <script>
+        function checkEmailQuick() {
+            const email = 'test@example.com';
+
+            // Just check true/false - no error messages shown
+            if (isValidEmail(email)) {
+                console.log('Email is valid!');
+            } else {
+                console.log('Email is NOT valid!');
+            }
+
+            // Get a detailed error message
+            const errorMessage = getEmailError(email);
+            if (errorMessage) {
+                console.log('Error:', errorMessage);
+            }
+        }
+    </script>
+
+    <hr>
+
+    <!--
+    ================================================================================
+    STEP-BY-STEP GUIDE: How to add validation to ANY page
+    ================================================================================
+
+    STEP 1: Include the validation script in your HTML
+    -----------------------------------------------
+    <script src="../public/js/validation.js"></script>
+
+
+    STEP 2: Get your input elements
+    -----------------------------------------------
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+
+    STEP 3: Validate when form is submitted
+    -----------------------------------------------
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const isEmailValid = validateEmailField(emailInput);
+        const isPasswordValid = validatePasswordField(passwordInput);
+
+        if (isEmailValid && isPasswordValid) {
+            // Form is valid - proceed!
+        }
+    });
+
+
+    STEP 4 (Optional): Add real-time validation
+    -----------------------------------------------
+    emailInput.addEventListener('blur', () => {
+        validateEmailField(emailInput);
+    });
+
+    emailInput.addEventListener('input', () => {
+        removeError(emailInput);
+    });
+
+
+    ================================================================================
+    AVAILABLE FUNCTIONS:
+    ================================================================================
+
+    1. isValidEmail(email)
+       - Returns true/false
+       - Example: isValidEmail('test@example.com') → true
+
+    2. isValidPassword(password)
+       - Returns true/false
+       - Example: isValidPassword('12345') → false (too short)
+
+    3. getEmailError(email)
+       - Returns error message or empty string
+       - Example: getEmailError('test') → 'Email must contain @ symbol'
+
+    4. getPasswordError(password)
+       - Returns error message or empty string
+       - Example: getPasswordError('123') → 'Password must be at least 6 characters long'
+
+    5. validateEmailField(inputElement)
+       - Validates and shows error on screen
+       - Returns true/false
+
+    6. validatePasswordField(inputElement)
+       - Validates and shows error on screen
+       - Returns true/false
+
+    7. showError(inputElement, message)
+       - Manually show an error on any input
+
+    8. removeError(inputElement)
+       - Remove error from an input
+
+    ================================================================================
+    -->
+
+</body>
+</html>
