@@ -7,6 +7,7 @@ CREATE TABLE users (
     username VARCHAR(100) NOT NULL,
     full_name VARCHAR(255),
     phone VARCHAR(20),
+    profile_picture VARCHAR(500) DEFAULT 'user.jpg',
     user_type ENUM('user', 'manager') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

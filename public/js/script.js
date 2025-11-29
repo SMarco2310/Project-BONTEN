@@ -47,81 +47,7 @@ switchToSignUpLink.addEventListener("click", (e) => {
 // Initially, show the login form and hide the sign-up form
 showLoginForm();
 
-// Handle signup form submission - redirect based on role
-signUpForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const roleField = document.getElementById("role-field");
-  const selectedRole = roleField.value;
-
-  // Store user data in sessionStorage for use in dashboard
-  const firstName = document.getElementById("first-name-field").value;
-  const lastName = document.getElementById("last-name-field").value;
-  const email = document.getElementById("email-field").value;
-
-  sessionStorage.setItem(
-    "userData",
-    JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      role: selectedRole,
-    })
-  );
-
-  // Redirect based on role
-  if (selectedRole === "event-organizer") {
-    window.location.href = "./manager_dashboard.html";
-  } else {
-    window.location.href = "./user_homepage.html";
-  }
-});
-
-// Handle login form submission
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const email = loginForm.querySelector("#email-field").value;
-
-  // For demo purposes, check if user data exists in sessionStorage
-  // In production, this would validate credentials against database
-  const storedUserData = sessionStorage.getItem("userData");
-
-  if (storedUserData) {
-    const userData = JSON.parse(storedUserData);
-    // Redirect based on stored role
-    if (userData.role === "event-organizer") {
-      window.location.href = "./manager_dashboard.html";
-    } else {
-      window.location.href = "./user_homepage.html";
-    }
-  } else {
-    // Demo mode: Check email pattern for role (manager emails contain 'manager' or 'organizer')
-    // Or default to user homepage
-    const isManager =
-      email.toLowerCase().includes("manager") ||
-      email.toLowerCase().includes("organizer") ||
-      email.toLowerCase().includes("admin");
-
-    // Store mock user data
-    sessionStorage.setItem(
-      "userData",
-      JSON.stringify({
-        firstName: "Demo",
-        lastName: "User",
-        email: email,
-        role: isManager ? "event-organizer" : "user",
-      })
-    );
-
-    if (isManager) {
-      window.location.href = "./manager_dashboard.html";
-    } else {
-      window.location.href = "./user_homepage.html";
-    }
-  }
-});
-
+// Password visibility toggle
 function togglePasswordVisibility() {
   const passwordField = document.getElementById("password-field");
   const eyeIcon = document.getElementById("eye-icon");
@@ -138,6 +64,7 @@ function togglePasswordVisibility() {
 
 passwordFieldBtn.addEventListener("click", togglePasswordVisibility);
 
+// Background image slideshow
 const images = [
   "../public/assets/ashchella.JPG",
   "../public/assets/imullar.jpg",
@@ -159,3 +86,42 @@ setInterval(changeBackgroundImage, 2500);
 
 // Initial call to set a background image when the page loads
 changeBackgroundImage();
+
+// Password validation function (called from form onsubmit)
+function validatePassword() {
+  const passwordField = document.getElementById("password-field");
+  const password = passwordField.value;
+  const passwordCue = document.getElementById("password-cue");
+
+  // Check if password meets requirements
+  if (password.length < 8) {
+    passwordCue.textContent = "Password must be at least 8 characters long";
+    passwordCue.style.color = "red";
+    return false;
+  }
+
+  const hasNumber = /[0-9]/.test(password);
+  if (!hasNumber) {
+    passwordCue.textContent = "Password must contain at least one number";
+    passwordCue.style.color = "red";
+    return false;
+  }
+
+  const hasUppercase = /[A-Z]/.test(password);
+  if (!hasUppercase) {
+    passwordCue.textContent = "Password must contain at least one uppercase letter";
+    passwordCue.style.color = "red";
+    return false;
+  }
+
+  const hasLowercase = /[a-z]/.test(password);
+  if (!hasLowercase) {
+    passwordCue.textContent = "Password must contain at least one lowercase letter";
+    passwordCue.style.color = "red";
+    return false;
+  }
+
+  // Clear any error messages
+  passwordCue.textContent = "";
+  return true;
+}
