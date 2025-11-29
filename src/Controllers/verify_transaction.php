@@ -1,7 +1,7 @@
 <?php
 // api/verify_transaction.php
 header("Content-Type: application/json");
-require_once "../../config/Database.php";
+include_once "../../config/Database.php";
 
 $secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3"; // REPLACE THIS
 

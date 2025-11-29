@@ -129,6 +129,7 @@ function payWithPaystack() {
                     key: data.public_key, // Get public key from backend response
                     email: email,
                     amount: data.amount, // Amount in kobo
+                    currency: 'GHS',
                     ref: data.reference,
                     onClose: function () {
                         alert('Transaction was closed.');
