@@ -17,7 +17,6 @@ class ManagerSettingsController {
         this.setupNavigationHandlers();
         this.setupProfileHandlers();
         this.setupPaymentHandlers();
-        this.setupNotificationHandlers();
         this.setupSecurityHandlers();
         this.setupModalHandlers();
     }
@@ -385,51 +384,11 @@ class ManagerSettingsController {
 
 
 
-    setupNotificationHandlers() {
-        const notificationsForm = document.getElementById('notificationsForm');
-
-        notificationsForm?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.saveNotificationPreferences();
-        });
-    }
-
-    saveNotificationPreferences() {
-        const preferences = {
-            emailTicketSales: document.getElementById('emailTicketSales')?.checked,
-            emailEventReminders: document.getElementById('emailEventReminders')?.checked,
-            emailReviews: document.getElementById('emailReviews')?.checked,
-            emailPayouts: document.getElementById('emailPayouts')?.checked,
-            smsEventAlerts: document.getElementById('smsEventAlerts')?.checked,
-            smsUrgent: document.getElementById('smsUrgent')?.checked
-        };
-
-        sessionStorage.setItem('notificationPreferences', JSON.stringify(preferences));
-        this.showToast('Notification preferences saved', 'success');
-    }
-
-
     setupSecurityHandlers() {
         const updatePasswordBtn = document.getElementById('updatePasswordBtn');
-        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-        const enable2FA = document.getElementById('enable2FA');
 
         updatePasswordBtn?.addEventListener('click', () => {
             this.updatePassword();
-        });
-
-        deleteAccountBtn?.addEventListener('click', () => {
-            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                this.showToast('Account deletion requested. You will receive a confirmation email.', 'info');
-            }
-        });
-
-        enable2FA?.addEventListener('change', () => {
-            if (enable2FA.checked) {
-                this.showToast('2FA enabled. Set up your authenticator app.', 'success');
-            } else {
-                this.showToast('2FA disabled', 'info');
-            }
         });
     }
 

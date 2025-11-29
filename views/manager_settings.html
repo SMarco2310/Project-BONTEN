@@ -72,13 +72,6 @@
                         </svg>
                         Payment Details
                     </button>
-                    <button class="settings-nav-item" data-section="notifications">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg>
-                        Notifications
-                    </button>
                     <button class="settings-nav-item" data-section="security">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -272,88 +265,6 @@
                         </div>
                     </section>
 
-                    <!-- Notifications Section -->
-                    <section class="settings-section" id="notifications-section">
-                        <div class="section-header">
-                            <h2>Notification Preferences</h2>
-                            <p>Choose how you want to be notified</p>
-                        </div>
-
-                        <form id="notificationsForm" class="settings-form">
-                            <div class="notification-group">
-                                <h4>Email Notifications</h4>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Ticket Sales</span>
-                                        <span class="toggle-description">Get notified when someone buys a ticket</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="emailTicketSales" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Event Reminders</span>
-                                        <span class="toggle-description">Reminders before your events start</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="emailEventReminders" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Reviews & Ratings</span>
-                                        <span class="toggle-description">When attendees leave reviews</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="emailReviews" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Payout Notifications</span>
-                                        <span class="toggle-description">When payouts are processed</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="emailPayouts" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="notification-group">
-                                <h4>SMS Notifications</h4>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Event Day Alerts</span>
-                                        <span class="toggle-description">SMS reminders on event day</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="smsEventAlerts" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Urgent Updates</span>
-                                        <span class="toggle-description">Critical issues that need attention</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="smsUrgent" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="submit" class="btn-primary">Save Preferences</button>
-                            </div>
-                        </form>
-                    </section>
-
                     <!-- Security Section -->
                     <section class="settings-section" id="security-section">
                         <div class="section-header">
@@ -379,26 +290,6 @@
                                 <button type="button" class="btn-secondary" id="updatePasswordBtn">Update Password</button>
                             </div>
 
-                            <div class="security-item">
-                                <h4>Two-Factor Authentication</h4>
-                                <p class="security-description">Add an extra layer of security to your account</p>
-                                <div class="toggle-item">
-                                    <div class="toggle-info">
-                                        <span class="toggle-label">Enable 2FA</span>
-                                        <span class="toggle-description">Use authenticator app for login</span>
-                                    </div>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="enable2FA">
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="security-item danger-zone">
-                                <h4>Danger Zone</h4>
-                                <p class="security-description">These actions are irreversible</p>
-                                <button type="button" class="btn-danger" id="deleteAccountBtn">Delete Account</button>
-                            </div>
                         </form>
                     </section>
                 </div>

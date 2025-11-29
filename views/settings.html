@@ -64,7 +64,6 @@
                     <!-- Settings Navigation -->
                     <div class="settings-tabs">
                         <button class="settings-tab active" data-section="profile">Profile</button>
-                        <button class="settings-tab" data-section="notifications">Notifications</button>
                         <button class="settings-tab" data-section="security">Security</button>
                     </div>
 
@@ -100,17 +99,6 @@
                                 <div class="form-group">
                                     <label for="gender" data-translate="gender">Gender</label>
                                     <input type="text" id="gender" placeholder="Male" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="language" data-translate="language">Language</label>
-                                    <select id="language" disabled>
-                                        <option value="en" selected>English</option>
-                                        <option value="fr">Français (French)</option>
-                                        <option value="es">Español (Spanish)</option>
-                                        <option value="de">Deutsch (German)</option>
-                                        <option value="tw">Twi</option>
-                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -179,82 +167,6 @@
                         </div>
                     </div>
 
-                    <!-- Notifications Section -->
-                    <div class="settings-panel" id="notifications-panel">
-                        <h2 class="panel-title">Notification Preferences</h2>
-                        <p class="panel-subtitle">Choose how you want to be notified about events and updates</p>
-
-                        <div class="notification-group">
-                            <h4>Email Notifications</h4>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Event Updates</span>
-                                    <span class="toggle-description">Updates about events you're attending</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="emailEventUpdates" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Event Reminders</span>
-                                    <span class="toggle-description">Reminders before events you're attending</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="emailReminders" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Promotional Emails</span>
-                                    <span class="toggle-description">Special offers and new events</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="emailPromo">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Weekly Digest</span>
-                                    <span class="toggle-description">Summary of upcoming events in your area</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="emailDigest" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="notification-group">
-                            <h4>Push Notifications</h4>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Event Day Alerts</span>
-                                    <span class="toggle-description">Notifications on event day</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="pushEventDay" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Ticket Confirmations</span>
-                                    <span class="toggle-description">When your ticket purchase is confirmed</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="pushTickets" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <button class="save-btn" id="saveNotificationsBtn">Save Preferences</button>
-                    </div>
-
                     <!-- Security Section -->
                     <div class="settings-panel" id="security-panel">
                         <h2 class="panel-title">Security Settings</h2>
@@ -277,38 +189,6 @@
                             <button class="secondary-btn" id="updatePasswordBtn">Update Password</button>
                         </div>
 
-                        <div class="security-item">
-                            <h4>Two-Factor Authentication</h4>
-                            <p class="security-description">Add an extra layer of security to your account</p>
-                            <div class="toggle-item">
-                                <div class="toggle-info">
-                                    <span class="toggle-label">Enable 2FA</span>
-                                    <span class="toggle-description">Use SMS or authenticator app for login</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="enable2FA">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="security-item">
-                            <h4>Active Sessions</h4>
-                            <p class="security-description">Devices currently logged into your account</p>
-                            <div class="session-item">
-                                <div class="session-info">
-                                    <span class="session-device">Chrome on MacOS</span>
-                                    <span class="session-location">Accra, Ghana - Current session</span>
-                                </div>
-                            </div>
-                            <button class="secondary-btn" id="logoutAllBtn">Logout All Devices</button>
-                        </div>
-
-                        <div class="danger-zone">
-                            <h4>Danger Zone</h4>
-                            <p class="security-description">These actions are irreversible</p>
-                            <button class="danger-btn" id="deleteAccountBtn">Delete Account</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -324,7 +204,6 @@
         // Get all form fields
         const fullnameInput = document.getElementById('fullname');
         const genderInput = document.getElementById('gender');
-        const languageSelect = document.getElementById('language');
         const countrySelect = document.getElementById('country');
         const timezoneSelect = document.getElementById('timezone');
         const emailInput = document.getElementById('email-input');
@@ -332,26 +211,22 @@
 
         mainEditBtn.addEventListener('click', () => {
             if (!isEditing) {
-                
+                // Enable editing mode
                 isEditing = true;
-                const lang = localStorage.getItem('userLanguage') || 'en';
-                const t = translations[lang] || translations['en'];
-                mainEditBtn.textContent = t.save || 'Save';
-                mainEditBtn.style.backgroundColor = '#28a745'; 
+                mainEditBtn.textContent = 'Save';
+                mainEditBtn.style.backgroundColor = '#28a745';
 
-                
+                // Enable all inputs
                 fullnameInput.removeAttribute('readonly');
                 genderInput.removeAttribute('readonly');
-                languageSelect.removeAttribute('disabled');
                 countrySelect.removeAttribute('disabled');
                 timezoneSelect.removeAttribute('disabled');
                 emailInput.removeAttribute('readonly');
                 phoneInput.removeAttribute('readonly');
 
-                
+                // Add visual feedback
                 fullnameInput.style.borderColor = 'var(--secondary-color)';
                 genderInput.style.borderColor = 'var(--secondary-color)';
-                languageSelect.style.borderColor = 'var(--secondary-color)';
                 countrySelect.style.borderColor = 'var(--secondary-color)';
                 timezoneSelect.style.borderColor = 'var(--secondary-color)';
                 emailInput.style.borderColor = 'var(--secondary-color)';
@@ -359,15 +234,12 @@
             } else {
                 // Save changes and disable editing
                 isEditing = false;
-                const lang = localStorage.getItem('userLanguage') || 'en';
-                const t = translations[lang] || translations['en'];
-                mainEditBtn.textContent = t.edit || 'Edit';
-                mainEditBtn.style.backgroundColor = ''; 
+                mainEditBtn.textContent = 'Edit';
+                mainEditBtn.style.backgroundColor = '';
 
                 // Disable all inputs
                 fullnameInput.setAttribute('readonly', 'readonly');
                 genderInput.setAttribute('readonly', 'readonly');
-                languageSelect.setAttribute('disabled', 'disabled');
                 countrySelect.setAttribute('disabled', 'disabled');
                 timezoneSelect.setAttribute('disabled', 'disabled');
                 emailInput.setAttribute('readonly', 'readonly');
@@ -376,42 +248,20 @@
                 // Remove visual feedback
                 fullnameInput.style.borderColor = '';
                 genderInput.style.borderColor = '';
-                languageSelect.style.borderColor = '';
                 countrySelect.style.borderColor = '';
                 timezoneSelect.style.borderColor = '';
                 emailInput.style.borderColor = '';
                 phoneInput.style.borderColor = '';
 
-                // Save language preference to localStorage
-                const selectedLanguage = languageSelect.value;
-                localStorage.setItem('userLanguage', selectedLanguage);
-
-                // Update translations
-                updateTranslations(selectedLanguage);
-  
-                // Apply language change immediately
-                if (typeof updatePageLanguage === 'function') {
-                    updatePageLanguage(selectedLanguage);
-                }
-
                 // Here you would typically save the data to a backend
                 console.log('Changes saved:', {
                     fullname: fullnameInput.value,
                     gender: genderInput.value,
-                    language: languageSelect.value,
                     country: countrySelect.value,
                     timezone: timezoneSelect.value,
                     email: emailInput.value,
                     phone: phoneInput.value
                 });
-            }
-        });
-
-        // Load saved language preference on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLanguage = localStorage.getItem('userLanguage');
-            if (savedLanguage) {
-                languageSelect.value = savedLanguage;
             }
         });
 
@@ -432,12 +282,6 @@
                 const targetPanel = document.getElementById(`${section}-panel`);
                 if (targetPanel) targetPanel.classList.add('active');
             });
-        });
-
-        // Notifications save button
-        const saveNotificationsBtn = document.getElementById('saveNotificationsBtn');
-        saveNotificationsBtn?.addEventListener('click', () => {
-            showToast('Notification preferences saved', 'success');
         });
 
         // Password update
@@ -464,22 +308,6 @@
             document.getElementById('newPassword').value = '';
             document.getElementById('confirmPassword').value = '';
             showToast('Password updated successfully', 'success');
-        });
-
-        // Logout all devices
-        const logoutAllBtn = document.getElementById('logoutAllBtn');
-        logoutAllBtn?.addEventListener('click', () => {
-            if (confirm('Are you sure you want to logout from all devices?')) {
-                showToast('Logged out from all devices', 'success');
-            }
-        });
-
-        // Delete account
-        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-        deleteAccountBtn?.addEventListener('click', () => {
-            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                showToast('Account deletion requested', 'info');
-            }
         });
 
         // Toast function
