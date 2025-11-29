@@ -6,24 +6,27 @@ header("Access-Control-Allow-Methods: POST");
 // use Dotenv\Dotenv;
 
 // 1. Load Database
-require_once "../config/Database.php";
+include_once "../../config/Database.php";
 
 // 2. Paystack Config
-$secret_key = "YOUR_PAYSTACK_SECRET_KEY"; // REPLACE THIS
+$secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3";
+$public_key = "pk_test_d1f61fd4add0486460c5a543b1a51e97015d1207";
 
 // 3. Get Input Data
 $input = json_decode(file_get_contents("php://input"), true);
 $email = $input["email"] ?? "";
-$quantity = $input["quantity"] ?? 1;
+$regular_quantity = $input["regular_quantity"] ?? 0;
+$vip_quantity = $input["vip_quantity"] ?? 0;
 
-if (empty($email) || empty($quantity)) {
+if (empty($email) || ($regular_quantity == 0 && $vip_quantity == 0)) {
     echo json_encode(["status" => false, "message" => "Invalid input"]);
     exit();
 }
 
 // 4. Calculate Amount
-$price_per_ticket = 150;
-$amount_ghs = $price_per_ticket * $quantity;
+$price_regular = 150;
+$price_vip = 300;
+$amount_ghs = ($regular_quantity * $price_regular) + ($vip_quantity * $price_vip);
 $amount_kobo = $amount_ghs * 100;
 
 // 5. Initialize cURL for Paystack
@@ -31,11 +34,12 @@ $url = "https://api.paystack.co/transaction/initialize";
 $fields = [
     "email" => $email,
     "amount" => $amount_kobo,
+    "currency" => "GHS",
     "callback_url" =>
         "http://localhost/project-bonten/views/verify_payment.html", // UPDATE THIS URL
     "metadata" => [
-        "ticket_type" => "Regular",
-        "quantity" => $quantity,
+        "regular_quantity" => $regular_quantity,
+        "vip_quantity" => $vip_quantity,
     ],
 ];
 
@@ -68,8 +72,15 @@ if ($response["status"]) {
     $conn = $database->connect();
 
     $reference = $response["data"]["reference"];
-    $ticketType = "Regular";
     $status = "pending";
+    
+    // Construct ticket type string (e.g., "Regular: 2, VIP: 1")
+    $ticketTypeParts = [];
+    if ($regular_quantity > 0) $ticketTypeParts[] = "Regular: $regular_quantity";
+    if ($vip_quantity > 0) $ticketTypeParts[] = "VIP: $vip_quantity";
+    $ticketType = implode(", ", $ticketTypeParts);
+    
+    $total_quantity = $regular_quantity + $vip_quantity;
 
     // MySQLi Prepared Statement
     $stmt = $conn->prepare(
@@ -84,7 +95,7 @@ if ($response["status"]) {
             $reference,
             $email,
             $ticketType,
-            $quantity,
+            $total_quantity,
             $amount_ghs,
             $status,
         );
@@ -93,6 +104,10 @@ if ($response["status"]) {
             echo json_encode([
                 "status" => true,
                 "authorization_url" => $response["data"]["authorization_url"],
+                "access_code" => $response["data"]["access_code"],
+                "reference" => $response["data"]["reference"],
+                "public_key" => $public_key,
+                "amount" => $amount_kobo
             ]);
         } else {
             echo json_encode([
