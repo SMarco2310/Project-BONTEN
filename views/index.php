@@ -10,15 +10,18 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
+
 require_once '../config/Database.php';
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $db = new Database();
     $conn = $db->connect();
 
     if (isset($_POST['login'])) {
+
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -28,13 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
+
             $user = $result->fetch_assoc();
+
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['full_name'] = $user['full_name'];
                 $_SESSION['user_type'] = $user['user_type'];
                 $_SESSION['profile_picture'] = $user['profile_picture'];
+
 
                 if ($user['user_type'] === 'manager') {
                     header("Location: manager_dashboard.php");
@@ -52,23 +58,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 
+
     if (isset($_POST['signup'])) {
         $first_name = trim($_POST['first_name']);
         $last_name = trim($_POST['last_name']);
         $email = trim($_POST['email']);
         $password = $_POST['password'];
+
         $phone = trim($_POST['phone']);
         $role = $_POST['role'];
 
         // Validate required fields
         if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($phone) || empty($role)) {
             $error = 'All fields are required';
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        }
+
+        else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Invalid email format';
         } else if (strlen($password) < 8) {
             $error = 'Password must be at least 8 characters long';
-        } else {
+        }
+
+        else {
             $password = password_hash($password, PASSWORD_DEFAULT);
+
             $full_name = $first_name . ' ' . $last_name;
             $user_type = ($role === 'event-organizer') ? 'manager' : 'user';
             $username = $first_name . $last_name;
@@ -79,13 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 $_SESSION['user_id'] = $conn->insert_id;
                 $_SESSION['email'] = $email;
+
                 $_SESSION['full_name'] = $full_name;
                 $_SESSION['user_type'] = $user_type;
                 $_SESSION['profile_picture'] = 'user.jpg';
 
                 if ($user_type === 'manager') {
                     header("Location: manager_dashboard.php");
-                } else {
+                }
+                else {
                     header("Location: user_homepage.php");
                 }
                 exit();
@@ -147,6 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="right-side">
+
         <h3 style="font-size: x-large">
           <span class="text-orange" style="color: #c05f47">Bon</span
           ><span>ten</span>
@@ -198,6 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </button>
             </div>
           </label>
+
           <p id="password-cue"></p>
 
           <label for="login-submit-btn">
@@ -280,6 +297,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 placeholder="********"
                 required
               />
+
               <button type="button" class="pwd-eye">
                 <svg
                   id="eye-icon"
@@ -310,6 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               required
             />
           </label>
+
           <label for="role-field">
             <p>Role</p>
             <select name="role" id="role-field" required>

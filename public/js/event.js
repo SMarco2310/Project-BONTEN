@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedEventData) {
         try {
             const eventData = JSON.parse(storedEventData);
+
             // Use the stored data from explore page
             backgroundBox.style.backgroundImage = `url('${eventData.image}')`;
             eventNameText.innerHTML = eventData.name;

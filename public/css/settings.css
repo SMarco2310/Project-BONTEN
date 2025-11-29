@@ -2,6 +2,7 @@
 * {
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
 }
 
@@ -15,8 +16,11 @@ body {
 
 .container {
     display: flex;
+
     flex-direction: column;
+
     min-height: 100vh;
+
 }
 
 
@@ -25,6 +29,7 @@ body {
     width: 180px;
     height: 100vh;
     display: flex;
+
     flex-direction: column;
     padding: 40px 25px;
     position: fixed;
@@ -51,6 +56,7 @@ body {
 
 .sidebar .logo h3:not(.left) {
     color: var(--tertiary-color);
+
 }
 
 .nav-menu {
@@ -91,6 +97,7 @@ body {
     background-color: #0a0a0a;
 }
 
+
 .logout:hover {
     color: var(--tertiary-color);
 }
@@ -106,6 +113,7 @@ body {
     align-items: center;
     justify-content: flex-end;
     padding: 0 40px;
+
     border-bottom: 1px solid #1a1a1a;
     position: fixed;
     top: 0;
@@ -140,6 +148,7 @@ body {
 .topnav .user_info .username {
     color: var(--tertiary-color);
     font-size: 14px;
+
     font-weight: 400;
     margin: 0;
 }
@@ -164,6 +173,7 @@ body {
     font-size: 36px;
     font-weight: 400;
     color: var(--tertiary-color);
+
     margin-bottom: 30px;
 }
 
@@ -171,6 +181,7 @@ body {
 .settings-content {
     background-color: transparent;
 }
+
 
 
 .profile-section {
@@ -221,10 +232,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 50%;
 }
+
 
 .profile-avatar:hover .avatar-overlay {
     opacity: 1;
@@ -241,6 +254,7 @@ body {
     font-weight: 500;
 }
 
+
 .profile-details {
     display: flex;
     flex-direction: column;
@@ -252,6 +266,7 @@ body {
     font-weight: 500;
     color: var(--tertiary-color);
     margin: 0;
+
 }
 
 .profile-email {
@@ -267,9 +282,11 @@ body {
     padding: 12px 35px;
     border-radius: 8px;
     font-size: 16px;
+
     font-weight: 400;
     width: fit-content;
     height: fit-content;
+
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -285,6 +302,7 @@ body {
     gap: 60px;
     align-items: start;
 }
+
 
 
 .settings-left {
@@ -329,6 +347,7 @@ body {
     border-color: var(--secondary-color);
 }
 
+
 .form-group input[readonly],
 .form-group select[disabled] {
     cursor: default;
@@ -354,6 +373,7 @@ body {
     color: #666;
 }
 
+
 .form-group select:invalid {
     color: #666;
 }
@@ -365,17 +385,21 @@ body {
     gap: 50px;
 }
 
+
 .contact-section {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+
 .contact-title {
     font-size: 18px;
     font-weight: 400;
     color: var(--tertiary-color);
+
     margin: 0 0 5px 0;
+
 }
 
 .contact-item {
@@ -383,6 +407,7 @@ body {
     align-items: center;
     gap: 15px;
     background-color: #1a1a1a;
+
     border: 1px solid #333;
     border-radius: 8px;
     padding: 15px 18px;
@@ -417,6 +442,7 @@ body {
     margin: 0;
 }
 
+
 .contact-value-input {
     background-color: transparent;
     border: 1px solid transparent;
@@ -426,7 +452,9 @@ body {
     color: var(--tertiary-color);
     font-family: var(--primary-font);
     width: 100%;
+
     transition: all 0.3s ease;
+
 }
 
 .contact-value-input:not([readonly]) {
@@ -441,6 +469,7 @@ body {
     border-color: #d67158;
 }
 
+
 .contact-value-input[readonly] {
     cursor: default;
 }
@@ -451,6 +480,7 @@ body {
     margin: 0;
 }
 
+
 .add-contact-button {
     background-color: rgba(192, 95, 71, 0.05);
     color: var(--secondary-color);
@@ -460,6 +490,7 @@ body {
     font-size: 14px;
     font-weight: 400;
     width: fit-content;
+
     height: fit-content;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -483,6 +514,7 @@ body {
     font-weight: 400;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
     margin-left: auto;
 }
 
@@ -500,10 +532,12 @@ body {
     color: var(--tertiary-color);
     font-family: var(--primary-font);
     width: 100%;
+
 }
 
 .contact-input:focus {
     outline: none;
+
     border-color: #d67158;
 }
 
@@ -525,6 +559,7 @@ body {
         padding: 20px;
     }
 
+
     .profile-header {
         flex-direction: column;
         align-items: flex-start;
@@ -535,6 +570,7 @@ body {
         padding: 25px;
     }
 
+
     .settings-title {
         font-size: 28px;
     }
@@ -544,6 +580,7 @@ body {
 .settings-tabs {
     display: flex;
     gap: 8px;
+
     margin-bottom: 24px;
     background-color: #1a1a1a;
     padding: 6px;
@@ -561,6 +598,7 @@ body {
     height: fit-content;
     font-size: 14px;
     cursor: pointer;
+
     transition: all 0.2s ease;
 }
 
@@ -610,11 +648,13 @@ body {
     font-weight: 500;
     margin-bottom: 20px;
     padding-bottom: 12px;
+
     border-bottom: 1px solid #333;
 }
 
 .toggle-item {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
     padding: 14px 0;
@@ -633,6 +673,7 @@ body {
 
 .toggle-label {
     color: var(--tertiary-color);
+
     font-size: 14px;
     font-weight: 500;
 }
@@ -653,7 +694,9 @@ body {
     opacity: 0;
     width: 0;
     height: 0;
+
 }
+
 
 .toggle-slider {
     position: absolute;
@@ -666,6 +709,7 @@ body {
     transition: 0.3s;
 }
 
+
 .toggle-slider:before {
     position: absolute;
     content: "";
@@ -675,6 +719,7 @@ body {
     bottom: 3px;
     background-color: var(--tertiary-color);
     border-radius: 50%;
+
     transition: 0.3s;
 }
 
@@ -695,11 +740,13 @@ body {
     margin-bottom: 20px;
 }
 
+
 .security-item h4 {
     color: var(--tertiary-color);
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 16px;
+
 }
 
 .security-description {
@@ -708,6 +755,7 @@ body {
     margin-bottom: 16px;
 }
 
+
 .session-item {
     background-color: #1a1a1a;
     border-radius: 8px;
@@ -715,9 +763,12 @@ body {
     margin-bottom: 16px;
 }
 
+
 .session-info {
     display: flex;
+
     flex-direction: column;
+
     gap: 4px;
 }
 
@@ -731,6 +782,7 @@ body {
     color: #888;
     font-size: 12px;
 }
+
 
 /* Buttons */
 .save-btn {
@@ -766,11 +818,13 @@ body {
 
 .secondary-btn:hover {
     background-color: rgba(255, 255, 255, 0.05);
+
     border-color: #666;
 }
 
 .danger-zone {
     background-color: rgba(244, 67, 54, 0.1);
+
     border: 1px solid rgba(244, 67, 54, 0.3);
     border-radius: 12px;
     padding: 24px;
@@ -779,6 +833,7 @@ body {
 .danger-zone h4 {
     color: #f44336;
     font-size: 16px;
+
     font-weight: 500;
     margin-bottom: 12px;
 }
@@ -795,6 +850,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
 }
+
 
 .danger-btn:hover {
     background-color: #d32f2f;
@@ -814,6 +870,7 @@ body {
     animation: slideIn 0.3s ease;
 }
 
+
 .toast.success {
     border-left: 4px solid #4CAF50;
 }
@@ -826,13 +883,17 @@ body {
     border-left: 4px solid var(--secondary-color);
 }
 
+
 @keyframes slideIn {
     from {
         transform: translateX(100%);
+
         opacity: 0;
     }
     to {
         transform: translateX(0);
+
         opacity: 1;
     }
+
 }

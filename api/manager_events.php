@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
 require_once '../config/Database.php';
 
 $db = new Database();
+
 $conn = $db->connect();
 
 $manager_id = $_SESSION['user_id'];
@@ -26,12 +27,14 @@ if ($action === 'list') {
     $query = "SELECT e.*, c.name as category_name,
                      (SELECT SUM(t.sold) FROM tickets t WHERE t.event_id = e.event_id) as tickets_sold,
                      (SELECT SUM(t.sold * t.price) FROM tickets t WHERE t.event_id = e.event_id) as revenue,
+
                      (SELECT SUM(t.quantity) FROM tickets t WHERE t.event_id = e.event_id) as total_tickets,
                      (SELECT AVG(r.rating) FROM reviews r WHERE r.event_id = e.event_id) as avg_rating,
                      (SELECT COUNT(*) FROM rsvps r WHERE r.event_id = e.event_id AND r.attended = 1) as checkins
               FROM events e
               LEFT JOIN categories c ON e.category_id = c.category_id
               WHERE e.manager_id = ?";
+
 
     $params = [$manager_id];
     $types = 'i';
@@ -41,6 +44,7 @@ if ($action === 'list') {
         $query .= " AND e.status = ?";
         $params[] = $status_filter;
         $types .= 's';
+
     }
 
     // Apply search filter
@@ -48,6 +52,7 @@ if ($action === 'list') {
         $query .= " AND (e.name LIKE ? OR c.name LIKE ? OR e.location LIKE ?)";
         $search_param = '%' . $search . '%';
         $params[] = $search_param;
+
         $params[] = $search_param;
         $params[] = $search_param;
         $types .= 'sss';
@@ -63,6 +68,7 @@ if ($action === 'list') {
             break;
         case 'revenue-asc':
             $query .= " ORDER BY revenue ASC";
+
             break;
         case 'tickets-desc':
             $query .= " ORDER BY tickets_sold DESC";
@@ -79,6 +85,7 @@ if ($action === 'list') {
 
     $events = [
         'active' => [],
+
         'past' => [],
         'other' => [],
         'total' => 0
@@ -89,6 +96,7 @@ if ($action === 'list') {
             'id' => 'event-' . $row['event_id'],
             'event_id' => $row['event_id'],
             'name' => $row['name'],
+
             'category' => $row['category_name'] ?? 'Event',
             'image' => $row['image_path'] ?? '../public/assets/hero.png',
             'date' => date('F j, Y', strtotime($row['event_date'])),
@@ -98,6 +106,7 @@ if ($action === 'list') {
             'totalTickets' => (int)($row['total_tickets'] ?? 0),
             'revenue' => (float)($row['revenue'] ?? 0),
             'status' => $row['status'],
+
             'rating' => $row['avg_rating'] ? round($row['avg_rating'], 1) : null,
             'checkins' => (int)($row['checkins'] ?? 0),
             'createdAt' => date('F j, Y', strtotime($row['created_at']))
@@ -120,6 +129,7 @@ if ($action === 'list') {
     echo json_encode($events);
 }
 
+
 // Get event details
 elseif ($action === 'details') {
     $event_id = $_GET['id'] ?? 0;
@@ -139,11 +149,13 @@ elseif ($action === 'details') {
     $stmt->execute();
     $result = $stmt->get_result();
     $event = $result->fetch_assoc();
+
     $stmt->close();
 
     if (!$event) {
         http_response_code(404);
         echo json_encode(['error' => 'Event not found']);
+
         $db->close();
         exit();
     }
@@ -180,6 +192,7 @@ elseif ($action === 'details') {
     while ($row = $result->fetch_assoc()) {
         $reviews[] = [
             'name' => $row['name'],
+
             'rating' => (int)$row['rating'],
             'text' => $row['text']
         ];
@@ -199,6 +212,7 @@ elseif ($action === 'details') {
         'revenue' => (float)($event['revenue'] ?? 0),
         'status' => $event['status'],
         'rating' => $event['avg_rating'] ? round($event['avg_rating'], 1) : null,
+
         'checkins' => (int)($event['checkins'] ?? 0),
         'ticketTypes' => $ticket_types,
         'reviews' => $reviews
@@ -208,8 +222,10 @@ elseif ($action === 'details') {
     echo json_encode($event_details);
 }
 
+
 // Cancel event
 elseif ($action === 'cancel') {
+
     $data = json_decode(file_get_contents('php://input'), true);
     $event_id = $data['event_id'] ?? 0;
     $reason = $data['reason'] ?? 'Cancelled by organizer';
@@ -219,10 +235,12 @@ elseif ($action === 'cancel') {
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Event cancelled successfully']);
+
     } else {
         http_response_code(500);
         echo json_encode(['error' => 'Failed to cancel event']);
     }
+
 
     $stmt->close();
     $db->close();
@@ -247,9 +265,11 @@ elseif ($action === 'delete') {
     $db->close();
 }
 
+
 else {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid action']);
+
     $db->close();
 }
 ?>

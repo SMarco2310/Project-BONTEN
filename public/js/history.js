@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden'; // Prevent background scroll
             }
         });
+
     });
 
     // Close cancel modal
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (upcomingSection && upcomingSection.children.length === 0) {
                             upcomingSection.innerHTML = '<p style="color: #888; text-align: center; padding: 40px;">No upcoming events</p>';
                         }
+
                     }, 300);
                 }
 
@@ -111,11 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent card click
             const card = button.closest('.history-card');
+
             currentEventId = card?.getAttribute('data-event-id');
             const eventName = card?.querySelector('.event-name')?.textContent || 'this event';
 
             // Update modal with event name
             const eventNameSpan = document.getElementById('review-event-name');
+
             if (eventNameSpan) {
                 eventNameSpan.textContent = eventName;
             }
@@ -142,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
             currentEventId = null;
         }
+
     };
 
     if (reviewModalClose) {
@@ -162,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedRating = index + 1;
                 updateStarDisplay();
             });
+
 
             // Hover effect
             star.addEventListener('mouseenter', () => {
@@ -218,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Create review object
             const review = {
+
                 eventId: currentEventId,
                 rating: selectedRating,
                 title: reviewTitle.trim(),
@@ -250,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show success message
     function showSuccessMessage(message) {
         const toast = createToast(message, 'success');
+
         document.body.appendChild(toast);
 
         setTimeout(() => {
@@ -288,4 +296,5 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.textContent = message;
         return toast;
     }
+
 });

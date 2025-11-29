@@ -29,6 +29,7 @@ body {
     min-height: 100vh;
 }
 
+
 /* Sidebar */
 .sidebar {
     grid-row: 1 / -1;
@@ -38,11 +39,13 @@ body {
     flex-direction: column;
 }
 
+
 .logo {
     display: flex;
     gap: 0;
     margin-bottom: 40px;
 }
+
 
 .logo h3 {
     font-size: 1.5rem;
@@ -52,6 +55,7 @@ body {
 
 .logo .left {
     color: var(--secondary-color);
+
 }
 
 .nav-menu {
@@ -109,12 +113,14 @@ body {
     padding: 0 30px;
     background-color: var(--primary-color);
     border-bottom: 1px solid var(--border-color);
+
 }
 
 .page-title {
     color: var(--tertiary-color);
     font-size: 1.2rem;
     font-weight: 500;
+
 }
 
 .user_section {
@@ -123,10 +129,12 @@ body {
     gap: 12px;
 }
 
+
 .profile_picture {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+
     overflow: hidden;
 }
 
@@ -152,6 +160,7 @@ body {
 .tickets-container {
     max-width: 900px;
     margin: 0 auto;
+
 }
 
 /* Filter Tabs */
@@ -169,7 +178,9 @@ body {
     background: none;
     border: none;
     padding: 10px 20px;
+
     border-radius: 8px;
+
     color: var(--text-muted);
     font-size: 14px;
     cursor: pointer;
@@ -185,12 +196,14 @@ body {
     color: var(--tertiary-color);
 }
 
+
 /* Tickets List */
 .tickets-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
+
 
 .ticket-card {
     display: flex;
@@ -210,6 +223,7 @@ body {
     opacity: 0.7;
 }
 
+
 .ticket-left {
     position: relative;
     width: 140px;
@@ -219,6 +233,7 @@ body {
 .ticket-image {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
 }
 
@@ -230,8 +245,10 @@ body {
     color: var(--tertiary-color);
     padding: 4px 12px;
     border-radius: 20px;
+
     font-size: 11px;
     font-weight: 600;
+
     text-transform: uppercase;
 }
 
@@ -244,14 +261,17 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+
     justify-content: center;
 }
 
 .ticket-event-name {
     font-size: 18px;
+
     font-weight: 600;
     margin-bottom: 12px;
 }
+
 
 .ticket-details {
     display: flex;
@@ -274,11 +294,13 @@ body {
     flex-shrink: 0;
 }
 
+
 .ticket-meta {
     display: flex;
     align-items: center;
     gap: 16px;
 }
+
 
 .ticket-qty,
 .ticket-price {
@@ -291,9 +313,11 @@ body {
     font-weight: 600;
 }
 
+
 .ticket-status-badge {
     padding: 4px 10px;
     border-radius: 12px;
+
     font-size: 11px;
     font-weight: 500;
 }
@@ -302,6 +326,7 @@ body {
     background-color: rgba(136, 136, 136, 0.2);
     color: var(--text-muted);
 }
+
 
 .ticket-right {
     width: 160px;
@@ -346,6 +371,7 @@ body {
     gap: 8px;
 }
 
+
 .btn-view-ticket {
     background-color: var(--secondary-color);
     color: var(--tertiary-color);
@@ -359,6 +385,7 @@ body {
 
 .btn-view-ticket:hover {
     background-color: #d67158;
+
 }
 
 .btn-download {
@@ -371,18 +398,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
     transition: all 0.2s ease;
 }
+
 
 .btn-download:hover {
     background-color: rgba(255, 255, 255, 0.05);
     border-color: var(--text-muted);
 }
 
+
 /* Empty State */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
+
     color: var(--text-muted);
 }
 
@@ -402,6 +433,7 @@ body {
 
 .btn-primary {
     background-color: var(--secondary-color);
+
     color: var(--tertiary-color);
     border: none;
     padding: 12px 24px;
@@ -409,6 +441,7 @@ body {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+
 }
 
 .btn-primary:hover {
@@ -419,14 +452,18 @@ body {
 .modal {
     display: none;
     position: fixed;
+
     top: 0;
     left: 0;
     right: 0;
+
     bottom: 0;
     z-index: 1000;
     align-items: center;
     justify-content: center;
+
 }
+
 
 .modal-overlay {
     position: absolute;
@@ -434,8 +471,11 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
+
     background-color: rgba(0, 0, 0, 0.8);
+
 }
+
 
 .modal-content {
     position: relative;
@@ -456,6 +496,7 @@ body {
     border: none;
     color: var(--text-muted);
     font-size: 24px;
+
     cursor: pointer;
     z-index: 10;
 }
@@ -480,6 +521,7 @@ body {
     height: 180px;
 }
 
+
 .ticket-full-image {
     width: 100%;
     height: 100%;
@@ -489,6 +531,7 @@ body {
 .ticket-full-overlay {
     position: absolute;
     bottom: 0;
+
     left: 0;
     right: 0;
     padding: 20px;
@@ -505,7 +548,9 @@ body {
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;
+
     font-weight: 600;
+
 }
 
 .ticket-full-body {
@@ -523,7 +568,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 4px;
+
 }
+
 
 .info-label {
     color: var(--text-muted);
@@ -536,11 +583,13 @@ body {
     font-weight: 500;
 }
 
+
 .ticket-qr-section {
     text-align: center;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 12px;
+
 }
 
 .ticket-qr-large {
@@ -576,6 +625,7 @@ body {
     flex: 1;
     display: flex;
     align-items: center;
+
     justify-content: center;
     gap: 8px;
 }
@@ -587,7 +637,9 @@ body {
     padding: 12px 20px;
     border-radius: 8px;
     font-size: 14px;
+
     cursor: pointer;
+
     transition: all 0.2s ease;
 }
 

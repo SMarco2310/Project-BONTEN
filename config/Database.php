@@ -6,9 +6,12 @@ class Database
     
     private $host = "169.239.251.102";
     private $port = "3306";
+
     private $db_name = "webtech_2025A_marc_sossou";
+
     private $username = "marc.sossou";
     private $password = "Marco2310#";
+
 
     public $conn;
 
@@ -45,12 +48,16 @@ class Database
     }
 
 
+
     public function close()
     {
         if ($this->conn !== null) {
+
             $this->conn->close();
             $this->conn = null;
         }
+
     }
 }
+
 ?>

@@ -41,6 +41,7 @@ function formatTimeAgo(date) {
 }
 
 async function loadCommentsFromDatabase(eventId) {
+
     try {
         const response = await fetch(`../api/comments.php?action=list&event_id=${eventId}`);
         if (!response.ok) throw new Error('Failed to fetch comments');
@@ -58,6 +59,7 @@ function renderComments(comments) {
         return;
     }
 
+
     container.innerHTML = '';
 
     if (comments.length === 0) {
@@ -71,11 +73,14 @@ function renderComments(comments) {
 
     comments.forEach(commentData => {
         const commentElement = createCommentElement(commentData);
+
         container.appendChild(commentElement);
     });
+
 }
 
 async function addComment(eventId, commentData) {
+
     try {
         const response = await fetch(`../api/comments.php?action=add`, {
             method: 'POST',
@@ -96,6 +101,7 @@ async function addComment(eventId, commentData) {
 
         const container = document.getElementById('comments-container');
         const noCommentsDiv = container.querySelector('.no-comments');
+
         if (noCommentsDiv) {
             noCommentsDiv.remove();
         }
@@ -108,6 +114,7 @@ async function addComment(eventId, commentData) {
         console.error('Error adding comment:', error);
         throw error;
     }
+
 }
 
 if (typeof module !== 'undefined' && module.exports) {

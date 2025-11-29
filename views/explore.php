@@ -14,6 +14,7 @@ $conn = $db->connect();
 $user_id = $_SESSION['user_id'];
 
 
+
 $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -38,7 +39,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
     $events[] = $row;
+
 }
+
 $stmt->close();
 
 $db->close();
@@ -52,6 +55,7 @@ $db->close();
     <link rel="stylesheet" href="../public/css/style.css">
     <link rel="stylesheet" href="../public/css/event.css">
     <link rel="stylesheet" href="../public/css/explore.css">
+
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <script src="../public/js/language.js"></script>
     <script src="../public/js/profile_loader.js"></script>
@@ -59,6 +63,7 @@ $db->close();
 </head>
 <body>
  <div class="container">
+
 
         <aside class="sidebar">
             <a href="./user_homepage.php" style="text-decoration: none;">
@@ -73,6 +78,7 @@ $db->close();
             <a href="./user_homepage.php" class="nav-item" data-translate="home">Home</a>
             <a href="./explore.php" class="nav-item active" data-translate="explore">Explore</a>
             <a href="./history.php" class="nav-item" data-translate="history">History</a>
+
 
             </nav>
 
@@ -89,6 +95,7 @@ $db->close();
                 href="./settings.php"
                 class="user_section"
                 style="cursor: pointer; text-decoration: none"
+
             >
                 <img
                     src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
@@ -96,6 +103,7 @@ $db->close();
                     class="profile_picture"
                 />
                 <div class="user_info">
+
                     <h4 class="username"><?php echo htmlspecialchars($full_name); ?></h4>
                 </div>
             </a>
@@ -111,6 +119,7 @@ $db->close();
                             <input type="text" id="search-input" class="search-input" placeholder="Search events by name, location, or category...">
                             <button class="search-btn" id="search-btn">
                                 <img src="../public/assets/search.png" alt="Search" class="search-icon">
+
                             </button>
                         </div>
                         <div class="search-filters">
@@ -119,8 +128,10 @@ $db->close();
                                 <option value="concert">Concert</option>
                                 <option value="fashion">Fashion</option>
                                 <option value="football">Football</option>
+
                                 <option value="asc-week">ASC Week</option>
                                 <option value="food">Food</option>
+
                             </select>
                             <select id="location-filter" class="filter-select">
                                 <option value="">All Locations</option>
@@ -135,6 +146,7 @@ $db->close();
 
                 <!-- Trending Events Section -->
                 <section class="events-section">
+
                     <h2 class="section-title" data-translate="trendingEvents">All Events</h2>
                     <div class="carousel-wrapper">
                         <button class="carousel-arrow prev">‹</button>

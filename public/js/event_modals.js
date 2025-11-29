@@ -74,12 +74,14 @@ if (ticketsBtn) {
 }
 
 
+
 closeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         rsvpModal.style.display = 'none';
         ticketsModal.style.display = 'none';
     });
 });
+
 
 modalOverlays.forEach(overlay => {
     overlay.addEventListener('click', () => {
@@ -104,6 +106,7 @@ function updateTotals() {
     const regularTotal = regularQty * regularPriceFromDB;
     const vipTotal = vipQty * vipPriceFromDB;
     const grandTotal = regularTotal + vipTotal;
+
 
     document.getElementById('regular-subtotal').textContent = regularTotal.toFixed(2);
     document.getElementById('vip-subtotal').textContent = vipTotal.toFixed(2);
@@ -227,4 +230,5 @@ function payWithPaystack() {
             checkoutBtn.innerText = originalText;
             checkoutBtn.disabled = false;
         });
+
 }

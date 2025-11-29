@@ -11,9 +11,13 @@ require_once '../config/Database.php';
 $db = new Database();
 $conn = $db->connect();
 
+
 $user_id = $_SESSION['user_id'];
+
 $full_name = $_SESSION['full_name'];
+
 $first_name = explode(' ', $full_name)[0];
+
 $profile_picture = $_SESSION['profile_picture'];
 
 $stmt = $conn->prepare("SELECT e.event_id, e.name, e.event_date, e.event_time, e.image_path
@@ -43,11 +47,15 @@ $db->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
     <link rel="stylesheet" href="../public/css/style.css" />
+
     <link rel="stylesheet" href="../public/css/user_homepage.css" />
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
+   
     <script src="../public/js/language.js"></script>
     <script src="../public/js/profile_loader.js"></script>
+   
     <script src="../public/js/user_homepage.js" defer></script>
+  
   </head>
   <body>
     <div class="container">
@@ -63,19 +71,21 @@ $db->close();
           <a
             href="./user_homepage.php"
             class="nav-item active"
+
             data-translate="home"
             >Home</a
           >
-          <a href="./explore.html" class="nav-item" data-translate="explore"
+          <a href="./explore.php" class="nav-item" data-translate="explore"
             >Explore</a
           >
-          <a href="./history.html" class="nav-item" data-translate="history"
+          <a href="./history.php" class="nav-item" data-translate="history"
+
             >History</a
           >
         </nav>
 
         <div class="lower-menu">
-          <a href="./settings.html" class="nav-item" data-translate="settings"
+          <a href="./settings.php" class="nav-item" data-translate="settings"
             >Settings</a
           >
           <a href="./index.php" class="logout" data-translate="logout"
@@ -85,9 +95,12 @@ $db->close();
       </aside>
 
       <div class="topnav">
+
         <a
-          href="./settings.html"
+          href="./settings.php"
+
           class="user_section"
+
           style="cursor: pointer; text-decoration: none"
         >
           <img
@@ -103,11 +116,12 @@ $db->close();
 
       <div class="hero_wrapper">
         <div class="hero">
+
           <div class="welcome">
             <h1>Welcome back, <?php echo htmlspecialchars($first_name); ?>!</h1>
             <p>ready to explore what's happening near you?</p>
           </div>
-          <a href="./explore.html#search-section" style="text-decoration: none">
+          <a href="./explore.php#search-section" style="text-decoration: none">
             <button class="explore_button">
               Find Events Near Me
               <img
@@ -123,23 +137,36 @@ $db->close();
           <div class="widget_header">
             <h3 class="widget_title">Your Plans</h3>
             <select class="month_selector">
+
               <option>January</option>
+
               <option>February</option>
+
               <option>March</option>
+
               <option>April</option>
+
               <option>May</option>
+
               <option>June</option>
+
               <option>July</option>
+
               <option>August</option>
               <option>September</option>
+
               <option>October</option>
+
               <option>November</option>
+
               <option>December</option>
+
             </select>
           </div>
 
           <div class="Your-plans">
             <?php if ($user_events->num_rows > 0): ?>
+              
               <?php while ($event = $user_events->fetch_assoc()): ?>
                 <div class="event">
                   <img
@@ -148,11 +175,14 @@ $db->close();
                     class="event_icon"
                   />
                   <div class="details">
+
                     <h4 class="event_title"><?php echo htmlspecialchars($event['name']); ?></h4>
+                    
                     <p class="event_time"><?php echo date('F j, Y - g:i A', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?></p>
                   </div>
                   <div class="event_actions">
-                    <a href="./event.html?id=<?php echo $event['event_id']; ?>">
+
+                    <a href="./event.php?id=<?php echo $event['event_id']; ?>">
                       <button class="edit_event">View details</button>
                     </a>
                   </div>
@@ -163,11 +193,12 @@ $db->close();
             <?php endif; ?>
           </div>
 
-          <a href="./history.html" class="view_more_link">View all plans →</a>
+          <a href="./history.php" class="view_more_link">View all plans →</a>
         </aside>
       </div>
 
       <section class="upcoming_events">
+
         <h2
           class="section_title"
           style="
@@ -195,12 +226,14 @@ $db->close();
                       class="event_image"
                     />
                     <div class="event_info">
+
                       <h3 class="event_title"><?php echo htmlspecialchars($event['name']); ?></h3>
                       <p class="event_description">
                         <?php echo htmlspecialchars(substr($event['description'], 0, 120)) . '...'; ?>
                       </p>
-                      <a href="./event.html?id=<?php echo $event['event_id']; ?>">
+                      <a href="./event.php?id=<?php echo $event['event_id']; ?>">
                         <button class="rsvp_button">Read More →</button>
+
                       </a>
                     </div>
                   </div>
@@ -209,12 +242,14 @@ $db->close();
             </div>
 
             <button class="carousel_nav next">›</button>
+
           </div>
         </div>
       </section>
 
       <section class="explore_section">
-        <a href="./explore.html" style="text-decoration: none; color: inherit">
+
+        <a href="./explore.php" style="text-decoration: none; color: inherit">
           <h2
             class="explore_title"
             style="

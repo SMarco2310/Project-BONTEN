@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cardWidth = 220;
         const gap = 20;
+
         const scrollAmount = cardWidth + gap;
 
         let autoScrollTimer;
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(startAutoScroll, 5000);
         });
 
+
         nextBtn.addEventListener('click', () => {
             scrollCarousel('next');
             stopAutoScroll();
@@ -85,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 startAutoScroll();
             }
+
         });
 
         // Start auto-scroll after content loads
@@ -104,8 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 console.log('Carousel does not have scrollable content:', carousel.id || 'unnamed');
             }
+
         }, 1000);
     });
+
 
     document.querySelectorAll('.bookmark-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -153,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('search-btn');
     const categoryFilter = document.getElementById('category-filter');
     const locationFilter = document.getElementById('location-filter');
+
 
     let allEventCards = Array.from(document.querySelectorAll('.event-card'));
 
@@ -211,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearSearch() {
+
         searchInput.value = '';
         categoryFilter.value = '';
         locationFilter.value = '';
@@ -241,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         locationFilter.addEventListener('change', performSearch);
     }
 
+
     const hash = window.location.hash;
     if (hash === '#search-section') {
         const searchSection = document.getElementById('search-section');
@@ -250,5 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (searchInput) searchInput.focus();
             }, 100);
         }
+
     }
 });

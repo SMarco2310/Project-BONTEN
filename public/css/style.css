@@ -3,9 +3,12 @@
     --primary-color: #101014;
     --secondary-color: #C05F47;
     --tertiary-color: #FFFFFF;
+
     --primary-font: "Poppins", sans-serif;
+
     --secondary-font: "CalvinoTrial", sans-serif;
 }
+
 
 /* UserWay Accessibility Widget - Bottom Right Positioning */
 #userway_accessibility,

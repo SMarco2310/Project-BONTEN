@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
 require_once '../../config/Database.php';
 
 $db = new Database();
+
 $conn = $db->connect();
 
 $manager_id = $_SESSION['user_id'];
@@ -78,8 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($file['size'] > 5 * 1024 * 1024) {
             $error_message = 'Image size must be less than 5MB.';
         } else {
+
             
             $new_filename = 'event_' . time() . '_' . uniqid() . '.' . $file_extension;
+
             $upload_path = $upload_dir . $new_filename;
 
             if (move_uploaded_file($file['tmp_name'], $upload_path)) {
@@ -145,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->close();
 
                 } else {
+
                     
                     if (isset($_POST['tickets']) && is_array($_POST['tickets'])) {
                         foreach ($_POST['tickets'] as $ticket) {
@@ -164,9 +168,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
                                 $stmt->close();
                             }
+
                         }
+
                     }
                 }
+
 
                 
                 $conn->commit();
@@ -189,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
+
     }
 }
 

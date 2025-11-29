@@ -13,11 +13,13 @@ body {
 }
 
 
+
 .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
 
 
 .sidebar {
@@ -40,10 +42,12 @@ body {
     gap: 0;
 }
 
+
 .sidebar .logo h3 {
     font-size: 24px;
     font-weight: 500;
 }
+
 
 .sidebar .logo .left {
     color: var(--secondary-color);
@@ -64,8 +68,10 @@ body {
     color: #888;
     text-decoration: none;
     font-size: 15px;
+
     transition: color 0.3s;
     font-weight: 400;
+
 }
 
 .nav-item:hover,
@@ -80,6 +86,7 @@ body {
     margin-top: auto;
 }
 
+
 .logout {
     color: var(--secondary-color);
     text-decoration: none;
@@ -93,10 +100,12 @@ body {
 
 
 
+
 .topnav {
     margin-left: 180px;
     height: 70px;
     width: calc(100% - 180px);
+
     background-color: #0a0a0a;
     display: flex;
     align-items: center;
@@ -133,6 +142,7 @@ body {
     align-items: center;
 }
 
+
 .topnav .user_info .username {
     color: var(--tertiary-color);
     font-size: 14px;
@@ -151,11 +161,14 @@ body {
 }
 
 
+
 .hero {
     flex: 1;
+
     height: 320px;
     background-image: url('../assets/hero.png');
     background-size: cover;
+
     background-position: center;
     display: flex;
     flex-direction: column;
@@ -176,6 +189,7 @@ body {
     background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
     border-radius: 12px;
 }
+
 
 .welcome {
     position: relative;
@@ -198,8 +212,10 @@ body {
     color: #e5e5e5;
 }
 
+
 .explore_button {
     position: relative;
+
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
@@ -209,6 +225,7 @@ body {
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
+
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -251,6 +268,7 @@ body {
 
 .month_selector {
     background-color: #1a1a1a;
+
     color: var(--tertiary-color);
     border: 1px solid #333;
     padding: 6px 12px;
@@ -259,6 +277,7 @@ body {
     font-family: var(--primary-font);
     cursor: pointer;
 }
+
 
 .Your-plans {
     display: flex;
@@ -276,7 +295,9 @@ body {
 
 .Your-plans::-webkit-scrollbar-track {
     background: #1a1a1a;
+
     border-radius: 3px;
+
 }
 
 .Your-plans::-webkit-scrollbar-thumb {
@@ -284,8 +305,10 @@ body {
     border-radius: 3px;
 }
 
+
 .Your-plans::-webkit-scrollbar-thumb:hover {
     background: #555;
+
 }
 
 .event {
@@ -304,6 +327,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
+
 .event img {
     width: 40px;
     height: 40px;
@@ -317,16 +341,19 @@ body {
     flex-direction: column;
     gap: 2px;
     flex: 1;
+
 }
 
 .event .details .event_title {
     font-size: 13px;
     font-weight: 500;
     color: var(--tertiary-color);
+
 }
 
 .event .details .event_time {
     font-size: 10px;
+
     color: #888;
     font-weight: 400;
 }
@@ -335,10 +362,13 @@ body {
     flex-shrink: 0;
 }
 
+
 .event .edit_event {
     background-color: transparent;
     color: var(--secondary-color);
+
     border: 1px solid var(--secondary-color);
+
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 10px;
@@ -363,11 +393,13 @@ body {
     margin-top: 16px;
     padding: 8px;
     transition: color 0.3s ease;
+
 }
 
 .view_more_link:hover {
     color: var(--tertiary-color);
 }
+
 
 
 
@@ -395,8 +427,10 @@ body {
 }
 
 
+
 .carousel_container {
     display: flex;
+
     align-items: center;
     gap: 15px;
     flex: 1;
@@ -404,11 +438,13 @@ body {
 }
 
 
+
 .carousel_nav {
     background-color: rgba(255, 255, 255, 0.1);
     border: none;
     color: white;
     font-size: 24px;
+
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -416,9 +452,12 @@ body {
     flex-shrink: 0;
 }
 
+
 .carousel_nav:hover {
     background-color: rgba(255, 255, 255, 0.2);
+
 }
+
 
 
 .events_carousel {
@@ -429,6 +468,7 @@ body {
     padding: 20px 0;
     scroll-snap-type: x mandatory;
 }
+
 .events_carousel::-webkit-scrollbar {
     height: 8px;
 }
@@ -447,6 +487,7 @@ body {
     min-width: 280px;
     max-width: 280px;
     background-color: #0d0d0d;
+
     border: 1px solid #333;
     border-radius: 12px;
     overflow: hidden;
@@ -456,10 +497,13 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+
 .event_card:hover {
     transform: translateY(-5px);
     transition: transform 0.3s;
+
 }
+
 
 
 .event_badge {
@@ -478,6 +522,7 @@ body {
 
 .bookmark_icon {
     position: absolute;
+
     top: 12px;
     right: 12px;
     font-size: 18px;
@@ -504,6 +549,7 @@ body {
     100% {
         transform: scale(1);
     }
+
 }
 
 
@@ -511,12 +557,14 @@ body {
     width: 100%;
     height: 280px;
     object-fit: cover;
+
 }
 
 
 .event_info {
     padding: 18px;
 }
+
 
 .event_title {
     font-size: 20px;
@@ -527,6 +575,7 @@ body {
 
 .event_description {
     color: #999;
+
     font-size: 13px;
     font-weight: 400;
     margin-bottom: 18px;
@@ -538,6 +587,7 @@ body {
     color: black;
     border: none;
     padding: 8px 18px;
+
     border-radius: 25px;
     font-weight: 500;
     font-size: 13px;
@@ -559,6 +609,7 @@ body {
     text-decoration: none;
     color: inherit;
     cursor: pointer;
+
     display: inline-block;
     transition: opacity 0.3s ease;
 }
@@ -572,6 +623,7 @@ body {
     font-size: 28px;
     font-weight: 400;
     margin-bottom: 12px;
+
     text-align: center;
     color: var(--tertiary-color);
 }
@@ -586,6 +638,7 @@ body {
         margin-left: 150px;
     }
 
+
     .topnav {
         margin-left: 150px;
         width: calc(100% - 150px);
@@ -593,10 +646,12 @@ body {
 
     .sidebar {
         width: 150px;
+
     }
 
     .welcome_section {
         margin-left: 170px;
+
         padding: 40px 30px;
     }
 
@@ -606,10 +661,12 @@ body {
     }
 }
 
+
 @media (max-width: 768px) {
     .sidebar {
         width: 100px;
     }
+
 
     .main-content {
         margin-left: 100px;
@@ -627,15 +684,18 @@ body {
         padding: 30px 20px;
     }
 
+
     .upcoming_section {
         margin-left: 120px;
         padding: 40px 20px;
     }
 
+
     .explore_section {
         margin-left: 120px;
         padding: 40px 20px;
     }
+
 
     .welcome_title {
         font-size: 32px;
@@ -658,6 +718,7 @@ body {
         width: 180px;
     }
 
+
     .sidebar.active {
         transform: translateX(0);
     }
@@ -670,6 +731,7 @@ body {
     .topnav {
         margin-left: 0;
         width: 100%;
+
         padding: 12px 15px;
     }
 
@@ -699,6 +761,7 @@ body {
     .username {
         font-size: 13px;
     }
+
 
     .topnav .profile_picture {
         width: 35px;

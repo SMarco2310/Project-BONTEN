@@ -3,6 +3,7 @@ const uploadToCloudinary = async (file) => {
   const cloudName = "YOUR_CLOUD_NAME"; // REPLACE THIS
   const uploadPreset = "YOUR_UPLOAD_PRESET"; // REPLACE THIS
 
+
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", uploadPreset);

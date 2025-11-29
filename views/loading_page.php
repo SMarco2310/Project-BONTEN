@@ -4,6 +4,7 @@ session_start();
 
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['user_type'] === 'manager') {
+
         header("Location: manager_dashboard.php");
     } else {
         header("Location: user_homepage.php");

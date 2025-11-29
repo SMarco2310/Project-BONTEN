@@ -18,6 +18,7 @@ $event_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 
 $event = null;
+
 $tickets = [];
 $reviews = [];
 $category_name = '';
@@ -43,6 +44,7 @@ if ($event_id > 0) {
 
         
         $stmt = $conn->prepare("
+
             SELECT ticket_id, ticket_name, price, quantity, sold
             FROM tickets
             WHERE event_id = ?
@@ -51,6 +53,7 @@ if ($event_id > 0) {
         $stmt->bind_param("i", $event_id);
         $stmt->execute();
         $result = $stmt->get_result();
+
         while ($row = $result->fetch_assoc()) {
             $tickets[] = $row;
         }
@@ -75,6 +78,7 @@ if ($event_id > 0) {
     }
 }
 
+
 $db->close();
 
 
@@ -89,11 +93,13 @@ $vip_price = 0;
 foreach ($tickets as $ticket) {
     $ticket_name_lower = strtolower($ticket['ticket_name']);
     if (strpos($ticket_name_lower, 'regular') !== false) {
+
         $regular_price = $ticket['price'];
     } elseif (strpos($ticket_name_lower, 'vip') !== false) {
         $vip_price = $ticket['price'];
     }
 }
+
 
 
 $event_date_formatted = date('F j, Y', strtotime($event['event_date']));
@@ -129,9 +135,11 @@ function timeAgo($datetime) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title><?php echo htmlspecialchars($event['name']); ?> - BONTEN</title>
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="stylesheet" href="../public/css/event.css" />
+
     <link rel="stylesheet" href="../public/css/explore.css" />
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
     <script src="../public/js/language.js"></script>
@@ -152,6 +160,7 @@ function timeAgo($datetime) {
         </a>
 
         <nav class="nav-menu">
+
           <?php if ($is_logged_in && $user_type === 'user'): ?>
           <a href="./user_homepage.php" class="nav-item" data-translate="home">Home</a>
           <a href="./explore.php" class="nav-item" data-translate="explore">Explore</a>
@@ -175,6 +184,7 @@ function timeAgo($datetime) {
       <div class="topnav">
         <a
           href="<?php echo $is_logged_in ? ($user_type === 'manager' ? './manager_settings.php' : './settings.php') : './index.php'; ?>"
+
           class="user_section"
           style="cursor: pointer; text-decoration: none"
         >
@@ -201,6 +211,7 @@ function timeAgo($datetime) {
             </div>
 
             <div class="desc-comments">
+
               <div class="desc">
                 <div class="desc-title">
                   <h2
@@ -231,6 +242,7 @@ function timeAgo($datetime) {
                 <div class="rsvp">
                   <button
                     id="rsvp-btn"
+
                     style="font-family: 'MartianMono Nerd Font', sans-serif"
                     data-translate="rsvp"
                   >
@@ -240,6 +252,7 @@ function timeAgo($datetime) {
               </div>
               <div class="comments">
                 <div class="desc-title">
+
                   <h2
                     style="
                       font-family: 'Inter', sans-serif;
@@ -256,6 +269,7 @@ function timeAgo($datetime) {
                   <?php if (count($reviews) > 0): ?>
                     <?php foreach ($reviews as $review): ?>
                       <div class="comment-item" data-comment-id="<?php echo $review['review_id']; ?>">
+
                         <div class="comment-header">
                           <div class="comment-user-avatar">
                             <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" />
@@ -264,6 +278,7 @@ function timeAgo($datetime) {
                             <p class="comment-user-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
                             <div class="comment-rating">
                               <?php for ($i = 1; $i <= 5; $i++): ?>
+
                                 <img
                                   src="../public/assets/icons/<?php echo $i <= $review['rating'] ? 'star.svg' : 'star_w.svg'; ?>"
                                   alt="star"
@@ -296,6 +311,7 @@ function timeAgo($datetime) {
       <div class="modal-content rsvp-modal-content">
         <button class="modal-close">&times;</button>
         <h2 class="modal-title" data-translate="rsvp">RSVP</h2>
+
         <form id="rsvp-form" class="modal-form">
           <div class="form-field">
             <label for="email" data-translate="email">Email</label>
@@ -323,8 +339,10 @@ function timeAgo($datetime) {
           <button
             type="button"
             id="tickets-btn"
+
             class="modal-button"
             data-translate="tickets"
+
           >
             Tickets
           </button>
@@ -355,13 +373,16 @@ function timeAgo($datetime) {
             </div>
             <div class="quantity-control">
               <button type="button" class="qty-btn minus" data-target="regular">-</button>
+
               <input
                 type="number"
                 id="regular"
+
                 class="qty-input"
                 value="0"
                 min="0"
                 max="<?php echo $available; ?>"
+
                 readonly
               />
               <button type="button" class="qty-btn plus" data-target="regular" data-max="<?php echo $available; ?>">+</button>
@@ -375,12 +396,16 @@ function timeAgo($datetime) {
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <label for="vip" data-translate="vip">VIP - GHS <?php echo number_format($ticket['price'], 2); ?></label>
               <span style="font-size: 12px; color: #999;"><?php echo $available; ?> left</span>
+
             </div>
             <div class="quantity-control">
+
               <button type="button" class="qty-btn minus" data-target="vip">-</button>
               <input
                 type="number"
+
                 id="vip"
+
                 class="qty-input"
                 value="0"
                 min="0"
@@ -409,6 +434,7 @@ function timeAgo($datetime) {
             <?php endif; ?>
             <div
               style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
+
               <strong style="color: white;">Total:</strong>
               <strong style="color: rgb(212, 102, 62);">GHS <span id="grand-total">0.00</span></strong>
             </div>

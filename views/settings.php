@@ -9,13 +9,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'user') {
 require_once '../config/Database.php';
 
 $db = new Database();
+
 $conn = $db->connect();
 
 $user_id = $_SESSION['user_id'];
 $success_message = '';
 $error_message = '';
 
-// Handle form submissions
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_profile'])) {
         $fullname = trim($_POST['fullname']);
@@ -26,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = trim($_POST['phone']);
 
         $stmt = $conn->prepare("UPDATE users SET full_name = ?, phone = ?, email = ? WHERE user_id = ?");
+
         $stmt->bind_param("sssi", $fullname, $phone, $email, $user_id);
 
         if ($stmt->execute()) {
@@ -40,15 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['update_password'])) {
         $current_password = $_POST['current_password'];
+
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
 
-        // Get current password from database
+        
         $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
+
         $stmt->execute();
+
         $result = $stmt->get_result();
+
         $user = $result->fetch_assoc();
+
         $stmt->close();
 
         if (!password_verify($current_password, $user['password'])) {
@@ -67,22 +74,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $error_message = "Failed to update password.";
             }
+
             $stmt->close();
         }
     }
 }
 
-// Fetch user data
+
 $stmt = $conn->prepare("SELECT email, full_name, phone, profile_picture, username FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
+
 $stmt->close();
 
 $db->close();
 
 $full_name = $user['full_name'];
+
 $email = $user['email'];
 $phone = $user['phone'] ?? '';
 $profile_picture = $user['profile_picture'] ?? 'user.jpg';
@@ -96,13 +106,17 @@ $username = $user['username'];
     <title>Settings</title>
     <link rel="stylesheet" href="../public/css/style.css">
     <link rel="stylesheet" href="../public/css/event.css">
+
     <link rel="stylesheet" href="../public/css/settings.css">
+   
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
+
     <script src="../public/js/language.js"></script>
     <script src="../public/js/profile_loader.js"></script>
 </head>
 <body>
 <div class="container">
+
 
         <aside class="sidebar">
             <a href="./user_homepage.php" style="text-decoration: none;">
@@ -114,8 +128,8 @@ $username = $user['username'];
 
             <nav class="nav-menu">
             <a href="./user_homepage.php" class="nav-item" data-translate="home">Home</a>
-            <a href="./explore.html" class="nav-item" data-translate="explore">Explore</a>
-            <a href="./history.html" class="nav-item" data-translate="history">History</a>
+            <a href="./explore.php" class="nav-item" data-translate="explore">Explore</a>
+            <a href="./history.php" class="nav-item" data-translate="history">History</a>
             </nav>
 
             <div class="lower-menu">
@@ -146,6 +160,7 @@ $username = $user['username'];
             <div class="settings-container">
                 <h1 class="settings-title" data-translate="settingsTitle">Settings</h1>
 
+
                 <?php if ($success_message): ?>
                 <div class="alert alert-success" style="background: #28a745; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
                     <?php echo htmlspecialchars($success_message); ?>
@@ -167,6 +182,7 @@ $username = $user['username'];
 
                     <!-- Profile Section -->
                     <div class="profile-section settings-panel active" id="profile-panel">
+
                         <form method="POST" action="settings.php">
                             <div class="profile-header">
                                 <div class="profile-left">
@@ -224,19 +240,23 @@ $username = $user['username'];
                                             <option value="EST">EST</option>
                                             <option value="PST">PST</option>
                                             <option value="CST">CST</option>
+
                                         </select>
                                     </div>
                                 </div>
 
                                 <!-- Right Column - Contact Info -->
                                 <div class="settings-right">
+
                                     <div class="contact-section">
+
                                         <h3 class="contact-title" data-translate="myEmailAddress">My email Address</h3>
                                         <div class="contact-item">
                                             <div class="contact-icon">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="#C05F47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                     <path d="M22 6L12 13L2 6" stroke="#C05F47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
                                                 </svg>
                                             </div>
                                             <div class="contact-details">
@@ -248,6 +268,7 @@ $username = $user['username'];
                                     </div>
 
                                     <div class="contact-section">
+
                                         <h3 class="contact-title" data-translate="phoneNumber">Phone Number</h3>
                                         <div class="contact-item">
                                             <div class="contact-icon">
@@ -275,6 +296,7 @@ $username = $user['username'];
                         <p class="panel-subtitle">Manage your account security</p>
 
                         <form method="POST" action="settings.php">
+
                             <div class="security-item">
                                 <h4>Change Password</h4>
                                 <div class="form-group">
@@ -283,6 +305,7 @@ $username = $user['username'];
                                 </div>
                                 <div class="form-group">
                                     <label for="newPassword">New Password</label>
+
                                     <input type="password" name="new_password" id="newPassword" placeholder="Enter new password">
                                 </div>
                                 <div class="form-group">
@@ -291,6 +314,7 @@ $username = $user['username'];
                                 </div>
                                 <input type="hidden" name="update_password" value="1">
                                 <button type="submit" class="secondary-btn" id="updatePasswordBtn">Update Password</button>
+
                             </div>
                         </form>
 
@@ -336,15 +360,18 @@ $username = $user['username'];
                 countrySelect.style.borderColor = 'var(--secondary-color)';
                 timezoneSelect.style.borderColor = 'var(--secondary-color)';
                 emailInput.style.borderColor = 'var(--secondary-color)';
+
                 phoneInput.style.borderColor = 'var(--secondary-color)';
             } else {
                 // Trigger form submission
                 saveProfileBtn.click();
             }
+
         });
 
         // Tab switching functionality
         const settingsTabs = document.querySelectorAll('.settings-tab');
+
         const settingsPanels = document.querySelectorAll('.settings-panel');
 
         settingsTabs.forEach(tab => {
@@ -372,7 +399,9 @@ $username = $user['username'];
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     profileAvatarImg.src = event.target.result;
+
                     const topnavProfilePics = document.querySelectorAll('.topnav .profile_picture');
+
                     topnavProfilePics.forEach(img => {
                         img.src = event.target.result;
                     });
@@ -380,6 +409,7 @@ $username = $user['username'];
                 };
                 reader.readAsDataURL(file);
             }
+
         });
 
         window.addEventListener('load', () => {
@@ -388,6 +418,7 @@ $username = $user['username'];
                 profileAvatarImg.src = savedProfilePic;
                 const topnavProfilePics = document.querySelectorAll('.topnav .profile_picture');
                 topnavProfilePics.forEach(img => {
+
                     img.src = savedProfilePic;
                 });
             }

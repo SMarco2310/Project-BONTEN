@@ -125,6 +125,7 @@ class EventDataService {
             message: 'Event updated successfully'
         });
     }
+
 }
 
 
@@ -286,6 +287,7 @@ class CreateEventController {
             isValid = false;
         }
 
+
         if (!this.imageFile && !this.imagePreviewUrl) {
             this.showToast('Please upload an event image', 'error');
             isValid = false;
@@ -300,6 +302,7 @@ class CreateEventController {
 
     validateStep2() {
         let isValid = true;
+
         this.clearErrors();
 
         const startDate = document.getElementById('eventStartDate');
@@ -318,6 +321,7 @@ class CreateEventController {
             isValid = false;
         }
 
+
         if (!endDate?.value) {
             this.showFieldError(endDate, 'End date is required');
             isValid = false;
@@ -331,6 +335,7 @@ class CreateEventController {
         // Validate end date/time is after start
         if (startDate?.value && endDate?.value && startTime?.value && endTime?.value) {
             const start = new Date(`${startDate.value}T${startTime.value}`);
+
             const end = new Date(`${endDate.value}T${endTime.value}`);
 
             if (end <= start) {
@@ -342,6 +347,7 @@ class CreateEventController {
         
         if (eventType === 'in-person' || eventType === 'hybrid') {
             const venue = document.getElementById('eventVenue');
+
             const city = document.getElementById('eventCity');
 
             if (!venue?.value.trim()) {
@@ -353,6 +359,7 @@ class CreateEventController {
                 this.showFieldError(city, 'City is required');
                 isValid = false;
             }
+
         }
 
         if (!isValid) {
@@ -376,6 +383,7 @@ class CreateEventController {
                     this.showToast('Please fill in all ticket details', 'error');
                     return false;
                 }
+
             }
         }
 
@@ -386,6 +394,7 @@ class CreateEventController {
         if (!field) return;
 
         const formGroup = field.closest('.form-group');
+
         if (formGroup) {
             formGroup.classList.add('error');
 
@@ -554,6 +563,7 @@ class CreateEventController {
             imagePreview.style.borderColor = 'var(--secondary-color)';
         });
 
+
         imagePreview?.addEventListener('dragleave', () => {
             if (!imagePreview.classList.contains('has-image')) {
                 imagePreview.style.borderColor = '#333';
@@ -567,6 +577,7 @@ class CreateEventController {
             const file = e.dataTransfer.files?.[0];
             if (file && imageInput) {
                 const dt = new DataTransfer();
+
                 dt.items.add(file);
                 imageInput.files = dt.files;
                 imageInput.dispatchEvent(new Event('change'));
@@ -603,6 +614,7 @@ class CreateEventController {
                 tagsInput.value = '';
             }
         });
+
     }
 
     addTag(tag) {
@@ -612,6 +624,7 @@ class CreateEventController {
         this.renderTags();
         this.hasUnsavedChanges = true;
     }
+
 
     removeTag(tag) {
         this.tags = this.tags.filter(t => t !== tag);
@@ -646,6 +659,7 @@ class CreateEventController {
                 if (isPaid && this.tickets.length === 0) {
                     this.addTicket();
                 }
+
             });
         });
 
@@ -677,6 +691,7 @@ class CreateEventController {
         this.renderTickets();
     }
 
+
     updateTicket(ticketId, field, value) {
         const ticket = this.tickets.find(t => t.id === ticketId);
         if (ticket) {
@@ -684,6 +699,7 @@ class CreateEventController {
             this.hasUnsavedChanges = true;
         }
     }
+
 
     renderTickets() {
         const ticketsList = document.getElementById('ticketsList');
@@ -745,10 +761,12 @@ class CreateEventController {
                     field.style.display = (type === 'in-person' || type === 'hybrid') ? 'block' : 'none';
                 });
 
+
                 onlineFields.forEach(field => {
                     field.style.display = (type === 'online' || type === 'hybrid') ? 'block' : 'none';
                 });
             });
+
         });
     }
 
@@ -788,6 +806,7 @@ class CreateEventController {
 
        
         let locationStr = '-';
+
         if (this.formData.eventType === 'online') {
             locationStr = `Online (${this.formData.platform || 'TBD'})`;
         } else if (this.formData.venue) {
@@ -798,6 +817,7 @@ class CreateEventController {
 
        
         const reviewTickets = document.getElementById('reviewTickets');
+
         if (reviewTickets) {
             if (this.formData.ticketType === 'free') {
                 reviewTickets.innerHTML = `
@@ -818,8 +838,10 @@ class CreateEventController {
 
         // Settings
         const reviewSettings = document.getElementById('reviewSettings');
+
         if (reviewSettings) {
             const settings = [];
+
             settings.push({ label: this.formData.visibility || 'Public', active: true });
             if (this.formData.requireApproval) settings.push({ label: 'Approval Required', active: true });
             if (this.formData.collectPhone) settings.push({ label: 'Collecting Phone', active: true });
@@ -913,6 +935,7 @@ class CreateEventController {
                         this.populateFormWithData(event);
                         this.updatePageTitle('Edit Event');
                     }
+
                 }).catch(err => {
                     console.error('Failed to load event for editing:', err);
                     this.showToast('Failed to load event data', 'error');
@@ -926,6 +949,7 @@ class CreateEventController {
             this.isDuplicateMode = true;
 
             const duplicateData = sessionStorage.getItem('duplicateEventData');
+
             if (duplicateData) {
                 const eventData = JSON.parse(duplicateData);
                 this.populateFormWithData(eventData);
@@ -947,6 +971,7 @@ class CreateEventController {
             }
         }
     }
+
 
     updatePageTitle(title) {
         
@@ -982,6 +1007,7 @@ class CreateEventController {
         const eventVisibility = document.getElementById('eventVisibility');
         const eventDescription = document.getElementById('eventDescription');
         const nameCount = document.getElementById('nameCount');
+
         const descCount = document.getElementById('descCount');
 
         if (data.name && eventName) {
@@ -1033,6 +1059,7 @@ class CreateEventController {
         const eventCity = document.getElementById('eventCity');
         const eventRegion = document.getElementById('eventRegion');
         const eventPlatform = document.getElementById('eventPlatform');
+
         const eventStreamUrl = document.getElementById('eventStreamUrl');
         const eventCapacity = document.getElementById('eventCapacity');
 
@@ -1081,6 +1108,7 @@ class CreateEventController {
                     if (freeSection) freeSection.style.display = 'block';
                     if (paidSection) paidSection.style.display = 'none';
                 }
+
             }
         }
 
@@ -1119,6 +1147,7 @@ class CreateEventController {
             window.location.href = 'manager_dashboard.html';
         });
 
+
        
         const discardModal = document.getElementById('discard-modal');
         const keepEditingBtn = document.getElementById('keepEditingBtn');
@@ -1132,6 +1161,7 @@ class CreateEventController {
             this.hasUnsavedChanges = false;
             window.location.href = 'manager_dashboard.html';
         });
+
 
    
         document.querySelectorAll('.modal-close').forEach(btn => {
@@ -1152,6 +1182,7 @@ class CreateEventController {
         });
     }
 
+
     showSuccessModal(message) {
         const modal = document.getElementById('success-modal');
         const messageEl = document.getElementById('successMessage');
@@ -1167,6 +1198,7 @@ class CreateEventController {
 
     closeModal(modalId) {
         const modal = document.getElementById(modalId);
+
         if (modal) modal.style.display = 'none';
     }
 
@@ -1186,8 +1218,10 @@ class CreateEventController {
                     this.pendingNavigation = link.href;
                     this.showDiscardModal();
                 }
+
             });
         });
+
     }
 
     formatCategory(category) {

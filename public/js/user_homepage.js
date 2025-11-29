@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.events_carousel');
 
     const prevBtn = document.querySelector('.carousel_nav.prev');
+
     
     const nextBtn = document.querySelector('.carousel_nav.next');
 
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cardWidth = 220;
     const gap = 20;
+
     const scrollAmount = cardWidth + gap;
 
     let autoScrollTimer;
@@ -23,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
             left: direction === 'next' ? scrollAmount : -scrollAmount,
             behavior: 'smooth'
         });
+
     }
+
 
     function startAutoScroll() {
         if (autoScrollTimer) clearInterval(autoScrollTimer);
@@ -80,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(startAutoScroll, 5000);
     });
 
+
     // Pause auto-scroll when page is not visible
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
@@ -120,5 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.textContent = '🔖';
             }
         });
+
     });
 });

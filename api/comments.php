@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
         exit();
     }
 
+
     $stmt = $conn->prepare("
         SELECT c.comment_id, c.comment_text, c.created_at,
                u.full_name as userName, u.profile_picture as userAvatar,
@@ -59,6 +60,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
     }
 
     $user_id = $_SESSION['user_id'];
+
     $data = json_decode(file_get_contents('php://input'), true);
 
     $comment_text = $data['comment'] ?? '';
@@ -66,13 +68,16 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
 
     // Validate input
     if (empty($comment_text) || $event_id === 0) {
+
         http_response_code(400);
         echo json_encode(['error' => 'Comment text and event ID are required']);
         exit();
     }
 
+
     // Verify event exists
     $stmt = $conn->prepare("SELECT event_id FROM events WHERE event_id = ?");
+
     $stmt->bind_param("i", $event_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -105,6 +110,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
         $user_stmt->bind_param("i", $user_id);
         $user_stmt->execute();
         $user_result = $user_stmt->get_result();
+
         $user_data = $user_result->fetch_assoc();
         $user_stmt->close();
 
@@ -122,6 +128,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
 
         echo json_encode($response);
     } else {
+
         http_response_code(500);
         echo json_encode(['error' => 'Failed to post comment']);
     }

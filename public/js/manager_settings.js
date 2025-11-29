@@ -31,6 +31,7 @@ class ManagerSettingsController {
             const firstName = document.getElementById('firstName');
             const lastName = document.getElementById('lastName');
             const email = document.getElementById('email');
+
             const headerName = document.getElementById('headerName');
 
             if (firstName && user.firstName) firstName.value = user.firstName;
@@ -97,6 +98,7 @@ class ManagerSettingsController {
             this.removeAvatar();
         });
 
+
         cancelProfileBtn?.addEventListener('click', () => {
             this.loadUserProfile(); // Reset form
             this.showToast('Changes discarded', 'info');
@@ -134,6 +136,7 @@ class ManagerSettingsController {
 
     removeAvatar() {
         const defaultAvatar = '../assets/jerome.jpeg';
+
         const profileAvatar = document.getElementById('profileAvatar');
         const headerAvatar = document.getElementById('headerAvatar');
 
@@ -145,6 +148,7 @@ class ManagerSettingsController {
 
     saveProfile() {
         const firstName = document.getElementById('firstName')?.value;
+
         const lastName = document.getElementById('lastName')?.value;
         const email = document.getElementById('email')?.value;
         const phone = document.getElementById('phone')?.value;
@@ -156,6 +160,7 @@ class ManagerSettingsController {
             this.showToast('Please fill in all required fields', 'error');
             return;
         }
+
 
         // Save to sessionStorage
         const userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
@@ -181,6 +186,7 @@ class ManagerSettingsController {
             this.paymentData = JSON.parse(paymentData);
             this.updatePaymentUI();
         }
+
     }
 
     savePaymentData() {
@@ -267,6 +273,7 @@ class ManagerSettingsController {
             }
         });
 
+
         addMomoBtn?.addEventListener('click', () => {
             this.openModal('momo-modal');
             if (this.paymentData.momo) {
@@ -312,6 +319,7 @@ class ManagerSettingsController {
             this.saveBankAccount();
         });
 
+
         momoForm?.addEventListener('submit', (e) => {
             e.preventDefault();
             this.saveMomoAccount();
@@ -327,6 +335,7 @@ class ManagerSettingsController {
 
         minimumPayout?.addEventListener('change', () => {
             const value = parseInt(minimumPayout.value);
+
             if (value < 50) {
                 minimumPayout.value = 50;
                 this.showToast('Minimum payout cannot be less than GHC 50', 'error');
@@ -339,6 +348,7 @@ class ManagerSettingsController {
     saveBankAccount() {
         const bankName = document.getElementById('bankNameInput')?.value;
         const accountName = document.getElementById('accountNameInput')?.value;
+
         const accountNumber = document.getElementById('accountNumberInput')?.value;
         const branch = document.getElementById('branchInput')?.value;
 
@@ -390,12 +400,14 @@ class ManagerSettingsController {
         updatePasswordBtn?.addEventListener('click', () => {
             this.updatePassword();
         });
+
     }
 
     updatePassword() {
         const currentPassword = document.getElementById('currentPassword')?.value;
         const newPassword = document.getElementById('newPassword')?.value;
         const confirmPassword = document.getElementById('confirmPassword')?.value;
+
 
         if (!currentPassword || !newPassword || !confirmPassword) {
             this.showToast('Please fill in all password fields', 'error');
@@ -424,6 +436,7 @@ class ManagerSettingsController {
     setupModalHandlers() {
         // Bank modal
         const cancelBankBtn = document.getElementById('cancelBankBtn');
+
         cancelBankBtn?.addEventListener('click', () => this.closeModal('bank-modal'));
 
         // Momo modal

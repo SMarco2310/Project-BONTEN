@@ -12,6 +12,7 @@ $db = new Database();
 $conn = $db->connect();
 
 $manager_id = $_SESSION['user_id'];
+
 $full_name = $_SESSION['full_name'];
 $profile_picture = $_SESSION['profile_picture'];
 
@@ -26,9 +27,11 @@ $stmt = $conn->prepare("SELECT SUM(t.sold) as total_sold
                         FROM tickets t
                         JOIN events e ON t.event_id = e.event_id
                         WHERE e.manager_id = ?");
+
 $stmt->bind_param("i", $manager_id);
 $stmt->execute();
 $tickets_sold = $stmt->get_result()->fetch_assoc()['total_sold'] ?? 0;
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as total_revenue
@@ -44,9 +47,11 @@ $stmt = $conn->prepare("SELECT AVG(r.rating) as avg_rating
                         FROM reviews r
                         JOIN events e ON r.event_id = e.event_id
                         WHERE e.manager_id = ?");
+
 $stmt->bind_param("i", $manager_id);
 $stmt->execute();
 $avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
+
 $stmt->close();
 
 $db->close();
@@ -60,7 +65,9 @@ $db->close();
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="stylesheet" href="../public/css/manager_history.css">
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <script src="../public/js/manager_history.js" defer></script>
 </head>
 <body>
@@ -69,7 +76,9 @@ $db->close();
         <aside class="sidebar">
             <a href="./manager_dashboard.php" style="text-decoration: none;">
                 <div class="logo">
+
                     <h3 class="left">Bon</h3>
+
                     <h3>ten</h3>
                 </div>
             </a>
@@ -107,6 +116,7 @@ $db->close();
                 <input type="text" class="search-input" id="eventSearch" placeholder="Search events...">
                 <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
+
                     <path d="m21 21-4.35-4.35"></path>
                 </svg>
             </div>
@@ -120,6 +130,7 @@ $db->close();
                 </div>
                 <div class="header-actions">
                     <div class="filter-group">
+
                         <select class="filter-select" id="statusFilter">
                             <option value="all">All Status</option>
                             <option value="active">Active</option>
@@ -149,6 +160,7 @@ $db->close();
             <!-- Stats Summary -->
             <div class="stats-summary">
                 <div class="stat-item">
+
                     <span class="stat-value" id="totalEvents"><?php echo $total_events; ?></span>
                     <span class="stat-label">Total Events</span>
                 </div>
@@ -199,6 +211,7 @@ $db->close();
                 <div class="section-header">
                     <h2 class="section-title">Past Events</h2>
                     <span class="event-count" id="pastCount">0 events</span>
+
                 </div>
                 <div class="events-table-container">
                     <table class="events-table" id="pastEventsTable">
@@ -225,6 +238,7 @@ $db->close();
                     <div class="section-title-group">
                         <h2 class="section-title">Cancelled & Draft Events</h2>
                         <span class="event-count" id="otherCount">0 events</span>
+
                     </div>
                     <svg class="collapse-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -257,6 +271,7 @@ $db->close();
     <!-- Event Details Modal -->
     <div id="event-details-modal" class="modal">
         <div class="modal-overlay"></div>
+
         <div class="modal-content event-details-modal">
             <button class="modal-close">&times;</button>
             <div class="modal-header">
@@ -275,6 +290,7 @@ $db->close();
                     <div class="detail-item">
                         <span class="detail-label">Location</span>
                         <span class="detail-value" id="modalEventLocation">-</span>
+
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Tickets Sold</span>
@@ -308,6 +324,7 @@ $db->close();
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" id="modalEditBtn">Edit Event</button>
+
                 <button class="btn-primary" id="modalViewAnalytics">View Full Analytics</button>
             </div>
         </div>
@@ -316,10 +333,14 @@ $db->close();
     <!-- Confirm Action Modal -->
     <div id="confirm-modal" class="modal">
         <div class="modal-overlay"></div>
+
         <div class="modal-content confirm-modal">
+
             <button class="modal-close">&times;</button>
+
             <h2 class="modal-title" id="confirmTitle">Confirm Action</h2>
             <p class="confirm-message" id="confirmMessage">Are you sure you want to proceed?</p>
+
             <div class="modal-actions">
                 <button class="btn-secondary" id="confirmCancelBtn">Cancel</button>
                 <button class="btn-danger" id="confirmActionBtn">Confirm</button>
@@ -328,6 +349,7 @@ $db->close();
     </div>
 
     <input type="hidden" id="managerIdData" value="<?php echo $manager_id; ?>">
+
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>

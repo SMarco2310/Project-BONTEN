@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
 }
 
@@ -24,6 +25,7 @@ body {
     width: 180px;
     height: 100vh;
     display: flex;
+
     flex-direction: column;
     padding: 40px 25px;
     position: fixed;
@@ -31,6 +33,7 @@ body {
     top: 0;
     z-index: 200;
 }
+
 
 .sidebar .logo {
     display: flex;
@@ -40,8 +43,10 @@ body {
     gap: 0;
 }
 
+
 .sidebar .logo h3 {
     font-size: 22px;
+
     font-weight: normal;
 }
 
@@ -80,6 +85,7 @@ body {
     margin-top: auto;
 }
 
+
 .logout {
     color: var(--secondary-color);
     text-decoration: none;
@@ -104,28 +110,34 @@ body {
     position: fixed;
     top: 0;
     right: 0;
+
     z-index: 100;
     gap: 20px;
 }
+
 
 
 .user_section {
     display: flex;
     align-items: center;
     gap: 12px;
+
     transition: opacity 0.3s ease;
     text-decoration: none;
 }
 
+
 .user_section:hover {
     opacity: 0.8;
 }
+
 
 .topnav .profile_picture {
     width: 45px;
     height: 45px;
     border-radius: 50%;
     object-fit: cover;
+
 }
 
 .topnav .user_info .username {
@@ -144,16 +156,20 @@ body {
     max-width: 1200px;
 }
 
+
 /* Page Header */
 .page-header {
     margin-bottom: 30px;
+
 }
 
 .header-text h1 {
     font-size: 28px;
     font-weight: normal;
     color: var(--tertiary-color);
+
     margin-bottom: 8px;
+
 }
 
 .header-text h1 .italic {
@@ -169,6 +185,7 @@ body {
 /* Progress Steps */
 .progress-container {
     margin-bottom: 40px;
+
 }
 
 .progress-steps {
@@ -196,6 +213,7 @@ body {
     color: #666;
     display: flex;
     align-items: center;
+
     justify-content: center;
     font-size: 14px;
     font-weight: normal;
@@ -214,12 +232,14 @@ body {
     position: absolute;
 }
 
+
 .step.completed .step-number {
     font-size: 0;
 }
 
 .step.completed .step-number::after {
     font-size: 14px;
+
 }
 
 .step-label {
@@ -233,6 +253,7 @@ body {
     color: var(--tertiary-color);
 }
 
+
 .step-line {
     width: 80px;
     height: 2px;
@@ -240,7 +261,9 @@ body {
     margin: 0 10px;
     margin-bottom: 20px;
     transition: background-color 0.3s ease;
+
 }
+
 
 .step-line.active {
     background-color: var(--secondary-color);
@@ -248,10 +271,13 @@ body {
 
 .progress-bar {
     width: 100%;
+
     height: 4px;
     background-color: #1a1a1a;
+
     border-radius: 2px;
     overflow: hidden;
+
 }
 
 .progress-fill {
@@ -271,6 +297,7 @@ body {
 
 .form-step {
     display: none;
+
 }
 
 .form-step.active {
@@ -278,9 +305,11 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
+
 @keyframes fadeIn {
     from {
         opacity: 0;
+
         transform: translateY(10px);
     }
     to {
@@ -301,11 +330,13 @@ body {
     margin-bottom: 8px;
 }
 
+
 .step-description {
     font-size: 14px;
     color: #666;
     margin-bottom: 30px;
 }
+
 
 /* Form Grid */
 .form-grid {
@@ -316,6 +347,7 @@ body {
 
 .form-group {
     display: flex;
+
     flex-direction: column;
     gap: 8px;
 }
@@ -332,7 +364,9 @@ body {
 
 .required {
     color: var(--secondary-color);
+
 }
+
 
 .form-group input,
 .form-group select,
@@ -363,7 +397,9 @@ body {
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
+
 }
+
 
 .char-count {
     font-size: 12px;
@@ -371,14 +407,17 @@ body {
     text-align: right;
 }
 
+
 .helper-text {
     font-size: 12px;
     color: #666;
+
 }
 
 /* Image Upload */
 .image-upload-container {
     width: 100%;
+
 }
 
 .image-preview {
@@ -392,12 +431,15 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+
     background-color: #1a1a1a;
+
     background-size: cover;
     background-position: center;
     position: relative;
     overflow: hidden;
 }
+
 
 .image-preview:hover {
     border-color: var(--secondary-color);
@@ -430,6 +472,7 @@ body {
     font-size: 12px;
 }
 
+
 .image-preview .remove-image {
     position: absolute;
     top: 10px;
@@ -439,17 +482,20 @@ body {
     border: none;
     width: 30px;
     height: 30px;
+
     border-radius: 50%;
     cursor: pointer;
     display: none;
     align-items: center;
     justify-content: center;
+
     font-size: 18px;
 }
 
 .image-preview.has-image .remove-image {
     display: flex;
 }
+
 
 /* Tags Input */
 .tags-input-container {
@@ -462,6 +508,7 @@ body {
     gap: 8px;
     min-height: 48px;
     align-items: center;
+
 }
 
 .tags-input-container:focus-within {
@@ -471,8 +518,10 @@ body {
 .tags-list {
     display: flex;
     flex-wrap: wrap;
+
     gap: 8px;
 }
+
 
 .tag-item {
     display: flex;
@@ -491,6 +540,7 @@ body {
     color: var(--secondary-color);
     cursor: pointer;
     font-size: 14px;
+
     line-height: 1;
     padding: 0;
 }
@@ -500,10 +550,12 @@ body {
     min-width: 120px;
     background: none;
     border: none;
+
     padding: 4px;
     color: var(--tertiary-color);
     font-size: 14px;
 }
+
 
 .tags-input-container input:focus {
     outline: none;
@@ -521,6 +573,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+
     cursor: pointer;
 }
 
@@ -537,6 +590,7 @@ body {
     transition: border-color 0.3s;
 }
 
+
 .radio-option input:checked + .radio-custom {
     border-color: var(--secondary-color);
 }
@@ -544,9 +598,11 @@ body {
 .radio-option input:checked + .radio-custom::after {
     content: '';
     position: absolute;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     width: 10px;
     height: 10px;
     background-color: var(--secondary-color);
@@ -562,6 +618,7 @@ body {
 .ticket-type-toggle {
     display: flex;
     gap: 10px;
+
     margin-bottom: 25px;
     background-color: #1a1a1a;
     padding: 6px;
@@ -571,16 +628,19 @@ body {
 
 .toggle-option {
     cursor: pointer;
+
 }
 
 .toggle-option input {
     display: none;
 }
 
+
 .toggle-btn {
     display: block;
     padding: 10px 24px;
     border-radius: 8px;
+
     font-size: 14px;
     color: #888;
     transition: all 0.3s ease;
@@ -590,6 +650,7 @@ body {
     background-color: var(--secondary-color);
     color: var(--tertiary-color);
 }
+
 
 /* Tickets Container */
 .tickets-container {
@@ -621,6 +682,7 @@ body {
     color: var(--tertiary-color);
 }
 
+
 .ticket-card .form-group {
     margin-bottom: 0;
 }
@@ -648,11 +710,13 @@ body {
     color: var(--secondary-color);
 }
 
+
 .remove-ticket-btn {
     background: none;
     border: none;
     color: #666;
     cursor: pointer;
+
     padding: 5px;
     transition: color 0.3s;
 }
@@ -670,6 +734,7 @@ body {
 .ticket-fields .form-group {
     margin-bottom: 0;
 }
+
 
 /* Checkbox Options */
 .additional-options h3 {
@@ -692,6 +757,7 @@ body {
     border-bottom: none;
 }
 
+
 .checkbox-option input {
     display: none;
 }
@@ -705,10 +771,13 @@ body {
     position: relative;
     transition: all 0.3s;
     margin-top: 2px;
+
 }
+
 
 .checkbox-option input:checked + .checkbox-custom {
     background-color: var(--secondary-color);
+
     border-color: var(--secondary-color);
 }
 
@@ -718,6 +787,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     color: var(--tertiary-color);
     font-size: 12px;
 }
@@ -733,9 +803,11 @@ body {
     color: var(--tertiary-color);
 }
 
+
 .checkbox-description {
     font-size: 12px;
     color: #666;
+
 }
 
 /* Review Section */
@@ -757,11 +829,14 @@ body {
     overflow: hidden;
 }
 
+
 .preview-image img {
     width: 100%;
+
     height: 100%;
     object-fit: cover;
 }
+
 
 .preview-content {
     padding: 20px;
@@ -769,7 +844,9 @@ body {
 
 .preview-category {
     display: inline-block;
+
     background-color: rgba(192, 95, 71, 0.2);
+
     color: var(--secondary-color);
     padding: 4px 12px;
     border-radius: 20px;
@@ -779,10 +856,13 @@ body {
 
 .preview-title {
     font-size: 20px;
+
     font-weight: normal;
     color: var(--tertiary-color);
+
     margin-bottom: 10px;
 }
+
 
 .preview-description {
     font-size: 13px;
@@ -811,8 +891,11 @@ body {
 
 .review-item {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
+
     color: var(--tertiary-color);
     font-size: 14px;
 }
@@ -836,6 +919,7 @@ body {
     border-radius: 8px;
 }
 
+
 .review-ticket-name {
     color: var(--tertiary-color);
     font-size: 14px;
@@ -844,8 +928,10 @@ body {
 .review-ticket-price {
     color: var(--secondary-color);
     font-size: 14px;
+
     font-weight: normal;
 }
+
 
 .review-settings {
     display: flex;
@@ -856,10 +942,13 @@ body {
 .review-setting-tag {
     background-color: #1a1a1a;
     color: #888;
+
     padding: 6px 12px;
     border-radius: 20px;
+
     font-size: 12px;
 }
+
 
 .review-setting-tag.active {
     background-color: rgba(192, 95, 71, 0.2);
@@ -869,6 +958,7 @@ body {
 /* Form Navigation */
 .form-navigation {
     display: flex;
+
     align-items: center;
     gap: 15px;
     margin-top: 30px;
@@ -896,11 +986,13 @@ body {
     font-family: var(--primary-font);
 }
 
+
 .btn-secondary {
     background-color: transparent;
     border: 1px solid #444;
     color: #888;
 }
+
 
 .btn-secondary:hover {
     background-color: #1a1a1a;
@@ -917,11 +1009,13 @@ body {
     background-color: #d06f57;
 }
 
+
 .btn-outline {
     background-color: transparent;
     border: 1px solid var(--secondary-color);
     color: var(--secondary-color);
 }
+
 
 .btn-outline:hover {
     background-color: rgba(192, 95, 71, 0.1);
@@ -939,14 +1033,17 @@ body {
 
 .add-ticket-btn {
     display: flex;
+
     align-items: center;
     justify-content: center;
     gap: 8px;
     width: 100%;
     padding: 14px;
+
     background-color: transparent;
     border: 2px dashed #333;
     border-radius: 12px;
+
     color: #888;
     font-size: 14px;
     cursor: pointer;
@@ -954,9 +1051,11 @@ body {
     font-family: var(--primary-font);
 }
 
+
 .add-ticket-btn:hover {
     border-color: var(--secondary-color);
     color: var(--secondary-color);
+
 }
 
 /* Modal Styles */
@@ -995,6 +1094,7 @@ body {
     animation: modalSlideIn 0.3s ease;
 }
 
+
 @keyframes modalSlideIn {
     from {
         opacity: 0;
@@ -1004,6 +1104,7 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
 .modal-close {
@@ -1014,6 +1115,7 @@ body {
     border: none;
     color: #888;
     font-size: 24px;
+
     cursor: pointer;
     transition: color 0.3s;
 }
@@ -1033,6 +1135,7 @@ body {
 .modal-title {
     font-size: 24px;
     font-weight: normal;
+
     color: var(--tertiary-color);
     margin-bottom: 10px;
 }
@@ -1057,6 +1160,7 @@ body {
     right: 30px;
     background-color: #1a1a1a;
     color: var(--tertiary-color);
+
     padding: 15px 25px;
     border-radius: 8px;
     border-left: 4px solid var(--secondary-color);
@@ -1082,6 +1186,7 @@ body {
         transform: translateX(0);
         opacity: 1;
     }
+
 }
 
 /* Validation States */
@@ -1106,7 +1211,9 @@ body {
     .progress-steps {
         flex-wrap: wrap;
         gap: 10px;
+
     }
+
 
     .step-line {
         width: 40px;
@@ -1125,6 +1232,7 @@ body {
         display: none;
     }
 
+
     .main-content {
         margin-left: 60px;
         padding: 20px;
@@ -1140,13 +1248,16 @@ body {
         grid-template-columns: 1fr;
     }
 
+
     .form-group.full-width {
         grid-column: 1;
     }
 
     .ticket-fields {
         grid-template-columns: 1fr;
+
     }
+
 
     .form-navigation {
         flex-wrap: wrap;
@@ -1161,7 +1272,9 @@ body {
     .btn-outline {
         flex: 1;
         justify-content: center;
+
     }
+
 
     .progress-steps {
         display: none;
@@ -1176,10 +1289,12 @@ body {
     }
 }
 
+
 /* Scrollbar */
 .main-content::-webkit-scrollbar {
     width: 8px;
 }
+
 
 .main-content::-webkit-scrollbar-track {
     background: #1a1a1a;

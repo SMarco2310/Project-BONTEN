@@ -12,13 +12,19 @@ $db = new Database();
 $conn = $db->connect();
 
 $manager_id = $_SESSION['user_id'];
+
 $full_name = $_SESSION['full_name'];
+
 $first_name = explode(' ', $full_name)[0];
+
 $profile_picture = $_SESSION['profile_picture'];
 
 $stmt = $conn->prepare("SELECT COUNT(*) as total FROM events WHERE manager_id = ? AND status = 'active'");
+
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $active_events = $stmt->get_result()->fetch_assoc()['total'];
 $stmt->close();
 
@@ -28,7 +34,9 @@ $stmt = $conn->prepare("SELECT SUM(t.sold) as total_sold
                         WHERE e.manager_id = ?");
 $stmt->bind_param("i", $manager_id);
 $stmt->execute();
+
 $tickets_sold = $stmt->get_result()->fetch_assoc()['total_sold'] ?? 0;
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as total_revenue
@@ -36,17 +44,24 @@ $stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as total_revenue
                         JOIN events e ON t.event_id = e.event_id
                         WHERE e.manager_id = ?");
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $total_revenue = $stmt->get_result()->fetch_assoc()['total_revenue'] ?? 0;
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT AVG(r.rating) as avg_rating
                         FROM reviews r
                         JOIN events e ON r.event_id = e.event_id
                         WHERE e.manager_id = ?");
+
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT r.review_id, u.full_name, r.review_text, r.rating, r.created_at, e.name as event_name
@@ -56,13 +71,18 @@ $stmt = $conn->prepare("SELECT r.review_id, u.full_name, r.review_text, r.rating
                         WHERE e.manager_id = ?
                         ORDER BY r.created_at DESC LIMIT 10");
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $reviews = $stmt->get_result();
+
 $stmt->close();
 
 $db->close();
+
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,6 +99,7 @@ $db->close();
 
         <aside class="sidebar">
             <a href="./manager_dashboard.php" style="text-decoration: none;">
+
                 <div class="logo">
                     <h3 class="left">Bon</h3>
                     <h3>ten</h3>
@@ -87,12 +108,13 @@ $db->close();
 
             <nav class="nav-menu">
                 <a href="./manager_dashboard.php" class="nav-item active">Home</a>
+
                 <a href="./manager_history.php" class="nav-item">History</a>
-                <a href="./create_event.html" class="nav-item">Create Event</a>
+                <a href="./create_event.php" class="nav-item">Create Event</a>
             </nav>
 
             <div class="lower-menu">
-                <a href="./manager_settings.html" class="nav-item">Settings</a>
+                <a href="./manager_settings.php" class="nav-item">Settings</a>
                 <a href="./index.php" class="logout">Logout</a>
             </div>
 
@@ -100,12 +122,13 @@ $db->close();
 
         <div class="topnav">
             <a
-                href="./manager_settings.html"
+                href="./manager_settings.php"
                 class="user_section"
                 style="cursor: pointer; text-decoration: none"
             >
                 <img
                     src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
+
                     alt="Profile Picture"
                     class="profile_picture"
                     id="headerAvatar"
@@ -142,6 +165,7 @@ $db->close();
                             <option value="october">October</option>
                             <option value="november">November</option>
                             <option value="december">December</option>
+
                         </select>
                     </div>
 
@@ -152,6 +176,7 @@ $db->close();
                                 <span class="metric-label">Total Revenue</span>
                                 <svg class="metric-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="9 18 15 12 9 6"></polyline>
+
                                 </svg>
                             </div>
                             <div class="metric-value" id="totalRevenue">GHC<?php echo number_format($total_revenue, 2); ?></div>
@@ -164,8 +189,11 @@ $db->close();
                         </div>
 
                         <div class="metric-card primary">
+
                             <div class="metric-header">
+
                                 <span class="metric-dot"></span>
+
                                 <span class="metric-label">Tickets Sold</span>
                                 <svg class="metric-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -175,6 +203,7 @@ $db->close();
                             <div class="metric-change negative" id="ticketsChange">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M7 10l5 5 5-5H7z"/>
+
                                 </svg>
                                 <span>0%</span>
                             </div>

@@ -15,8 +15,9 @@ $user_id = $_SESSION['user_id'];
 $success_message = '';
 $error_message = '';
 
-// Handle password update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
+
     $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
+
     $user = $result->fetch_assoc();
     $stmt->close();
 
@@ -32,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
         $error_message = "Current password is incorrect.";
     } elseif (strlen($new_password) < 8) {
         $error_message = "Password must be at least 8 characters long.";
+
     } elseif ($new_password !== $confirm_password) {
         $error_message = "New passwords do not match.";
     } else {
+
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
         $stmt->bind_param("si", $hashed_password, $user_id);
@@ -48,11 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
     }
 }
 
-// Fetch user data
+
+
 $stmt = $conn->prepare("SELECT email, full_name, phone, profile_picture, username FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
 $user_data = $result->fetch_assoc();
 $stmt->close();
 
@@ -63,7 +69,8 @@ $email = $user_data['email'];
 $phone = $user_data['phone'] ?? '';
 $profile_picture = $user_data['profile_picture'] ?? 'user.jpg';
 
-// Split name for first/last
+
+
 $name_parts = explode(' ', $full_name, 2);
 $first_name = $name_parts[0];
 $last_name = $name_parts[1] ?? '';
@@ -92,14 +99,16 @@ $last_name = $name_parts[1] ?? '';
             </a>
 
             <nav class="nav-menu">
+
                 <a href="./manager_dashboard.php" class="nav-item">Home</a>
                 <a href="./manager_history.php" class="nav-item">History</a>
-                <a href="./create_event.html" class="nav-item">Create Event</a>
+                <a href="./create_event.php" class="nav-item">Create Event</a>
             </nav>
 
             <div class="lower-menu">
                 <a href="./manager_settings.php" class="nav-item active">Settings</a>
                 <a href="./index.php" class="logout">Logout</a>
+
             </div>
 
         </aside>
@@ -118,6 +127,7 @@ $last_name = $name_parts[1] ?? '';
                 />
                 <div class="user_info">
                     <h4 class="username" id="headerName"><?php echo htmlspecialchars($full_name); ?></h4>
+
                 </div>
             </a>
 
@@ -139,11 +149,13 @@ $last_name = $name_parts[1] ?? '';
                 </div>
                 <?php endif; ?>
 
-                <!-- Settings Navigation -->
+                
                 <nav class="settings-nav">
                     <button class="settings-nav-item active" data-section="profile">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                         Profile
@@ -164,9 +176,9 @@ $last_name = $name_parts[1] ?? '';
                     </button>
                 </nav>
 
-                <!-- Settings Content -->
+                
                 <div class="settings-content">
-                    <!-- Profile Section -->
+                   
                     <section class="settings-section active" id="profile-section">
                         <div class="section-header">
                             <h2>Profile Information</h2>
@@ -187,11 +199,14 @@ $last_name = $name_parts[1] ?? '';
 
                             <div class="form-row">
                                 <div class="form-group">
+
                                     <label for="firstName">First Name</label>
+
                                     <input type="text" id="firstName" value="<?php echo htmlspecialchars($first_name); ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
+
                                     <input type="text" id="lastName" value="<?php echo htmlspecialchars($last_name); ?>" required>
                                 </div>
                             </div>
@@ -207,6 +222,7 @@ $last_name = $name_parts[1] ?? '';
                             </div>
 
                             <div class="form-group">
+
                                 <label for="bio">Bio</label>
                                 <textarea id="bio" rows="3" placeholder="Tell attendees about yourself...">Event organizer passionate about creating memorable experiences in Accra.</textarea>
                             </div>
@@ -217,21 +233,23 @@ $last_name = $name_parts[1] ?? '';
                             </div>
 
                             <div class="form-actions">
+
                                 <button type="button" class="btn-secondary" id="cancelProfileBtn">Cancel</button>
                                 <button type="submit" class="btn-primary">Save Changes</button>
                             </div>
                         </form>
                     </section>
 
-                    <!-- Payment Details Section -->
+=
                     <section class="settings-section" id="payment-section">
+
                         <div class="section-header">
                             <h2>Payment Details</h2>
                             <p>Manage how you receive payments from ticket sales</p>
                         </div>
 
                         <div class="payment-methods">
-                            <!-- Bank Account -->
+                            
                             <div class="payment-card">
                                 <div class="payment-card-header">
                                     <div class="payment-icon bank">
@@ -254,6 +272,7 @@ $last_name = $name_parts[1] ?? '';
                                 </div>
                                 <div class="payment-card-body" id="bankDetails" style="display: none;">
                                     <div class="payment-detail-row">
+
                                         <span class="detail-label">Bank Name</span>
                                         <span class="detail-value" id="bankName">-</span>
                                     </div>
@@ -262,6 +281,7 @@ $last_name = $name_parts[1] ?? '';
                                         <span class="detail-value" id="accountName">-</span>
                                     </div>
                                     <div class="payment-detail-row">
+
                                         <span class="detail-label">Account Number</span>
                                         <span class="detail-value" id="accountNumber">-</span>
                                     </div>
@@ -295,9 +315,11 @@ $last_name = $name_parts[1] ?? '';
                                     <div class="payment-detail-row">
                                         <span class="detail-label">Phone Number</span>
                                         <span class="detail-value" id="momoNumber">-</span>
+
                                     </div>
                                     <div class="payment-detail-row">
                                         <span class="detail-label">Account Name</span>
+
                                         <span class="detail-value" id="momoAccountName">-</span>
                                     </div>
                                 </div>
@@ -308,6 +330,7 @@ $last_name = $name_parts[1] ?? '';
                                 <div class="payment-card-header">
                                     <div class="payment-icon paystack">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                                             <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                                             <path d="M2 17l10 5 10-5"></path>
                                             <path d="M2 12l10 5 10-5"></path>
@@ -318,9 +341,11 @@ $last_name = $name_parts[1] ?? '';
                                         <p class="payment-status" id="paystackStatus">Connect for instant payouts</p>
                                     </div>
                                     <button type="button" class="btn-primary" id="connectPaystackBtn">Connect Paystack</button>
+
                                 </div>
                                 <div class="payment-card-body">
                                     <p class="payment-note">
+
                                         Connect your Paystack account to receive payments directly from ticket sales.
                                         Paystack handles all payment processing securely.
                                     </p>
@@ -338,6 +363,7 @@ $last_name = $name_parts[1] ?? '';
                                     <option value="daily">Daily</option>
                                     <option value="weekly" selected>Weekly</option>
                                     <option value="monthly">Monthly</option>
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -363,6 +389,7 @@ $last_name = $name_parts[1] ?? '';
                                     <input type="password" name="current_password" id="currentPassword" placeholder="Enter current password">
                                 </div>
                                 <div class="form-group">
+
                                     <label for="newPassword">New Password</label>
                                     <input type="password" name="new_password" id="newPassword" placeholder="Enter new password">
                                 </div>
@@ -395,23 +422,30 @@ $last_name = $name_parts[1] ?? '';
                         <option value="">Select Bank</option>
                         <option value="GCB Bank">GCB Bank</option>
                         <option value="Ecobank Ghana">Ecobank Ghana</option>
+
                         <option value="Absa Bank Ghana">Absa Bank Ghana</option>
                         <option value="Stanbic Bank Ghana">Stanbic Bank Ghana</option>
                         <option value="Standard Chartered">Standard Chartered</option>
+
                         <option value="Fidelity Bank">Fidelity Bank</option>
                         <option value="Zenith Bank">Zenith Bank</option>
+
                         <option value="Access Bank">Access Bank</option>
                         <option value="CalBank">CalBank</option>
                         <option value="UBA Ghana">UBA Ghana</option>
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="accountNameInput">Account Holder Name</label>
                     <input type="text" id="accountNameInput" placeholder="As shown on your bank account" required>
+
                 </div>
                 <div class="form-group">
+
                     <label for="accountNumberInput">Account Number</label>
                     <input type="text" id="accountNumberInput" placeholder="Enter account number" required>
+
                 </div>
                 <div class="form-group">
                     <label for="branchInput">Branch</label>
@@ -434,6 +468,7 @@ $last_name = $name_parts[1] ?? '';
             <form id="momoForm">
                 <div class="form-group">
                     <label for="momoProviderInput">Provider</label>
+
                     <select id="momoProviderInput" required>
                         <option value="">Select Provider</option>
                         <option value="MTN Mobile Money">MTN Mobile Money</option>
@@ -450,6 +485,7 @@ $last_name = $name_parts[1] ?? '';
                     <input type="text" id="momoNameInput" placeholder="Registered name on account" required>
                 </div>
                 <div class="modal-actions">
+
                     <button type="button" class="btn-secondary" id="cancelMomoBtn">Cancel</button>
                     <button type="submit" class="btn-primary">Save Mobile Money</button>
                 </div>

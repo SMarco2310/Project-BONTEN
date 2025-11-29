@@ -6,6 +6,7 @@
 }
 
 
+
 body {
     background-color: var(--primary-color);
     font-family: var(--primary-font);
@@ -40,13 +41,16 @@ body {
     gap: 0;
 }
 
+
 .sidebar .logo h3 {
     font-size: 22px;
     font-weight: 500;
 }
 
+
 .sidebar .logo .left {
     color: var(--secondary-color);
+
 }
 
 .sidebar .logo h3:not(.left) {
@@ -60,6 +64,7 @@ body {
     gap: 35px;
     flex: 1;
 }
+
 
 .nav-item {
     color: #888;
@@ -86,6 +91,7 @@ body {
 .logout {
     color: var(--secondary-color);
     text-decoration: none;
+
     font-size: 15px;
     transition: color 0.3s;
     background-color: #0a0a0a;
@@ -107,7 +113,9 @@ body {
     justify-content: flex-end;
     padding: 0 40px;
     border-bottom: 1px solid #1a1a1a;
+
     position: fixed;
+
     top: 0;
     right: 0;
     z-index: 100;
@@ -125,6 +133,7 @@ body {
     opacity: 0.8;
 }
 
+
 .topnav .profile_picture {
     width: 45px;
     height: 45px;
@@ -136,6 +145,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 
 .topnav .user_info .username {
     color: var(--tertiary-color);
@@ -149,6 +159,7 @@ body {
     min-height: calc(100vh - 70px);
     background-color: var(--primary-color);
     margin-left: 180px;
+
     margin-top: 70px;
     padding: 40px;
 }
@@ -162,14 +173,17 @@ body {
 
 .events-section {
     margin-bottom: 60px;
+
 }
 
 .section-title {
     font-family: var(--secondary-font);
     font-size: 24px;
     font-weight: 400;
+
     color: var(--tertiary-color);
     margin-bottom: 25px;
+
     padding-left: 10px;
 }
 
@@ -185,6 +199,7 @@ body {
 .carousel-arrow {
     background-color: rgba(255, 255, 255, 0.1);
     border: none;
+
     color: var(--tertiary-color);
     font-size: 28px;
     width: 45px;
@@ -208,6 +223,7 @@ body {
 }
 
 
+
 .events-carousel {
     display: flex;
     gap: 20px;
@@ -224,10 +240,13 @@ body {
 }
 
 
+
 .event-card {
     min-width: 220px;
+
     max-width: 220px;
     background-color: #0d0d0d;
+
     border: 1px solid #333;
     border-radius: 12px;
     overflow: hidden;
@@ -237,6 +256,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 
 .event-card:hover {
     transform: translateY(-5px);
@@ -252,6 +272,7 @@ body {
     overflow: hidden;
     background-color: #1a1a1a;
 }
+
 
 .card-image img {
     width: 100%;
@@ -270,14 +291,17 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
+
     background-color: var(--secondary-color);
     color: var(--tertiary-color);
     padding: 4px 12px;
     border-radius: 15px;
+
     font-size: 11px;
     font-weight: 400;
     z-index: 2;
 }
+
 
 
 .bookmark-btn {
@@ -295,6 +319,7 @@ body {
 .bookmark-btn:hover {
     transform: scale(1.2);
 }
+
 
 .bookmark-btn.bookmarked {
     animation: bookmarkPulse 0.3s ease;
@@ -319,8 +344,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     background-color: #0d0d0d;
+
 }
+
 
 .event-name {
     font-size: 16px;
@@ -342,10 +370,12 @@ body {
     gap: 6px;
 }
 
+
 .event-location {
     font-size: 13px;
     color: #999;
     display: flex;
+
     align-items: center;
     gap: 5px;
     line-height: 1.4;
@@ -361,6 +391,7 @@ body {
     .main-body {
         margin-left: 180px;
         padding: 30px 20px;
+
     }
 
     .event-card {
@@ -370,6 +401,7 @@ body {
 
     .card-image {
         height: 180px;
+
     }
 }
 
@@ -388,6 +420,7 @@ body {
         height: 40px;
         font-size: 24px;
     }
+
 
     .event-card {
         min-width: 160px;
@@ -424,6 +457,7 @@ body {
 .search-input {
     flex: 1;
     background-color: #1a1a1a;
+
     border: 1px solid #333;
     border-radius: 8px;
     padding: 14px 20px;
@@ -446,9 +480,11 @@ body {
 .search-btn {
     background-color: var(--secondary-color);
     border: none;
+
     border-radius: 8px;
     padding: 14px 24px;
     cursor: pointer;
+
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -457,6 +493,7 @@ body {
 
 .search-btn:hover {
     background-color: #b85f48;
+
     transform: scale(1.05);
 }
 
@@ -472,13 +509,16 @@ body {
     flex-wrap: wrap;
 }
 
+
 .filter-select {
     background-color: #1a1a1a;
     border: 1px solid #333;
     border-radius: 6px;
     padding: 10px 16px;
+
     color: var(--tertiary-color);
     font-size: 14px;
+
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.3s ease;
@@ -506,8 +546,10 @@ body {
 .no-results {
     text-align: center;
     padding: 40px;
+
     color: #888;
 }
+
 
 .no-results h3 {
     color: var(--tertiary-color);
@@ -519,6 +561,7 @@ body {
     .search-wrapper {
         flex-direction: column;
     }
+
 
     .search-btn {
         width: 100%;
@@ -533,6 +576,7 @@ body {
 @media (max-width: 1024px) {
     .sidebar {
         width: 150px;
+
         padding: 30px 20px;
     }
 
@@ -540,6 +584,7 @@ body {
         margin-left: 150px;
         padding: 25px;
     }
+
 
     .topnav {
         margin-left: 150px;
@@ -549,10 +594,12 @@ body {
         min-width: 180px;
     }
 
+
     .events-section h2 {
         font-size: 22px;
     }
 }
+
 
 @media (max-width: 768px) {
     .sidebar {
@@ -588,6 +635,7 @@ body {
         font-size: 14px;
     }
 
+
     .search-container {
         padding: 20px 15px;
     }
@@ -615,9 +663,12 @@ body {
         padding: 12px;
     }
 
+
     .event-name {
         font-size: 15px;
+
     }
+
 
     .event-location {
         font-size: 12px;
@@ -626,8 +677,10 @@ body {
     .carousel-arrow {
         width: 35px;
         height: 35px;
+
         font-size: 20px;
     }
+
 }
 
 @media (max-width: 480px) {
@@ -642,6 +695,7 @@ body {
     .username {
         display: none;
     }
+
 
     .profile_picture {
         width: 32px;
@@ -666,15 +720,19 @@ body {
         margin-bottom: 30px;
     }
 
+
     .events-section h2 {
         font-size: 18px;
+
         margin-bottom: 15px;
     }
 
     .event-card {
         min-width: 140px;
         max-width: 150px;
+
     }
+
 
     .card-image {
         height: 140px;
@@ -683,6 +741,7 @@ body {
     .event-badge {
         font-size: 10px;
         padding: 4px 8px;
+
     }
 
     .card-content {
@@ -703,6 +762,7 @@ body {
         font-size: 18px;
     }
 
+
     .no-results {
         padding: 25px 15px;
     }
@@ -718,6 +778,7 @@ body {
         max-width: 130px;
     }
 
+
     .card-image {
         height: 120px;
     }
@@ -730,6 +791,7 @@ body {
 @media (max-height: 600px) and (orientation: landscape) {
     .sidebar {
         padding: 20px 15px;
+
     }
 
     .logo {
@@ -739,4 +801,5 @@ body {
     .nav-menu {
         gap: 20px;
     }
+
 }

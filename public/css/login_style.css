@@ -3,6 +3,7 @@
 *{
     font-family: "Poppins", sans-serif;
     margin: 0;
+
 }
 
 body{
@@ -13,6 +14,7 @@ body{
 /* make the style the inputes  */
 #email-field,#password-field,#name-field,#role-field,#first-name-field,#last-name-field,#phoneNumber-field {
     border: solid 1px #f9f9f8;
+
     background-color: #020b13;
     color: white;
 }
@@ -36,6 +38,7 @@ body{
 
         .pwd-eye svg {
             width:auto;
+
             opacity: 0.7;
             transition: opacity 0.2s;
         }
@@ -44,8 +47,10 @@ body{
             opacity: 1;
         }
 
+
 option{
     background-color: white;
+
     color: black;
 }
 
@@ -54,10 +59,12 @@ option{
     justify-content: center;
     align-items: center;
     flex: 2;
+
     height: 100vh;
     width: 100%;
     margin: auto;
     border-radius: 5px;
+
     
     overflow: hidden;
 }
@@ -85,6 +92,7 @@ option{
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     align-items: center;
     background-color: #020b13;
     padding: 20px;
@@ -102,6 +110,7 @@ option{
     gap: 10px;
     padding: 20px;
 }
+
 
 input, button, select{
     width: 300px;

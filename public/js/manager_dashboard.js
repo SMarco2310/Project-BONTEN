@@ -49,6 +49,7 @@ class DashboardDataService {
         return response.json();
     }
 
+
     async getManagerProfile() {
         if (this.useMockData) {
             return this._getMockManagerProfile();
@@ -242,6 +243,7 @@ class DashboardController {
         }
 
         const searchInput = document.getElementById('insightsSearch');
+
         if (searchInput) {
             let debounceTimer;
             searchInput.addEventListener('input', (e) => {
@@ -255,6 +257,7 @@ class DashboardController {
                 if (e.key === 'Enter' && searchInput.value.trim()) {
                     window.location.href = `manager_history.php?search=${encodeURIComponent(searchInput.value.trim())}`;
                 }
+
             });
         }
 
@@ -270,6 +273,7 @@ class DashboardController {
 
     setupMetricCardClicks() {
         const revenueCard = document.querySelector('.metric-card:has(#totalRevenue)');
+
         if (revenueCard) {
             revenueCard.style.cursor = 'pointer';
             revenueCard.addEventListener('click', () => {
@@ -278,6 +282,7 @@ class DashboardController {
         }
 
         const ticketsCard = document.querySelector('.metric-card:has(#ticketsSold)');
+
         if (ticketsCard) {
             ticketsCard.style.cursor = 'pointer';
             ticketsCard.addEventListener('click', () => {
@@ -291,9 +296,11 @@ class DashboardController {
             eventsCard.addEventListener('click', () => {
                 window.location.href = '../../views/manager_history.php?status=active';
             });
+
         }
 
         const ratingCard = document.querySelector('.metric-card.secondary:has(#avgRating)');
+
         if (ratingCard) {
             ratingCard.style.cursor = 'pointer';
             ratingCard.addEventListener('click', () => {
@@ -355,6 +362,7 @@ class DashboardController {
     async loadSummaryMetrics() {
         try {
             const metrics = await this.dataService.getSummaryMetrics(this.currentPeriod);
+
 
             const revenueEl = document.getElementById('totalRevenue');
             if (revenueEl) {
@@ -424,6 +432,7 @@ class DashboardController {
         if (this.chartInstance) {
             this.chartInstance.destroy();
         }
+
 
         if (typeof Chart === 'undefined') {
             this.loadChartJS().then(() => {
@@ -524,13 +533,16 @@ class DashboardController {
                         beginAtZero: true
                     }
                 }
+
             }
         });
     }
 
+
     async loadSecondaryMetrics() {
         try {
             const metrics = await this.dataService.getSecondaryMetrics();
+
 
             const ratingEl = document.getElementById('avgRating');
             if (ratingEl) {
@@ -580,6 +592,7 @@ class DashboardController {
 
     renderReviewsTable(reviews) {
         const tbody = document.getElementById('reviewsTableBody');
+
         if (!tbody) return;
 
         if (reviews.length === 0) {
@@ -632,6 +645,7 @@ class DashboardController {
     }
 
 
+
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');
         if (existingToast) {
@@ -657,6 +671,7 @@ function formatNumber(value) {
     if (value >= 1000000) {
         return (value / 1000000).toFixed(1) + 'M';
     }
+
     if (value >= 1000) {
         return (value / 1000).toFixed(1) + 'K';
     }
@@ -667,6 +682,7 @@ function calculatePercentageChange(current, previous) {
     if (previous === 0) return 0;
     return ((current - previous) / previous) * 100;
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     window.dashboardController = new DashboardController();
@@ -681,3 +697,4 @@ if (typeof module !== 'undefined' && module.exports) {
         calculatePercentageChange
     };
 }
+

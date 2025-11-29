@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
     exit();
 }
 
+
 require_once '../config/Database.php';
 
 $db = new Database();
@@ -31,6 +32,7 @@ $result = $conn->query("SELECT category_id, name FROM categories ORDER BY name A
 while ($row = $result->fetch_assoc()) {
     $categories[] = $row;
 }
+
 
 $db->close();
 
@@ -59,6 +61,7 @@ unset($_SESSION['error_message']);
 <body>
     <div class="container">
 
+
         <aside class="sidebar">
             <a href="./manager_dashboard.php" style="text-decoration: none;">
                 <div class="logo">
@@ -70,28 +73,34 @@ unset($_SESSION['error_message']);
             <nav class="nav-menu">
                 <a href="./manager_dashboard.php" class="nav-item">Home</a>
                 <a href="./manager_history.php" class="nav-item">History</a>
+
                 <a href="./create_event.php" class="nav-item active">Create Event</a>
             </nav>
 
             <div class="lower-menu">
                 <a href="./manager_settings.php" class="nav-item">Settings</a>
+
                 <a href="./index.php" class="logout">Logout</a>
             </div>
 
         </aside>
 
         <div class="topnav">
+
             <a
                 href="./manager_settings.php"
                 class="user_section"
                 style="cursor: pointer; text-decoration: none"
+
             >
                 <img
                     src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
                     alt="Profile Picture"
+
                     class="profile_picture"
                 />
                 <div class="user_info">
+
                     <h4 class="username" id="managerName"><?php echo htmlspecialchars($full_name); ?></h4>
                 </div>
             </a>
@@ -101,12 +110,14 @@ unset($_SESSION['error_message']);
             <div class="page-header">
                 <div class="header-text">
                     <h1>Create <span class="italic">New Event</span></h1>
+
                     <p>Fill in the details to create your event</p>
                 </div>
             </div>
 
             <?php if ($success_message): ?>
             <div class="alert alert-success"><?php echo htmlspecialchars($success_message); ?></div>
+
             <?php endif; ?>
 
             <?php if ($error_message): ?>
@@ -117,11 +128,13 @@ unset($_SESSION['error_message']);
             <div class="progress-container">
                 <div class="progress-steps">
                     <div class="step active" data-step="1">
+
                         <div class="step-number">1</div>
                         <span class="step-label">Basic Info</span>
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="2">
+
                         <div class="step-number">2</div>
                         <span class="step-label">Date & Location</span>
                     </div>
@@ -132,6 +145,7 @@ unset($_SESSION['error_message']);
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="4">
+
                         <div class="step-number">4</div>
                         <span class="step-label">Review</span>
                     </div>
@@ -152,6 +166,7 @@ unset($_SESSION['error_message']);
 
                         <div class="form-grid">
                             <div class="form-group full-width">
+
                                 <label for="eventName">Event Name <span class="required">*</span></label>
                                 <input type="text" id="eventName" name="eventName" placeholder="Enter your event name" required maxlength="100">
                                 <span class="char-count"><span id="nameCount">0</span>/100</span>
@@ -159,6 +174,7 @@ unset($_SESSION['error_message']);
 
                             <div class="form-group">
                                 <label for="eventCategory">Category <span class="required">*</span></label>
+
                                 <select id="eventCategory" name="eventCategory" required>
                                     <option value="" disabled selected>Select category</option>
                                     <?php foreach ($categories as $category): ?>
@@ -177,12 +193,14 @@ unset($_SESSION['error_message']);
 
                             <div class="form-group full-width">
                                 <label for="eventDescription">Description <span class="required">*</span></label>
+
                                 <textarea id="eventDescription" name="eventDescription" rows="5" placeholder="Describe your event, what attendees can expect, highlights, etc." required maxlength="2000"></textarea>
                                 <span class="char-count"><span id="descCount">0</span>/2000</span>
                             </div>
 
                             <div class="form-group full-width">
                                 <label>Event Image <span class="required">*</span></label>
+
                                 <div class="image-upload-container">
                                     <div class="image-preview" id="imagePreview">
                                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -203,6 +221,7 @@ unset($_SESSION['error_message']);
                 
                 <div class="form-step" data-step="2">
                     <div class="step-content">
+
                         <h2 class="step-title">Date & Location</h2>
                         <p class="step-description">When and where is your event happening?</p>
 
@@ -224,6 +243,7 @@ unset($_SESSION['error_message']);
                                         <input type="radio" name="eventType" value="in-person" checked required>
                                         <span class="radio-custom"></span>
                                         <span class="radio-label">In-Person</span>
+
                                     </label>
                                     <label class="radio-option">
                                         <input type="radio" name="eventType" value="online">
@@ -252,6 +272,7 @@ unset($_SESSION['error_message']);
                                 <label for="eventCapacity">Event Capacity</label>
                                 <input type="number" id="eventCapacity" name="eventCapacity" placeholder="Maximum number of attendees" min="1">
                                 <span class="helper-text">Leave empty for unlimited</span>
+
                             </div>
                         </div>
                     </div>
@@ -265,12 +286,14 @@ unset($_SESSION['error_message']);
 
                         <div class="ticket-type-toggle">
                             <label class="toggle-option">
+
                                 <input type="radio" name="ticketType" value="free" checked>
                                 <span class="toggle-btn">Free Event</span>
                             </label>
                             <label class="toggle-option">
                                 <input type="radio" name="ticketType" value="paid">
                                 <span class="toggle-btn">Paid Event</span>
+
                             </label>
                         </div>
 
@@ -296,16 +319,20 @@ unset($_SESSION['error_message']);
                                  
                                     <div class="ticket-card" data-ticket-index="0">
                                         <div class="ticket-header">
+
                                             <h3>Regular Ticket</h3>
                                         </div>
                                         <input type="hidden" name="tickets[0][name]" value="Regular">
                                         <div class="form-group">
                                             <label>Price (GHS)</label>
                                             <input type="number" name="tickets[0][price]" placeholder="0.00" min="0" step="0.01" required>
+
                                         </div>
                                         <div class="form-group">
+
                                             <label>Quantity</label>
                                             <input type="number" name="tickets[0][quantity]" placeholder="100" min="1" required>
+
                                         </div>
                                     </div>
 
@@ -331,12 +358,15 @@ unset($_SESSION['error_message']);
 
       
                 <div class="form-step" data-step="4">
+
                     <div class="step-content">
+
                         <h2 class="step-title">Review Your Event</h2>
                         <p class="step-description">Double-check everything before publishing</p>
 
                         <div class="review-container">
                             <div class="review-preview">
+
                                 <div class="preview-image" id="reviewImage">
                                     <img src="../public/assets/hero.png" alt="Event preview" id="reviewImageSrc">
                                 </div>
@@ -352,8 +382,10 @@ unset($_SESSION['error_message']);
                                     <h3>Date & Time</h3>
                                     <div class="review-item">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                             <line x1="16" y1="2" x2="16" y2="6"></line>
+
                                             <line x1="8" y1="2" x2="8" y2="6"></line>
                                             <line x1="3" y1="10" x2="21" y2="10"></line>
                                         </svg>
@@ -385,6 +417,7 @@ unset($_SESSION['error_message']);
 
                 
                 <div class="form-navigation">
+
                     <button type="button" class="btn-secondary" id="prevBtn" style="display: none;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="15 18 9 12 15 6"></polyline>
@@ -393,12 +426,14 @@ unset($_SESSION['error_message']);
                     </button>
                     <div class="nav-spacer"></div>
                     <button type="button" class="btn-primary" id="nextBtn">
+
                         Next
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
                     <button type="submit" class="btn-primary" id="publishBtn" style="display: none;" name="publish_event">
+
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
@@ -411,6 +446,7 @@ unset($_SESSION['error_message']);
 
    
     <div id="success-modal" class="modal">
+
         <div class="modal-overlay"></div>
         <div class="modal-content success-modal">
             <div class="success-icon">
@@ -420,6 +456,7 @@ unset($_SESSION['error_message']);
                 </svg>
             </div>
             <h2 class="modal-title">Event Created!</h2>
+
             <p class="modal-message" id="successMessage">Your event has been published successfully.</p>
             <div class="modal-actions">
                 <button class="btn-secondary" id="viewEventBtn">View Event</button>
@@ -432,6 +469,7 @@ unset($_SESSION['error_message']);
 
 document.addEventListener('DOMContentLoaded', function() {
     const publishBtn = document.getElementById('publishBtn');
+
     const form = document.getElementById('createEventForm');
 
     if (publishBtn && form) {
@@ -448,16 +486,20 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 form.reportValidity();
             }
+
         });
     }
 
 
+
     const goToDashboardBtn = document.getElementById('goToDashboardBtn');
+
     if (goToDashboardBtn) {
         goToDashboardBtn.addEventListener('click', function() {
             window.location.href = 'manager_dashboard.php';
         });
     }
+
 });
 </script>
 

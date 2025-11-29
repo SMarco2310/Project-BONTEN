@@ -12,9 +12,11 @@ $secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3";
 $public_key = "pk_test_d1f61fd4add0486460c5a543b1a51e97015d1207";
 
 
+
 $input = json_decode(file_get_contents("php://input"), true);
 $email = $input["email"] ?? "";
 $regular_quantity = $input["regular_quantity"] ?? 0;
+
 $vip_quantity = $input["vip_quantity"] ?? 0;
 $event_id = $input["event_id"] ?? 0;
 
@@ -37,9 +39,11 @@ $stmt->bind_param("i", $event_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+
 while ($ticket = $result->fetch_assoc()) {
     $ticket_name_lower = strtolower($ticket['ticket_name']);
     if (strpos($ticket_name_lower, 'regular') !== false) {
+
         $price_regular = $ticket['price'];
         $regular_ticket_id = $ticket['ticket_id'];
        
@@ -62,6 +66,7 @@ while ($ticket = $result->fetch_assoc()) {
             exit();
         }
     }
+
 }
 $stmt->close();
 
@@ -72,6 +77,7 @@ $amount_kobo = $amount_ghs * 100;
 
 $url = "https://api.paystack.co/transaction/initialize";
 $fields = [
+
     "email" => $email,
     "amount" => $amount_kobo,
     "currency" => "GHS",
@@ -114,6 +120,7 @@ if ($response["status"]) {
     $status = "pending";
 
 
+
     $ticketTypeParts = [];
     if ($regular_quantity > 0) $ticketTypeParts[] = "Regular: $regular_quantity";
     if ($vip_quantity > 0) $ticketTypeParts[] = "VIP: $vip_quantity";
@@ -143,10 +150,13 @@ if ($response["status"]) {
         if ($stmt->execute()) {
             echo json_encode([
                 "status" => true,
+
                 "authorization_url" => $response["data"]["authorization_url"],
                 "access_code" => $response["data"]["access_code"],
+
                 "reference" => $response["data"]["reference"],
                 "public_key" => $public_key,
+
                 "amount" => $amount_kobo
             ]);
         } else {
@@ -162,8 +172,10 @@ if ($response["status"]) {
             "message" => "DB Prepare Error: " . $conn->error,
         ]);
     }
+
     $conn->close();
 } else {
+
     echo json_encode(["status" => false, "message" => $response["message"]]);
 }
 ?>

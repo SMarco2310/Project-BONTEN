@@ -18,11 +18,14 @@ $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHER
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
 $user = $result->fetch_assoc();
 $stmt->close();
 
 $full_name = $user['full_name'] ?? 'User';
+
 $profile_picture = $user['profile_picture'] ?? 'user.jpg';
+
 
 $db->close();
 ?>
@@ -41,6 +44,7 @@ $db->close();
 <body>
 <div class="container">
 
+
         <aside class="sidebar">
             <a href="./user_homepage.php" style="text-decoration: none;">
                 <div class="logo">
@@ -53,6 +57,7 @@ $db->close();
 
             <a href="./user_homepage.php" class="nav-item" data-translate="home">Home</a>
             <a href="./explore.php" class="nav-item" data-translate="explore">Explore</a>
+
             <a href="./history.php" class="nav-item active" data-translate="history">History</a>
 
             </nav>
@@ -85,11 +90,14 @@ $db->close();
         <div class="main-body">
             <div class="history-content">
 
-                <!-- Upcoming Events Section -->
+                
                 <section class="history-section">
+
                     <div class="section-header">
+
                         <h2 class="section-title" data-translate="upcomingEvents">Upcoming Events</h2>
                         <p class="section-subtitle" data-translate="eventsRegisteredFor">Events you've registered for</p>
+
                     </div>
 
                     <div class="events-grid">
@@ -105,9 +113,12 @@ $db->close();
                                     <span class="event-badge">ASC Week</span>
                                 </div>
                                 <p class="event-date">December 25, 2023 - 5:00 PM</p>
+
                                 <p class="event-location">Ashesi University</p>
                                 <div class="card-actions">
+
                                     <a href="./event.html?id=ashchella"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
                             </div>
@@ -117,15 +128,18 @@ $db->close();
                             <div class="card-image-wrapper">
                                 <img src="../public/assets/tidalrave.jpg" alt="Tidal Rave" class="card-image">
                                 <span class="event-status upcoming">Registered</span>
+
                             </div>
                             <div class="card-content">
                                 <div class="card-header">
                                     <h3 class="event-name">Tidal Rave</h3>
                                     <span class="event-badge">Concert</span>
+
                                 </div>
                                 <p class="event-date">December 20, 2023 - 8:00 PM</p>
                                 <p class="event-location">Labadi Beach, Accra</p>
                                 <div class="card-actions">
+
                                     <a href="./event.html?id=tidal-rave"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
@@ -140,12 +154,15 @@ $db->close();
                             <div class="card-content">
                                 <div class="card-header">
                                     <h3 class="event-name">Y2K Neon</h3>
+
                                     <span class="event-badge">Fashion</span>
                                 </div>
                                 <p class="event-date">December 28, 2023 - 9:00 PM</p>
+
                                 <p class="event-location">Republic Bar & Grill</p>
                                 <div class="card-actions">
                                     <a href="./event.html?id=y2k-neon"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
                             </div>
@@ -167,10 +184,12 @@ $db->close();
                             <div class="card-image-wrapper">
                                 <img src="../public/assets/gff.jpg" alt="Global Football Festival" class="card-image">
                                 <span class="event-status attended">Attended</span>
+
                             </div>
                             <div class="card-content">
                                 <div class="card-header">
                                     <h3 class="event-name">Global Football Festival</h3>
+
                                     <span class="event-badge">Football</span>
                                 </div>
                                 <p class="event-date">December 1, 2023 - 6:00 PM</p>
@@ -185,6 +204,7 @@ $db->close();
                         <div class="history-card" data-event-id="tanks-and-bikinis">
                             <div class="card-image-wrapper">
                                 <img src="../public/assets/t&b.jpg" alt="Tanks & Bikinis" class="card-image">
+
                                 <span class="event-status attended">Attended</span>
                             </div>
                             <div class="card-content">
@@ -194,6 +214,7 @@ $db->close();
                                 </div>
                                 <p class="event-date">December 15, 2023 - 7:00 PM</p>
                                 <p class="event-location">Sandbox Beach Club</p>
+
                                 <div class="card-actions">
                                     <a href="./event.html?id=tanks-and-bikinis"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
@@ -214,6 +235,7 @@ $db->close();
                                 <p class="event-date">November 28, 2023 - 9:00 PM</p>
                                 <p class="event-location">Accra International Conference Centre</p>
                                 <div class="card-actions">
+
                                     <a href="./event.html?id=rapperholic"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>
@@ -228,12 +250,14 @@ $db->close();
                             <div class="card-content">
                                 <div class="card-header">
                                     <h3 class="event-name">iMullar</h3>
+
                                     <span class="event-badge">Concert</span>
                                 </div>
                                 <p class="event-date">November 20, 2023 - 10:00 PM</p>
                                 <p class="event-location">+233 Jazz Bar & Grill</p>
                                 <div class="card-actions">
                                     <a href="./event.html?id=imullar"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>
                             </div>
@@ -264,18 +288,21 @@ $db->close();
         </div>
     </div>
 
-    <!-- Write Review Modal -->
+    
     <div id="review-modal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-content review-modal-content">
             <button class="modal-close">&times;</button>
+
             <h2 class="modal-title">Write a Review</h2>
+
             <p class="modal-subtitle">Share your experience at <strong><span id="review-event-name"></span></strong></p>
             <form id="review-form" class="review-form">
                 <div class="form-group">
                     <label for="star-rating">Rating *</label>
                     <div id="star-rating" class="star-rating">
                         <span class="star" data-rating="1">★</span>
+
                         <span class="star" data-rating="2">★</span>
                         <span class="star" data-rating="3">★</span>
                         <span class="star" data-rating="4">★</span>
@@ -297,6 +324,7 @@ $db->close();
 
     <script src="../public/js/language.js"></script>
     <script src="../public/js/history.js" defer></script>
+
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ function isValidEmail(email) {
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+
   return emailPattern.test(email);
 }
 
@@ -38,11 +39,13 @@ function isValidPassword(password) {
     return false;
   }
 
+
   return true;
 }
 
 
 function getEmailError(email) {
+
   if (!email || email.trim() === '') {
     return 'Email is required';
   }
@@ -75,6 +78,7 @@ function getPasswordError(password) {
 
  
   const hasNumber = /[0-9]/.test(password);
+
   if (!hasNumber) {
     return 'Your password must contain at least one number';
   }
@@ -115,7 +119,9 @@ function showError(inputElement, message) {
 }
 
 
+
 function removeError(inputElement) {
+
 
   inputElement.style.borderColor = '';
 

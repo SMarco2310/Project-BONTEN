@@ -15,6 +15,7 @@ function showLoginForm() {
   paragraphs.forEach((paragraph) => {
     paragraph.style.cssText = "padding-bottom: 10px;";
   });
+
   loginForm.style.transition = "all 0.7s ease-in-out";
   tabNameText.textContent = "Login";
 }
@@ -26,6 +27,7 @@ function showSignUpForm() {
   signUpForm.style.cssText =
     "display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;";
   const paragraphs = signUpForm.querySelectorAll("label p");
+
   paragraphs.forEach((paragraph) => {
     paragraph.style.cssText = "padding-bottom: 10px;";
   });

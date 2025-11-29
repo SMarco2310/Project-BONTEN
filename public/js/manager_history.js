@@ -53,6 +53,7 @@ class HistoryDataService {
         return response.json();
     }
 
+
     
     async exportHistory(format = 'csv') {
         const params = new URLSearchParams({
@@ -71,6 +72,7 @@ Export Data,N/A,0,0,N/A,N/A`;
         const blob = new Blob([csvContent], { type: 'text/csv' });
         return Promise.resolve(blob);
     }
+
 }
 
 
@@ -109,12 +111,14 @@ class HistoryController {
         }
 
         const sortBy = document.getElementById('sortBy');
+
         if (sortBy) {
             sortBy.addEventListener('change', (e) => {
                 this.currentFilters.sort = e.target.value;
                 this.loadEvents();
             });
         }
+
 
         const searchInput = document.getElementById('eventSearch');
         if (searchInput) {
@@ -132,6 +136,7 @@ class HistoryController {
         if (exportBtn) {
             exportBtn.addEventListener('click', () => this.handleExport());
         }
+
 
         const otherHeader = document.getElementById('otherEventsHeader');
         if (otherHeader) {
@@ -164,12 +169,14 @@ class HistoryController {
                     sessionStorage.setItem('analyticsEventId', this.currentEventId);
                     window.location.href = `event_analytics.html?id=${this.currentEventId}`;
                 }
+
             });
         }
 
         const confirmModal = document.getElementById('confirm-modal');
         if (confirmModal) {
             const overlay = confirmModal.querySelector('.modal-overlay');
+
             const closeBtn = confirmModal.querySelector('.modal-close');
             const cancelBtn = document.getElementById('confirmCancelBtn');
             const actionBtn = document.getElementById('confirmActionBtn');
@@ -197,6 +204,7 @@ class HistoryController {
             this.showToast('Failed to load events', 'error');
         }
     }
+
 
     renderActiveEvents(events) {
         const tbody = document.getElementById('activeEventsBody');
@@ -298,6 +306,7 @@ class HistoryController {
             `;
             return;
         }
+
 
         tbody.innerHTML = events.map(event => `
             <tr data-event-id="${event.id}">
@@ -421,6 +430,7 @@ class HistoryController {
         }
 
         const sort = urlParams.get('sort');
+
         if (sort && ['date-desc', 'date-asc', 'revenue-desc', 'revenue-asc', 'tickets-desc'].includes(sort)) {
             this.currentFilters.sort = sort;
             const sortBy = document.getElementById('sortBy');
@@ -493,8 +503,10 @@ class HistoryController {
             this.showToast('Preparing export...');
             const blob = await this.dataService.exportHistory('csv');
 
+
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
+
             a.href = url;
             a.download = `event-history-${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
@@ -517,6 +529,7 @@ class HistoryController {
         }
     }
 
+
     closeModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -536,6 +549,7 @@ class HistoryController {
 
     escapeHtml(text) {
         const div = document.createElement('div');
+
         div.textContent = text;
         return div.innerHTML;
     }
@@ -543,6 +557,7 @@ class HistoryController {
     capitalizeFirst(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
 
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');
