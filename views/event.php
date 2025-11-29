@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-// Allow both logged-in and non-logged-in users to view events
-// But we'll track if user is logged in for personalized features
+
 $is_logged_in = isset($_SESSION['user_id']);
 $user_id = $is_logged_in ? $_SESSION['user_id'] : null;
 $user_type = $is_logged_in ? $_SESSION['user_type'] : null;
@@ -14,17 +13,18 @@ require_once '../config/Database.php';
 $db = new Database();
 $conn = $db->connect();
 
-// Get event ID from URL parameter
+
 $event_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Fetch event details
+
 $event = null;
 $tickets = [];
 $reviews = [];
 $category_name = '';
 
 if ($event_id > 0) {
-    // Fetch event with category name
+   
+  
     $stmt = $conn->prepare("
         SELECT e.*, c.name as category_name, u.full_name as organizer_name
         FROM events e
@@ -41,7 +41,7 @@ if ($event_id > 0) {
     if ($event) {
         $category_name = $event['category_name'] ?? 'Event';
 
-        // Fetch tickets for this event
+        
         $stmt = $conn->prepare("
             SELECT ticket_id, ticket_name, price, quantity, sold
             FROM tickets
@@ -56,7 +56,7 @@ if ($event_id > 0) {
         }
         $stmt->close();
 
-        // Fetch reviews with user details
+       
         $stmt = $conn->prepare("
             SELECT r.*, u.full_name, u.profile_picture
             FROM reviews r
@@ -77,13 +77,13 @@ if ($event_id > 0) {
 
 $db->close();
 
-// If no event found, redirect to explore page
+
 if (!$event) {
     header("Location: explore.php");
     exit();
 }
 
-// Get ticket prices for JavaScript
+
 $regular_price = 0;
 $vip_price = 0;
 foreach ($tickets as $ticket) {
@@ -95,11 +95,11 @@ foreach ($tickets as $ticket) {
     }
 }
 
-// Format date and time
+
 $event_date_formatted = date('F j, Y', strtotime($event['event_date']));
 $event_time_formatted = date('g:i A', strtotime($event['event_time']));
 
-// Calculate time difference for "X days/weeks ago" format
+
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
     $difference = time() - $timestamp;
