@@ -104,7 +104,7 @@ body {
     background-color: #0a0a0a;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 40px;
     border-bottom: 1px solid #1a1a1a;
     position: fixed;
@@ -117,14 +117,15 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: opacity 0.3s ease;
+    text-decoration: none;
+}
+
+.user_section:hover {
+    opacity: 0.8;
 }
 
 .topnav .profile_picture {
-    display: flex;
-    align-items: center;
-}
-
-.topnav .profile_picture img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -140,6 +141,7 @@ body {
     color: var(--tertiary-color);
     font-size: 14px;
     font-weight: normal;
+    margin: 0;
 }
 
 
@@ -256,7 +258,7 @@ body {
 .card-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-bottom: 12px;
     gap: 10px;
 }
@@ -292,7 +294,7 @@ body {
 }
 
 .event-location::before {
-    content: "📍";
+    content: "";
     margin-right: 4px;
     font-size: 11px;
 }
