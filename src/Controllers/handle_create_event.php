@@ -1,11 +1,8 @@
 <?php
-session_start();
+require_once '../../config/security.php';
+set_security_headers();
 
-
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
-    header("Location: ../../views/index.php");
-    exit();
-}
+require_manager();
 
 require_once '../../config/Database.php';
 
@@ -70,18 +67,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $file = $_FILES['eventImage'];
-        $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-       
-        if (!in_array($file_extension, $allowed_extensions)) {
-            $error_message = 'Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.';
-        } elseif ($file['size'] > 5 * 1024 * 1024) {
-            $error_message = 'Image size must be less than 5MB.';
+        $validation_result = validate_image_upload($file);
+
+        if ($validation_result !== true) {
+            $error_message = implode(', ', $validation_result);
         } else {
 
-            
-            $new_filename = 'event_' . time() . '_' . uniqid() . '.' . $file_extension;
+            $new_filename = generate_secure_filename($file['name']);
 
             $upload_path = $upload_dir . $new_filename;
 

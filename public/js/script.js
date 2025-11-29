@@ -1,26 +1,34 @@
+
+
 const signUpForm = document.getElementById("signup-form");
+
 const loginForm = document.getElementById("login-form");
+
 const switchToLoginLink = document.getElementById("switch-to-login");
+
 const switchToSignUpLink = document.getElementById("switch-to-signup");
+
 const leftSide = document.querySelector(".left-side");
+
 const tabNameText = document.querySelector(".tab-name");
+
 const passwordFieldBtn = document.querySelector(".pwd-eye");
 
-// Function to show the login form and hide the sign-up form
 function showLoginForm() {
   signUpForm.style.display = "none";
   loginForm.style.cssText =
     "display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;";
   const paragraphs = loginForm.querySelectorAll("label p");
+  
   paragraphs.forEach((paragraph) => {
     paragraph.style.cssText = "padding-bottom: 10px;";
   });
 
   loginForm.style.transition = "all 0.7s ease-in-out";
+  
   tabNameText.textContent = "Login";
 }
 
-// Function to show the sign-up form and hide the login form
 function showSignUpForm() {
   loginForm.style.display = "none";
 
@@ -35,7 +43,6 @@ function showSignUpForm() {
   tabNameText.textContent = "Sign Up";
 }
 
-// Event listeners for switching forms
 switchToLoginLink.addEventListener("click", (e) => {
   e.preventDefault();
   showLoginForm();
@@ -46,10 +53,8 @@ switchToSignUpLink.addEventListener("click", (e) => {
   showSignUpForm();
 });
 
-// Initially, show the login form and hide the sign-up form
 showLoginForm();
 
-// Password visibility toggle
 function togglePasswordVisibility() {
   const passwordField = document.getElementById("password-field");
   const eyeIcon = document.getElementById("eye-icon");
@@ -66,7 +71,6 @@ function togglePasswordVisibility() {
 
 passwordFieldBtn.addEventListener("click", togglePasswordVisibility);
 
-// Background image slideshow
 const images = [
   "../public/assets/ashchella.JPG",
   "../public/assets/imullar.jpg",
@@ -83,19 +87,15 @@ function changeBackgroundImage() {
   leftSide.style.backgroundPosition = "center";
 }
 
-// Change background image every 2.5 seconds
 setInterval(changeBackgroundImage, 2500);
 
-// Initial call to set a background image when the page loads
 changeBackgroundImage();
 
-// Password validation function (called from form onsubmit)
 function validatePassword() {
   const passwordField = document.getElementById("password-field");
   const password = passwordField.value;
   const passwordCue = document.getElementById("password-cue");
 
-  // Check if password meets requirements
   if (password.length < 8) {
     passwordCue.textContent = "Password must be at least 8 characters long";
     passwordCue.style.color = "red";
@@ -123,7 +123,6 @@ function validatePassword() {
     return false;
   }
 
-  // Clear any error messages
   passwordCue.textContent = "";
   return true;
 }

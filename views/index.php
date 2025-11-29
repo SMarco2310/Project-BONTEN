@@ -1,5 +1,9 @@
+
 <?php
-session_start();
+
+require_once '../config/security.php';
+
+set_security_headers();
 
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['user_type'] === 'manager') {
@@ -9,7 +13,6 @@ if (isset($_SESSION['user_id'])) {
     }
     exit();
 }
-
 
 require_once '../config/Database.php';
 
@@ -22,98 +25,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['login'])) {
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        $stmt = $conn->prepare("SELECT user_id, email, password, full_name, user_type, profile_picture FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-
-            $user = $result->fetch_assoc();
-
-            if (password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['full_name'] = $user['full_name'];
-                $_SESSION['user_type'] = $user['user_type'];
-                $_SESSION['profile_picture'] = $user['profile_picture'];
-
-
-                if ($user['user_type'] === 'manager') {
-                    header("Location: manager_dashboard.php");
-                } else {
-                    header("Location: user_homepage.php");
-                }
-                exit();
-            } else {
-                $error = 'Invalid email or password';
-            }
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            $error = 'Security check failed. Please try again.';
+            log_security_event("CSRF token validation failed on login", 'WARNING');
         } else {
-            $error = 'Invalid email or password';
-        }
 
-        $stmt->close();
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+
+            if (!check_rate_limit('login_' . $email, 5, 900)) {
+                $error = 'Too many login attempts. Please try again in 15 minutes.';
+                log_security_event("Rate limit exceeded for email: $email", 'WARNING');
+            } else {
+
+                record_attempt('login_' . $email);
+
+                $stmt = $conn->prepare("SELECT user_id, email, password, full_name, user_type, profile_picture FROM users WHERE email = ?");
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+
+                    $user = $result->fetch_assoc();
+
+                    if (password_verify($password, $user['password'])) {
+                        unset($_SESSION['rate_limit']['login_' . $email]);
+
+                        $_SESSION['user_id'] = $user['user_id'];
+                        $_SESSION['email'] = $user['email'];
+                        $_SESSION['full_name'] = $user['full_name'];
+                        $_SESSION['user_type'] = $user['user_type'];
+                        $_SESSION['profile_picture'] = $user['profile_picture'];
+
+                        log_security_event("Successful login for: $email", 'INFO');
+
+                        if ($user['user_type'] === 'manager') {
+                            header("Location: manager_dashboard.php");
+                        } else {
+                            header("Location: user_homepage.php");
+                        }
+                        exit();
+                    } else {
+                        $error = 'Invalid email or password';
+                        log_security_event("Failed login attempt for: $email", 'WARNING');
+                    }
+                } else {
+                    $error = 'Invalid email or password';
+                    log_security_event("Login attempt for non-existent email: $email", 'WARNING');
+                }
+
+                $stmt->close();
+            }
+        }
     }
 
 
     if (isset($_POST['signup'])) {
-        $first_name = trim($_POST['first_name']);
-        $last_name = trim($_POST['last_name']);
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
 
-        $phone = trim($_POST['phone']);
-        $role = $_POST['role'];
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            $error = 'Security check failed. Please try again.';
+            log_security_event("CSRF token validation failed on signup", 'WARNING');
+        } else {
 
-        // Validate required fields
-        if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($phone) || empty($role)) {
-            $error = 'All fields are required';
-        }
+            $first_name = trim($_POST['first_name']);
+            $last_name = trim($_POST['last_name']);
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+            $phone = trim($_POST['phone']);
+            $role = $_POST['role'];
 
-        else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = 'Invalid email format';
-        } else if (strlen($password) < 8) {
-            $error = 'Password must be at least 8 characters long';
-        }
-
-        else {
-            $password = password_hash($password, PASSWORD_DEFAULT);
-
-            $full_name = $first_name . ' ' . $last_name;
-            $user_type = ($role === 'event-organizer') ? 'manager' : 'user';
-            $username = $first_name . $last_name;
-
-            $stmt = $conn->prepare("INSERT INTO users (email, password, username, full_name, phone, user_type) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $email, $password, $username, $full_name, $phone, $user_type);
-
-            if ($stmt->execute()) {
-                $_SESSION['user_id'] = $conn->insert_id;
-                $_SESSION['email'] = $email;
-
-                $_SESSION['full_name'] = $full_name;
-                $_SESSION['user_type'] = $user_type;
-                $_SESSION['profile_picture'] = 'user.jpg';
-
-                if ($user_type === 'manager') {
-                    header("Location: manager_dashboard.php");
-                }
-                else {
-                    header("Location: user_homepage.php");
-                }
-                exit();
-            } else {
-                $error = 'Email already exists';
+            if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($phone) || empty($role)) {
+                $error = 'All fields are required';
             }
 
-            $stmt->close();
+            else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = 'Invalid email format';
+            } else if (strlen($password) < 8) {
+                $error = 'Password must be at least 8 characters long';
+            }
+
+            else {
+                $password = password_hash($password, PASSWORD_DEFAULT);
+
+                $full_name = "$first_name $last_name";
+                $user_type = ($role === 'event-organizer') ? 'manager' : 'user';
+                $username = $first_name . $last_name;
+
+                $stmt = $conn->prepare("INSERT INTO users (email, password, username, full_name, phone, user_type) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssss", $email, $password, $username, $full_name, $phone, $user_type);
+
+                if ($stmt->execute()) {
+                    $_SESSION['user_id'] = $conn->insert_id;
+                    $_SESSION['email'] = $email;
+                    $_SESSION['full_name'] = $full_name;
+                    $_SESSION['user_type'] = $user_type;
+                    $_SESSION['profile_picture'] = 'user.jpg';
+
+                    log_security_event("New user registered: $email", 'INFO');
+
+                    if ($user_type === 'manager') {
+                        header("Location: manager_dashboard.php");
+                    }
+                    else {
+                        header("Location: user_homepage.php");
+                    }
+                    exit();
+                } else {
+                    $error = 'Email already exists';
+                    log_security_event("Duplicate email signup attempt: $email", 'WARNING');
+                }
+
+                $stmt->close();
+            }
         }
     }
 
     $db->close();
 }
+
+$csrf_token = generate_csrf_token();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -172,10 +203,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
 
         <?php if ($error): ?>
-        <p style="color: red; font-size: small;"><?php echo $error; ?></p>
+        <p style="color: red; font-size: small;"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
         <?php endif; ?>
 
         <form id="login-form" name="login-form" method="POST">
+          <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
           <label for="email-field">
             <p>Email</p>
             <input
@@ -255,6 +287,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           method="POST"
           onsubmit="return validatePassword()"
         >
+          <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
+
           <label for="first-name-field">
             <p>First Name</p>
             <input

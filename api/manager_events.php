@@ -1,12 +1,9 @@
 <?php
-session_start();
+require_once '../config/security.php';
+set_security_headers();
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
-    http_response_code(403);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit();
-}
+require_manager();
 
 require_once '../config/Database.php';
 
@@ -95,18 +92,16 @@ if ($action === 'list') {
         $event_data = [
             'id' => 'event-' . $row['event_id'],
             'event_id' => $row['event_id'],
-            'name' => $row['name'],
-
-            'category' => $row['category_name'] ?? 'Event',
-            'image' => $row['image_path'] ?? '../public/assets/hero.png',
+            'name' => htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'),
+            'category' => htmlspecialchars($row['category_name'] ?? 'Event', ENT_QUOTES, 'UTF-8'),
+            'image' => htmlspecialchars($row['image_path'] ?? '../public/assets/hero.png', ENT_QUOTES, 'UTF-8'),
             'date' => date('F j, Y', strtotime($row['event_date'])),
             'dateObj' => $row['event_date'],
-            'location' => $row['location'] ?? 'TBD',
+            'location' => htmlspecialchars($row['location'] ?? 'TBD', ENT_QUOTES, 'UTF-8'),
             'ticketsSold' => (int)($row['tickets_sold'] ?? 0),
             'totalTickets' => (int)($row['total_tickets'] ?? 0),
             'revenue' => (float)($row['revenue'] ?? 0),
-            'status' => $row['status'],
-
+            'status' => htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'),
             'rating' => $row['avg_rating'] ? round($row['avg_rating'], 1) : null,
             'checkins' => (int)($row['checkins'] ?? 0),
             'createdAt' => date('F j, Y', strtotime($row['created_at']))

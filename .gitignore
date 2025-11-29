@@ -11,3 +11,19 @@ node_modules/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Log files
+*.log
+error.log
+debug.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+cache/

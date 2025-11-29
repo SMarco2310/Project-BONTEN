@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once '../config/security.php';
+set_security_headers();
 header('Content-Type: application/json');
 
 require_once '../config/Database.php';
@@ -36,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
     while ($row = $result->fetch_assoc()) {
         $comments[] = [
             'id' => $row['comment_id'],
-            'comment' => $row['comment_text'],
-            'userName' => $row['userName'],
-            'userAvatar' => '../public/assets/' . ($row['userAvatar'] ?? 'user.jpg'),
+            'comment' => htmlspecialchars($row['comment_text'], ENT_QUOTES, 'UTF-8'),
+            'userName' => htmlspecialchars($row['userName'], ENT_QUOTES, 'UTF-8'),
+            'userAvatar' => '../public/assets/' . htmlspecialchars($row['userAvatar'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
             'rating' => 0,
             'timestamp' => $row['created_at']
         ];
@@ -63,10 +64,9 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
 
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $comment_text = $data['comment'] ?? '';
-    $event_id = $data['event_id'] ?? 0;
+    $comment_text = trim($data['comment'] ?? '');
+    $event_id = isset($data['event_id']) ? (int)$data['event_id'] : 0;
 
-    // Validate input
     if (empty($comment_text) || $event_id === 0) {
 
         http_response_code(400);
@@ -118,9 +118,9 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
             'success' => true,
             'comment' => [
                 'id' => $comment_id,
-                'comment' => $comment_text,
-                'userName' => $user_data['full_name'],
-                'userAvatar' => '../public/assets/' . ($user_data['profile_picture'] ?? 'user.jpg'),
+                'comment' => htmlspecialchars($comment_text, ENT_QUOTES, 'UTF-8'),
+                'userName' => htmlspecialchars($user_data['full_name'], ENT_QUOTES, 'UTF-8'),
+                'userAvatar' => '../public/assets/' . htmlspecialchars($user_data['profile_picture'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
                 'rating' => 0,
                 'timestamp' => date('Y-m-d H:i:s')
             ]
