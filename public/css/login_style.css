@@ -111,13 +111,18 @@ input, button, select{
     border: 1px solid #abaaa9;
 }
 
-button, #submit-btn{
-    
+button, #submit-btn, #login-submit-btn, #signup-submit-btn{
+
     background-color: #AD3537;
     cursor: pointer;
     color: whitesmoke;
     border: none;
     height: 40px;
+}
+
+#login-submit-btn:hover, #signup-submit-btn:hover {
+    opacity: 0.9;
+    cursor: pointer;
 }
 
 select{

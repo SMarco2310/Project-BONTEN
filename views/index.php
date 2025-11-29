@@ -53,38 +53,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['signup'])) {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $phone = $_POST['phone'];
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $phone = trim($_POST['phone']);
         $role = $_POST['role'];
 
-        $full_name = $first_name . ' ' . $last_name;
-        $user_type = ($role === 'event-organizer') ? 'manager' : 'user';
-        $username = $first_name . $last_name;
-
-        $stmt = $conn->prepare("INSERT INTO users (email, password, username, full_name, phone, user_type) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $email, $password, $username, $full_name, $phone, $user_type);
-
-        if ($stmt->execute()) {
-            $_SESSION['user_id'] = $conn->insert_id;
-            $_SESSION['email'] = $email;
-            $_SESSION['full_name'] = $full_name;
-            $_SESSION['user_type'] = $user_type;
-            $_SESSION['profile_picture'] = 'user.jpg';
-
-            if ($user_type === 'manager') {
-                header("Location: manager_dashboard.php");
-            } else {
-                header("Location: user_homepage.php");
-            }
-            exit();
+        // Validate required fields
+        if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($phone) || empty($role)) {
+            $error = 'All fields are required';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'Invalid email format';
+        } else if (strlen($password) < 8) {
+            $error = 'Password must be at least 8 characters long';
         } else {
-            $error = 'Email already exists';
-        }
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $full_name = $first_name . ' ' . $last_name;
+            $user_type = ($role === 'event-organizer') ? 'manager' : 'user';
+            $username = $first_name . $last_name;
 
-        $stmt->close();
+            $stmt = $conn->prepare("INSERT INTO users (email, password, username, full_name, phone, user_type) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $email, $password, $username, $full_name, $phone, $user_type);
+
+            if ($stmt->execute()) {
+                $_SESSION['user_id'] = $conn->insert_id;
+                $_SESSION['email'] = $email;
+                $_SESSION['full_name'] = $full_name;
+                $_SESSION['user_type'] = $user_type;
+                $_SESSION['profile_picture'] = 'user.jpg';
+
+                if ($user_type === 'manager') {
+                    header("Location: manager_dashboard.php");
+                } else {
+                    header("Location: user_homepage.php");
+                }
+                exit();
+            } else {
+                $error = 'Email already exists';
+            }
+
+            $stmt->close();
+        }
     }
 
     $db->close();
