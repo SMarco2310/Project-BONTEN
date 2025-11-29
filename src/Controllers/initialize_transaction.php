@@ -9,8 +9,8 @@ header("Access-Control-Allow-Methods: POST");
 require_once "../../config/Database.php";
 
 // 2. Paystack Config
-$secret_key = "YOUR_PAYSTACK_SECRET_KEY"; // REPLACE THIS
-$public_key = "YOUR_PAYSTACK_PUBLIC_KEY"; // REPLACE THIS
+$secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3"; // REPLACE THIS
+$public_key = "pk_test_d1f61fd4add0486460c5a543b1a51e97015d1207"; // REPLACE THIS
 
 // 3. Get Input Data
 $input = json_decode(file_get_contents("php://input"), true);
