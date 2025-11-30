@@ -60,9 +60,9 @@ if (rsvpBtn) {
 if (ticketsBtn) {
     ticketsBtn.addEventListener('click', () => {
 
-        const emailInput = document.getElementById('email');
+        const emailInput = document.getElementById('rsvp-email'); // Fixed to use correct ID
         
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('rsvp-password'); // Fixed to use correct ID
 
         const isLoggedIn = !passwordInput;
 
@@ -101,7 +101,7 @@ modalOverlays.forEach(overlay => {
 });
 
 
-const qtyButtons = document.querySelectorAll('.qty-btn');
+const qtyButtons = document.querySelectorAll('.qty-plus-btn, .qty-minus-btn');
 
 const regularPriceFromDB = typeof regularPrice !== 'undefined' ? regularPrice : 150;
 
@@ -130,22 +130,33 @@ function updateTotals() {
     document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
 }
 
+// Initialize totals when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    updateTotals();
+});
+
 qtyButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-target');
+        const ticketType = btn.getAttribute('data-ticket');
+        let input;
         
-        const input = document.getElementById(target);
+        if (ticketType === 'regular') {
+            input = document.getElementById('regular');
+        } else if (ticketType === 'vip') {
+            input = document.getElementById('vip');
+        }
+        
+        if (!input) return;
         
         let value = parseInt(input.value);
-        
-        const maxQty = parseInt(input.getAttribute('max')) || 999;
+        const maxQty = parseInt(btn.getAttribute('data-max')) || 999;
 
-        if (btn.classList.contains('plus') && value < maxQty) {
+        if (btn.classList.contains('qty-plus-btn') && value < maxQty) {
             input.value = value + 1;
         } 
-        else if (btn.classList.contains('plus') && value >= maxQty) {
+        else if (btn.classList.contains('qty-plus-btn') && value >= maxQty) {
             alert('No more tickets available for this type.');
-        } else if (btn.classList.contains('minus') && value > 0) {
+        } else if (btn.classList.contains('qty-minus-btn') && value > 0) {
             input.value = value - 1;
         }
         updateTotals();
@@ -163,7 +174,11 @@ if (checkoutBtn) {
 function payWithPaystack() {
     console.log('payWithPaystack called');
     
-    const email = document.getElementById('email')?.value;
+    // Try multiple ways to get the email
+    let email = document.getElementById('rsvp-email')?.value || 
+                document.getElementById('email')?.value ||
+                userEmail; // from PHP variable
+    
     const regularInput = document.getElementById('regular');
     const vipInput = document.getElementById('vip');
 
@@ -172,10 +187,10 @@ function payWithPaystack() {
     
     const currentEventId = typeof eventId !== 'undefined' ? eventId : 0;
 
-    console.log('Payment details:', { email, regularQty, vipQty, currentEventId });
+    console.log('Payment details:', { email, regularQty, vipQty, currentEventId, userEmail });
 
     // Validation
-    if (!email) {
+    if (!email || email.trim() === '') {
         alert('Please enter your email in the RSVP form first.');
         if (ticketsModal) ticketsModal.style.display = 'none';
         if (rsvpModal) rsvpModal.style.display = 'flex';

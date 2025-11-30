@@ -22,7 +22,16 @@ class LogoutHandler {
         }
         
         
-        window.location.href = './logout.php';
+        fetch('./logout.php', {
+            method: 'POST',
+            credentials: 'same-origin'
+        }).then(() => {
+            
+            window.location.href = './index.php';
+        }).catch(() => {
+            
+            window.location.href = './logout.php';
+        });
     }
     
     static initLogoutButtons() {

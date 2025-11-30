@@ -209,10 +209,25 @@ function timeAgo($datetime) {
             <div class="event-box-left">
               <div class="event-img-wrapper">
                 <?php if($event['image_path']): ?>
-                <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
-
+                    <?php
+                    // Handle different image path formats
+                    $image_src = $event['image_path'];
+                    
+                    // If the path starts with '../public/', remove the '../' part
+                    if (strpos($image_src, '../public/') === 0) {
+                        $image_src = substr($image_src, 3); // Remove '../'
+                    }
+                    
+                    // If the path doesn't start with public/, add it
+                    if (strpos($image_src, 'public/') !== 0) {
+                        $image_src = '../public/assets/' . $image_src;
+                    } else {
+                        $image_src = '../' . $image_src;
+                    }
+                    ?>
+                    <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
                 <?php else: ?>
-                <img src="../public/assets/hero.png" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
+                    <img src="../public/assets/hero.png" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
                 <?php endif; ?>
 
                 <div class="event-overlay">
@@ -247,7 +262,7 @@ function timeAgo($datetime) {
                     <div class="single-comment">
                       <div class="comment-top">
 
-                        <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" class="comment-avatar" />
+                        <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
                         <div class="comment-info">
                           <p class="commenter-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
 
@@ -355,7 +370,7 @@ function timeAgo($datetime) {
 
             <div class="ticket-quantity-controls">
               <button type="button" class="qty-minus-btn" data-ticket="regular">-</button>
-              <input type="number" id="regular-qty" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
+              <input type="number" id="regular" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
 
               <button type="button" class="qty-plus-btn" data-ticket="regular" data-max="<?php echo $available; ?>">+</button>
             </div>
@@ -378,7 +393,7 @@ function timeAgo($datetime) {
             <div class="ticket-quantity-controls">
               <button type="button" class="qty-minus-btn" data-ticket="vip">-</button>
 
-              <input type="number" id="vip-qty" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
+              <input type="number" id="vip" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
               <button type="button" class="qty-plus-btn" data-ticket="vip" data-max="<?php echo $available; ?>">+</button>
 
             </div>
@@ -391,9 +406,16 @@ function timeAgo($datetime) {
 
           <div class="total-section">
             <div class="total-row">
+              <span class="total-label">Regular Subtotal:</span>
+              <span class="total-amount">GHS <span id="regular-subtotal">0.00</span></span>
+            </div>
+            <div class="total-row">
+              <span class="total-label">VIP Subtotal:</span>
+              <span class="total-amount">GHS <span id="vip-subtotal">0.00</span></span>
+            </div>
+            <div class="total-row">
               <span class="total-label">Total:</span>
-
-              <span class="total-amount">GHS <span id="total-price">0.00</span></span>
+              <span class="total-amount">GHS <span id="grand-total">0.00</span></span>
             </div>
           </div>
 
@@ -406,8 +428,8 @@ function timeAgo($datetime) {
     </div>
 
     <script>
-      const regularPrice = <?php echo isset($regular_ticket_price) ? $regular_ticket_price : 0; ?>;
-      const vipPrice = <?php echo isset($vip_ticket_price) ? $vip_ticket_price : 0; ?>;
+      const regularPrice = <?php echo $regular_price; ?>;
+      const vipPrice = <?php echo $vip_price; ?>;
       const eventId = <?php echo $event_id; ?>;
       const isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
       const userEmail = "<?php echo $is_logged_in ? htmlspecialchars($_SESSION['email']) : ''; ?>";
