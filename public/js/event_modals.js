@@ -37,7 +37,11 @@ if (passwordInput) {
 
   passwordInput.addEventListener("blur", () => {
     if (passwordInput.value.length > 0) {
-      validatePasswordField(passwordInput);
+      if (passwordInput.value.trim() === '') {
+        showError(passwordInput, 'Password is required');
+      } else {
+        removeError(passwordInput);
+      }
     }
   });
 }
@@ -54,23 +58,30 @@ if (rsvpBtn) {
 
 if (ticketsBtn) {
   ticketsBtn.addEventListener("click", (e) => {
+    // Prevent form submission
+    e.preventDefault();
+
     // Check if button is disabled (past event)
     if (ticketsBtn.disabled) {
-      e.preventDefault();
       return;
     }
 
-    const emailInput = document.getElementById("rsvp-email"); // Fixed to use correct ID
-
-    const passwordInput = document.getElementById("rsvp-password"); // Fixed to use correct ID
-
+    const emailInput = document.getElementById("rsvp-email");
+    const passwordInput = document.getElementById("rsvp-password");
     const isLoggedIn = !passwordInput;
 
     const isEmailValid = validateEmailField(emailInput);
 
-    const isPasswordValid = isLoggedIn
-      ? true
-      : validatePasswordField(passwordInput);
+    let isPasswordValid = true;
+    if (!isLoggedIn) {
+      if (!passwordInput.value || passwordInput.value.trim() === '') {
+        showError(passwordInput, 'Password is required');
+        isPasswordValid = false;
+      } else {
+        removeError(passwordInput);
+        isPasswordValid = true;
+      }
+    }
 
     if (isEmailValid && isPasswordValid) {
       rsvpModal.style.display = "none";
@@ -312,6 +323,9 @@ async function payWithPaystack() {
           amount: data.amount,
           reference: data.reference,
         });
+        if (typeof PaystackPop === 'undefined') {
+            throw new Error("Paystack library not loaded");
+        }
 
         const handler = PaystackPop.setup({
           key: data.public_key,
