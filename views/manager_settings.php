@@ -18,6 +18,70 @@ $user_id = $_SESSION['user_id'];
 $success_message = '';
 $error_message = '';
 
+// Get current user data first (needed for profile picture handling)
+$stmt = $conn->prepare("SELECT email, full_name, phone, profile_picture, username FROM users WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user_data = $result->fetch_assoc();
+$stmt->close();
+
+// Handle profile update (including profile picture)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $first_name = trim($_POST['first_name'] ?? '');
+    $last_name = trim($_POST['last_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    
+    $full_name = trim($first_name . ' ' . $last_name);
+    
+    // Handle profile picture upload
+    $profile_picture = $user_data['profile_picture'] ?? 'user.jpg'; // Keep existing if no new upload
+    
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        require_once '../config/security.php';
+        $validation = validate_image_upload($_FILES['profile_picture']);
+        
+        if ($validation === true) {
+            $upload_dir = '../public/assets/';
+            $filename = generate_secure_filename($_FILES['profile_picture']['name']);
+            $target_path = $upload_dir . $filename;
+            
+            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_path)) {
+                // Delete old profile picture if it's not the default
+                if ($profile_picture !== 'user.jpg' && file_exists($upload_dir . $profile_picture)) {
+                    @unlink($upload_dir . $profile_picture);
+                }
+                $profile_picture = $filename;
+            } else {
+                $error_message = "Failed to upload profile picture.";
+            }
+        } else {
+            $error_message = is_array($validation) ? implode(', ', $validation) : "Invalid image file.";
+        }
+    }
+    
+    // Update database
+    $stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, profile_picture = ? WHERE user_id = ?");
+    $stmt->bind_param("ssssi", $full_name, $email, $phone, $profile_picture, $user_id);
+    
+    if ($stmt->execute()) {
+        // Update session variables
+        $_SESSION['full_name'] = $full_name;
+        $_SESSION['email'] = $email;
+        $_SESSION['profile_picture'] = $profile_picture;
+        $success_message = "Profile updated successfully!";
+        
+        // Refresh user data
+        $user_data['full_name'] = $full_name;
+        $user_data['email'] = $email;
+        $user_data['phone'] = $phone;
+        $user_data['profile_picture'] = $profile_picture;
+    } else {
+        $error_message = "Failed to update profile.";
+    }
+    $stmt->close();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
 
@@ -57,13 +121,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
 
 
 
-$stmt = $conn->prepare("SELECT email, full_name, phone, profile_picture, username FROM users WHERE user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$user_data = $result->fetch_assoc();
-$stmt->close();
+// User data is already loaded above if profile was updated, otherwise load it here
+if (!isset($user_data)) {
+    $stmt = $conn->prepare("SELECT email, full_name, phone, profile_picture, username FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user_data = $result->fetch_assoc();
+    $stmt->close();
+}
 
 $db->close();
 

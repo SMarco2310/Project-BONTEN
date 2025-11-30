@@ -1,6 +1,9 @@
 <?php
+
 require_once '../config/security.php';
+
 set_security_headers();
+
 header('Content-Type: application/json');
 
 require_once '../config/Database.php';
@@ -53,15 +56,19 @@ if($result->num_rows === 0) {
 $stmt->close();
 
 
+// Combine review title and text (database only has review_text field)
+$full_review_text = $review_title ? $review_title . "\n\n" . $review_text : $review_text;
+
 $check_stmt = $conn->prepare("SELECT review_id FROM reviews WHERE user_id = ? AND event_id = ?");
 $check_stmt->bind_param("ii", $user_id, $event_id);
 $check_stmt->execute();
 $check_result = $check_stmt->get_result();
 
 if($check_result->num_rows > 0) {
-
+   
     $update_stmt = $conn->prepare("UPDATE reviews SET rating = ?, review_text = ? WHERE user_id = ? AND event_id = ?");
-    $update_stmt->bind_param("isii", $rating, $review_text, $user_id, $event_id);
+   
+    $update_stmt->bind_param("isii", $rating, $full_review_text, $user_id, $event_id);
 
     if($update_stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Review updated successfully']);
@@ -71,9 +78,10 @@ if($check_result->num_rows > 0) {
     $update_stmt->close();
 
 } else {
-
+    
     $insert_stmt = $conn->prepare("INSERT INTO reviews (event_id, user_id, rating, review_text) VALUES (?, ?, ?, ?)");
-    $insert_stmt->bind_param("iiis", $event_id, $user_id, $rating, $review_text);
+   
+    $insert_stmt->bind_param("iiis", $event_id, $user_id, $rating, $full_review_text);
 
     if($insert_stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Review submitted successfully']);
@@ -84,5 +92,7 @@ if($check_result->num_rows > 0) {
 }
 
 $check_stmt->close();
+
 $db->close();
+
 ?>

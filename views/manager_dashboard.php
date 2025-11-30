@@ -456,7 +456,21 @@ $db->close();
     </div>
 
 <script>
-const salesData = <?php echo json_encode($sales_data); ?>;
+// Pass all dashboard data from PHP to JavaScript
+const dashboardData = {
+    salesData: <?php echo json_encode($sales_data); ?>,
+    summaryMetrics: {
+        totalRevenue: <?php echo $total_revenue; ?>,
+        ticketsSold: <?php echo $tickets_sold; ?>,
+        activeEvents: <?php echo $active_events; ?>,
+        revenueChange: <?php echo $revenue_change; ?>,
+        ticketsChange: <?php echo $tickets_change; ?>
+    },
+    secondaryMetrics: {
+        avgRating: <?php echo $avg_rating; ?>,
+        engagementRate: <?php echo $engagement_rate; ?>
+    }
+};
 </script>
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>

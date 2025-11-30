@@ -1,401 +1,430 @@
+const rsvpModal = document.getElementById("rsvp-modal");
 
+const ticketsModal = document.getElementById("tickets-modal");
 
-const rsvpModal = document.getElementById('rsvp-modal');
+const rsvpBtn = document.getElementById("rsvp-btn");
 
-const ticketsModal = document.getElementById('tickets-modal');
+const ticketsBtn = document.getElementById("tickets-btn");
 
-const rsvpBtn = document.getElementById('rsvp-btn');
+const closeButtons = document.querySelectorAll(".modal-close");
 
-const ticketsBtn = document.getElementById('tickets-btn');
+const modalOverlays = document.querySelectorAll(".modal-overlay");
 
-const closeButtons = document.querySelectorAll('.modal-close');
+const emailInput = document.getElementById("email");
 
-const modalOverlays = document.querySelectorAll('.modal-overlay');
-
-
-const emailInput = document.getElementById('email');
-
-const passwordInput = document.getElementById('password');
+const passwordInput = document.getElementById("password");
 
 if (emailInput) {
-    
-    emailInput.addEventListener('input', () => {
-        if (emailInput.value.length > 0) {
-            removeError(emailInput);
-        }
-    });
+  emailInput.addEventListener("input", () => {
+    if (emailInput.value.length > 0) {
+      removeError(emailInput);
+    }
+  });
 
-    
-    emailInput.addEventListener('blur', () => {
-        if (emailInput.value.length > 0) {
-            validateEmailField(emailInput);
-        }
-    });
+  emailInput.addEventListener("blur", () => {
+    if (emailInput.value.length > 0) {
+      validateEmailField(emailInput);
+    }
+  });
 }
 
 if (passwordInput) {
-   
-    passwordInput.addEventListener('input', () => {
-        if (passwordInput.value.length > 0) {
-            removeError(passwordInput);
-        }
-    });
+  passwordInput.addEventListener("input", () => {
+    if (passwordInput.value.length > 0) {
+      removeError(passwordInput);
+    }
+  });
 
-
-    passwordInput.addEventListener('blur', () => {
-        if (passwordInput.value.length > 0) {
-            validatePasswordField(passwordInput);
-        }
-    });
+  passwordInput.addEventListener("blur", () => {
+    if (passwordInput.value.length > 0) {
+      validatePasswordField(passwordInput);
+    }
+  });
 }
-
 
 if (rsvpBtn) {
-    rsvpBtn.addEventListener('click', () => {
-        rsvpModal.style.display = 'flex';
-    });
+  rsvpBtn.addEventListener("click", () => {
+    // Check if button is disabled (past event)
+    if (rsvpBtn.disabled) {
+      return;
+    }
+    rsvpModal.style.display = "flex";
+  });
 }
-
 
 if (ticketsBtn) {
-    ticketsBtn.addEventListener('click', () => {
+  ticketsBtn.addEventListener("click", (e) => {
+    // Check if button is disabled (past event)
+    if (ticketsBtn.disabled) {
+      e.preventDefault();
+      return;
+    }
 
-        const emailInput = document.getElementById('rsvp-email'); // Fixed to use correct ID
-        
-        const passwordInput = document.getElementById('rsvp-password'); // Fixed to use correct ID
+    const emailInput = document.getElementById("rsvp-email"); // Fixed to use correct ID
 
-        const isLoggedIn = !passwordInput;
+    const passwordInput = document.getElementById("rsvp-password"); // Fixed to use correct ID
 
-        const isEmailValid = validateEmailField(emailInput);
+    const isLoggedIn = !passwordInput;
 
-        
-        const isPasswordValid = isLoggedIn ? true : validatePasswordField(passwordInput);
+    const isEmailValid = validateEmailField(emailInput);
 
+    const isPasswordValid = isLoggedIn
+      ? true
+      : validatePasswordField(passwordInput);
 
-        if (isEmailValid && isPasswordValid) {
-            rsvpModal.style.display = 'none';
-            ticketsModal.style.display = 'flex';
-        }
-    });
+    if (isEmailValid && isPasswordValid) {
+      rsvpModal.style.display = "none";
+      ticketsModal.style.display = "flex";
+    }
+  });
 }
 
+closeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    rsvpModal.style.display = "none";
 
-
-closeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        
-        rsvpModal.style.display = 'none';
-        
-        ticketsModal.style.display = 'none';
-    });
+    ticketsModal.style.display = "none";
+  });
 });
 
+modalOverlays.forEach((overlay) => {
+  overlay.addEventListener("click", () => {
+    rsvpModal.style.display = "none";
 
-modalOverlays.forEach(overlay => {
-    overlay.addEventListener('click', () => {
-       
-        rsvpModal.style.display = 'none';
-       
-        ticketsModal.style.display = 'none';
-    });
+    ticketsModal.style.display = "none";
+  });
 });
 
+const qtyButtons = document.querySelectorAll(".qty-plus-btn, .qty-minus-btn");
 
-const qtyButtons = document.querySelectorAll('.qty-plus-btn, .qty-minus-btn');
+const regularPriceFromDB =
+  typeof regularPrice !== "undefined" ? regularPrice : 150;
 
-const regularPriceFromDB = typeof regularPrice !== 'undefined' ? regularPrice : 150;
-
-const vipPriceFromDB = typeof vipPrice !== 'undefined' ? vipPrice : 300;
+const vipPriceFromDB = typeof vipPrice !== "undefined" ? vipPrice : 300;
 
 function updateTotals() {
-    const regularInput = document.getElementById('regular');
-    
-    const vipInput = document.getElementById('vip');
+  const regularInput = document.getElementById("regular");
 
-    const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
-    
-    const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
+  const vipInput = document.getElementById("vip");
 
-    const regularTotal = regularQty * regularPriceFromDB;
-    
-    const vipTotal = vipQty * vipPriceFromDB;
-    
-    const grandTotal = regularTotal + vipTotal;
+  const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
 
+  const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
 
-    document.getElementById('regular-subtotal').textContent = regularTotal.toFixed(2);
-    
-    document.getElementById('vip-subtotal').textContent = vipTotal.toFixed(2);
-    
-    document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+  const regularTotal = regularQty * regularPriceFromDB;
+
+  const vipTotal = vipQty * vipPriceFromDB;
+
+  const grandTotal = regularTotal + vipTotal;
+
+  document.getElementById("regular-subtotal").textContent =
+    regularTotal.toFixed(2);
+
+  document.getElementById("vip-subtotal").textContent = vipTotal.toFixed(2);
+
+  document.getElementById("grand-total").textContent = grandTotal.toFixed(2);
 }
 
 // Initialize totals when page loads
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  updateTotals();
+});
+
+qtyButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const ticketType = btn.getAttribute("data-ticket");
+    let input;
+
+    if (ticketType === "regular") {
+      input = document.getElementById("regular");
+    } else if (ticketType === "vip") {
+      input = document.getElementById("vip");
+    }
+
+    if (!input) return;
+
+    let value = parseInt(input.value);
+    const maxQty = parseInt(btn.getAttribute("data-max")) || 999;
+
+    if (btn.classList.contains("qty-plus-btn") && value < maxQty) {
+      input.value = value + 1;
+    } else if (btn.classList.contains("qty-plus-btn") && value >= maxQty) {
+      alert("No more tickets available for this type.");
+    } else if (btn.classList.contains("qty-minus-btn") && value > 0) {
+      input.value = value - 1;
+    }
     updateTotals();
+  });
 });
 
-qtyButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const ticketType = btn.getAttribute('data-ticket');
-        let input;
-        
-        if (ticketType === 'regular') {
-            input = document.getElementById('regular');
-        } else if (ticketType === 'vip') {
-            input = document.getElementById('vip');
-        }
-        
-        if (!input) return;
-        
-        let value = parseInt(input.value);
-        const maxQty = parseInt(btn.getAttribute('data-max')) || 999;
-
-        if (btn.classList.contains('qty-plus-btn') && value < maxQty) {
-            input.value = value + 1;
-        } 
-        else if (btn.classList.contains('qty-plus-btn') && value >= maxQty) {
-            alert('No more tickets available for this type.');
-        } else if (btn.classList.contains('qty-minus-btn') && value > 0) {
-            input.value = value - 1;
-        }
-        updateTotals();
-    });
-});
-
-
-
-const checkoutBtn = document.getElementById('checkout-btn');
+const checkoutBtn = document.getElementById("checkout-btn");
 
 if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', payWithPaystack);
+  checkoutBtn.addEventListener("click", payWithPaystack);
 }
 
 function payWithPaystack() {
-    console.log('payWithPaystack called');
-    
-    // Try multiple ways to get the email
-    let email = document.getElementById('rsvp-email')?.value || 
-                document.getElementById('email')?.value ||
-                userEmail; // from PHP variable
-    
-    const regularInput = document.getElementById('regular');
-    const vipInput = document.getElementById('vip');
+  console.log("payWithPaystack called");
 
-    const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
-    const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
-    
-    const currentEventId = typeof eventId !== 'undefined' ? eventId : 0;
+  // Try multiple ways to get the email
+  let email =
+    document.getElementById("rsvp-email")?.value ||
+    document.getElementById("email")?.value ||
+    userEmail; // from PHP variable
 
-    console.log('Payment details:', { email, regularQty, vipQty, currentEventId, userEmail });
+  const regularInput = document.getElementById("regular");
+  const vipInput = document.getElementById("vip");
 
-    // Validation
-    if (!email || email.trim() === '') {
-        alert('Please enter your email in the RSVP form first.');
-        if (ticketsModal) ticketsModal.style.display = 'none';
-        if (rsvpModal) rsvpModal.style.display = 'flex';
-        return;
-    }
+  const regularQty = regularInput ? parseInt(regularInput.value) || 0 : 0;
+  const vipQty = vipInput ? parseInt(vipInput.value) || 0 : 0;
 
-    if (regularQty === 0 && vipQty === 0) {
-        alert('Please select at least one ticket.');
-        return;
-    }
+  const currentEventId = typeof eventId !== "undefined" ? eventId : 0;
 
-    if (currentEventId === 0) {
-        alert('Error: Event information is missing.');
-        console.error('Event ID is missing or zero');
-        return;
-    }
+  console.log("Payment details:", {
+    email,
+    regularQty,
+    vipQty,
+    currentEventId,
+    userEmail,
+  });
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
+  // Validation
+  if (!email || email.trim() === "") {
+    alert("Please enter your email in the RSVP form first.");
+    if (ticketsModal) ticketsModal.style.display = "none";
+    if (rsvpModal) rsvpModal.style.display = "flex";
+    return;
+  }
 
-    const checkoutBtn = document.getElementById('checkout-btn');
-    if (!checkoutBtn) {
-        console.error('Checkout button not found');
-        return;
-    }
-    
-    const originalText = checkoutBtn.innerText;
-    checkoutBtn.innerText = 'Processing...';
-    checkoutBtn.disabled = true;
+  if (regularQty === 0 && vipQty === 0) {
+    alert("Please select at least one ticket.");
+    return;
+  }
 
-    console.log('Sending request to initialize_transaction.php...');
+  if (currentEventId === 0) {
+    alert("Error: Event information is missing.");
+    console.error("Event ID is missing or zero");
+    return;
+  }
 
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
 
-    fetch('../src/Controllers/initialize_transaction.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            event_id: currentEventId,
-            regular_quantity: regularQty,
-            vip_quantity: vipQty
-        })
+  const checkoutBtn = document.getElementById("checkout-btn");
+  if (!checkoutBtn) {
+    console.error("Checkout button not found");
+    return;
+  }
+
+  const originalText = checkoutBtn.innerText;
+  checkoutBtn.innerText = "Processing...";
+  checkoutBtn.disabled = true;
+
+  console.log("Sending request to initialize_transaction.php...");
+
+  fetch("../src/Controllers/initialize_transaction.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      event_id: currentEventId,
+      regular_quantity: regularQty,
+      vip_quantity: vipQty,
+    }),
+  })
+    .then(async (response) => {
+      console.log("Response status:", response.status);
+      const text = await response.text();
+      console.log("Response text:", text);
+
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        console.error("JSON parse error:", e);
+        console.error("Server response:", text);
+
+        // More helpful error message
+        if (text.includes("<!DOCTYPE html>") || text.includes("<html>")) {
+          throw new Error(
+            "Server returned HTML instead of JSON. Please ensure you are using a PHP server (not Live Server) and the backend is properly configured."
+          );
+        } else if (text.trim().length === 0) {
+          throw new Error(
+            "Server returned empty response. Please check the backend server."
+          );
+        } else {
+          throw new Error(
+            "Invalid server response. Response: " +
+              text.substring(0, 100) +
+              "..."
+          );
+        }
+      }
     })
-        .then(async response => {
-            console.log('Response status:', response.status);
-            const text = await response.text();
-            console.log('Response text:', text);
-            
-            try {
-                return JSON.parse(text);
-            } catch (e) {
-                console.error('JSON parse error:', e);
-                console.error('Server response:', text);
-                
-                // More helpful error message
-                if (text.includes('<!DOCTYPE html>') || text.includes('<html>')) {
-                    throw new Error('Server returned HTML instead of JSON. Please ensure you are using a PHP server (not Live Server) and the backend is properly configured.');
-                } else if (text.trim().length === 0) {
-                    throw new Error('Server returned empty response. Please check the backend server.');
-                } else {
-                    throw new Error('Invalid server response. Response: ' + text.substring(0, 100) + '...');
-                }
-            }
-        })
-        .then(data => {
-            console.log('Parsed response data:', data);
-            
-            if (data.status) {
-                console.log('Initializing Paystack with:', {
-                    key: data.public_key ? 'pk_test...' : 'MISSING',
-                    amount: data.amount,
-                    reference: data.reference
-                });
-                
-                // Check if PaystackPop is available
-                if (typeof PaystackPop === 'undefined') {
-                    throw new Error('Paystack library not loaded. Please refresh the page and try again.');
-                }
-                
-                const handler = PaystackPop.setup({
-                    key: data.public_key, 
-                    email: email,
-                    amount: data.amount, 
-                    currency: 'GHS',
-                    ref: data.reference,
-                    onClose: function () {
-                        console.log('Payment modal closed');
-                        alert('Transaction was closed.');
-                    },
-                    callback: function (response) {
-                        console.log('Payment successful:', response);
-                        alert('Payment successful! Reference: ' + response.reference);
+    .then((data) => {
+      console.log("Parsed response data:", data);
 
-                        // Close tickets modal and reset form
-                        if (ticketsModal) ticketsModal.style.display = 'none';
-                        
-                        const regularInput = document.getElementById('regular');
-                        const vipInput = document.getElementById('vip');
-                        if (regularInput) regularInput.value = 0;
-                        if (vipInput) vipInput.value = 0;
-                        updateTotals();
-                        
-                        // Redirect to history page or refresh
-                        setTimeout(() => {
-                            window.location.href = './history.php';
-                        }, 1500);
-                    }
-                });
-                handler.openIframe();
-            } else {
-                console.error('Payment initialization failed:', data.message);
-                alert('Error initializing payment: ' + (data.message || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            console.error('Payment error:', error);
-            
-            // More specific error messages
-            let errorMessage = 'An error occurred: ';
-            if (error.message.includes('PHP server')) {
-                errorMessage += 'Please use a PHP server to test payments. Live Server and file:// protocol do not support PHP.';
-            } else if (error.message.includes('Paystack library')) {
-                errorMessage += 'Payment system not loaded. Please refresh the page.';
-            } else if (error.message.includes('Invalid server response')) {
-                errorMessage += 'Server configuration issue. Please contact support.';
-            } else {
-                errorMessage += error.message;
-            }
-            
-            alert(errorMessage);
-        })
-        .finally(() => {
-            // Restore button state
-            if (checkoutBtn) {
-                checkoutBtn.innerText = originalText;
-                checkoutBtn.disabled = false;
-            }
-            console.log('Payment process completed');
+      if (data.status) {
+        console.log("Initializing Paystack with:", {
+          key: data.public_key ? "pk_test..." : "MISSING",
+          amount: data.amount,
+          reference: data.reference,
         });
 
+        // Check if PaystackPop is available
+        if (typeof PaystackPop === "undefined") {
+          throw new Error(
+            "Paystack library not loaded. Please refresh the page and try again."
+          );
+        }
+
+        const handler = PaystackPop.setup({
+          key: data.public_key,
+          email: email,
+          amount: data.amount,
+          currency: "GHS",
+          ref: data.reference,
+          onClose: function () {
+            console.log("Payment modal closed");
+            alert("Transaction was closed.");
+          },
+          callback: function (response) {
+            console.log("Payment successful:", response);
+            alert("Payment successful! Reference: " + response.reference);
+
+            // Close tickets modal and reset form
+            if (ticketsModal) ticketsModal.style.display = "none";
+
+            const regularInput = document.getElementById("regular");
+            const vipInput = document.getElementById("vip");
+            if (regularInput) regularInput.value = 0;
+            if (vipInput) vipInput.value = 0;
+            updateTotals();
+
+            // Redirect to history page or refresh
+            setTimeout(() => {
+              window.location.href = "./history.php";
+            }, 1500);
+          },
+        });
+        handler.openIframe();
+      } else {
+        console.error("Payment initialization failed:", data.message);
+        alert(
+          "Error initializing payment: " + (data.message || "Unknown error")
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Payment error:", error);
+
+      // More specific error messages
+      let errorMessage = "An error occurred: ";
+      if (error.message.includes("PHP server")) {
+        errorMessage +=
+          "Please use a PHP server to test payments. Live Server and file:// protocol do not support PHP.";
+      } else if (error.message.includes("Paystack library")) {
+        errorMessage += "Payment system not loaded. Please refresh the page.";
+      } else if (error.message.includes("Invalid server response")) {
+        errorMessage += "Server configuration issue. Please contact support.";
+      } else {
+        errorMessage += error.message;
+      }
+
+      alert(errorMessage);
+    })
+    .finally(() => {
+      // Restore button state
+      if (checkoutBtn) {
+        checkoutBtn.innerText = originalText;
+        checkoutBtn.disabled = false;
+      }
+      console.log("Payment process completed");
+    });
 }
 
 // Debug function to test Paystack connection
-window.testPaystackConnection = function() {
-    console.log('Testing Paystack connection...');
-    
-    // Check if Paystack script is loaded
-    if (typeof PaystackPop === 'undefined') {
-        console.error('❌ Paystack library not loaded');
-        console.log('Make sure this script is included: https://js.paystack.co/v1/inline.js');
-        return false;
-    }
-    console.log('✅ Paystack library loaded');
-    
-    // Check if required variables are defined
-    console.log('Variables check:');
-    console.log('- eventId:', typeof eventId !== 'undefined' ? eventId : '❌ MISSING');
-    console.log('- regularPrice:', typeof regularPrice !== 'undefined' ? regularPrice : '❌ MISSING');
-    console.log('- vipPrice:', typeof vipPrice !== 'undefined' ? vipPrice : '❌ MISSING');
-    
-    // Check if required DOM elements exist
-    console.log('DOM elements check:');
-    console.log('- checkout-btn:', document.getElementById('checkout-btn') ? '✅' : '❌');
-    console.log('- email input:', document.getElementById('email') ? '✅' : '❌');
-    console.log('- regular input:', document.getElementById('regular') ? '✅' : '❌');
-    console.log('- vip input:', document.getElementById('vip') ? '✅' : '❌');
-    
-    // Test backend endpoint
-    console.log('Testing backend endpoint...');
-    fetch('../src/Controllers/initialize_transaction.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: 'test@example.com',
-            event_id: 1,
-            regular_quantity: 1,
-            vip_quantity: 0
-        })
+window.testPaystackConnection = function () {
+  console.log("Testing Paystack connection...");
+
+  // Check if Paystack script is loaded
+  if (typeof PaystackPop === "undefined") {
+    console.error("❌ Paystack library not loaded");
+    console.log(
+      "Make sure this script is included: https://js.paystack.co/v1/inline.js"
+    );
+    return false;
+  }
+  console.log("✅ Paystack library loaded");
+
+  // Check if required variables are defined
+  console.log("Variables check:");
+  console.log(
+    "- eventId:",
+    typeof eventId !== "undefined" ? eventId : "❌ MISSING"
+  );
+  console.log(
+    "- regularPrice:",
+    typeof regularPrice !== "undefined" ? regularPrice : "❌ MISSING"
+  );
+  console.log(
+    "- vipPrice:",
+    typeof vipPrice !== "undefined" ? vipPrice : "❌ MISSING"
+  );
+
+  // Check if required DOM elements exist
+  console.log("DOM elements check:");
+  console.log(
+    "- checkout-btn:",
+    document.getElementById("checkout-btn") ? "✅" : "❌"
+  );
+  console.log("- email input:", document.getElementById("email") ? "✅" : "❌");
+  console.log(
+    "- regular input:",
+    document.getElementById("regular") ? "✅" : "❌"
+  );
+  console.log("- vip input:", document.getElementById("vip") ? "✅" : "❌");
+
+  // Test backend endpoint
+  console.log("Testing backend endpoint...");
+  fetch("../src/Controllers/initialize_transaction.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: "test@example.com",
+      event_id: 1,
+      regular_quantity: 1,
+      vip_quantity: 0,
+    }),
+  })
+    .then((response) => response.text())
+    .then((text) => {
+      console.log("Backend response:", text);
+      try {
+        const data = JSON.parse(text);
+        console.log("✅ Backend responding with JSON");
+        console.log("Backend data:", data);
+      } catch (e) {
+        console.error("❌ Backend not returning valid JSON");
+        console.error("Response:", text.substring(0, 200));
+      }
     })
-    .then(response => response.text())
-    .then(text => {
-        console.log('Backend response:', text);
-        try {
-            const data = JSON.parse(text);
-            console.log('✅ Backend responding with JSON');
-            console.log('Backend data:', data);
-        } catch (e) {
-            console.error('❌ Backend not returning valid JSON');
-            console.error('Response:', text.substring(0, 200));
-        }
-    })
-    .catch(error => {
-        console.error('❌ Backend connection failed:', error);
+    .catch((error) => {
+      console.error("❌ Backend connection failed:", error);
     });
-    
-    console.log('Test completed. Check the console output above.');
+
+  console.log("Test completed. Check the console output above.");
 };
 
 // Auto-run test when page loads (for debugging)
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Page loaded. Run testPaystackConnection() in console to test payment setup');
+document.addEventListener("DOMContentLoaded", () => {
+  console.log(
+    "Page loaded. Run testPaystackConnection() in console to test payment setup"
+  );
 });

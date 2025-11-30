@@ -123,6 +123,91 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Get the newly inserted user ID
                     $new_user_id = $conn->insert_id;
                     
+                    // Only auto-add RSVPs for regular users, not managers
+                    if ($user_type === 'user') {
+                     
+                      
+                        $past_events_stmt = $conn->prepare("
+                            SELECT event_id 
+                            FROM events 
+                            WHERE (status = 'completed' OR (event_date < CURDATE() AND status = 'active'))
+                            AND status != 'cancelled'
+                            ORDER BY event_date DESC
+                            LIMIT 3
+                        ");
+                        $past_events_stmt->execute();
+                        $past_events_result = $past_events_stmt->get_result();
+                        
+                        
+                        $past_count = 0;
+                        while ($past_event = $past_events_result->fetch_assoc()) {
+                            if ($past_count >= 3) break;
+                            
+                            
+                            $check_stmt = $conn->prepare("SELECT rsvp_id FROM rsvps WHERE event_id = ? AND user_id = ?");
+                            $check_stmt->bind_param("ii", $past_event['event_id'], $new_user_id);
+                            $check_stmt->execute();
+                            if ($check_stmt->get_result()->num_rows === 0) {
+                                $rsvp_stmt = $conn->prepare("INSERT INTO rsvps (event_id, user_id, attended, created_at) VALUES (?, ?, 1, DATE_SUB(NOW(), INTERVAL ? DAY))");
+                                
+                                
+                                $days_ago = rand(30, 60);
+                                
+                                $rsvp_stmt->bind_param("iii", $past_event['event_id'], $new_user_id, $days_ago);
+                                
+                                $rsvp_stmt->execute();
+                                
+                                
+                                $rsvp_stmt->close();
+                                
+                                $past_count++;
+                            }
+                            $check_stmt->close();
+                        }
+                        $past_events_stmt->close();
+                        
+                        // Get upcoming events (for homepage) - get a mix of popular events
+                        // This will include events from populate_events.sql like "Afro Nation", "Rapperholic", etc.
+                        $upcoming_events_stmt = $conn->prepare("
+                            SELECT event_id 
+                            FROM events 
+                            WHERE status = 'active' 
+                            AND event_date >= CURDATE()
+                            ORDER BY event_date ASC, capacity DESC
+                            LIMIT 3
+                        ");
+                        $upcoming_events_stmt->execute();
+                        $upcoming_events_result = $upcoming_events_stmt->get_result();
+                        
+                        // Add RSVPs for upcoming events (not yet attended)
+                        $upcoming_count = 0;
+                        while ($upcoming_event = $upcoming_events_result->fetch_assoc()) {
+                            if ($upcoming_count >= 3) break;
+                            
+                            
+                            $check_stmt = $conn->prepare("SELECT rsvp_id FROM rsvps WHERE event_id = ? AND user_id = ?");
+                            
+                            $check_stmt->bind_param("ii", $upcoming_event['event_id'], $new_user_id);
+                            
+                            $check_stmt->execute();
+                            if ($check_stmt->get_result()->num_rows === 0) {
+                                $rsvp_stmt = $conn->prepare("INSERT INTO rsvps (event_id, user_id, attended, created_at) VALUES (?, ?, 0, DATE_SUB(NOW(), INTERVAL ? DAY))");
+                                
+                                $days_ago = rand(1, 7);
+                               
+                               
+                                $rsvp_stmt->bind_param("iii", $upcoming_event['event_id'], $new_user_id, $days_ago);
+                                $rsvp_stmt->execute();
+                               
+                                $rsvp_stmt->close();
+                               
+                                $upcoming_count++;
+                            }
+                            $check_stmt->close();
+                        }
+                        $upcoming_events_stmt->close();
+                    }
+                    
                     // Set session variables
                     $_SESSION['user_id'] = $new_user_id;
                     $_SESSION['email'] = $email;
@@ -130,12 +215,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_type'] = $user_type;
                     $_SESSION['profile_picture'] = 'user.jpg';
                     
-                    // Ensure session is written before redirect
+                    
                     session_write_close();
 
                     log_security_event("New user registered: $email", 'INFO');
 
-                    // Redirect based on user type
+                    
                     if ($user_type === 'manager') {
                         header("Location: manager_dashboard.php");
                     } else {

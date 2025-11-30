@@ -33,7 +33,7 @@ if ($event_id > 0) {
         FROM events e
         LEFT JOIN categories c ON e.category_id = c.category_id
         LEFT JOIN users u ON e.manager_id = u.user_id
-        WHERE e.event_id = ? AND e.status = 'active'
+        WHERE e.event_id = ? AND (e.status = 'active' OR e.status = 'completed')
     ");
     $stmt->bind_param("i", $event_id);
     $stmt->execute();
@@ -234,6 +234,9 @@ function timeAgo($datetime) {
                   <h1 class="event-title"><?php echo htmlspecialchars($event['name']); ?></h1>
 
                   <span class="event-category-badge"><?php echo htmlspecialchars($category_name); ?></span>
+                  <?php if ($event['status'] === 'completed' || strtotime($event['event_date'] . ' ' . $event['event_time']) < time()): ?>
+                    <span class="event-category-badge" style="background-color: #666; margin-left: 10px;">Past Event</span>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
@@ -246,7 +249,12 @@ function timeAgo($datetime) {
                 <p class="event-desc-text"><?php echo htmlspecialchars($event['description']); ?></p>
 
                 <div class="rsvp-btn-wrapper">
-                  <button id="rsvp-btn" class="rsvp-button">RSVP</button>
+                  <?php if ($event['status'] === 'completed' || strtotime($event['event_date'] . ' ' . $event['event_time']) < time()): ?>
+                    <button id="rsvp-btn" class="rsvp-button" disabled style="opacity: 0.5; cursor: not-allowed;">Event Ended</button>
+                    <p style="color: #999; font-size: 14px; margin-top: 10px;">This event has already ended</p>
+                  <?php else: ?>
+                    <button id="rsvp-btn" class="rsvp-button">RSVP</button>
+                  <?php endif; ?>
                 </div>
 
               </div>
@@ -330,6 +338,9 @@ function timeAgo($datetime) {
             type="submit"
             id="tickets-btn"
             class="modal-button tickets-button"
+            <?php if ($event['status'] === 'completed' || strtotime($event['event_date'] . ' ' . $event['event_time']) < time()): ?>
+              disabled style="opacity: 0.5; cursor: not-allowed;"
+            <?php endif; ?>
           >
             Tickets
           </button>
