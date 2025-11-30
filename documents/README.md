@@ -1,4 +1,4 @@
-BONTEN - Event Management System
+## BONTEN - Event Management System
 
 A comprehensive web-based event management platform built with PHP,
 MySQL, and JavaScript. BONTEN allows users to discover, RSVP, and
