@@ -209,6 +209,7 @@ $db->close();
     <link rel="stylesheet" href="../public/css/manager_dashboard.css">
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/manager_dashboard.js" defer></script>
 </head>
 <body>

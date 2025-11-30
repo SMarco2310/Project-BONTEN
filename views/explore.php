@@ -75,6 +75,7 @@ $db->close();
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <script src="../public/js/language.js"></script>
     <script src="../public/js/profile_loader.js"></script>
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/explore.js" defer></script>
 </head>
 <body>

@@ -52,7 +52,7 @@ p {
 
 .sidebar .logo h3 {
     font-size: 24px;
-    font-weight: 500;
+    font-weight: normal;
 }
 
 .sidebar .logo .left {
@@ -77,7 +77,7 @@ p {
     text-decoration: none;
     font-size: 15px;
     transition: color 0.3s;
-    font-weight: 400;
+    font-weight: normal;
 }
 
 .nav-item:hover,
@@ -150,7 +150,7 @@ p {
 .topnav .user_info .username {
     color: var(--tertiary-color);
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
 
     margin: 0;
 }
@@ -218,7 +218,7 @@ p {
     font-size: 48px;
     color: var(--tertiary-color);
     margin: 0;
-    font-weight: 600;
+    font-weight: normal;
 }
 
 .event-category-badge {
@@ -256,7 +256,7 @@ p {
     color: var(--tertiary-color);
 
     margin: 0;
-    font-weight: 500;
+    font-weight: normal;
 }
 
 .event-desc-text {
@@ -282,7 +282,7 @@ p {
     border: none;
     border-radius: 10px;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: normal;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -361,7 +361,7 @@ p {
 
     color: var(--tertiary-color);
     font-size: 15px;
-    font-weight: 500;
+    font-weight: normal;
     margin: 0 0 5px 0;
 }
 
@@ -462,7 +462,7 @@ p {
 
 
 .modal-title {
-    font-weight: 500;
+    font-weight: normal;
     text-align: left;
     color: var(--tertiary-color);
     margin: 0 0 30px 0;
@@ -484,7 +484,7 @@ p {
 }
 
 .form-field label {
-    font-weight: 400;
+    font-weight: normal;
     font-family: var(--primary-font);
     font-size: 15px;
     color: var(--tertiary-color);
@@ -522,7 +522,7 @@ p {
     font-family: var(--primary-font);
     border-radius: 10px;
     border: none;
-    font-weight: 500;
+    font-weight: normal;
 
     margin-top: 10px;
     color: var(--tertiary-color);
@@ -562,7 +562,7 @@ p {
 .ticket-type-name {
     font-size: 18px;
     color: var(--tertiary-color);
-    font-weight: 500;
+    font-weight: normal;
 }
 
 .ticket-unit-price {
@@ -629,13 +629,13 @@ p {
     font-size: 18px;
     color: var(--tertiary-color);
 
-    font-weight: 600;
+    font-weight: normal;
 }
 
 .total-amount {
     font-size: 20px;
     color: var(--secondary-color);
-    font-weight: 700;
+    font-weight: normal;
 }
 
 .checkout-button {
@@ -646,7 +646,7 @@ p {
     border-radius: 10px;
 
     font-size: 16px;
-    font-weight: 500;
+    font-weight: normal;
     cursor: pointer;
     width: 100%;
     margin-top: 10px;

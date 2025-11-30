@@ -83,6 +83,7 @@ $db->close();
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/manager_history.js" defer></script>
 </head>
 <body>

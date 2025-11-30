@@ -155,7 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
-
+            console.log('Checkout button clicked (event.js handler)');
+            
+            // Check if event_modals.js is handling this instead
+            if (typeof payWithPaystack === 'function') {
+                console.log('Delegating to event_modals.js payment handler');
+                payWithPaystack();
+                return;
+            }
+            
+            // Fallback to legacy implementation
+            console.log('Using legacy payment implementation');
+            
             const regQty = regularQty ? parseInt(regularQty.value) : 0;
             const vipQ = vipQty ? parseInt(vipQty.value) : 0;
 
@@ -163,29 +174,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Please select at least one ticket');
                 return;
             }
+            
+            // Validate prices are defined
+            if (typeof regularPrice === 'undefined' || typeof vipPrice === 'undefined') {
+                alert('Error: Ticket prices not loaded. Please refresh the page.');
+                return;
+            }
 
             const total = (regQty * regularPrice) + (vipQ * vipPrice);
+
+            if (total <= 0) {
+                alert('Error: Invalid total amount. Please refresh the page.');
+                return;
+            }
 
             initiatePaystackPayment(total, regQty, vipQ);
         });
     }
 
 
+    // Note: This function is deprecated in favor of event_modals.js implementation
+    // Keeping for backward compatibility but event_modals.js should handle payments
     function initiatePaystackPayment(amount, regularQuantity, vipQuantity) {
+        console.warn('Using deprecated payment method. Please use event_modals.js implementation.');
+        
+        // Check if event_modals.js payment function is available
+        if (typeof payWithPaystack === 'function') {
+            payWithPaystack();
+            return;
+        }
+        
+        // Fallback implementation with proper error handling
+        if (typeof PaystackPop === 'undefined') {
+            alert('Payment system is not available. Please refresh the page and try again.');
+            return;
+        }
+        
         const handler = PaystackPop.setup({
-            key: 'pk_test_your_paystack_public_key_here',
+            key: 'pk_test_d1f61fd4add0486460c5a543b1a51e97015d1207', // Updated with actual test key
             email: userEmail,
-            amount: amount * 100,
-
+            amount: amount * 100, // Convert to kobo
             currency: 'GHS',
             ref: 'BONTEN_' + Math.floor((Math.random() * 1000000000) + 1),
             callback: function(response) {
-
                 verifyPayment(response.reference, regularQuantity, vipQuantity);
             },
             onClose: function() {
                 alert('Payment window closed');
-
             }
         });
 

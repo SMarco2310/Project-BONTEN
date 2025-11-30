@@ -58,6 +58,7 @@ unset($_SESSION['error_message']);
         const managerId = <?php echo $manager_id; ?>;
         const managerEmail = "<?php echo htmlspecialchars($manager['email']); ?>";
     </script>
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/create_event.js" defer></script>
 </head>
 <body>

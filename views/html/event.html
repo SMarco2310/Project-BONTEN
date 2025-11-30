@@ -10,6 +10,7 @@
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
     <script src="../public/js/language.js"></script>
     <script src="../public/js/profile_loader.js"></script>
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/validation.js"></script>
     <script src="../public/js/event_modals.js" defer></script>
     <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -67,136 +68,161 @@
       <!-- * Main page content -->
       <div class="main-body">
         <div class="mid">
-          <div class="event-banner">
-            <div class="event-image" id="event-img">
-              <div class="event-header">
-                <p class="diff-font" id="event-name"></p>
-
-                <button id="event-tag"></button>
+          <div class="event-container">
+            <div class="event-box-left">
+              <div class="event-img-wrapper">
+                <img src="../public/assets/event.jpeg" alt="Event Image" class="event-main-img" />
+                <div class="event-overlay">
+                  <h1 class="event-title" id="event-name">Sample Event</h1>
+                  <span class="event-category-badge" id="event-tag">Music</span>
+                </div>
               </div>
             </div>
 
-            <div class="desc-comments">
-              <div class="desc">
-                <div class="desc-title">
-                  <h2
-                    style="
-                      font-family: 'Inter', sans-serif;
-                      color: #ffffff;
-                      margin: 0;
-                    "
-                    data-translate="description"
-                  >
-                    Description
-                  </h2>
-                </div>
-                <div id="desc-text">
-                  <p id="event-description">
-                    Join us for an unforgettable evening of music, culture, and
-                    community! This exclusive event brings together talented
-                    performers, amazing food, and great company in a vibrant
-                    atmosphere. Whether you're a music enthusiast or just
-                    looking for a great night out, this event promises to
-                    deliver an experience you won't forget. Don't miss out on
-                    this opportunity to connect with fellow culture lovers and
-                    enjoy world-class entertainment.
-                  </p>
-                </div>
-                <div class="rsvp">
-                  <button
-                    id="rsvp-btn"
-                    style="font-family: 'MartianMono Nerd Font', sans-serif"
-                    data-translate="rsvp"
-                  >
-                    RSVP ->
-                  </button>
+            <div class="event-box-right">
+              <div class="description-box">
+                <h2 class="section-header" data-translate="description">Description</h2>
+                <p class="event-desc-text" id="event-description">
+                  Join us for an unforgettable evening of music, culture, and
+                  community! This exclusive event brings together talented
+                  performers, amazing food, and great company in a vibrant
+                  atmosphere. Whether you're a music enthusiast or just
+                  looking for a great night out, this event promises to
+                  deliver an experience you won't forget. Don't miss out on
+                  this opportunity to connect with fellow culture lovers and
+                  enjoy world-class entertainment.
+                </p>
+                <div class="rsvp-btn-wrapper">
+                  <button id="rsvp-btn" class="rsvp-button">RSVP</button>
                 </div>
               </div>
-              <div class="comments">
-                <div class="desc-title">
-                  <h2
-                    style="
-                      font-family: 'Inter', sans-serif;
-                      color: #ffffff;
-                      margin: 0;
-                    "
-                    data-translate="comments"
-                  >
-                    Comments
-                  </h2>
-                </div>
 
-                <div class="comments-list" id="comments-container">
-                  <!-- Comment items will be dynamically inserted here -->
-                  <!-- Database structure: { id, userId, userName, userAvatar, rating, comment, timestamp } -->
-
-                  <div class="comment-item" data-comment-id="1">
-                    <div class="comment-header">
-                      <div class="comment-user-avatar">
-                        <img src="../public/assets/jerome.jpeg" alt="user" />
-                      </div>
-                      <div class="comment-user-info">
-                        <p class="comment-user-name">Jerome Adedze</p>
+              <div class="comments-box">
+                <h2 class="section-header" data-translate="comments">Comments</h2>
+                <div class="comments-scroll">
+                  <!-- Sample comment -->
+                  <div class="single-comment">
+                    <div class="comment-top">
+                      <img src="../public/assets/jerome.jpeg" alt="user" class="comment-avatar" />
+                      <div class="comment-info">
+                        <p class="commenter-name">Jerome Adedze</p>
                         <div class="comment-rating">
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star_w.svg"
-                            alt="star"
-                          />
+                          <span class="star filled">★</span>
+                          <span class="star filled">★</span>
+                          <span class="star filled">★</span>
+                          <span class="star filled">★</span>
+                          <span class="star">★</span>
                         </div>
                       </div>
                     </div>
-                    <div class="comment-text">
-                      <p>
-                        This was an absolutely amazing event! The organization
-                        was top-notch and the atmosphere was electric. Would
-                        definitely attend again!
-                      </p>
-                    </div>
-                    <div class="comment-time">2 days ago</div>
+                    <p class="comment-text">
+                      Great event! Really enjoyed the music and atmosphere.
+                    </p>
                   </div>
+                  <!-- End sample comment -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                  <div class="comment-item" data-comment-id="2">
-                    <div class="comment-header">
-                      <div class="comment-user-avatar">
-                        <img src="../public/assets/eldad.jpg" alt="user" />
-                      </div>
-                      <div class="comment-user-info">
-                        <p class="comment-user-name">Eldad Kohen</p>
-                        <div class="comment-rating">
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
-                            alt="star"
-                          />
-                          <img
-                            src="../public/assets/icons/star.svg"
+    <!-- RSVP Modal -->
+    <div id="rsvp-modal" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content rsvp-modal-content">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title">RSVP</h2>
+
+        <form id="rsvp-form" class="modal-form">
+          <div class="form-group">
+            <label for="rsvp-email">Email Address</label>
+            <input
+              type="email"
+              id="rsvp-email"
+              name="email"
+              required
+              readonly
+              value="jerome@bonten.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="rsvp-password">Password</label>
+            <input
+              type="password"
+              id="rsvp-password"
+              name="password"
+              required
+              placeholder="Enter your password to confirm"
+            />
+          </div>
+
+          <button type="submit" class="modal-button rsvp-button">
+            Confirm RSVP
+          </button>
+          <button
+            type="button"
+            id="view-tickets-btn"
+            class="modal-button tickets-button"
+            data-translate="viewTickets"
+          >
+            View Tickets
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tickets Modal -->
+    <div id="tickets-modal" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content tickets-modal-content">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title">Tickets</h2>
+
+        <div class="tickets-container">
+          <div class="ticket-type">
+            <div class="ticket-info">
+              <h3>Regular Ticket</h3>
+              <p class="ticket-price">GHC 50.00</p>
+            </div>
+            <div class="quantity-control">
+              <button type="button" class="quantity-btn minus" data-ticket="regular">-</button>
+              <span class="quantity-display" data-ticket="regular">0</span>
+              <button type="button" class="quantity-btn plus" data-ticket="regular">+</button>
+            </div>
+          </div>
+
+          <div class="ticket-type">
+            <div class="ticket-info">
+              <h3>VIP Ticket</h3>
+              <p class="ticket-price">GHC 100.00</p>
+            </div>
+            <div class="quantity-control">
+              <button type="button" class="quantity-btn minus" data-ticket="vip">-</button>
+              <span class="quantity-display" data-ticket="vip">0</span>
+              <button type="button" class="quantity-btn plus" data-ticket="vip">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="total-section">
+          <p class="total-text">Total: <span id="total-amount">GHC 0.00</span></p>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            id="checkout-btn"
+            class="modal-button"
+            data-translate="proceedToCheckout"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
                             alt="star"
                           />
                         </div>

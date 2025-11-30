@@ -271,6 +271,7 @@ $db->close();
     </div>
 
     <script src="../public/js/language.js"></script>
+    <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/history.js" defer></script>
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>

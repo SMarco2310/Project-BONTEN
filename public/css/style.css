@@ -20,3 +20,51 @@
     right: 20px !important;
     z-index: 9999 !important;
 }
+
+/* Toast notification styles */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-family: var(--primary-font);
+    font-weight: 500;
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.info {
+    background-color: #2196F3;
+}
+
+.toast.error {
+    background-color: #f44336;
+}
+
+.toast.success {
+    background-color: #4CAF50;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Star rating styles */
+.star {
+    color: #444;
+    font-size: 16px;
+    margin-right: 2px;
+}
+
+.star.filled {
+    color: #FFD700;
+}

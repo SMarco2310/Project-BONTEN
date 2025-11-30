@@ -257,7 +257,6 @@ class DashboardController {
                 if (e.key === 'Enter' && searchInput.value.trim()) {
                     window.location.href = `manager_history.php?search=${encodeURIComponent(searchInput.value.trim())}`;
                 }
-
             });
         }
 
@@ -657,8 +656,6 @@ class DashboardController {
         });
     }
 
-
-
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');
         if (existingToast) {
@@ -696,7 +693,7 @@ function calculatePercentageChange(current, previous) {
     return ((current - previous) / previous) * 100;
 }
 
-
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.dashboardController = new DashboardController();
 });
@@ -710,4 +707,3 @@ if (typeof module !== 'undefined' && module.exports) {
         calculatePercentageChange
     };
 }
-
