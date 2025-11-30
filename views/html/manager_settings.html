@@ -1,275 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Manager Settings - BONTEN</title>
     <link rel="stylesheet" href="../public/css/style.css" />
+
+
     <link rel="stylesheet" href="../public/css/manager_settings.css">
+
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="../public/js/manager_settings.js" defer></script>
+
 </head>
+
 <body>
+
     <div class="container">
 
         <aside class="sidebar">
+
             <a href="./manager_dashboard.html" style="text-decoration: none;">
+
                 <div class="logo">
+
                     <h3 class="left">Bon</h3>
+
                     <h3>ten</h3>
                 </div>
+
             </a>
 
             <nav class="nav-menu">
+
                 <a href="./manager_dashboard.html" class="nav-item">Home</a>
                 <a href="./manager_history.html" class="nav-item">History</a>
+
                 <a href="./create_event.html" class="nav-item">Create Event</a>
+
             </nav>
 
             <div class="lower-menu">
+
                 <a href="./manager_settings.html" class="nav-item active">Settings</a>
+
                 <a href="./index.html" class="logout">Logout</a>
+
             </div>
 
         </aside>
 
         <div class="topnav">
+
             <a
                 href="./manager_settings.html"
+
+
                 class="user_section"
+
+
                 style="cursor: pointer; text-decoration: none"
+
             >
+
                 <img
+
                     src="../public/assets/jerome.jpeg"
+
+
                     alt="Profile Picture"
+
+
                     class="profile_picture"
+
                     id="headerAvatar"
                 />
+
                 <div class="user_info">
+
                     <h4 class="username" id="headerName">Jerome Adedze</h4>
+
                 </div>
+
+
             </a>
 
             <h2 class="page-title">Settings</h2>
+
         </div>
 
         <main class="main-content">
+
             <div class="settings-container">
-                <!-- Settings Navigation -->
+
                 <nav class="settings-nav">
                     <button class="settings-nav-item active" data-section="profile">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
+
+
                         Profile
+
                     </button>
                     <button class="settings-nav-item" data-section="payment">
+
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+
                             <line x1="1" y1="10" x2="23" y2="10"></line>
+
                         </svg>
+
                         Payment Details
+
                     </button>
                     <button class="settings-nav-item" data-section="security">
+
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
+
                         Security
+
                     </button>
                 </nav>
 
-                <!-- Settings Content -->
                 <div class="settings-content">
-                    <!-- Profile Section -->
+
                     <section class="settings-section active" id="profile-section">
+
                         <div class="section-header">
                             <h2>Profile Information</h2>
+
+
                             <p>Update your personal details and profile picture</p>
                         </div>
 
                         <form id="profileForm" class="settings-form">
+
                             <div class="avatar-upload">
+
+
                                 <div class="avatar-preview" id="avatarPreview">
+
                                     <img src="../public/assets/jerome.jpeg" alt="Profile" id="profileAvatar">
+
+
                                 </div>
                                 <div class="avatar-actions">
+
                                     <button type="button" class="btn-secondary" id="changeAvatarBtn">Change Photo</button>
+
                                     <button type="button" class="btn-text" id="removeAvatarBtn">Remove</button>
+
                                     <input type="file" id="avatarInput" accept="image/*" hidden>
+
                                 </div>
+
+
                             </div>
 
                             <div class="form-row">
+
+
                                 <div class="form-group">
+
                                     <label for="firstName">First Name</label>
+
+
                                     <input type="text" id="firstName" value="Jerome" required>
+
                                 </div>
+
+
                                 <div class="form-group">
+
                                     <label for="lastName">Last Name</label>
                                     <input type="text" id="lastName" value="Adedze" required>
+
                                 </div>
                             </div>
 
                             <div class="form-group">
+
+
                                 <label for="email">Email Address</label>
                                 <input type="email" id="email" value="jerome@bonten.com" required>
+
                             </div>
 
                             <div class="form-group">
+
                                 <label for="phone">Phone Number</label>
+
                                 <input type="tel" id="phone" value="+233 24 123 4567" placeholder="+233 XX XXX XXXX">
+
                             </div>
 
                             <div class="form-group">
+
+
                                 <label for="bio">Bio</label>
                                 <textarea id="bio" rows="3" placeholder="Tell attendees about yourself...">Event organizer passionate about creating memorable experiences in Accra.</textarea>
+
                             </div>
 
                             <div class="form-group">
                                 <label for="company">Company/Organization</label>
+
                                 <input type="text" id="company" value="BONTEN Events" placeholder="Your company name">
+
                             </div>
 
                             <div class="form-actions">
                                 <button type="button" class="btn-secondary" id="cancelProfileBtn">Cancel</button>
                                 <button type="submit" class="btn-primary">Save Changes</button>
+
                             </div>
+
+
                         </form>
+
                     </section>
 
-                    <!-- Payment Details Section -->
                     <section class="settings-section" id="payment-section">
+
                         <div class="section-header">
+
                             <h2>Payment Details</h2>
+
                             <p>Manage how you receive payments from ticket sales</p>
+
                         </div>
 
                         <div class="payment-methods">
-                            <!-- Bank Account -->
+
                             <div class="payment-card">
                                 <div class="payment-card-header">
                                     <div class="payment-icon bank">
+
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                                             <path d="M3 21h18"></path>
+
                                             <path d="M3 10h18"></path>
+
+
                                             <path d="M5 6l7-3 7 3"></path>
+
                                             <path d="M4 10v11"></path>
+
                                             <path d="M20 10v11"></path>
+
                                             <path d="M8 14v3"></path>
+
                                             <path d="M12 14v3"></path>
+
                                             <path d="M16 14v3"></path>
+
                                         </svg>
+
                                     </div>
+
                                     <div class="payment-info">
+
                                         <h3>Bank Account</h3>
+
                                         <p class="payment-status" id="bankStatus">Not configured</p>
+
                                     </div>
+
                                     <button type="button" class="btn-secondary" id="addBankBtn">Add Bank</button>
+
                                 </div>
                                 <div class="payment-card-body" id="bankDetails" style="display: none;">
                                     <div class="payment-detail-row">
+
                                         <span class="detail-label">Bank Name</span>
                                         <span class="detail-value" id="bankName">-</span>
+
+
                                     </div>
                                     <div class="payment-detail-row">
                                         <span class="detail-label">Account Name</span>
+
                                         <span class="detail-value" id="accountName">-</span>
+
                                     </div>
+
                                     <div class="payment-detail-row">
+
                                         <span class="detail-label">Account Number</span>
+
+
                                         <span class="detail-value" id="accountNumber">-</span>
+
                                     </div>
+
+
                                     <div class="payment-detail-row">
+
                                         <span class="detail-label">Branch</span>
+
                                         <span class="detail-value" id="bankBranch">-</span>
+
                                     </div>
                                 </div>
+
                             </div>
 
-                            <!-- Mobile Money -->
                             <div class="payment-card">
+
                                 <div class="payment-card-header">
+
                                     <div class="payment-icon momo">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                                             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+
+
                                             <line x1="12" y1="18" x2="12.01" y2="18"></line>
+
                                         </svg>
+
+
                                     </div>
                                     <div class="payment-info">
+
                                         <h3>Mobile Money</h3>
                                         <p class="payment-status" id="momoStatus">Not configured</p>
+
                                     </div>
                                     <button type="button" class="btn-secondary" id="addMomoBtn">Add Mobile Money</button>
                                 </div>
+
                                 <div class="payment-card-body" id="momoDetails" style="display: none;">
+
                                     <div class="payment-detail-row">
+
+
                                         <span class="detail-label">Provider</span>
+
                                         <span class="detail-value" id="momoProvider">-</span>
+
+
                                     </div>
+
                                     <div class="payment-detail-row">
                                         <span class="detail-label">Phone Number</span>
+
+
                                         <span class="detail-value" id="momoNumber">-</span>
+
                                     </div>
                                     <div class="payment-detail-row">
                                         <span class="detail-label">Account Name</span>
                                         <span class="detail-value" id="momoAccountName">-</span>
+
                                     </div>
+
+
                                 </div>
+
                             </div>
 
-                            <!-- Paystack Integration -->
                             <div class="payment-card featured">
+
                                 <div class="payment-card-header">
                                     <div class="payment-icon paystack">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
                                             <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+
                                             <path d="M2 17l10 5 10-5"></path>
                                             <path d="M2 12l10 5 10-5"></path>
                                         </svg>
+
                                     </div>
                                     <div class="payment-info">
+
                                         <h3>Paystack Integration</h3>
+
                                         <p class="payment-status" id="paystackStatus">Connect for instant payouts</p>
+
                                     </div>
                                     <button type="button" class="btn-primary" id="connectPaystackBtn">Connect Paystack</button>
+
+
                                 </div>
                                 <div class="payment-card-body">
                                     <p class="payment-note">
+
+
                                         Connect your Paystack account to receive payments directly from ticket sales.
+
                                         Paystack handles all payment processing securely.
                                     </p>
+
                                 </div>
+
+
                             </div>
+
                         </div>
 
-                        <!-- Payout Settings -->
                         <div class="payout-settings">
                             <h3>Payout Settings</h3>
+
                             <div class="form-group">
                                 <label for="payoutSchedule">Payout Schedule</label>
+
                                 <select id="payoutSchedule">
+
                                     <option value="instant">Instant (after each event)</option>
+
                                     <option value="daily">Daily</option>
+
                                     <option value="weekly" selected>Weekly</option>
+
                                     <option value="monthly">Monthly</option>
                                 </select>
                             </div>
+
                             <div class="form-group">
                                 <label for="minimumPayout">Minimum Payout Amount (GHC)</label>
                                 <input type="number" id="minimumPayout" value="100" min="50" step="10">
+
                                 <span class="form-hint">Payouts below this amount will be accumulated</span>
+
                             </div>
+
+
                         </div>
                     </section>
 
-                    <!-- Security Section -->
                     <section class="settings-section" id="security-section">
+
+
                         <div class="section-header">
                             <h2>Security Settings</h2>
+
                             <p>Manage your account security</p>
+
                         </div>
 
                         <form id="securityForm" class="settings-form">
@@ -277,62 +461,106 @@
                                 <h4>Change Password</h4>
                                 <div class="form-group">
                                     <label for="currentPassword">Current Password</label>
+
+
                                     <input type="password" id="currentPassword" placeholder="Enter current password">
+
                                 </div>
                                 <div class="form-group">
+
+
                                     <label for="newPassword">New Password</label>
+
                                     <input type="password" id="newPassword" placeholder="Enter new password">
+
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm New Password</label>
                                     <input type="password" id="confirmPassword" placeholder="Confirm new password">
+
                                 </div>
+
                                 <button type="button" class="btn-secondary" id="updatePasswordBtn">Update Password</button>
+
                             </div>
 
                         </form>
+
                     </section>
+
                 </div>
+
             </div>
+
         </main>
 
     </div>
 
-    <!-- Bank Account Modal -->
     <div class="modal" id="bank-modal">
+
         <div class="modal-overlay"></div>
         <div class="modal-content">
+
+
             <button class="modal-close">&times;</button>
+
             <h2>Add Bank Account</h2>
+
             <form id="bankForm">
                 <div class="form-group">
                     <label for="bankNameInput">Bank Name</label>
+
                     <select id="bankNameInput" required>
+
                         <option value="">Select Bank</option>
                         <option value="GCB Bank">GCB Bank</option>
+
                         <option value="Ecobank Ghana">Ecobank Ghana</option>
+
                         <option value="Absa Bank Ghana">Absa Bank Ghana</option>
+
                         <option value="Stanbic Bank Ghana">Stanbic Bank Ghana</option>
+
+
                         <option value="Standard Chartered">Standard Chartered</option>
                         <option value="Fidelity Bank">Fidelity Bank</option>
+
                         <option value="Zenith Bank">Zenith Bank</option>
+
                         <option value="Access Bank">Access Bank</option>
+
                         <option value="CalBank">CalBank</option>
+
+
                         <option value="UBA Ghana">UBA Ghana</option>
+
+
                     </select>
+
                 </div>
+
                 <div class="form-group">
+
                     <label for="accountNameInput">Account Holder Name</label>
                     <input type="text" id="accountNameInput" placeholder="As shown on your bank account" required>
+
+
                 </div>
+
                 <div class="form-group">
+
+
                     <label for="accountNumberInput">Account Number</label>
+
+
                     <input type="text" id="accountNumberInput" placeholder="Enter account number" required>
                 </div>
+
                 <div class="form-group">
                     <label for="branchInput">Branch</label>
                     <input type="text" id="branchInput" placeholder="Bank branch name">
                 </div>
+
                 <div class="modal-actions">
                     <button type="button" class="btn-secondary" id="cancelBankBtn">Cancel</button>
                     <button type="submit" class="btn-primary">Save Bank Account</button>
@@ -341,38 +569,72 @@
         </div>
     </div>
 
-    <!-- Mobile Money Modal -->
     <div class="modal" id="momo-modal">
         <div class="modal-overlay"></div>
+
         <div class="modal-content">
+
             <button class="modal-close">&times;</button>
+
             <h2>Add Mobile Money</h2>
+
+
             <form id="momoForm">
                 <div class="form-group">
+
+
                     <label for="momoProviderInput">Provider</label>
+
                     <select id="momoProviderInput" required>
+
+
                         <option value="">Select Provider</option>
+
                         <option value="MTN Mobile Money">MTN Mobile Money</option>
+
                         <option value="Vodafone Cash">Vodafone Cash</option>
+
+
                         <option value="AirtelTigo Money">AirtelTigo Money</option>
+
+
                     </select>
+
                 </div>
+
                 <div class="form-group">
                     <label for="momoNumberInput">Phone Number</label>
+
                     <input type="tel" id="momoNumberInput" placeholder="+233 XX XXX XXXX" required>
+
+
                 </div>
                 <div class="form-group">
                     <label for="momoNameInput">Account Name</label>
+
                     <input type="text" id="momoNameInput" placeholder="Registered name on account" required>
+
                 </div>
+
                 <div class="modal-actions">
+
                     <button type="button" class="btn-secondary" id="cancelMomoBtn">Cancel</button>
+
                     <button type="submit" class="btn-primary">Save Mobile Money</button>
+
+
                 </div>
+
             </form>
+
         </div>
+
+
     </div>
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
+
+
 </body>
+
 </html>
