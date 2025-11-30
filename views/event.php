@@ -201,145 +201,77 @@ function timeAgo($datetime) {
         </a>
       </div>
 
-      <!-- * Main page content -->
       <div class="main-body">
         <div class="mid">
-          <div class="event-banner">
-            <div class="event-image" id="event-img" style="background-image: url('<?php echo htmlspecialchars($event['image_path'] ? $event['image_path'] : '../public/assets/hero.png'); ?>');">
-              <div class="event-header">
-                <p class="diff-font" id="event-name"><?php echo htmlspecialchars($event['name']); ?></p>
-                <button id="event-tag"><?php echo htmlspecialchars($category_name); ?></button>
+          <div class="event-container">
+
+            <div class="event-box-left">
+              <div class="event-img-wrapper">
+                <?php if($event['image_path']): ?>
+                <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
+
+                <?php else: ?>
+                <img src="../public/assets/hero.png" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
+                <?php endif; ?>
+
+                <div class="event-overlay">
+                  <h1 class="event-title"><?php echo htmlspecialchars($event['name']); ?></h1>
+
+                  <span class="event-category-badge"><?php echo htmlspecialchars($category_name); ?></span>
+                </div>
               </div>
             </div>
 
-            <div class="desc-comments">
+            <div class="event-box-right">
 
-              <div class="desc">
-                <div class="desc-title">
-                  <h2
-                    style="
-                      font-family: 'Inter', sans-serif;
-                      color: #ffffff;
-                      margin: 0;
-                    "
-                    data-translate="description"
-                  >
-                    Description
-                  </h2>
-                </div>
-                <div id="desc-text">
-                  <p id="event-description">
-                    <?php echo nl2br(htmlspecialchars($event['description'])); ?>
-                  </p>
-                  <div style="margin-top: 15px; color: #ccc;">
-                    <p><strong>📅 Date:</strong> <?php echo $event_date_formatted; ?></p>
-                    <p><strong>🕐 Time:</strong> <?php echo $event_time_formatted; ?></p>
-                    <p><strong>📍 Location:</strong> <?php echo htmlspecialchars($event['location']); ?><?php if ($event['city']): ?>, <?php echo htmlspecialchars($event['city']); ?><?php endif; ?></p>
-                    <?php if ($event['capacity']): ?>
-                    <p><strong>👥 Capacity:</strong> <?php echo number_format($event['capacity']); ?> attendees</p>
-                    <?php endif; ?>
-                    <p><strong>🎭 Event Type:</strong> <?php echo ucfirst($event['event_type']); ?></p>
-                  </div>
-                </div>
-                <div class="rsvp">
-                  <button
-                    id="rsvp-btn"
+              <div class="description-box">
 
-                    style="font-family: 'MartianMono Nerd Font', sans-serif"
-                    data-translate="rsvp"
-                  >
-                    RSVP ->
-                  </button>
+                <h2 class="section-header">Description</h2>
+                <p class="event-desc-text"><?php echo htmlspecialchars($event['description']); ?></p>
+
+                <div class="rsvp-btn-wrapper">
+                  <button id="rsvp-btn" class="rsvp-button">RSVP</button>
                 </div>
-              
+
               </div>
-              
-              <div class="comments">
-              
-              <div class="desc-title">
 
 
-              
-              <h2
-              
-              style="
-              
-              font-family: 'Inter', sans-serif;
-                      color: #ffffff;
-              
-                      margin: 0;
-                    "
-              
-              data-translate="comments"
-              
-              >
-                    Reviews
-              
-                  </h2>
-                </div>
+              <div class="comments-box">
+                <h2 class="section-header">Comments</h2>
 
+                <div class="comments-scroll">
+                  <?php if(count($reviews) > 0): ?>
+                    <?php foreach($reviews as $review): ?>
 
-                <div class="comments-list" id="comments-container">
-                
-                <?php if (count($reviews) > 0): ?>
-                
-                  <?php foreach ($reviews as $review): ?>
-                
-                    <div class="comment-item" data-comment-id="<?php echo $review['review_id']; ?>">
+                    <div class="single-comment">
+                      <div class="comment-top">
 
+                        <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" class="comment-avatar" />
+                        <div class="comment-info">
+                          <p class="commenter-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
 
-                    
-                    <div class="comment-header">
-                    
-                    <div class="comment-user-avatar">
-                    
-                    <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" />
-                    
-                  </div>
-                  
-                  <div class="comment-user-info">
-                            <p class="comment-user-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
-                  
-                            <div class="comment-rating">
-                  
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                          <div class="star-rating">
+                            <?php for($i = 1; $i <= 5; $i++): ?>
+                            <span class="star <?php echo $i <= $review['rating'] ? 'filled' : 'empty'; ?>">★</span>
 
-
-                                <img
-                              
-                                src="../public/assets/icons/<?php echo $i <= $review['rating'] ? 'star.svg' : 'star_w.svg'; ?>"
-                              
-                                alt="star"
-                              
-                                />
-                              
-                                <?php endfor; ?>
-                            </div>
+                            <?php endfor; ?>
                           </div>
-                        
                         </div>
-                        
-                        <div class="comment-text">
-                        
-                        
-                        <p><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
-                        
                       </div>
-                      
-                      <div class="comment-time"><?php echo timeAgo($review['created_at']); ?></div>
-                      
+
+                      <p class="comment-content"><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
+                      <span class="comment-timestamp"><?php echo timeAgo($review['created_at']); ?></span>
                     </div>
-                    
                     <?php endforeach; ?>
+
                   <?php else: ?>
-                    
-                    <div style="text-align: center; padding: 20px; color: #999;">
-                      <p>No reviews yet. Be the first to review this event!</p>
-                    </div>
+                    <p style="color: #999; text-align: center;">No reviews yet</p>
                   <?php endif; ?>
                 </div>
+
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -349,193 +281,135 @@ function timeAgo($datetime) {
       <div class="modal-overlay"></div>
       <div class="modal-content rsvp-modal-content">
         <button class="modal-close">&times;</button>
-        <h2 class="modal-title" data-translate="rsvp">RSVP</h2>
+        <h2 class="modal-title">RSVP</h2>
 
         <form id="rsvp-form" class="modal-form">
+
           <div class="form-field">
-            <label for="email" data-translate="email">Email</label>
+            <label for="rsvp-email">Email</label>
             <input
               type="email"
-              id="email"
-              placeholder="Enter your email"
-              data-translate="enterYourEmail"
+              id="rsvp-email"
+              name="email"
               value="<?php echo $is_logged_in ? htmlspecialchars($_SESSION['email']) : ''; ?>"
-              <?php echo $is_logged_in ? 'readonly' : ''; ?>
-              required
+              readonly
+              class="rsvp-email-input"
             />
           </div>
-          <?php if (!$is_logged_in): ?>
+
           <div class="form-field">
-            <label for="password" data-translate="password">Password</label>
+            <label for="rsvp-password">Password</label>
+
             <input
               type="password"
-              id="password"
-              
+              id="rsvp-password"
+              name="password"
               placeholder="••••••••"
-              
               required
+              class="rsvp-password-input"
             />
           </div>
-          <?php endif; ?>
+
           <button
-            type="button"
+            type="submit"
             id="tickets-btn"
-
-            class="modal-button"
-            data-translate="tickets"
-
+            class="modal-button tickets-button"
           >
             Tickets
           </button>
+
         </form>
       </div>
     </div>
 
     <div id="tickets-modal" class="modal">
       <div class="modal-overlay"></div>
-      
       <div class="modal-content tickets-modal-content">
         <button class="modal-close">&times;</button>
-      
-        <h2 class="modal-title" data-translate="tickets">Tickets</h2>
-      
+        <h2 class="modal-title">Tickets</h2>
+
         <div class="tickets-form">
-      
-      <?php
-      
-      $has_regular = false;
-      
-      $has_vip = false;
-      
-      foreach ($tickets as $ticket):
-            $ticket_name_lower = strtolower($ticket['ticket_name']);
-      
-            $available = $ticket['quantity'] - $ticket['sold'];
 
-      
-            if (strpos($ticket_name_lower, 'regular') !== false):
-      
-              $has_regular = true;
-          ?>
-          <div class="ticket-option">
-      
-          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-              <label for="regular" data-translate="regular">Regular - GHS <?php echo number_format($ticket['price'], 2); ?></label>
-              <span style="font-size: 12px; color: #999;"><?php echo $available; ?> left</span>
-      
+        <?php
+        $has_regular = false;
+        $has_vip = false;
+        $regular_ticket_price = 0;
+        $vip_ticket_price = 0;
+
+        foreach($tickets as $ticket):
+          $ticket_name_lower = strtolower($ticket['ticket_name']);
+          $available = $ticket['quantity'] - $ticket['sold'];
+
+          if(strpos($ticket_name_lower, 'regular') !== false):
+            $has_regular = true;
+            $regular_ticket_price = $ticket['price'];
+        ?>
+
+          <div class="ticket-type-row">
+            <div class="ticket-label-area">
+
+              <span class="ticket-type-name">Regular</span>
+              <span class="ticket-unit-price">GHS <?php echo number_format($ticket['price'], 2); ?></span>
             </div>
-            <div class="quantity-control">
-              <button type="button" class="qty-btn minus" data-target="regular">-</button>
 
-              <input
-      
-              type="number"
-      
-              id="regular"
+            <div class="ticket-quantity-controls">
+              <button type="button" class="qty-minus-btn" data-ticket="regular">-</button>
+              <input type="number" id="regular-qty" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
 
-
-              
-              class="qty-input"
-              
-              value="0"
-              
-              min="0"
-              
-              max="<?php echo $available; ?>"
-
-                readonly
-              
-                />
-              <button type="button" class="qty-btn plus" data-target="regular" data-max="<?php echo $available; ?>">+</button>
+              <button type="button" class="qty-plus-btn" data-ticket="regular" data-max="<?php echo $available; ?>">+</button>
             </div>
           </div>
-          <?php
-            elseif (strpos($ticket_name_lower, 'vip') !== false):
-              $has_vip = true;
-          ?>
-          <div class="ticket-option">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-              <label for="vip" data-translate="vip">VIP - GHS <?php echo number_format($ticket['price'], 2); ?></label>
-              <span style="font-size: 12px; color: #999;"><?php echo $available; ?> left</span>
+
+        <?php
+          elseif(strpos($ticket_name_lower, 'vip') !== false):
+            $has_vip = true;
+            $vip_ticket_price = $ticket['price'];
+        ?>
+
+          <div class="ticket-type-row">
+
+            <div class="ticket-label-area">
+              <span class="ticket-type-name">VIP</span>
+
+              <span class="ticket-unit-price">GHS <?php echo number_format($ticket['price'], 2); ?></span>
+            </div>
+
+            <div class="ticket-quantity-controls">
+              <button type="button" class="qty-minus-btn" data-ticket="vip">-</button>
+
+              <input type="number" id="vip-qty" class="qty-display" value="0" min="0" max="<?php echo $available; ?>" readonly />
+              <button type="button" class="qty-plus-btn" data-ticket="vip" data-max="<?php echo $available; ?>">+</button>
 
             </div>
-            <div class="quantity-control">
+          </div>
 
-              <button type="button" class="qty-btn minus" data-target="vip">-</button>
-              <input
-                type="number"
+        <?php
+          endif;
+        endforeach;
+        ?>
 
-                id="vip"
+          <div class="total-section">
+            <div class="total-row">
+              <span class="total-label">Total:</span>
 
-                class="qty-input"
-                value="0"
-                min="0"
-                max="<?php echo $available; ?>"
-                readonly
-              />
-              <button type="button" class="qty-btn plus" data-target="vip" data-max="<?php echo $available; ?>">+</button>
+              <span class="total-amount">GHS <span id="total-price">0.00</span></span>
             </div>
           </div>
-         
-         <?php
-            endif;
-         
-          endforeach;
-          ?>
 
-          <div class="price-details"
-         
-          style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-         
-          <?php if ($has_regular): ?>
-         
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="color: #ccc;">Regular (<span id="regular-subtotal">0.00</span> GHS)</span>
-         
-            </div>
-         
-            <?php endif; ?>
-         
-            <?php if ($has_vip): ?>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-         
-            <span style="color: #ccc;">VIP (<span id="vip-subtotal">0.00</span> GHS)</span>
-         
-          </div>
-         
-          <?php endif; ?>
-         
-          <div
-         
-         
-          style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
-
-
-          
-          <strong style="color: white;">Total:</strong>
-          
-          <strong style="color: rgb(212, 102, 62);">GHS <span id="grand-total">0.00</span></strong>
-          
-        </div>
-          </div>
-          <button
-            type="button"
-            id="checkout-btn"
-            class="modal-button"
-            data-translate="proceedToCheckout"
-          >
+          <button type="button" id="checkout-btn" class="checkout-button">
             Proceed to Checkout
           </button>
+
         </div>
       </div>
     </div>
 
     <script>
-      // Pass PHP variables to JavaScript
-      const regularPrice = <?php echo $regular_price; ?>;
-      const vipPrice = <?php echo $vip_price; ?>;
+      const regularPrice = <?php echo isset($regular_ticket_price) ? $regular_ticket_price : 0; ?>;
+      const vipPrice = <?php echo isset($vip_ticket_price) ? $vip_ticket_price : 0; ?>;
       const eventId = <?php echo $event_id; ?>;
       const isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
+      const userEmail = "<?php echo $is_logged_in ? htmlspecialchars($_SESSION['email']) : ''; ?>";
     </script>
     <script src="../public/js/event.js" defer></script>
     <script

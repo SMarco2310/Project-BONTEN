@@ -415,8 +415,21 @@ class DashboardController {
 
     async loadStatistics() {
         try {
-            const data = await this.dataService.getStatisticsData(this.currentPeriod);
-            this.renderChart(data);
+
+            if(typeof salesData !== 'undefined' && salesData.length > 0) {
+                const labels = salesData.map(d => d.month);
+                const sales = salesData.map(d => d.sales);
+                const returns = sales.map(s => s * 0.2);
+
+                this.renderChart({
+                    labels: labels,
+                    sales: sales,
+                    returns: returns
+                });
+            } else {
+                const data = await this.dataService.getStatisticsData(this.currentPeriod);
+                this.renderChart(data);
+            }
         } catch (error) {
             console.error('Error loading statistics:', error);
             throw error;

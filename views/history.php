@@ -178,21 +178,26 @@ $db->close();
                     <div class="events-grid">
                         <?php if ($past_events->num_rows > 0): ?>
                             <?php while ($event = $past_events->fetch_assoc()): ?>
-                                <div class="history-card" data-event-id="<?php echo $event['event_id']; ?>">
-                                    <div class="card-image-wrapper">
-                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
-                                        <span class="event-status attended">Attended</span>
+                                <div class="past-event-card" data-event-id="<?php echo $event['event_id']; ?>" data-event-name="<?php echo htmlspecialchars($event['name']); ?>">
+                                    <div class="past-event-image-container">
+                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="past-event-image">
+                                        <span class="attended-badge">Attended</span>
                                     </div>
-                                    <div class="card-content">
-                                        <div class="card-header">
-                                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
-                                            <span class="event-badge"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
+
+                                    <div class="past-event-details">
+                                        <div class="past-event-title-row">
+                                            <h3 class="past-event-title"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                            <span class="past-event-category"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
                                         </div>
-                                        <p class="event-date"><?php echo date('F j, Y - g:i A', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?></p>
-                                        <p class="event-location"><?php echo htmlspecialchars($event['location']); ?></p>
-                                        <div class="card-actions">
-                                            <a href="./event.php?id=<?php echo $event['event_id']; ?>"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-                                            <button class="review-btn" data-translate="writeReview">Write Review</button>
+
+                                        <p class="past-event-datetime"><?php echo date('F j, Y - g:i A', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?></p>
+                                        <p class="past-event-location">📍 <?php echo htmlspecialchars($event['location']); ?></p>
+
+                                        <div class="past-event-actions">
+                                            <a href="./event.php?id=<?php echo $event['event_id']; ?>">
+                                                <button class="view-details-btn" data-translate="viewDetails">View Details</button>
+                                            </a>
+                                            <button class="write-review-btn" data-event-id="<?php echo $event['event_id']; ?>" data-event-name="<?php echo htmlspecialchars($event['name']); ?>" data-translate="writeReview">Write Review</button>
                                         </div>
                                     </div>
                                 </div>
@@ -225,36 +230,42 @@ $db->close();
         </div>
     </div>
 
-    
+
     <div id="review-modal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-content review-modal-content">
             <button class="modal-close">&times;</button>
 
-            <h2 class="modal-title">Write a Review</h2>
+            <h2 class="review-modal-title">Write a Review</h2>
 
-            <p class="modal-subtitle">Share your experience at <strong><span id="review-event-name"></span></strong></p>
+            <p class="review-modal-subtitle">Share your experience at <span class="event-name-highlight" id="review-event-name"></span></p>
+
             <form id="review-form" class="review-form">
-                <div class="form-group">
-                    <label for="star-rating">Rating *</label>
-                    <div id="star-rating" class="star-rating">
-                        <span class="star" data-rating="1">★</span>
 
-                        <span class="star" data-rating="2">★</span>
-                        <span class="star" data-rating="3">★</span>
-                        <span class="star" data-rating="4">★</span>
-                        <span class="star" data-rating="5">★</span>
+                <div class="review-form-group">
+                    <label class="review-label">Rating *</label>
+                    <div id="star-rating" class="star-rating-input">
+                        <span class="rating-star" data-rating="1">★</span>
+                        <span class="rating-star" data-rating="2">★</span>
+                        <span class="rating-star" data-rating="3">★</span>
+
+                        <span class="rating-star" data-rating="4">★</span>
+                        <span class="rating-star" data-rating="5">★</span>
                     </div>
+                    <input type="hidden" id="rating-value" value="0">
                 </div>
-                <div class="form-group">
-                    <label for="review-title">Review Title *</label>
-                    <input type="text" id="review-title" placeholder="Sum up your experience" required>
+
+                <div class="review-form-group">
+                    <label for="review-title" class="review-label">Review Title *</label>
+                    <input type="text" id="review-title" class="review-input" placeholder="Sum up your experience" required>
                 </div>
-                <div class="form-group">
-                    <label for="review-text">Your Review *</label>
-                    <textarea id="review-text" rows="6" placeholder="Share details of your experience..." required></textarea>
+
+                <div class="review-form-group">
+                    <label for="review-text" class="review-label">Your Review *</label>
+                    <textarea id="review-text" class="review-textarea" rows="6" placeholder="Share details of your experience..." required></textarea>
                 </div>
-                <button type="button" id="submit-review-btn" class="btn-primary">Submit Review</button>
+
+                <button type="submit" id="submit-review-btn" class="submit-review-button">Submit Review</button>
             </form>
         </div>
     </div>

@@ -13,6 +13,6 @@ if (isset($_COOKIE[session_name()])) {
 session_destroy();
 
 
-header("Location: /views/index.php");
+header("Location: index.php");
 exit();
 ?>

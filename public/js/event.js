@@ -1,30 +1,228 @@
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    const eventImg = document.getElementById('event-img');
-    
-    const eventName = document.getElementById('event-name');
-    
-    const eventTag = document.getElementById('event-tag');
-    
-    const eventDescription = document.getElementById('event-description');
 
-    if (!eventImg || !eventName || !eventTag || !eventDescription) {
-        console.warn('Event page elements not found');
-        return;
+    const rsvpBtn = document.getElementById('rsvp-btn');
+    const rsvpModal = document.getElementById('rsvp-modal');
+    const ticketsModal = document.getElementById('tickets-modal');
+    const rsvpForm = document.getElementById('rsvp-form');
+
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    const modalCloses = document.querySelectorAll('.modal-close');
+    const overlays = document.querySelectorAll('.modal-overlay');
+
+
+    if(rsvpBtn) {
+        rsvpBtn.addEventListener('click', () => {
+            rsvpModal.classList.add('active');
+        });
     }
 
-   
-    if (eventName.textContent.trim()) {
-        console.log('Event data loaded from PHP');
-        
-        
-        sessionStorage.removeItem('currentEvent');
-        return;
+
+    modalCloses.forEach(close => {
+        close.addEventListener('click', () => {
+            rsvpModal.classList.remove('active');
+            ticketsModal.classList.remove('active');
+        });
+    });
+
+    overlays.forEach(overlay => {
+        overlay.addEventListener('click', () => {
+
+            rsvpModal.classList.remove('active');
+            ticketsModal.classList.remove('active');
+        });
+    });
+
+
+    if(rsvpForm) {
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('rsvp-email').value;
+            const password = document.getElementById('rsvp-password').value;
+
+
+            if(!password) {
+                alert('Please enter your password');
+                return;
+            }
+
+            try {
+                const response = await fetch('../api/validate_user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+
+                if(result.success) {
+
+                    rsvpModal.classList.remove('active');
+                    ticketsModal.classList.add('active');
+                } else {
+                    alert(result.message || 'Invalid password');
+                }
+            } catch(error) {
+                console.error('Validation error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
     }
 
-   
-    console.warn('Event data not loaded from PHP, event may not exist');
+
+
+    const regularQty = document.getElementById('regular-qty');
+    const vipQty = document.getElementById('vip-qty');
+    const totalPrice = document.getElementById('total-price');
+
+    const plusBtns = document.querySelectorAll('.qty-plus-btn');
+    const minusBtns = document.querySelectorAll('.qty-minus-btn');
+
+
+    plusBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const ticketType = btn.getAttribute('data-ticket');
+            const maxQty = parseInt(btn.getAttribute('data-max'));
+
+            if(ticketType === 'regular' && regularQty) {
+                let current = parseInt(regularQty.value);
+                if(current < maxQty) {
+                    regularQty.value = current + 1;
+                    updateTotal();
+                }
+            } else if(ticketType === 'vip' && vipQty) {
+
+                let current = parseInt(vipQty.value);
+                if(current < maxQty) {
+                    vipQty.value = current + 1;
+                    updateTotal();
+                }
+            }
+        });
+    });
+
+    minusBtns.forEach(btn => {
+
+        btn.addEventListener('click', () => {
+            const ticketType = btn.getAttribute('data-ticket');
+
+            if(ticketType === 'regular' && regularQty) {
+                let current = parseInt(regularQty.value);
+                if(current > 0) {
+                    regularQty.value = current - 1;
+
+                    updateTotal();
+                }
+            } else if(ticketType === 'vip' && vipQty) {
+                let current = parseInt(vipQty.value);
+
+                if(current > 0) {
+                    vipQty.value = current - 1;
+                    updateTotal();
+                }
+            }
+        });
+    });
+
+
+    function updateTotal() {
+        let total = 0;
+
+        if(regularQty) {
+            const regQty = parseInt(regularQty.value) || 0;
+            total += regQty * regularPrice;
+        }
+
+        if(vipQty) {
+            const vipQ = parseInt(vipQty.value) || 0;
+            total += vipQ * vipPrice;
+        }
+
+
+        if(totalPrice) {
+            totalPrice.textContent = total.toFixed(2);
+        }
+    }
+
+
+    if(checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+
+            const regQty = regularQty ? parseInt(regularQty.value) : 0;
+            const vipQ = vipQty ? parseInt(vipQty.value) : 0;
+
+            if(regQty === 0 && vipQ === 0) {
+                alert('Please select at least one ticket');
+                return;
+            }
+
+            const total = (regQty * regularPrice) + (vipQ * vipPrice);
+
+            initiatePaystackPayment(total, regQty, vipQ);
+        });
+    }
+
+
+    function initiatePaystackPayment(amount, regularQuantity, vipQuantity) {
+        const handler = PaystackPop.setup({
+            key: 'pk_test_your_paystack_public_key_here',
+            email: userEmail,
+            amount: amount * 100,
+
+            currency: 'GHS',
+            ref: 'BONTEN_' + Math.floor((Math.random() * 1000000000) + 1),
+            callback: function(response) {
+
+                verifyPayment(response.reference, regularQuantity, vipQuantity);
+            },
+            onClose: function() {
+                alert('Payment window closed');
+
+            }
+        });
+
+        handler.openIframe();
+    }
+
+    async function verifyPayment(reference, regularQuantity, vipQuantity) {
+
+        try {
+            const response = await fetch('../api/verify_payment.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    reference: reference,
+                    event_id: eventId,
+                    regular_quantity: regularQuantity,
+                    vip_quantity: vipQuantity
+                })
+            });
+
+            const result = await response.json();
+
+            if(result.success) {
+                alert('Payment successful! Your tickets have been booked.');
+                window.location.href = './history.php';
+
+            } else {
+                alert(result.message || 'Payment verification failed');
+            }
+        } catch(error) {
+
+            console.error('Payment verification error:', error);
+            alert('An error occurred during payment verification');
+        }
+    }
+
 });

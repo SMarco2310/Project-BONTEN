@@ -68,6 +68,96 @@ $avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
 
 $stmt->close();
 
+
+$current_month = date('Y-m');
+$last_month = date('Y-m', strtotime('-1 month'));
+
+$stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as revenue
+                        FROM tickets t
+                        JOIN events e ON t.event_id = e.event_id
+                        JOIN bookings b ON b.event_id = e.event_id
+                        WHERE e.manager_id = ? AND DATE_FORMAT(b.created_at, '%Y-%m') = ?");
+$stmt->bind_param("is", $manager_id, $current_month);
+$stmt->execute();
+$current_month_revenue = $stmt->get_result()->fetch_assoc()['revenue'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as revenue
+                        FROM tickets t
+                        JOIN events e ON t.event_id = e.event_id
+                        JOIN bookings b ON b.event_id = e.event_id
+                        WHERE e.manager_id = ? AND DATE_FORMAT(b.created_at, '%Y-%m') = ?");
+$stmt->bind_param("is", $manager_id, $last_month);
+$stmt->execute();
+$last_month_revenue = $stmt->get_result()->fetch_assoc()['revenue'] ?? 0;
+$stmt->close();
+
+if($last_month_revenue > 0) {
+    $revenue_change = (($current_month_revenue - $last_month_revenue) / $last_month_revenue) * 100;
+} else {
+    $revenue_change = 0;
+}
+
+
+$stmt = $conn->prepare("SELECT SUM(b.quantity) as tickets
+                        FROM bookings b
+                        JOIN events e ON b.event_id = e.event_id
+                        WHERE e.manager_id = ? AND DATE_FORMAT(b.created_at, '%Y-%m') = ?");
+$stmt->bind_param("is", $manager_id, $current_month);
+$stmt->execute();
+$current_month_tickets = $stmt->get_result()->fetch_assoc()['tickets'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT SUM(b.quantity) as tickets
+                        FROM bookings b
+                        JOIN events e ON b.event_id = e.event_id
+                        WHERE e.manager_id = ? AND DATE_FORMAT(b.created_at, '%Y-%m') = ?");
+$stmt->bind_param("is", $manager_id, $last_month);
+$stmt->execute();
+$last_month_tickets = $stmt->get_result()->fetch_assoc()['tickets'] ?? 0;
+$stmt->close();
+
+if($last_month_tickets > 0) {
+    $tickets_change = (($current_month_tickets - $last_month_tickets) / $last_month_tickets) * 100;
+} else {
+    $tickets_change = 0;
+}
+
+
+$stmt = $conn->prepare("SELECT COUNT(*) as total_capacity
+                        FROM events e
+                        WHERE e.manager_id = ? AND e.status = 'active'");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$total_capacity = $stmt->get_result()->fetch_assoc()['total_capacity'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT COUNT(DISTINCT r.user_id) as engaged_users
+                        FROM rsvps r
+                        JOIN events e ON r.event_id = e.event_id
+                        WHERE e.manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$engaged_users = $stmt->get_result()->fetch_assoc()['engaged_users'] ?? 0;
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT COUNT(DISTINCT r.user_id) as reviewers
+                        FROM reviews r
+                        JOIN events e ON r.event_id = e.event_id
+                        WHERE e.manager_id = ?");
+$stmt->bind_param("i", $manager_id);
+$stmt->execute();
+$reviewers = $stmt->get_result()->fetch_assoc()['reviewers'] ?? 0;
+$stmt->close();
+
+$total_engaged = $engaged_users + $reviewers;
+
+if($total_capacity > 0) {
+    $engagement_rate = ($total_engaged / ($total_capacity * 100)) * 100;
+} else {
+    $engagement_rate = 0;
+}
+
 $stmt = $conn->prepare("SELECT r.review_id, u.full_name, r.review_text, r.rating, r.created_at, e.name as event_name
                         FROM reviews r
                         JOIN users u ON r.user_id = u.user_id
@@ -81,6 +171,29 @@ $stmt->execute();
 $reviews = $stmt->get_result();
 
 $stmt->close();
+
+
+$sales_data = [];
+$months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+for($i = 11; $i >= 0; $i--) {
+    $month_date = date('Y-m', strtotime("-$i months"));
+
+    $stmt = $conn->prepare("SELECT SUM(b.amount) as revenue
+                            FROM bookings b
+                            JOIN events e ON b.event_id = e.event_id
+                            WHERE e.manager_id = ? AND DATE_FORMAT(b.created_at, '%Y-%m') = ?");
+    $stmt->bind_param("is", $manager_id, $month_date);
+    $stmt->execute();
+    $month_revenue = $stmt->get_result()->fetch_assoc()['revenue'] ?? 0;
+    $stmt->close();
+
+    $month_num = date('n', strtotime($month_date)) - 1;
+    $sales_data[] = [
+        'month' => $months[$month_num],
+        'sales' => floatval($month_revenue)
+    ];
+}
 
 $db->close();
 
@@ -184,11 +297,15 @@ $db->close();
                                 </svg>
                             </div>
                             <div class="metric-value" id="totalRevenue">GHC<?php echo number_format($total_revenue, 2); ?></div>
-                            <div class="metric-change positive" id="revenueChange">
+                            <div class="metric-change <?php echo $revenue_change >= 0 ? 'positive' : 'negative'; ?>" id="revenueChange">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <?php if($revenue_change >= 0): ?>
                                     <path d="M7 14l5-5 5 5H7z"/>
+                                    <?php else: ?>
+                                    <path d="M7 10l5 5 5-5H7z"/>
+                                    <?php endif; ?>
                                 </svg>
-                                <span>0%</span>
+                                <span><?php echo number_format(abs($revenue_change), 1); ?>%</span>
                             </div>
                         </div>
 
@@ -204,12 +321,15 @@ $db->close();
                                 </svg>
                             </div>
                             <div class="metric-value" id="ticketsSold"><?php echo $tickets_sold; ?></div>
-                            <div class="metric-change negative" id="ticketsChange">
+                            <div class="metric-change <?php echo $tickets_change >= 0 ? 'positive' : 'negative'; ?>" id="ticketsChange">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <?php if($tickets_change >= 0): ?>
+                                    <path d="M7 14l5-5 5 5H7z"/>
+                                    <?php else: ?>
                                     <path d="M7 10l5 5 5-5H7z"/>
-
+                                    <?php endif; ?>
                                 </svg>
-                                <span>0%</span>
+                                <span><?php echo number_format(abs($tickets_change), 1); ?>%</span>
                             </div>
                         </div>
 
@@ -272,7 +392,7 @@ $db->close();
                             <svg class="trend-icon negative" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7 10l5 5 5-5H7z"/>
                             </svg>
-                            <span class="metric-value" id="engagementRate">0%</span>
+                            <span class="metric-value" id="engagementRate"><?php echo number_format($engagement_rate, 1); ?>%</span>
                         </div>
                     </div>
                 </section>
@@ -334,6 +454,9 @@ $db->close();
 
     </div>
 
+<script>
+const salesData = <?php echo json_encode($sales_data); ?>;
+</script>
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>
 </html>
