@@ -55,12 +55,17 @@ switchToSignUpLink.addEventListener("click", (e) => {
 
 showLoginForm();
 
-function togglePasswordVisibility(button) {
-  const passwordWrapper = button.closest('.password-wrapper');
-  const passwordField = passwordWrapper.querySelector('input');
-  const eyeIcon = button.querySelector('svg');
+function togglePasswordVisibility() {
+
+  const signupPasswordField = document.getElementById("signup-password-field");
+  const loginPasswordField = document.getElementById("password-field");
+
+
+  const isSignupForm = signUpForm.style.display !== "none";
+  const passwordField = isSignupForm ? signupPasswordField : loginPasswordField;
 
   if (!passwordField) return;
+  const eyeIcon = document.getElementById("eye-icon");
 
   if (passwordField.type === "password") {
     passwordField.type = "text";
@@ -73,9 +78,7 @@ function togglePasswordVisibility(button) {
   }
 }
 
-document.querySelectorAll('.pwd-eye').forEach(button => {
-  button.addEventListener('click', () => togglePasswordVisibility(button));
-});
+passwordFieldBtn.addEventListener("click", togglePasswordVisibility);
 
 const images = [
   "../public/assets/ashchella.JPG",
