@@ -174,6 +174,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
+                // Add 2 random comments from actual users to the new event
+                // Get random regular users (not managers) to create comments
+                $users_stmt = $conn->prepare("
+                    SELECT user_id FROM users 
+                    WHERE user_type = 'user' 
+                    ORDER BY RAND() 
+                    LIMIT 2
+                ");
+                $users_stmt->execute();
+                $users_result = $users_stmt->get_result();
+                
+                $sample_comments = [
+                    "This looks amazing! Can't wait to attend! 🔥",
+                    "The lineup sounds incredible! Already RSVP'd!",
+                    "Been waiting for an event like this in the city!",
+                    "The venue is perfect for this type of event!",
+                    "Looking forward to this! Great initiative!",
+                    "This is going to be epic! See you there!",
+                    "Perfect timing! Count me in! 🎉",
+                    "The description got me excited! Can't wait!"
+                ];
+                
+                $comment_count = 0;
+                while (($user_row = $users_result->fetch_assoc()) !== null && $comment_count < 2) {
+                    $random_comment = $sample_comments[array_rand($sample_comments)];
+                    
+                    $comment_stmt = $conn->prepare("
+                        INSERT INTO comments (event_id, user_id, comment_text, created_at)
+                        VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL ? MINUTE))
+                    ");
+                    // Random time between 1-30 minutes ago to simulate real-time comments
+                    $minutes_ago = rand(1, 30);
+                    $comment_stmt->bind_param("iisi", $event_id, $user_row['user_id'], $random_comment, $minutes_ago);
+                    
+                    if ($comment_stmt->execute()) {
+                        $comment_count++;
+                    }
+                    $comment_stmt->close();
+                    
+                    // Break if we've added 2 comments
+                    if ($comment_count >= 2) {
+                        break;
+                    }
+                }
+                
+                // If we couldn't get 2 users, that's okay - just log it
+                if ($comment_count < 2 && $users_result->num_rows > 0) {
+                    error_log("Only added $comment_count comments for event $event_id (insufficient users in database)");
+                }
+                $users_stmt->close();
 
                 
                 $conn->commit();

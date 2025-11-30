@@ -105,11 +105,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = 'Invalid email format';
-            } else if (strlen($password) < 8) {
-                $error = 'Password must be at least 8 characters long';
+            } else {
+                // Use validate_password function from security.php for full validation
+                $password_validation = validate_password($password);
+                if ($password_validation !== true) {
+                    // $password_validation contains an array of error messages
+                    $error = implode(', ', $password_validation);
+                }
             }
-
-            else {
+            
+            // Proceed only if no errors so far
+            if (empty($error)) {
                 $password = password_hash($password, PASSWORD_DEFAULT);
 
                 $full_name = "$first_name $last_name";
