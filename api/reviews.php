@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -54,19 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
 
         $reviews[] = [
             'id' => $row['review_id'],
-
             'rating' => $row['rating'],
-
             'review' => htmlspecialchars($row['review_text'], ENT_QUOTES, 'UTF-8'),
-
-
             'userName' => htmlspecialchars($row['userName'], ENT_QUOTES, 'UTF-8'),
-
-
-            'userAvatar' => '../public/assets/' . htmlspecialchars($row['userAvatar'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
+            'userAvatar' => htmlspecialchars(get_profile_picture_path($row['userAvatar'] ?? 'user.jpg'), ENT_QUOTES, 'UTF-8'),
             'timestamp' => $row['created_at']
-
-
         ];
 
     }
@@ -207,16 +200,11 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
             'review' => [
 
                 'id' => $review_id,
-
                 'rating' => $rating,
                 'title' => htmlspecialchars($review_title, ENT_QUOTES, 'UTF-8'),
-
                 'review' => htmlspecialchars($review_text, ENT_QUOTES, 'UTF-8'),
-
-
                 'userName' => htmlspecialchars($user_data['full_name'], ENT_QUOTES, 'UTF-8'),
-                'userAvatar' => '../public/assets/' . htmlspecialchars($user_data['profile_picture'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
-
+                'userAvatar' => htmlspecialchars(get_profile_picture_path($user_data['profile_picture'] ?? 'user.jpg'), ENT_QUOTES, 'UTF-8'),
                 'timestamp' => date('Y-m-d H:i:s')
 
             ]

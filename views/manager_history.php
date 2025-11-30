@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -83,6 +84,12 @@ $avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
 $stmt->close();
 
 $db->close();
+
+// Handle success message from event creation
+$success_message = $_SESSION['success_message'] ?? '';
+$created_event_id = $_SESSION['created_event_id'] ?? null;
+unset($_SESSION['success_message']);
+unset($_SESSION['created_event_id']);
 ?>
 
 <!DOCTYPE html>
@@ -103,6 +110,13 @@ $db->close();
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+    <script>
+        // Pass created event ID to JavaScript
+        const createdEventId = <?php echo $created_event_id ? "'event-" . $created_event_id . "'" : 'null'; ?>;
+        const successMessage = <?php echo $success_message ? json_encode($success_message) : 'null'; ?>;
+    </script>
+
+    <script src="../public/js/profile_loader.js"></script>
     <script src="../public/js/logout_handler.js" defer></script>
 
     <script src="../public/js/manager_history.js" defer></script>
@@ -155,12 +169,8 @@ $db->close();
 
             >
                 <img
-
-                    src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
-
-
+                    src="<?php echo htmlspecialchars(get_profile_picture_path($profile_picture)); ?>"
                     alt="Profile Picture"
-
                     class="profile_picture"
                 />
 
@@ -224,29 +234,11 @@ $db->close();
                         </select>
 
                     </div>
-                    <button class="export-btn" id="exportHistoryBtn">
-
-
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-
-
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-
-                        </svg>
-
-                        Export
-
-
-                    </button>
-
-
                 </div>
 
             </div>
 
-            <!-- Stats Summary -->
+           
             <div class="stats-summary">
 
 
@@ -293,7 +285,7 @@ $db->close();
 
             </div>
 
-            <!-- Active Events Section -->
+          
 
             <section class="history-section">
                 <div class="section-header">
@@ -334,7 +326,7 @@ $db->close();
                         <tbody id="activeEventsBody">
 
 
-                            <!-- Active events will be dynamically inserted -->
+                            
 
                         </tbody>
 
@@ -344,7 +336,7 @@ $db->close();
 
             </section>
 
-            <!-- Past Events Section -->
+           
 
             <section class="history-section">
 

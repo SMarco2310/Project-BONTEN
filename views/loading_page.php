@@ -4,16 +4,18 @@ require_once '../config/security.php';
 
 set_security_headers();
 
-if (isset($_SESSION['user_id'])) {
+// Get the redirect target from query parameter
+$redirect_to = $_GET['redirect'] ?? 'index.php';
 
-    if ($_SESSION['user_type'] === 'manager') {
-        header("Location: manager_dashboard.php");
-    } else {
-        header("Location: user_homepage.php");
+// Validate redirect to prevent open redirect vulnerability
+$allowed_redirects = [
+    'user_homepage.php',
+    'manager_dashboard.php',
+    'index.php'
+];
 
-    }
-    exit();
-
+if (!in_array($redirect_to, $allowed_redirects)) {
+    $redirect_to = 'index.php';
 }
 
 ?>
@@ -44,17 +46,11 @@ if (isset($_SESSION['user_id'])) {
 
     </div>
     <script>
-
         document.addEventListener("DOMContentLoaded", () => {
-
             setTimeout(() => {
-
-
-                window.location.href = 'index.php';
+                window.location.href = '<?php echo htmlspecialchars($redirect_to, ENT_QUOTES, 'UTF-8'); ?>';
             }, 3000);
         });
-
-
     </script>
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>

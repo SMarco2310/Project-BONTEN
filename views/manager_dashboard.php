@@ -2,6 +2,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -328,7 +329,7 @@ $db->close();
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-
+    <script src="../public/js/profile_loader.js"></script>
     <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/manager_dashboard.js" defer></script>
 
@@ -384,14 +385,10 @@ $db->close();
             >
 
                 <img
-
-                    src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
-
+                    src="<?php echo htmlspecialchars(get_profile_picture_path($profile_picture)); ?>"
                     alt="Profile Picture"
                     class="profile_picture"
-
                     id="headerAvatar"
-
                 />
                 <div class="user_info">
 
@@ -683,15 +680,6 @@ $db->close();
                     <div class="section-header">
 
                         <h2>Event Reviews</h2>
-
-                        <button class="icon-btn add-btn" id="addReviewBtn" title="Add Review">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-
-                            </svg>
-
-                        </button>
 
                     </div>
                     <div class="reviews-table-container">

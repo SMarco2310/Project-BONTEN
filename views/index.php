@@ -80,12 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         log_security_event("Successful login for: $email", 'INFO');
 
                         if ($user['user_type'] === 'manager') {
-
-                            header("Location: manager_dashboard.php");
-
+                            header("Location: loading_page.php?redirect=manager_dashboard.php");
                         } else {
-
-                            header("Location: user_homepage.php");
+                            header("Location: loading_page.php?redirect=user_homepage.php");
                         }
 
                         exit();
@@ -300,15 +297,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['error_message']);
 
                     if ($user_type === 'manager') {
-
-                        header("Location: manager_dashboard.php");
-
-
+                        header("Location: loading_page.php?redirect=manager_dashboard.php");
                     } else {
-
-
-                        header("Location: user_homepage.php");
-
+                        header("Location: loading_page.php?redirect=user_homepage.php");
                     }
 
                     exit();
@@ -516,32 +507,18 @@ $csrf_token = generate_csrf_token();
 
           <label for="login-submit-btn">
             <input
-
-
               style="
-
-                background: linear-gradient(to bottom,
-
-
+                background: linear-gradient(to bottom, #c05f47, #a0512e);
                 font-weight: 550;
-
                 color: white;
-
                 border: none;
                 height: 40px;
-
                 font-size: x-small;
               "
-
-
               type="submit"
               name="login"
-
               value="Login"
-
               id="login-submit-btn"
-
-
             />
 
 
@@ -637,13 +614,9 @@ $csrf_token = generate_csrf_token();
               aria-required="true"
               required
               style="
-
-                border: solid 1px
-
-                background-color:
-
+                border: solid 1px #ccc;
+                background-color: #333;
                 color: white;
-
               "
             />
 
@@ -670,14 +643,9 @@ $csrf_token = generate_csrf_token();
 
 
                 style="
-
-                border: solid 1px
-
-                background-color:
-
+                border: solid 1px #ccc;
+                background-color: #333;
                 color: white;
-
-
               "
               />
             </div>
@@ -722,23 +690,14 @@ $csrf_token = generate_csrf_token();
           <label for="signup-submit-btn">
 
             <input
-
               style="
-
-                background: linear-gradient(to bottom,
-
+                background: linear-gradient(to bottom, #c05f47, #a0512e);
                 font-weight: 550;
-
-
                 color: white;
                 border: none;
-
                 height: 40px;
-
                 font-size: x-small;
               "
-
-
               type="submit"
 
               name="signup"

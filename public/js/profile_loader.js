@@ -1,20 +1,20 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const profileImages = document.querySelectorAll('.profile_picture, #profile-avatar-img, .profile-avatar img');
 
-    const savedProfilePic = localStorage.getItem('userProfilePicture');
+    if (profileImages.length > 0) {
+        const currentProfilePic = profileImages[0].src;
 
-    if (savedProfilePic) {
+        
+        if (currentProfilePic) {
+            localStorage.setItem('userProfilePicture', currentProfilePic);
+        }
 
-
-        const allProfileImages = document.querySelectorAll('.profile_picture, #profile-avatar-img, .profile-avatar img');
-
-        allProfileImages.forEach(img => {
-
-            img.src = savedProfilePic;
-
+      
+        profileImages.forEach(img => {
+            if (currentProfilePic) {
+                img.src = currentProfilePic;
+            }
         });
     }
-
-
 });

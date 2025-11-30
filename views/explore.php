@@ -152,13 +152,8 @@ $db->close();
             >
 
                 <img
-
-                    src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
-
-
+                    src="<?php echo htmlspecialchars(get_profile_picture_path($profile_picture)); ?>"
                     alt="Profile Picture"
-
-
                     class="profile_picture"
                 />
 

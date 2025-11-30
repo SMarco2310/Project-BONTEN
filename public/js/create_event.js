@@ -73,7 +73,7 @@ class EventDataService {
 
         throw new Error(data.message || "Failed to create event");
 
-        return data;
+      return data;
 
     } catch (e) {
 
@@ -372,14 +372,14 @@ class CreateEventController {
     prevBtn?.addEventListener("click", () => this.prevStep());
 
     publishBtn?.addEventListener("click", (e) => {
-
       e.preventDefault();
-
-
-      e.stopPropagation();
-
-
-      this.publishEvent();
+      if (this.publishEvent()) {
+        // If publishEvent returns true, submit the form
+        const form = document.getElementById("createEventForm");
+        if (form) {
+          form.submit();
+        }
+      }
     });
 
     saveDraftBtn?.addEventListener("click", () => this.saveDraft());
@@ -388,7 +388,9 @@ class CreateEventController {
 
   nextStep() {
 
-    if (!this.validateCurrentStep()) return;
+    if (!this.validateCurrentStep()) {
+      return;
+    }
 
     this.collectStepData();
 
@@ -459,11 +461,9 @@ class CreateEventController {
 
     if (progressFill) {
 
-      progressFill.style.width = `${
+      progressFill.style.width = `${(this.currentStep / this.totalSteps) * 100
 
-        (this.currentStep / this.totalSteps) * 100
-
-      }%`;
+        }%`;
 
 
     }
@@ -943,11 +943,14 @@ class CreateEventController {
 
     const imageInput = document.getElementById("eventImage");
 
-    imagePreview?.addEventListener("click", () => {
-
-      imageInput?.click();
-
-
+    imagePreview?.addEventListener("click", (e) => {
+      // Prevent triggering when clicking the remove button
+      if (e.target.classList.contains('remove-image')) {
+        return;
+      }
+      if (imageInput) {
+        imageInput.click();
+      }
     });
 
     imageInput?.addEventListener("change", async (e) => {
@@ -1138,8 +1141,8 @@ class CreateEventController {
                 ${this.escapeHtml(tag)}
 
                 <button type="button" onclick="createEventController.removeTag('${this.escapeHtml(
-                  tag
-                )}')">&times;</button>
+          tag
+        )}')">&times;</button>
 
             </span>
 
@@ -1263,12 +1266,10 @@ class CreateEventController {
 
                     <h4>Ticket Type ${index + 1}</h4>
 
-                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${
-
-                      ticket.id
+                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${ticket.id
 
 
-                    }')">
+          }')">
 
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 
@@ -1286,33 +1287,25 @@ class CreateEventController {
 
                         <label>Ticket Name <span class="required">*</span></label>
                         <input type="text" value="${this.escapeHtml(
-                          ticket.name
+            ticket.name
 
-                        )}"
+          )}"
 
                                placeholder="e.g., Early Bird, VIP, Regular"
-                               onchange="createEventController.updateTicket('${
-
-
-                                 ticket.id
-                               }', 'name', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'name', this.value)">
 
                     </div>
 
                     <div class="form-group">
 
                         <label>Price (GHC) <span class="required">*</span></label>
-                        <input type="number" value="${
-
-
-                          ticket.price
-                        }" min="0" step="0.01"
+                        <input type="number" value="${ticket.price
+          }" min="0" step="0.01"
                                placeholder="0.00"
-                               onchange="createEventController.updateTicket('${
+                               onchange="createEventController.updateTicket('${ticket.id
 
-                                 ticket.id
-
-                               }', 'price', this.value)">
+          }', 'price', this.value)">
 
                     </div>
 
@@ -1324,12 +1317,9 @@ class CreateEventController {
                                placeholder="Number available"
 
 
-                               onchange="createEventController.updateTicket('${
+                               onchange="createEventController.updateTicket('${ticket.id
 
-
-                                 ticket.id
-
-                               }', 'quantity', this.value)">
+          }', 'quantity', this.value)">
                     </div>
 
                     <div class="form-group">
@@ -1338,16 +1328,14 @@ class CreateEventController {
 
                         <input type="text" value="${this.escapeHtml(
 
-                          ticket.description
+            ticket.description
 
 
-                        )}"
+          )}"
                                placeholder="What's included?"
 
-                               onchange="createEventController.updateTicket('${
-
-                                 ticket.id
-                               }', 'description', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'description', this.value)">
                     </div>
 
                 </div>
@@ -1403,27 +1391,24 @@ class CreateEventController {
 
   populateReview() {
 
-    const reviewImageSrc = document.getElementById("reviewImageSrc");
-    if (reviewImageSrc && this.formData.image) {
 
+    const reviewName = document.getElementById("reviewName");
+    const reviewCategory = document.getElementById("reviewCategory");
+    const reviewDescription = document.getElementById("reviewDescription");
 
-      reviewImageSrc.src = this.formData.image;
-
-
+    if (reviewName) {
+      reviewName.textContent = this.formData.name || "Untitled Event";
     }
 
-    document.getElementById("reviewCategory").textContent = this.formatCategory(
+    if (reviewCategory) {
+      const categorySelect = document.getElementById("eventCategory");
+      const selectedOption = categorySelect?.options[categorySelect.selectedIndex];
+      reviewCategory.textContent = selectedOption?.text || this.formatCategory(this.formData.category);
+    }
 
-      this.formData.category
-    );
-    document.getElementById("reviewTitle").textContent =
-
-      this.formData.name || "Untitled Event";
-
-    document.getElementById("reviewDescription").textContent =
-
-
-      this.formData.description || "No description";
+    if (reviewDescription) {
+      reviewDescription.textContent = this.formData.description || "No description";
+    }
 
     const startDate = this.formData.startDate;
 
@@ -1488,13 +1473,10 @@ class CreateEventController {
 
                         <span class="review-ticket-name">Free Registration</span>
 
-                        <span class="review-ticket-price">${
+                        <span class="review-ticket-price">${this.formData.freeQuantity || 100
 
 
-                          this.formData.freeQuantity || 100
-
-
-                        } available</span>
+          } available</span>
 
                     </div>
 
@@ -1513,17 +1495,17 @@ class CreateEventController {
                         <span class="review-ticket-name">${this.escapeHtml(
 
 
-                          ticket.name
+              ticket.name
 
 
-                        )}</span>
+            )}</span>
 
 
                         <span class="review-ticket-price">GHC ${parseFloat(
 
-                          ticket.price
+              ticket.price
 
-                        ).toFixed(2)}</span>
+            ).toFixed(2)}</span>
 
 
                     </div>
@@ -1568,9 +1550,7 @@ class CreateEventController {
 
           (s) =>
 
-            `<span class="review-setting-tag ${s.active ? "active" : ""}">${
-
-              s.label
+            `<span class="review-setting-tag ${s.active ? "active" : ""}">${s.label
 
 
             }</span>`
@@ -1618,7 +1598,7 @@ class CreateEventController {
 
         }
 
-        return;
+        return false;
 
       }
     }
@@ -1630,7 +1610,7 @@ class CreateEventController {
       this.showToast("Form not found. Please refresh the page.", "error");
 
 
-      return;
+      return false;
     }
 
     const eventName = document.getElementById("eventName");
@@ -1744,47 +1724,75 @@ class CreateEventController {
 
     }
 
+
     if (this.imageFile) {
-
-
-      let imageInput = document.getElementById("eventImage");
-      if (!imageInput) {
-        imageInput = document.createElement("input");
-
-
-        imageInput.type = "file";
-
-        imageInput.id = "eventImage";
-
-        imageInput.name = "eventImage";
-
-        form.appendChild(imageInput);
+      const imageInput = document.getElementById("eventImage");
+      if (imageInput) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(this.imageFile);
+        imageInput.files = dataTransfer.files;
       }
-
-      const dataTransfer = new DataTransfer();
-
-
-      dataTransfer.items.add(this.imageFile);
-
-      imageInput.files = dataTransfer.files;
-
+    } else if (!this.imagePreviewUrl) {
+      this.showToast("Please upload an event image", "error");
+      this.currentStep = 1;
+      this.updateStepUI();
+      return false;
     }
 
-    // Only check form validity if we're not on the final step
+
+    const eventEndDate = document.getElementById("eventEndDate");
+
+    const eventEndTime = document.getElementById("eventEndTime");
+
+    const eventTimezone = document.getElementById("eventTimezone");
+
+    const eventAddress = document.getElementById("eventAddress");
+
+    const eventRegion = document.getElementById("eventRegion");
+
+    const eventPlatform = document.getElementById("eventPlatform");
+
+    const eventStreamUrl = document.getElementById("eventStreamUrl");
+
+    const eventVisibility = document.getElementById("eventVisibility");
+
+    const requireApproval = document.getElementById("requireApproval");
+
+    const collectPhone = document.getElementById("collectPhone");
+
+    const allowRefunds = document.getElementById("allowRefunds");
+
+    if (eventEndDate && this.formData.endDate) eventEndDate.value = this.formData.endDate;
+
+    if (eventEndTime && this.formData.endTime) eventEndTime.value = this.formData.endTime;
+
+    if (eventTimezone && this.formData.timezone) eventTimezone.value = this.formData.timezone;
+
+    if (eventAddress && this.formData.address) eventAddress.value = this.formData.address;
+
+    if (eventRegion && this.formData.region) eventRegion.value = this.formData.region;
+
+    if (eventPlatform && this.formData.platform) eventPlatform.value = this.formData.platform;
+
+    if (eventStreamUrl && this.formData.streamUrl) eventStreamUrl.value = this.formData.streamUrl;
+
+    if (eventVisibility && this.formData.visibility) eventVisibility.value = this.formData.visibility;
+
+    if (requireApproval) requireApproval.checked = this.formData.requireApproval || false;
+
+    if (collectPhone) collectPhone.checked = this.formData.collectPhone || false;
+
+    if (allowRefunds) allowRefunds.checked = this.formData.allowRefunds || false;
+
+
     if (this.currentStep < this.totalSteps && !form.checkValidity()) {
-
-
       form.reportValidity();
       this.showToast("Please fill in all required fields correctly", "error");
-
-      return;
-
-
+      return false;
     }
 
     this.hasUnsavedChanges = false;
-
-    form.submit();
+    return true;
   }
 
   async saveDraft() {
@@ -2387,11 +2395,3 @@ class CreateEventController {
   }
 
 }
-
-let createEventController;
-
-document.addEventListener("DOMContentLoaded", () => {
-  createEventController = new CreateEventController();
-
-
-});

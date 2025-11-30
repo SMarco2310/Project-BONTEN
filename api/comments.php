@@ -1,8 +1,7 @@
 <?php
 
-
 require_once '../config/security.php';
-
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -58,21 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
     while ($row = $result->fetch_assoc()) {
 
         $comments[] = [
-
             'id' => $row['comment_id'],
-
             'comment' => htmlspecialchars($row['comment_text'], ENT_QUOTES, 'UTF-8'),
-
-
             'userName' => htmlspecialchars($row['userName'], ENT_QUOTES, 'UTF-8'),
-
-            'userAvatar' => '../public/assets/' . htmlspecialchars($row['userAvatar'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
-
+            'userAvatar' => htmlspecialchars(get_profile_picture_path($row['userAvatar'] ?? 'user.jpg'), ENT_QUOTES, 'UTF-8'),
             'rating' => 0,
-
-
             'timestamp' => $row['created_at']
-
         ];
 
 
@@ -183,12 +173,9 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
                 'id' => $comment_id,
                 'comment' => htmlspecialchars($comment_text, ENT_QUOTES, 'UTF-8'),
                 'userName' => htmlspecialchars($user_data['full_name'], ENT_QUOTES, 'UTF-8'),
-
-                'userAvatar' => '../public/assets/' . htmlspecialchars($user_data['profile_picture'] ?? 'user.jpg', ENT_QUOTES, 'UTF-8'),
-
+                'userAvatar' => htmlspecialchars(get_profile_picture_path($user_data['profile_picture'] ?? 'user.jpg'), ENT_QUOTES, 'UTF-8'),
                 'rating' => 0,
                 'timestamp' => date('Y-m-d H:i:s')
-
             ]
 
         ];

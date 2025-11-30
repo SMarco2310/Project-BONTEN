@@ -1,9 +1,7 @@
 <?php
 
-
 require_once '../../config/security.php';
 set_security_headers();
-
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
     header("Location: ../../views/index.php");
@@ -13,9 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
 require_once '../../config/Database.php';
 
 $db = new Database();
-
 $conn = $db->connect();
-
 $manager_id = $_SESSION['user_id'];
 
 
@@ -25,12 +21,8 @@ $error_message = '';
 $event_id = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
     $event_name = trim($_POST['eventName'] ?? '');
-
     $category_id = (int)($_POST['eventCategory'] ?? 0);
-
     $description = trim($_POST['eventDescription'] ?? '');
 
     $event_date = $_POST['eventStartDate'] ?? '';
@@ -46,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $capacity = !empty($_POST['eventCapacity']) ? (int)$_POST['eventCapacity'] : null;
 
+    $visibility = $_POST['eventVisibility'] ?? 'public';
 
     $status = $_POST['eventStatus'] ?? 'active';
 
@@ -54,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($event_name)) {
         $error_message = 'Event name is required.';
+
 
     } elseif ($category_id == 0) {
 
@@ -82,101 +76,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = 'City is required.';
 
     } elseif (!isset($_FILES['eventImage']) || $_FILES['eventImage']['error'] !== UPLOAD_ERR_OK) {
-
         $error_message = 'Event image is required.';
     } else {
 
-
         $image_path = '';
+        
+        require_once '../../config/security.php';
+        $validation_result = validate_image_upload($_FILES['eventImage']);
 
-
-        $upload_dir = '../../public/assets/events/';
-
-
-        if (!is_dir($upload_dir)) {
-
-            mkdir($upload_dir, 0755, true);
-        }
-
-        $file = $_FILES['eventImage'];
-
-        $validation_result = validate_image_upload($file);
-
-        if ($validation_result !== true) {
-
-            $error_message = implode(', ', $validation_result);
-
-
-        } else {
-
-            $new_filename = generate_secure_filename($file['name']);
-
-            $upload_path = $upload_dir . $new_filename;
-
-            if (move_uploaded_file($file['tmp_name'], $upload_path)) {
-
-
-                $image_path = '../public/assets/events/' . $new_filename;
-
-
-            } else {
-
-                $error_message = 'Failed to upload image.';
+        if ($validation_result === true) {
+            
+            // Cloudinary Upload
+            require_once 'CloudinaryService.php';
+            
+            try {
+                $cloudinary = new CloudinaryService();
+                $image_path = $cloudinary->upload($_FILES['eventImage']['tmp_name']);
+            } catch (Exception $e) {
+                error_log("Cloudinary upload failed: " . $e->getMessage());
+                $error_message = 'Failed to upload event image to Cloudinary: ' . $e->getMessage();
             }
-
+        } else {
+            $error_message = is_array($validation_result) ? implode(', ', $validation_result) : 'Invalid image file.';
         }
 
 
         if (empty($error_message)) {
-
-
             $conn->begin_transaction();
 
             try {
+                
+                $event_name = trim($event_name);
+                $description = trim($description);
+                $location = trim($location);
+                $city = trim($city);
+
+                
+                $capacity_value = $capacity !== null ? (int)$capacity : null;
 
                 $stmt = $conn->prepare("
-
                     INSERT INTO events (
-
                         manager_id, category_id, name, description,
-
                         event_date, event_time, location, city,
-
                         event_type, capacity, status, image_path
-
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
 
+                
                 $stmt->bind_param(
-                    "iissssssssss",
-
-
+                    "iisssssssiss",
                     $manager_id,
-
                     $category_id,
-
                     $event_name,
                     $description,
-
                     $event_date,
-
                     $event_time,
-
                     $location,
-
-
                     $city,
-
                     $event_type,
-                    $capacity,
-
+                    $capacity_value,
                     $status,
                     $image_path
                 );
 
                 if (!$stmt->execute()) {
                     throw new Exception('Failed to create event: ' . $stmt->error);
-
                 }
 
                 $event_id = $conn->insert_id;
@@ -334,31 +298,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $users_stmt->close();
 
 
+                
                 $conn->commit();
-
-
+                
                 $success = true;
 
-
+                
                 $_SESSION['success_message'] = 'Event created successfully!';
-
-
+                
                 $_SESSION['created_event_id'] = $event_id;
-                header("Location: ../../views/manager_dashboard.php?event_created=1&event_id=" . $event_id);
+
+                
+                error_log("Event created successfully - Event ID: {$event_id}, Manager ID: {$manager_id}");
+
+                
+                header("Location: ../../views/manager_history.php?event_created=1&event_id=" . $event_id);
                 exit();
 
             } catch (Exception $e) {
-
+                
                 $conn->rollback();
-
                 $error_message = $e->getMessage();
 
+               
+                error_log("Event creation failed: " . $e->getMessage() . " | Manager ID: {$manager_id}");
 
-                if (!empty($image_path) && file_exists($upload_path)) {
-                    unlink($upload_path);
+                
+                if (!empty($upload_path) && file_exists($upload_path)) {
+                    @unlink($upload_path);
                 }
-
-
             }
 
 

@@ -186,28 +186,97 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookmarkIcons = document.querySelectorAll('.bookmark_icon');
 
     bookmarkIcons.forEach(icon => {
-
         icon.addEventListener('click', () => {
-
             if (icon.classList.contains('bookmarked')) {
-
-
                 icon.classList.remove('bookmarked');
                 icon.textContent = '';
-
             } else {
-
                 icon.classList.add('bookmarked');
-
                 icon.textContent = '';
-
-
             }
-
-
         });
-
     });
 
+    // Month selector functionality for Your Plans
+    const monthSelector = document.querySelector('.month_selector');
+    const yourPlansContainer = document.querySelector('.Your-plans');
+
+    if (monthSelector && yourPlansContainer) {
+        // Set current month as default
+        const currentMonth = new Date().getMonth();
+        monthSelector.selectedIndex = currentMonth;
+
+        monthSelector.addEventListener('change', async function() {
+            const selectedMonth = this.selectedIndex + 1;
+            const currentYear = new Date().getFullYear();
+
+            try {
+                const response = await fetch(`../api/user/upcoming_events.php?month=${selectedMonth}&year=${currentYear}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayUpcomingEvents(data.events);
+                } else {
+                    console.error('Failed to fetch events:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        });
+    }
+
+    function displayUpcomingEvents(events) {
+        const container = document.querySelector('.Your-plans');
+        if (!container) return;
+
+        if (events.length === 0) {
+            container.innerHTML = '<p style="color: #888; text-align: center; padding: 20px 0;">No upcoming events for this month.</p>';
+            return;
+        }
+
+        container.innerHTML = events.map(event => {
+            let imageSrc = '../public/assets/bonten.png';
+            if (event.image_path) {
+                if (event.image_path.startsWith('../public/')) {
+                    imageSrc = event.image_path.substring(3);
+                } else if (event.image_path.startsWith('public/')) {
+                    imageSrc = '../' + event.image_path;
+                } else {
+                    imageSrc = '../public/assets/' + event.image_path;
+                }
+            }
+
+            const eventDate = new Date(event.event_date + ' ' + event.event_time);
+            const formattedDate = eventDate.toLocaleString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            return `
+                <div class="event">
+                    <img src="${imageSrc}" alt="Event Icon" class="event_icon" />
+                    <div class="details">
+                        <h4 class="event_title">${escapeHtml(event.name)}</h4>
+                        <p class="event_time">${formattedDate}</p>
+                    </div>
+                    <div class="event_actions">
+                        <a href="./event.php?id=${event.event_id}">
+                            <button class="edit_event">View details</button>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 
 });

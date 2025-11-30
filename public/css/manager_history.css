@@ -1755,3 +1755,19 @@ body {
     }
 
 }
+
+/* Newly created event highlight */
+tr.newly-created {
+    background-color: rgba(176, 95, 71, 0.15) !important;
+    animation: highlightPulse 3s ease-in-out;
+    border-left: 4px solid var(--secondary-color) !important;
+}
+
+@keyframes highlightPulse {
+    0%, 100% {
+        background-color: rgba(176, 95, 71, 0.15);
+    }
+    50% {
+        background-color: rgba(176, 95, 71, 0.25);
+    }
+}

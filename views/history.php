@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -158,11 +159,9 @@ $db->close();
             >
 
                 <img
-                    src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
+                    src="<?php echo htmlspecialchars(get_profile_picture_path($profile_picture)); ?>"
                     alt="Profile Picture"
                     class="profile_picture"
-
-
                 />
 
                 <div class="user_info">
@@ -196,35 +195,7 @@ $db->close();
                             <?php while ($event = $upcoming_events->fetch_assoc()): ?>
                                 <div class="history-card" data-event-id="<?php echo $event['event_id']; ?>">
                                     <div class="card-image-wrapper">
-
-                                        <?php
-
-
-                                        $image_src = '../public/assets/bonten.png';
-
-                                        if (!empty($event['image_path'])) {
-
-                                            $event_image = $event['image_path'];
-
-
-                                            if (strpos($event_image, '../public/') === 0) {
-
-                                                $image_src = substr($event_image, 3);
-
-                                            } else if (strpos($event_image, 'public/') === 0) {
-
-                                                $image_src = '../' . $event_image;
-
-                                            } else {
-
-                                                $image_src = '../public/assets/' . $event_image;
-
-                                            }
-                                        }
-
-
-                                        ?>
-                                        <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
+                                        <img src="<?php echo htmlspecialchars(get_event_image_path($event['image_path'], '../public/assets/bonten.png')); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
 
                                         <span class="event-status upcoming">Registered</span>
 
@@ -292,31 +263,7 @@ $db->close();
                                 <div class="past-event-card" data-event-id="<?php echo $event['event_id']; ?>" data-event-name="<?php echo htmlspecialchars($event['name']); ?>">
 
                                     <div class="past-event-image-container">
-                                        <?php
-
-                                        $image_src = '../public/assets/bonten.png';
-
-                                        if (!empty($event['image_path'])) {
-
-                                            $event_image = $event['image_path'];
-
-
-                                            if (strpos($event_image, '../public/') === 0) {
-                                                $image_src = substr($event_image, 3);
-
-                                            } else if (strpos($event_image, 'public/') === 0) {
-
-                                                $image_src = '../' . $event_image;
-
-                                            } else {
-
-                                                $image_src = '../public/assets/' . $event_image;
-
-                                            }
-                                        }
-
-                                        ?>
-                                        <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="past-event-image">
+                                        <img src="<?php echo htmlspecialchars(get_event_image_path($event['image_path'], '../public/assets/bonten.png')); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="past-event-image">
                                         <span class="attended-badge">Attended</span>
 
 
@@ -424,18 +371,11 @@ $db->close();
 
 
                     <div id="star-rating" class="star-rating-input">
-
-                        <span class="rating-star" data-rating="1"></span>
-
-                        <span class="rating-star" data-rating="2"></span>
-
-                        <span class="rating-star" data-rating="3"></span>
-
-                        <span class="rating-star" data-rating="4"></span>
-
-                        <span class="rating-star" data-rating="5"></span>
-
-
+                        <span class="rating-star" data-rating="1">★</span>
+                        <span class="rating-star" data-rating="2">★</span>
+                        <span class="rating-star" data-rating="3">★</span>
+                        <span class="rating-star" data-rating="4">★</span>
+                        <span class="rating-star" data-rating="5">★</span>
                     </div>
 
                     <input type="hidden" id="rating-value" value="0">

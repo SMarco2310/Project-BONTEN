@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -420,9 +421,7 @@ function timeAgo($datetime) {
           style="cursor: pointer; text-decoration: none"
         >
           <img
-            src="../public/assets/<?php echo htmlspecialchars($profile_picture); ?>"
-
-
+            src="<?php echo htmlspecialchars(get_profile_picture_path($profile_picture)); ?>"
             alt="Profile Picture"
             class="profile_picture"
           />
@@ -445,35 +444,7 @@ function timeAgo($datetime) {
             <div class="event-box-left">
 
               <div class="event-img-wrapper">
-
-                <?php if($event['image_path']): ?>
-
-                    <?php
-                    $image_src = $event['image_path'];
-
-                    if (strpos($image_src, '../public/') === 0) {
-
-
-                        $image_src = substr($image_src, 3);
-
-                    }
-
-                    if (strpos($image_src, 'public/') !== 0) {
-
-                        $image_src = '../public/assets/' . $image_src;
-
-                    } else {
-
-                        $image_src = '../' . $image_src;
-                    }
-                    ?>
-
-                    <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
-                <?php else: ?>
-
-                    <img src="../public/assets/hero.png" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
-
-                <?php endif; ?>
+                <img src="<?php echo htmlspecialchars(get_event_image_path($event['image_path'], '../public/assets/hero.png')); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="event-main-img" />
 
                 <div class="event-overlay">
 
@@ -529,10 +500,9 @@ function timeAgo($datetime) {
 
                     <div class="single-comment">
 
-
                       <div class="comment-top">
 
-                        <img src="../public/assets/<?php echo htmlspecialchars($comment['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
+                        <img src="<?php echo htmlspecialchars(get_profile_picture_path($comment['profile_picture'] ?: 'user.jpg')); ?>" alt="user" class="comment-avatar" />
 
 
                         <div class="comment-info">
@@ -571,7 +541,7 @@ function timeAgo($datetime) {
 
                     <div class="comment-top">
 
-                      <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
+                      <img src="<?php echo htmlspecialchars(get_profile_picture_path($review['profile_picture'] ?: 'user.jpg')); ?>" alt="user" class="comment-avatar" />
 
                       <div class="comment-info">
 

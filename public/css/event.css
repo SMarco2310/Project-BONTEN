@@ -579,20 +579,27 @@ p {
 }
 
 .star {
-
     font-size: 14px;
+}
 
+.star::before {
+    content: "★";
 }
 
 .star.filled {
-
-
     color: #ffa500;
 }
 
-.star.empty {
+.star.filled::before {
+    content: "★";
+}
 
+.star.empty {
     color: #444;
+}
+
+.star.empty::before {
+    content: "★";
 }
 
 

@@ -460,19 +460,8 @@ body {
 }
 
 .metric-arrow {
-
     color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-
-
-    transition: transform 0.2s;
-
-}
-
-.metric-arrow:hover {
-
-
-    transform: translateX(2px);
+    display: none;
 }
 
 .metric-value {

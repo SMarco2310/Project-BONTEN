@@ -641,6 +641,10 @@ body {
 
 }
 
+.image-upload-container input[type="file"] {
+    display: none;
+}
+
 .image-preview {
 
     width: 100%;

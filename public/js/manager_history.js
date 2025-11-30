@@ -145,6 +145,18 @@ class HistoryController {
             await this.loadEvents();
             this.setupEventListeners();
 
+            // Show success message if event was just created
+            if (typeof successMessage !== 'undefined' && successMessage) {
+                this.showToast(successMessage, 'success');
+            }
+
+            // Highlight newly created event
+            if (typeof createdEventId !== 'undefined' && createdEventId) {
+                setTimeout(() => {
+                    this.highlightEvent(createdEventId);
+                }, 500);
+            }
+
         } catch (error) {
 
             console.error('History initialization failed:', error);
@@ -201,13 +213,7 @@ class HistoryController {
 
         }
 
-        const exportBtn = document.getElementById('exportHistoryBtn');
-
-
-        if (exportBtn) {
-            exportBtn.addEventListener('click', () => this.handleExport());
-
-        }
+        // Export button removed
 
         const otherHeader = document.getElementById('otherEventsHeader');
         if (otherHeader) {
@@ -890,6 +896,24 @@ class HistoryController {
 
         return str.charAt(0).toUpperCase() + str.slice(1);
 
+    }
+
+    highlightEvent(eventId) {
+        // Find the event row in the active events table
+        const eventRow = document.querySelector(`tr[data-event-id="${eventId}"]`);
+
+        if (eventRow) {
+            // Add highlight class
+            eventRow.classList.add('newly-created');
+
+            // Scroll to the event
+            eventRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                eventRow.classList.remove('newly-created');
+            }, 3000);
+        }
     }
 
     showToast(message, type = 'info') {
