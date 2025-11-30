@@ -163,6 +163,20 @@ if (checkoutBtn) {
   checkoutBtn.addEventListener("click", payWithPaystack);
 }
 
+async function loadPaystackScript() {
+  return new Promise((resolve, reject) => {
+    if (typeof PaystackPop !== 'undefined') {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://js.paystack.co/v1/inline.js';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Paystack script"));
+    document.head.appendChild(script);
+  });
+}
+
 async function payWithPaystack() {
   console.log("payWithPaystack called");
 
@@ -214,6 +228,11 @@ async function payWithPaystack() {
     return;
   }
 
+  if (!navigator.onLine) {
+    alert("You appear to be offline. Please check your internet connection.");
+    return;
+  }
+
   const checkoutBtn = document.getElementById("checkout-btn");
   if (!checkoutBtn) {
     console.error("Checkout button not found");
@@ -223,6 +242,23 @@ async function payWithPaystack() {
   const originalText = checkoutBtn.innerText;
   checkoutBtn.innerText = "Processing...";
   checkoutBtn.disabled = true;
+
+  // Ensure Paystack is loaded before starting transaction
+  if (typeof PaystackPop === "undefined") {
+    checkoutBtn.innerText = "Loading Payment...";
+    try {
+      await loadPaystackScript();
+      console.log("Paystack script loaded dynamically");
+    } catch (error) {
+      console.error("Failed to load Paystack:", error);
+      alert("Failed to load payment system. Please check your internet connection.");
+      checkoutBtn.innerText = originalText;
+      checkoutBtn.disabled = false;
+      return;
+    }
+    // Restore text to Processing...
+    checkoutBtn.innerText = "Processing...";
+  }
 
   console.log("Sending request to initialize_transaction.php...");
 
@@ -261,8 +297,8 @@ async function payWithPaystack() {
         } else {
           throw new Error(
             "Invalid server response. Response: " +
-              text.substring(0, 100) +
-              "..."
+            text.substring(0, 100) +
+            "..."
           );
         }
       }
@@ -276,24 +312,6 @@ async function payWithPaystack() {
           amount: data.amount,
           reference: data.reference,
         });
-
-        // Check if PaystackPop is available, wait a bit if not loaded yet
-        if (typeof PaystackPop === "undefined") {
-          // Wait up to 3 seconds for Paystack to load
-          let attempts = 0;
-          const maxAttempts = 30; // 30 attempts * 100ms = 3 seconds
-
-          while (typeof PaystackPop === "undefined" && attempts < maxAttempts) {
-            await new Promise((resolve) => setTimeout(resolve, 100));
-            attempts++;
-          }
-
-          if (typeof PaystackPop === "undefined") {
-            throw new Error(
-              "Paystack library not loaded. Please refresh the page and try again."
-            );
-          }
-        }
 
         const handler = PaystackPop.setup({
           key: data.public_key,
