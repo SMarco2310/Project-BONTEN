@@ -271,47 +271,79 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             
-            
             const review = {
-
+            
                 eventId: currentEventId,
+            
                 rating: selectedRating,
+            
                 title: reviewTitle.trim(),
+            
                 review: reviewText.trim(),
+            
                 timestamp: new Date().toISOString()
             };
 
+            
+            submitReviewBtn.disabled = true;
+            
+            submitReviewBtn.textContent = 'Submitting...';
+
            
-            
-            console.log('Submitting review:', review);
+            fetch('../api/reviews.php?action=add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(review)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    
+                    const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
+                    
+                    const reviewButton = card?.querySelector('.review-btn');
+                    
+                    if (reviewButton) {
+                    
+                        reviewButton.textContent = 'Review Submitted ✓';
+                    
+                        reviewButton.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                    
+                        reviewButton.style.borderColor = '#4CAF50';
+                    
+                        reviewButton.style.color = '#4CAF50';
+                    
+                        reviewButton.disabled = true;
+                    
+                        reviewButton.style.cursor = 'not-allowed';
+                    }
 
-            
-            
-            const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
-            const reviewButton = card?.querySelector('.review-btn');
-            if (reviewButton) {
-                
-                reviewButton.textContent = 'Review Submitted ✓';
-                
-                reviewButton.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
-                
-                reviewButton.style.borderColor = '#4CAF50';
-                
-                reviewButton.style.color = '#4CAF50';
-                
-                reviewButton.disabled = true;
-                
-                reviewButton.style.cursor = 'not-allowed';
-            }
+                    closeReviewModal();
+                   
+                    showSuccessMessage('Review submitted successfully!');
+                } else {
+                   
+                    throw new Error(data.error || 'Failed to submit review');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                showErrorMessage(error.message || 'Failed to submit review. Please try again.');
 
-            closeReviewModal();
-            showSuccessMessage('Review submitted successfully!');
+                
+                submitReviewBtn.disabled = false;
+                
+                submitReviewBtn.textContent = 'Submit Review';
+            });
         });
     }
 
 
     
     function showSuccessMessage(message) {
+        
         const toast = createToast(message, 'success');
 
         document.body.appendChild(toast);
@@ -331,7 +363,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     function showErrorMessage(message) {
+       
         const toast = createToast(message, 'error');
+       
         document.body.appendChild(toast);
 
         setTimeout(() => {

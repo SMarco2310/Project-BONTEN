@@ -50,9 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 
-    // Delete the registration/RSVP
-    // Check if there's a registrations table or bookings table
-    $stmt = $conn->prepare("DELETE FROM registrations WHERE event_id = ? AND user_id = ?");
+    // Delete the RSVP from the rsvps table
+    $stmt = $conn->prepare("DELETE FROM rsvps WHERE event_id = ? AND user_id = ?");
     $stmt->bind_param("ii", $event_id, $user_id);
 
     if ($stmt->execute()) {

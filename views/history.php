@@ -34,6 +34,39 @@ $full_name = $user['full_name'] ?? 'User';
 $profile_picture = $user['profile_picture'] ?? 'user.jpg';
 
 
+$stmt = $conn->prepare("
+    SELECT e.event_id, e.name, e.event_date, e.event_time, e.location, e.image_path, c.name as category_name
+    FROM rsvps r
+    JOIN events e ON r.event_id = e.event_id
+    LEFT JOIN categories c ON e.category_id = c.category_id
+    WHERE r.user_id = ? AND e.event_date >= CURDATE()
+    ORDER BY e.event_date ASC
+");
+$stmt->bind_param("i", $user_id);
+
+$stmt->execute();
+
+$upcoming_events = $stmt->get_result();
+
+$stmt->close();
+
+
+$stmt = $conn->prepare("
+    SELECT e.event_id, e.name, e.event_date, e.event_time, e.location, e.image_path, c.name as category_name
+    FROM rsvps r
+    JOIN events e ON r.event_id = e.event_id
+    LEFT JOIN categories c ON e.category_id = c.category_id
+    WHERE r.user_id = ? AND e.event_date < CURDATE()
+    ORDER BY e.event_date DESC
+");
+$stmt->bind_param("i", $user_id);
+
+$stmt->execute();
+
+$past_events = $stmt->get_result();
+
+$stmt->close();
+
 $db->close();
 ?>
 <!DOCTYPE html>
@@ -108,73 +141,30 @@ $db->close();
                     </div>
 
                     <div class="events-grid">
-
-                        <div class="history-card" data-event-id="ashchella">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/ashchella.jpg" alt="Ashchella" class="card-image">
-                                <span class="event-status upcoming">Registered</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Ashchella</h3>
-                                    <span class="event-badge">ASC Week</span>
+                        <?php if ($upcoming_events->num_rows > 0): ?>
+                            <?php while ($event = $upcoming_events->fetch_assoc()): ?>
+                                <div class="history-card" data-event-id="<?php echo $event['event_id']; ?>">
+                                    <div class="card-image-wrapper">
+                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
+                                        <span class="event-status upcoming">Registered</span>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-header">
+                                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                            <span class="event-badge"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
+                                        </div>
+                                        <p class="event-date"><?php echo date('F j, Y - g:i A', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?></p>
+                                        <p class="event-location"><?php echo htmlspecialchars($event['location']); ?></p>
+                                        <div class="card-actions">
+                                            <a href="./event.php?id=<?php echo $event['event_id']; ?>"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                            <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="event-date">December 25, 2023 - 5:00 PM</p>
-
-                                <p class="event-location">Ashesi University</p>
-                                <div class="card-actions">
-
-                                    <a href="./event.php?id=ashchella"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-
-                                    <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="history-card" data-event-id="tidal-rave">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/tidalrave.jpg" alt="Tidal Rave" class="card-image">
-                                <span class="event-status upcoming">Registered</span>
-
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Tidal Rave</h3>
-                                    <span class="event-badge">Concert</span>
-
-                                </div>
-                                <p class="event-date">December 20, 2023 - 8:00 PM</p>
-                                <p class="event-location">Labadi Beach, Accra</p>
-                                <div class="card-actions">
-
-                                    <a href="./event.php?id=tidal-rave"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-                                    <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="history-card" data-event-id="y2k-neon">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/y2k.JPG" alt="Y2K Neon" class="card-image">
-                                <span class="event-status upcoming">Registered</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Y2K Neon</h3>
-
-                                    <span class="event-badge">Fashion</span>
-                                </div>
-                                <p class="event-date">December 28, 2023 - 9:00 PM</p>
-
-                                <p class="event-location">Republic Bar & Grill</p>
-                                <div class="card-actions">
-                                    <a href="./event.php?id=y2k-neon"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-
-                                    <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
-                                </div>
-                            </div>
-                        </div>
-
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p style="color: #888; text-align: center; padding: 40px;">No upcoming events. Start exploring!</p>
+                        <?php endif; ?>
                     </div>
                 </section>
 
@@ -186,90 +176,30 @@ $db->close();
                     </div>
 
                     <div class="events-grid">
-
-                        <div class="history-card" data-event-id="global-football-festival">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/gff.jpg" alt="Global Football Festival" class="card-image">
-                                <span class="event-status attended">Attended</span>
-
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Global Football Festival</h3>
-
-                                    <span class="event-badge">Football</span>
+                        <?php if ($past_events->num_rows > 0): ?>
+                            <?php while ($event = $past_events->fetch_assoc()): ?>
+                                <div class="history-card" data-event-id="<?php echo $event['event_id']; ?>">
+                                    <div class="card-image-wrapper">
+                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
+                                        <span class="event-status attended">Attended</span>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-header">
+                                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                            <span class="event-badge"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
+                                        </div>
+                                        <p class="event-date"><?php echo date('F j, Y - g:i A', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?></p>
+                                        <p class="event-location"><?php echo htmlspecialchars($event['location']); ?></p>
+                                        <div class="card-actions">
+                                            <a href="./event.php?id=<?php echo $event['event_id']; ?>"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                            <button class="review-btn" data-translate="writeReview">Write Review</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="event-date">December 1, 2023 - 6:00 PM</p>
-                                <p class="event-location">Accra Sports Stadium</p>
-                                <div class="card-actions">
-                                    <a href="./event.php?id=global-footbal-festival"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-                                    <button class="review-btn" data-translate="writeReview">Write Review</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="history-card" data-event-id="tanks-and-bikinis">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/t&b.jpg" alt="Tanks & Bikinis" class="card-image">
-
-                                <span class="event-status attended">Attended</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Tanks & Bikinis</h3>
-                                    <span class="event-badge">Concert</span>
-                                </div>
-                                <p class="event-date">December 15, 2023 - 7:00 PM</p>
-                                <p class="event-location">Sandbox Beach Club</p>
-
-                                <div class="card-actions">
-                                    <a href="./event.php?id=tanks-and-bikinis"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-                                    <button class="review-btn" data-translate="writeReview">Write Review</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="history-card" data-event-id="rapperholic">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/rapperholic.jpeg" alt="Rapperholic" class="card-image">
-                                <span class="event-status attended">Attended</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">Rapperholic</h3>
-                                    <span class="event-badge">Concert</span>
-                                </div>
-                                <p class="event-date">November 28, 2023 - 9:00 PM</p>
-                                <p class="event-location">Accra International Conference Centre</p>
-                                <div class="card-actions">
-
-                                    <a href="./event.php?id=rapperholic"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-                                    <button class="review-btn" data-translate="writeReview">Write Review</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="history-card" data-event-id="imullar">
-                            <div class="card-image-wrapper">
-                                <img src="../public/assets/imullar.jpg" alt="iMullar" class="card-image">
-                                <span class="event-status attended">Attended</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="event-name">iMullar</h3>
-
-                                    <span class="event-badge">Concert</span>
-                                </div>
-                                <p class="event-date">November 20, 2023 - 10:00 PM</p>
-                                <p class="event-location">+233 Jazz Bar & Grill</p>
-                                <div class="card-actions">
-                                    <a href="./event.php?id=imullar"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
-
-                                    <button class="review-btn" data-translate="writeReview">Write Review</button>
-                                </div>
-                            </div>
-                        </div>
-
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p style="color: #888; text-align: center; padding: 40px;">No past events yet.</p>
+                        <?php endif; ?>
                     </div>
                 </section>
 
