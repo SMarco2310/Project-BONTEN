@@ -422,6 +422,12 @@ $csrf_token = generate_csrf_token();
               placeholder="Enter your email"
               aria-required="true"
               required
+              style="
+                border: solid 1px #f9f9f8;
+
+                background-color: #020b13;
+                color: white;
+              "
             />
           </label>
 
@@ -434,6 +440,12 @@ $csrf_token = generate_csrf_token();
                 id="signup-password-field"
                 placeholder="********"
                 required
+                style="
+                border: solid 1px #f9f9f8;
+
+                background-color: #020b13;
+                color: white;
+              "
               />
             </div>
           </label>
