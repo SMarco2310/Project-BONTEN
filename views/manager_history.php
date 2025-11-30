@@ -367,6 +367,6 @@ $db->close();
     <input type="hidden" id="managerIdData" value="<?php echo $manager_id; ?>">
 
 
-<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
+<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-
-
 const signUpForm = document.getElementById("signup-form");
 
 const loginForm = document.getElementById("login-form");
@@ -56,10 +54,8 @@ switchToSignUpLink.addEventListener("click", (e) => {
 showLoginForm();
 
 function togglePasswordVisibility() {
-
   const signupPasswordField = document.getElementById("signup-password-field");
   const loginPasswordField = document.getElementById("password-field");
-
 
   const isSignupForm = signUpForm.style.display !== "none";
   const passwordField = isSignupForm ? signupPasswordField : loginPasswordField;
@@ -100,37 +96,64 @@ setInterval(changeBackgroundImage, 2500);
 
 changeBackgroundImage();
 
-
-signUpForm.addEventListener('submit', function (e) {
-  const firstName = document.getElementById('first-name-field').value.trim();
-  const lastName = document.getElementById('last-name-field').value.trim();
-  const email = document.getElementById('signup-email-field').value.trim();
-  const password = document.getElementById('signup-password-field').value;
-  const phone = document.getElementById('phoneNumber-field').value.trim();
-  const role = document.getElementById('role-field').value;
-
+signUpForm.addEventListener("submit", function (e) {
+  const firstName = document.getElementById("first-name-field").value.trim();
+  const lastName = document.getElementById("last-name-field").value.trim();
+  const email = document.getElementById("signup-email-field").value.trim();
+  const password = document.getElementById("signup-password-field").value;
+  const phone = document.getElementById("phoneNumber-field").value.trim();
+  const role = document.getElementById("role-field").value;
 
   if (!firstName || !lastName || !email || !password || !phone || !role) {
-    alert('Please fill in all fields');
+    alert("Please fill in all fields");
     e.preventDefault();
     return false;
   }
 
-  if (password.length < 8) {
-    alert('Password must be at least 8 characters long');
-    e.preventDefault();
-    return false;
-  }
+  // Use validation.js function for proper password validation
+  if (typeof getPasswordError === "function") {
+    const passwordError = getPasswordError(password);
+    if (passwordError) {
+      alert(passwordError);
+      e.preventDefault();
+      return false;
+    }
+  } else {
+    // Fallback validation if validation.js is not loaded
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      e.preventDefault();
+      return false;
+    }
 
+    const hasNumber = /[0-9]/.test(password);
+    if (!hasNumber) {
+      alert("Password must contain at least one number");
+      e.preventDefault();
+      return false;
+    }
+
+    const hasUppercase = /[A-Z]/.test(password);
+    if (!hasUppercase) {
+      alert("Password must contain at least one uppercase letter");
+      e.preventDefault();
+      return false;
+    }
+
+    const hasLowercase = /[a-z]/.test(password);
+    if (!hasLowercase) {
+      alert("Password must contain at least one lowercase letter");
+      e.preventDefault();
+      return false;
+    }
+  }
 
   return true;
 });
 
 function validatePassword() {
-
   const signupPasswordField = document.getElementById("signup-password-field");
   const loginPasswordField = document.getElementById("password-field");
-
 
   const isSignupForm = signUpForm.style.display !== "none";
   const passwordField = isSignupForm ? signupPasswordField : loginPasswordField;
@@ -140,14 +163,57 @@ function validatePassword() {
   const password = passwordField.value;
   const passwordCue = document.getElementById("password-cue");
 
+  // Only validate password for signup form
+  if (isSignupForm) {
+    // Use validation.js function if available
+    if (typeof getPasswordError === "function") {
+      const error = getPasswordError(password);
+      if (error) {
+        passwordCue.textContent = error;
+        passwordCue.style.color = "red";
+        return false;
+      }
+    } else {
+      // Fallback validation
+      if (password.length < 8) {
+        passwordCue.textContent = "Password must be at least 8 characters long";
+        passwordCue.style.color = "red";
+        return false;
+      }
 
-  if (password.length < 8) {
-    passwordCue.textContent = "Password must be at least 8 characters long";
-    passwordCue.style.color = "red";
-    return false;
+      const hasNumber = /[0-9]/.test(password);
+      if (!hasNumber) {
+        passwordCue.textContent = "Password must contain at least one number";
+        passwordCue.style.color = "red";
+        return false;
+      }
+
+      const hasUppercase = /[A-Z]/.test(password);
+      if (!hasUppercase) {
+        passwordCue.textContent =
+          "Password must contain at least one uppercase letter";
+        passwordCue.style.color = "red";
+        return false;
+      }
+
+      const hasLowercase = /[a-z]/.test(password);
+      if (!hasLowercase) {
+        passwordCue.textContent =
+          "Password must contain at least one lowercase letter";
+        passwordCue.style.color = "red";
+        return false;
+      }
+    }
   }
 
   // Clear any previous error messages
   passwordCue.textContent = "";
   return true;
+}
+
+// Add real-time validation on password input
+const signupPasswordField = document.getElementById("signup-password-field");
+if (signupPasswordField) {
+  signupPasswordField.addEventListener("input", validatePassword);
+  signupPasswordField.addEventListener("blur", validatePassword);
 }

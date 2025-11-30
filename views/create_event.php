@@ -496,6 +496,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
+<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
 </body>
 </html>

@@ -17,12 +17,57 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 function set_security_headers() {
-    header("X-Frame-Options: SAMEORIGIN");
-    header("X-Content-Type-Options: nosniff");
-    header("X-XSS-Protection: 1; mode=block");
-    header("Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.userway.org https://js.paystack.co; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://js.paystack.co; frame-src 'self' https://standard.paystack.co https://paystack.com;");
-    header("X-Powered-By: ");
-    header("Referrer-Policy: strict-origin-when-cross-origin");
+    // Don't set X-Frame-Options to allow Paystack popups, or set it to SAMEORIGIN
+    // Note: X-Frame-Options SAMEORIGIN still allows same-origin iframes, but Paystack uses cross-origin
+    // We'll use CSP frame-ancestors instead and omit X-Frame-Options for payment pages
+    
+    $script_name = $_SERVER['SCRIPT_NAME'] ?? '';
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    
+    // For payment/API endpoints, allow cross-origin requests
+    $is_api_endpoint = (strpos($script_name, 'api/') !== false || 
+                        strpos($script_name, 'Controllers/') !== false ||
+                        strpos($request_uri, 'initialize_transaction') !== false ||
+                        strpos($request_uri, 'verify_transaction') !== false);
+    
+    // Set CORS for API endpoints
+    if ($is_api_endpoint && !headers_sent()) {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    }
+    
+    // Only set restrictive headers for non-API pages
+    if (!$is_api_endpoint) {
+        header("X-Content-Type-Options: nosniff");
+        header("X-XSS-Protection: 1; mode=block");
+        // Allow Paystack domains in CSP - more permissive for payment functionality
+        // Note: frame-ancestors allows the page to be embedded, frame-src allows iframes in the page
+        $is_payment_page = (strpos($request_uri, 'event.php') !== false || 
+                           strpos($request_uri, 'payment') !== false ||
+                           strpos($script_name, 'event.php') !== false);
+        
+        // More permissive CSP for Paystack - allow all Paystack subdomains
+        $csp = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.userway.org https://js.paystack.co https://api.paystack.co https://*.paystack.co https://*.paystack.com; " .
+               "img-src 'self' data: https:; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://js.paystack.co https://api.paystack.co https://*.paystack.co https://*.paystack.com; " .
+               "frame-src 'self' https://standard.paystack.co https://paystack.com https://*.paystack.co https://*.paystack.com https://checkout.paystack.com https://checkout.paystack.com/*; " .
+               "frame-ancestors 'self'; " .
+               "connect-src 'self' https://api.paystack.co https://*.paystack.co https://*.paystack.com https://api.paystack.co/*;";
+        header("Content-Security-Policy: " . $csp);
+        header("X-Powered-By: ");
+        header("Referrer-Policy: strict-origin-when-cross-origin");
+        // Don't set X-Frame-Options for payment pages as it conflicts with Paystack iframes
+        // X-Frame-Options would block Paystack's cross-origin iframes
+        // Only set for non-payment pages
+        if (!$is_payment_page) {
+            header("X-Frame-Options: SAMEORIGIN");
+        }
+        // For payment pages, rely on CSP frame-ancestors instead
+    } else {
+        // For API endpoints, set minimal headers
+        header("Content-Type: application/json");
+    }
 }
 function generate_csrf_token() {
     if (empty($_SESSION['csrf_token'])) {

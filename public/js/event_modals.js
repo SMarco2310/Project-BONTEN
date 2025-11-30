@@ -37,8 +37,8 @@ if (passwordInput) {
 
   passwordInput.addEventListener("blur", () => {
     if (passwordInput.value.length > 0) {
-      if (passwordInput.value.trim() === '') {
-        showError(passwordInput, 'Password is required');
+      if (passwordInput.value.trim() === "") {
+        showError(passwordInput, "Password is required");
       } else {
         removeError(passwordInput);
       }
@@ -74,8 +74,8 @@ if (ticketsBtn) {
 
     let isPasswordValid = true;
     if (!isLoggedIn) {
-      if (!passwordInput.value || passwordInput.value.trim() === '') {
-        showError(passwordInput, 'Password is required');
+      if (!passwordInput.value || passwordInput.value.trim() === "") {
+        showError(passwordInput, "Password is required");
         isPasswordValid = false;
       } else {
         removeError(passwordInput);
@@ -176,12 +176,12 @@ if (checkoutBtn) {
 
 async function loadPaystackScript() {
   return new Promise((resolve, reject) => {
-    if (typeof PaystackPop !== 'undefined') {
+    if (typeof PaystackPop !== "undefined") {
       resolve();
       return;
     }
-    const script = document.createElement('script');
-    script.src = 'https://js.paystack.co/v1/inline.js';
+    const script = document.createElement("script");
+    script.src = "https://js.paystack.co/v1/inline.js";
     script.onload = () => resolve();
     script.onerror = () => reject(new Error("Failed to load Paystack script"));
     document.head.appendChild(script);
@@ -197,6 +197,15 @@ async function payWithPaystack() {
     document.getElementById("email")?.value ||
     userEmail; // from PHP variable
 
+  // Get password for verification (only needed if not logged in via session)
+  const passwordInputField = document.getElementById("rsvp-password");
+  let password = passwordInputField?.value || "";
+
+  // Check if user is logged in - password field won't exist if logged in
+  // Also check the global isLoggedIn variable from PHP
+  const userIsLoggedIn =
+    (typeof isLoggedIn !== "undefined" && isLoggedIn) || !passwordInputField;
+
   const regularInput = document.getElementById("regular");
   const vipInput = document.getElementById("vip");
 
@@ -211,6 +220,8 @@ async function payWithPaystack() {
     vipQty,
     currentEventId,
     userEmail,
+    userIsLoggedIn,
+    hasPasswordField: !!passwordInputField,
   });
 
   // Validation
@@ -221,14 +232,96 @@ async function payWithPaystack() {
     return;
   }
 
+  // Validate password if user is not logged in via session
+  if (!userIsLoggedIn) {
+    if (!password || password.trim() === "") {
+      alert("Please enter your password to proceed with checkout.");
+      if (ticketsModal) ticketsModal.style.display = "none";
+      if (rsvpModal) rsvpModal.style.display = "flex";
+      // Focus on password field
+      const passwordInput = document.getElementById("rsvp-password");
+      if (passwordInput) {
+        passwordInput.focus();
+        if (typeof showError === "function") {
+          showError(passwordInput, "Password is required for checkout");
+        }
+      }
+      return;
+    }
+
+    // Verify password with backend before proceeding
+    try {
+      const checkoutBtn = document.getElementById("checkout-btn");
+      if (checkoutBtn) {
+        checkoutBtn.innerText = "Verifying...";
+        checkoutBtn.disabled = true;
+      }
+
+      const verifyResponse = await fetch("../api/validate_user.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password,
+        }),
+      });
+
+      const verifyResult = await verifyResponse.json();
+
+      if (!verifyResult.success) {
+        alert("Invalid password. Please check your password and try again.");
+        if (checkoutBtn) {
+          checkoutBtn.innerText = "Proceed to Checkout";
+          checkoutBtn.disabled = false;
+        }
+        // Show error on password field and redirect to RSVP modal
+        const passwordInput = document.getElementById("rsvp-password");
+        if (passwordInput && typeof showError === "function") {
+          showError(passwordInput, verifyResult.message || "Invalid password");
+          passwordInput.focus();
+        }
+        // Redirect back to RSVP modal to re-enter password
+        if (ticketsModal) ticketsModal.style.display = "none";
+        if (rsvpModal) rsvpModal.style.display = "flex";
+        return;
+      }
+
+      // Password is valid, continue with checkout
+      console.log("Password verified successfully");
+    } catch (error) {
+      console.error("Password verification error:", error);
+      alert(
+        "An error occurred while verifying your password. Please try again."
+      );
+      const checkoutBtn = document.getElementById("checkout-btn");
+      if (checkoutBtn) {
+        checkoutBtn.innerText = "Proceed to Checkout";
+        checkoutBtn.disabled = false;
+      }
+      return;
+    }
+  }
+
   if (regularQty === 0 && vipQty === 0) {
     alert("Please select at least one ticket.");
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+      checkoutBtn.innerText = "Proceed to Checkout";
+      checkoutBtn.disabled = false;
+    }
     return;
   }
 
   if (currentEventId === 0) {
     alert("Error: Event information is missing.");
     console.error("Event ID is missing or zero");
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+      checkoutBtn.innerText = "Proceed to Checkout";
+      checkoutBtn.disabled = false;
+    }
     return;
   }
 
@@ -236,11 +329,21 @@ async function payWithPaystack() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     alert("Please enter a valid email address.");
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+      checkoutBtn.innerText = "Proceed to Checkout";
+      checkoutBtn.disabled = false;
+    }
     return;
   }
 
   if (!navigator.onLine) {
     alert("You appear to be offline. Please check your internet connection.");
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+      checkoutBtn.innerText = "Proceed to Checkout";
+      checkoutBtn.disabled = false;
+    }
     return;
   }
 
@@ -257,16 +360,45 @@ async function payWithPaystack() {
   // Ensure Paystack is loaded before starting transaction
   if (typeof PaystackPop === "undefined") {
     checkoutBtn.innerText = "Loading Payment...";
-    try {
-      await loadPaystackScript();
-      console.log("Paystack script loaded dynamically");
-    } catch (error) {
-      console.error("Failed to load Paystack:", error);
-      alert("Failed to load payment system. Please check your internet connection.");
+
+    // Wait for Paystack to load (with timeout)
+    let paystackReady = false;
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max wait
+
+    while (typeof PaystackPop === "undefined" && attempts < maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      attempts++;
+    }
+
+    // If still not loaded, try loading manually
+    if (typeof PaystackPop === "undefined") {
+      try {
+        await loadPaystackScript();
+        // Wait a bit more for initialization
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        console.log("Paystack script loaded dynamically");
+      } catch (error) {
+        console.error("Failed to load Paystack:", error);
+        alert(
+          "Failed to load payment system. Please check your internet connection and refresh the page."
+        );
+        checkoutBtn.innerText = originalText;
+        checkoutBtn.disabled = false;
+        return;
+      }
+    }
+
+    // Final check
+    if (typeof PaystackPop === "undefined") {
+      alert(
+        "Payment system not loaded. Please refresh the page and ensure you have an internet connection."
+      );
       checkoutBtn.innerText = originalText;
       checkoutBtn.disabled = false;
       return;
     }
+
     // Restore text to Processing...
     checkoutBtn.innerText = "Processing...";
   }
@@ -308,8 +440,8 @@ async function payWithPaystack() {
         } else {
           throw new Error(
             "Invalid server response. Response: " +
-            text.substring(0, 100) +
-            "..."
+              text.substring(0, 100) +
+              "..."
           );
         }
       }
@@ -323,8 +455,38 @@ async function payWithPaystack() {
           amount: data.amount,
           reference: data.reference,
         });
-        if (typeof PaystackPop === 'undefined') {
-            throw new Error("Paystack library not loaded");
+        // Final check - wait a bit more if PaystackPop is still undefined
+        if (typeof PaystackPop === "undefined") {
+          console.warn("PaystackPop still undefined, waiting 500ms...");
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          if (typeof PaystackPop === "undefined") {
+            // Try to load the script again
+            try {
+              await loadPaystackScript();
+              await new Promise((resolve) => setTimeout(resolve, 200));
+            } catch (loadError) {
+              console.error("Failed to load Paystack script:", loadError);
+              throw new Error(
+                "Payment system not loaded. Please refresh the page."
+              );
+            }
+          }
+        }
+
+        if (typeof PaystackPop === "undefined") {
+          throw new Error(
+            "Payment system not loaded. Please refresh the page."
+          );
+        }
+
+        console.log("PaystackPop is available:", typeof PaystackPop);
+        console.log("PaystackPop object:", PaystackPop);
+
+        // Verify PaystackPop.setup exists
+        if (typeof PaystackPop.setup !== "function") {
+          throw new Error(
+            "Paystack setup function not available. Please refresh the page."
+          );
         }
 
         const handler = PaystackPop.setup({
@@ -335,6 +497,11 @@ async function payWithPaystack() {
           ref: data.reference,
           onClose: function () {
             console.log("Payment modal closed");
+            // Restore button state
+            if (checkoutBtn) {
+              checkoutBtn.innerText = originalText;
+              checkoutBtn.disabled = false;
+            }
             alert("Transaction was closed.");
           },
           callback: function (response) {
@@ -344,9 +511,11 @@ async function payWithPaystack() {
             checkoutBtn.innerText = "Verifying...";
 
             // Verify transaction with backend
-            fetch(`../src/Controllers/verify_transaction.php?reference=${response.reference}`)
-              .then(res => res.json())
-              .then(verifyData => {
+            fetch(
+              `../src/Controllers/verify_transaction.php?reference=${response.reference}`
+            )
+              .then((res) => res.json())
+              .then((verifyData) => {
                 console.log("Verification response:", verifyData);
 
                 if (verifyData.status) {
@@ -364,21 +533,67 @@ async function payWithPaystack() {
                   // Redirect to history page
                   window.location.href = "./history.php";
                 } else {
-                  alert("Payment verification failed: " + (verifyData.message || "Unknown error"));
+                  alert(
+                    "Payment verification failed: " +
+                      (verifyData.message || "Unknown error")
+                  );
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.error("Verification error:", err);
-                alert("Payment was successful but verification failed. Please contact support with reference: " + response.reference);
+                alert(
+                  "Payment was successful but verification failed. Please contact support with reference: " +
+                    response.reference
+                );
               });
           },
         });
-        handler.openIframe();
+
+        // Verify handler was created
+        if (!handler) {
+          console.error("Handler is null or undefined");
+          throw new Error(
+            "Failed to create Paystack payment handler. Please refresh the page."
+          );
+        }
+
+        // Verify handler has openIframe method
+        if (typeof handler.openIframe !== "function") {
+          console.error(
+            "handler.openIframe is not a function. Handler:",
+            handler
+          );
+          throw new Error(
+            "Paystack handler is not properly initialized. Please refresh the page."
+          );
+        }
+
+        console.log("Opening Paystack payment modal...");
+        try {
+          handler.openIframe();
+          console.log("✅ Paystack modal openIframe() called successfully");
+        } catch (popupError) {
+          console.error("❌ Error opening Paystack modal:", popupError);
+          alert(
+            "Failed to open payment window. Error: " +
+              popupError.message +
+              ". Please check your browser's popup settings or refresh the page."
+          );
+          if (checkoutBtn) {
+            checkoutBtn.innerText = originalText;
+            checkoutBtn.disabled = false;
+          }
+        }
       } else {
         console.error("Payment initialization failed:", data.message);
         alert(
           "Error initializing payment: " + (data.message || "Unknown error")
         );
+        // Restore button
+        if (checkoutBtn) {
+          checkoutBtn.innerText = originalText;
+          checkoutBtn.disabled = false;
+        }
       }
     })
     .catch((error) => {
@@ -389,8 +604,21 @@ async function payWithPaystack() {
       if (error.message.includes("PHP server")) {
         errorMessage +=
           "Please use a PHP server to test payments. Live Server and file:// protocol do not support PHP.";
-      } else if (error.message.includes("Paystack library")) {
-        errorMessage += "Payment system not loaded. Please refresh the page.";
+      } else if (
+        error.message.includes("Paystack library") ||
+        error.message.includes("Payment system not loaded")
+      ) {
+        errorMessage +=
+          "Payment system not loaded. Please refresh the page and try again.";
+        // Try to reload the script one more time
+        console.log("Attempting to reload Paystack script...");
+        loadPaystackScript()
+          .then(() => {
+            console.log("Paystack script reloaded, please try again");
+          })
+          .catch((reloadError) => {
+            console.error("Failed to reload Paystack:", reloadError);
+          });
       } else if (error.message.includes("Invalid server response")) {
         errorMessage += "Server configuration issue. Please contact support.";
       } else {
@@ -398,6 +626,11 @@ async function payWithPaystack() {
       }
 
       alert(errorMessage);
+      // Restore button
+      if (checkoutBtn) {
+        checkoutBtn.innerText = originalText;
+        checkoutBtn.disabled = false;
+      }
     })
     .finally(() => {
       // Restore button state only if we're not verifying
@@ -488,17 +721,28 @@ document.addEventListener("DOMContentLoaded", () => {
     "Page loaded. Run testPaystackConnection() in console to test payment setup"
   );
 
-  // Check if Paystack script is loaded after a short delay
-  setTimeout(() => {
+  // Check if Paystack script is loaded and try to load if missing
+  function checkPaystackLoaded() {
     if (typeof PaystackPop === "undefined") {
-      console.warn(
-        "⚠️ Paystack library not loaded. This may cause payment issues."
-      );
-      console.warn(
-        "Make sure the script tag is present: <script src='https://js.paystack.co/v1/inline.js'></script>"
-      );
+      console.warn("⚠️ Paystack library not loaded. Attempting to load...");
+      // Try to load the script
+      loadPaystackScript()
+        .then(() => {
+          console.log("✅ Paystack library loaded successfully");
+        })
+        .catch((error) => {
+          console.error("❌ Failed to load Paystack:", error);
+          console.warn(
+            "Make sure the script tag is present: <script src='https://js.paystack.co/v1/inline.js'></script>"
+          );
+        });
     } else {
       console.log("✅ Paystack library loaded successfully");
     }
-  }, 1000);
+  }
+
+  // Check immediately and after a delay
+  checkPaystackLoaded();
+  setTimeout(checkPaystackLoaded, 1000);
+  setTimeout(checkPaystackLoaded, 2000);
 });
