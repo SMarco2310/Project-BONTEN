@@ -18,11 +18,15 @@ $user_id = $_SESSION['user_id'];
 
 
 $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHERE user_id = ?");
+
 $stmt->bind_param("i", $user_id);
+
 $stmt->execute();
+
 $result = $stmt->get_result();
 
 $user = $result->fetch_assoc();
+
 $stmt->close();
 
 $full_name = $user['full_name'] ?? 'User';
@@ -67,7 +71,7 @@ $db->close();
 
             <div class="lower-menu">
                 <a href="./settings.php" class="nav-item" data-translate="settings">Settings</a>
-                <a href="./index.php" class="logout" data-translate="logout">Logout</a>
+                <a href="./logout.php" class="logout" data-translate="logout">Logout</a>
 
             </div>
 
@@ -120,7 +124,7 @@ $db->close();
                                 <p class="event-location">Ashesi University</p>
                                 <div class="card-actions">
 
-                                    <a href="./event.html?id=ashchella"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=ashchella"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
 
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
@@ -143,7 +147,7 @@ $db->close();
                                 <p class="event-location">Labadi Beach, Accra</p>
                                 <div class="card-actions">
 
-                                    <a href="./event.html?id=tidal-rave"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=tidal-rave"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
                             </div>
@@ -164,7 +168,7 @@ $db->close();
 
                                 <p class="event-location">Republic Bar & Grill</p>
                                 <div class="card-actions">
-                                    <a href="./event.html?id=y2k-neon"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=y2k-neon"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
 
                                     <button class="cancel-btn" data-translate="cancelRSVP">Cancel RSVP</button>
                                 </div>
@@ -198,7 +202,7 @@ $db->close();
                                 <p class="event-date">December 1, 2023 - 6:00 PM</p>
                                 <p class="event-location">Accra Sports Stadium</p>
                                 <div class="card-actions">
-                                    <a href="./event.html?id=global-footbal-festival"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=global-footbal-festival"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>
                             </div>
@@ -219,7 +223,7 @@ $db->close();
                                 <p class="event-location">Sandbox Beach Club</p>
 
                                 <div class="card-actions">
-                                    <a href="./event.html?id=tanks-and-bikinis"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=tanks-and-bikinis"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>
                             </div>
@@ -239,7 +243,7 @@ $db->close();
                                 <p class="event-location">Accra International Conference Centre</p>
                                 <div class="card-actions">
 
-                                    <a href="./event.html?id=rapperholic"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=rapperholic"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>
                             </div>
@@ -259,7 +263,7 @@ $db->close();
                                 <p class="event-date">November 20, 2023 - 10:00 PM</p>
                                 <p class="event-location">+233 Jazz Bar & Grill</p>
                                 <div class="card-actions">
-                                    <a href="./event.html?id=imullar"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
+                                    <a href="./event.php?id=imullar"><button class="view-btn" data-translate="viewDetails">View Details</button></a>
 
                                     <button class="review-btn" data-translate="writeReview">Write Review</button>
                                 </div>

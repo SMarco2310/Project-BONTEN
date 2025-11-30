@@ -176,7 +176,7 @@ function timeAgo($datetime) {
         <div class="lower-menu">
           <?php if ($is_logged_in): ?>
           <a href="<?php echo $user_type === 'manager' ? './manager_settings.php' : './settings.php'; ?>" class="nav-item" data-translate="settings">Settings</a>
-          <a href="./index.php" class="logout" data-translate="logout">Logout</a>
+          <a href="./logout.php" class="logout" data-translate="logout">Logout</a>
           <?php else: ?>
           <a href="./index.php" class="nav-item" data-translate="login">Login</a>
           <?php endif; ?>
@@ -251,51 +251,88 @@ function timeAgo($datetime) {
                     RSVP ->
                   </button>
                 </div>
+              
               </div>
+              
               <div class="comments">
-                <div class="desc-title">
+              
+              <div class="desc-title">
 
-                  <h2
-                    style="
-                      font-family: 'Inter', sans-serif;
+
+              
+              <h2
+              
+              style="
+              
+              font-family: 'Inter', sans-serif;
                       color: #ffffff;
+              
                       margin: 0;
                     "
-                    data-translate="comments"
-                  >
+              
+              data-translate="comments"
+              
+              >
                     Reviews
+              
                   </h2>
                 </div>
 
-                <div class="comments-list" id="comments-container">
-                  <?php if (count($reviews) > 0): ?>
-                    <?php foreach ($reviews as $review): ?>
-                      <div class="comment-item" data-comment-id="<?php echo $review['review_id']; ?>">
 
-                        <div class="comment-header">
-                          <div class="comment-user-avatar">
-                            <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" />
-                          </div>
-                          <div class="comment-user-info">
+                <div class="comments-list" id="comments-container">
+                
+                <?php if (count($reviews) > 0): ?>
+                
+                  <?php foreach ($reviews as $review): ?>
+                
+                    <div class="comment-item" data-comment-id="<?php echo $review['review_id']; ?>">
+
+
+                    
+                    <div class="comment-header">
+                    
+                    <div class="comment-user-avatar">
+                    
+                    <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture']); ?>" alt="user" />
+                    
+                  </div>
+                  
+                  <div class="comment-user-info">
                             <p class="comment-user-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
+                  
                             <div class="comment-rating">
-                              <?php for ($i = 1; $i <= 5; $i++): ?>
+                  
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+
 
                                 <img
-                                  src="../public/assets/icons/<?php echo $i <= $review['rating'] ? 'star.svg' : 'star_w.svg'; ?>"
-                                  alt="star"
+                              
+                                src="../public/assets/icons/<?php echo $i <= $review['rating'] ? 'star.svg' : 'star_w.svg'; ?>"
+                              
+                                alt="star"
+                              
                                 />
-                              <?php endfor; ?>
+                              
+                                <?php endfor; ?>
                             </div>
                           </div>
+                        
                         </div>
+                        
                         <div class="comment-text">
-                          <p><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
-                        </div>
-                        <div class="comment-time"><?php echo timeAgo($review['created_at']); ?></div>
+                        
+                        
+                        <p><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
+                        
                       </div>
+                      
+                      <div class="comment-time"><?php echo timeAgo($review['created_at']); ?></div>
+                      
+                    </div>
+                    
                     <?php endforeach; ?>
                   <?php else: ?>
+                    
                     <div style="text-align: center; padding: 20px; color: #999;">
                       <p>No reviews yet. Be the first to review this event!</p>
                     </div>
@@ -333,7 +370,9 @@ function timeAgo($datetime) {
             <input
               type="password"
               id="password"
+              
               placeholder="••••••••"
+              
               required
             />
           </div>
@@ -354,39 +393,59 @@ function timeAgo($datetime) {
 
     <div id="tickets-modal" class="modal">
       <div class="modal-overlay"></div>
+      
       <div class="modal-content tickets-modal-content">
         <button class="modal-close">&times;</button>
+      
         <h2 class="modal-title" data-translate="tickets">Tickets</h2>
+      
         <div class="tickets-form">
-          <?php
-          $has_regular = false;
-          $has_vip = false;
-          foreach ($tickets as $ticket):
+      
+      <?php
+      
+      $has_regular = false;
+      
+      $has_vip = false;
+      
+      foreach ($tickets as $ticket):
             $ticket_name_lower = strtolower($ticket['ticket_name']);
+      
             $available = $ticket['quantity'] - $ticket['sold'];
 
+      
             if (strpos($ticket_name_lower, 'regular') !== false):
+      
               $has_regular = true;
           ?>
           <div class="ticket-option">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <label for="regular" data-translate="regular">Regular - GHS <?php echo number_format($ticket['price'], 2); ?></label>
               <span style="font-size: 12px; color: #999;"><?php echo $available; ?> left</span>
+      
             </div>
             <div class="quantity-control">
               <button type="button" class="qty-btn minus" data-target="regular">-</button>
 
               <input
-                type="number"
-                id="regular"
+      
+              type="number"
+      
+              id="regular"
 
-                class="qty-input"
-                value="0"
-                min="0"
-                max="<?php echo $available; ?>"
+
+              
+              class="qty-input"
+              
+              value="0"
+              
+              min="0"
+              
+              max="<?php echo $available; ?>"
 
                 readonly
-              />
+              
+                />
               <button type="button" class="qty-btn plus" data-target="regular" data-max="<?php echo $available; ?>">+</button>
             </div>
           </div>
@@ -417,29 +476,47 @@ function timeAgo($datetime) {
               <button type="button" class="qty-btn plus" data-target="vip" data-max="<?php echo $available; ?>">+</button>
             </div>
           </div>
-          <?php
+         
+         <?php
             endif;
+         
           endforeach;
           ?>
 
           <div class="price-details"
-            style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-            <?php if ($has_regular): ?>
+         
+          style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+         
+          <?php if ($has_regular): ?>
+         
             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
               <span style="color: #ccc;">Regular (<span id="regular-subtotal">0.00</span> GHS)</span>
+         
             </div>
+         
             <?php endif; ?>
+         
             <?php if ($has_vip): ?>
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #ccc;">VIP (<span id="vip-subtotal">0.00</span> GHS)</span>
-            </div>
-            <?php endif; ?>
-            <div
-              style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
+         
+            <span style="color: #ccc;">VIP (<span id="vip-subtotal">0.00</span> GHS)</span>
+         
+          </div>
+         
+          <?php endif; ?>
+         
+          <div
+         
+         
+          style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
 
-              <strong style="color: white;">Total:</strong>
-              <strong style="color: rgb(212, 102, 62);">GHS <span id="grand-total">0.00</span></strong>
-            </div>
+
+          
+          <strong style="color: white;">Total:</strong>
+          
+          <strong style="color: rgb(212, 102, 62);">GHS <span id="grand-total">0.00</span></strong>
+          
+        </div>
           </div>
           <button
             type="button"

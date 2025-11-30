@@ -87,39 +87,60 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelCancelBtn.addEventListener('click', closeCancelModal);
     }
 
-    
+
     if (cancelConfirmBtn) {
-        cancelConfirmBtn.addEventListener('click', () => {
+        cancelConfirmBtn.addEventListener('click', async () => {
             if (currentEventId) {
 
-                
+
                 console.log('Cancelling RSVP for event:', currentEventId);
 
+                try {
+                    // Call the API to cancel the RSVP
+                    const response = await fetch('../api/cancel_rsvp.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            event_id: currentEventId
+                        })
+                    });
 
-                
-                const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
-                if (card) {
-                    card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.9)';
+                    const data = await response.json();
 
-                    setTimeout(() => {
-                        card.remove();
+                    if (response.ok && data.success) {
+                        // Remove the card from the UI
+                        const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
+                        if (card) {
+                            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.9)';
 
-                        
-                        const upcomingSection = document.querySelector('.history-section:first-child .events-grid');
-                        if (upcomingSection && upcomingSection.children.length === 0) {
-                            upcomingSection.innerHTML = '<p style="color: #888; text-align: center; padding: 40px;">No upcoming events</p>';
+                            setTimeout(() => {
+                                card.remove();
+
+                                // Check if there are no more upcoming events
+                                const upcomingSection = document.querySelector('.history-section:first-child .events-grid');
+                                if (upcomingSection && upcomingSection.children.length === 0) {
+                                    upcomingSection.innerHTML = '<p style="color: #888; text-align: center; padding: 40px;">No upcoming events</p>';
+                                }
+
+                            }, 300);
                         }
 
-                    }, 300);
+                        closeCancelModal();
+                        showSuccessMessage('RSVP cancelled successfully');
+                    } else {
+                        // Show error message from server
+                        closeCancelModal();
+                        showErrorMessage(data.error || 'Failed to cancel RSVP');
+                    }
+                } catch (error) {
+                    console.error('Error cancelling RSVP:', error);
+                    closeCancelModal();
+                    showErrorMessage('Failed to cancel RSVP. Please try again.');
                 }
-
-                closeCancelModal();
-
-                
-
-                showSuccessMessage('RSVP cancelled successfully');
             }
         });
     }
@@ -269,11 +290,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
             const reviewButton = card?.querySelector('.review-btn');
             if (reviewButton) {
+                
                 reviewButton.textContent = 'Review Submitted ✓';
+                
                 reviewButton.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                
                 reviewButton.style.borderColor = '#4CAF50';
+                
                 reviewButton.style.color = '#4CAF50';
+                
                 reviewButton.disabled = true;
+                
                 reviewButton.style.cursor = 'not-allowed';
             }
 
@@ -322,9 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
     function createToast(message, type = 'success') {
+        
         const toast = document.createElement('div');
+        
         toast.className = `toast toast-${type}`;
+        
         toast.textContent = message;
+        
         return toast;
     }
 

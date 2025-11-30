@@ -19,11 +19,15 @@ $manager_id = $_SESSION['user_id'];
 $full_name = $_SESSION['full_name'];
 $profile_picture = $_SESSION['profile_picture'];
 
-// Get summary statistics
+
 $stmt = $conn->prepare("SELECT COUNT(*) as total FROM events WHERE manager_id = ?");
+
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $total_events = $stmt->get_result()->fetch_assoc()['total'];
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT SUM(t.sold) as total_sold
@@ -32,7 +36,9 @@ $stmt = $conn->prepare("SELECT SUM(t.sold) as total_sold
                         WHERE e.manager_id = ?");
 
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $tickets_sold = $stmt->get_result()->fetch_assoc()['total_sold'] ?? 0;
 
 $stmt->close();
@@ -42,8 +48,12 @@ $stmt = $conn->prepare("SELECT SUM(t.sold * t.price) as total_revenue
                         JOIN events e ON t.event_id = e.event_id
                         WHERE e.manager_id = ?");
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $total_revenue = $stmt->get_result()->fetch_assoc()['total_revenue'] ?? 0;
+
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT AVG(r.rating) as avg_rating
@@ -52,7 +62,9 @@ $stmt = $conn->prepare("SELECT AVG(r.rating) as avg_rating
                         WHERE e.manager_id = ?");
 
 $stmt->bind_param("i", $manager_id);
+
 $stmt->execute();
+
 $avg_rating = round($stmt->get_result()->fetch_assoc()['avg_rating'] ?? 0, 1);
 
 $stmt->close();
@@ -94,7 +106,7 @@ $db->close();
 
             <div class="lower-menu">
                 <a href="./manager_settings.php" class="nav-item">Settings</a>
-                <a href="./index.php" class="logout">Logout</a>
+                <a href="./logout.php" class="logout">Logout</a>
             </div>
 
         </aside>
@@ -315,13 +327,13 @@ $db->close();
                 <div class="ticket-breakdown">
                     <h3>Ticket Breakdown</h3>
                     <div class="ticket-types" id="modalTicketTypes">
-                        <!-- Ticket types will be inserted here -->
+                       
                     </div>
                 </div>
                 <div class="recent-reviews">
                     <h3>Recent Reviews</h3>
                     <div class="reviews-list" id="modalReviews">
-                        <!-- Reviews will be inserted here -->
+                        
                     </div>
                 </div>
             </div>

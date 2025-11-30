@@ -92,7 +92,7 @@ $db->close();
           <a href="./settings.php" class="nav-item" data-translate="settings"
             >Settings</a
           >
-          <a href="./index.php" class="logout" data-translate="logout"
+          <a href="./logout.php" class="logout" data-translate="logout"
             >Logout</a
           >
         </div>

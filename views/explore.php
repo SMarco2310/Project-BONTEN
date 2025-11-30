@@ -20,17 +20,24 @@ $user_id = $_SESSION['user_id'];
 
 
 $stmt = $conn->prepare("SELECT full_name, email, profile_picture FROM users WHERE user_id = ?");
+
 $stmt->bind_param("i", $user_id);
+
 $stmt->execute();
+
 $result = $stmt->get_result();
+
 $user = $result->fetch_assoc();
+
 $stmt->close();
 
 $full_name = $user['full_name'] ?? 'User';
+
 $profile_picture = $user['profile_picture'] ?? 'user.jpg';
 
 
 $events = [];
+
 $stmt = $conn->prepare("
     SELECT e.event_id, e.name, e.description, e.image_path, e.location, e.city,
            e.event_date, e.event_time, c.name as category_name
@@ -40,7 +47,9 @@ $stmt = $conn->prepare("
     ORDER BY e.event_date ASC, e.created_at DESC
 ");
 $stmt->execute();
+
 $result = $stmt->get_result();
+
 while ($row = $result->fetch_assoc()) {
     $events[] = $row;
 
@@ -51,8 +60,11 @@ $stmt->close();
 $db->close();
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Events</title>
@@ -88,7 +100,7 @@ $db->close();
 
             <div class="lower-menu">
                 <a href="./settings.php" class="nav-item" data-translate="settings">Settings</a>
-                <a href="./index.php" class="logout" data-translate="logout">Logout</a>
+                <a href="./logout.php" class="logout" data-translate="logout">Logout</a>
 
             </div>
 

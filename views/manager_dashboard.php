@@ -119,7 +119,7 @@ $db->close();
 
             <div class="lower-menu">
                 <a href="./manager_settings.php" class="nav-item">Settings</a>
-                <a href="./index.php" class="logout">Logout</a>
+                <a href="./logout.php" class="logout">Logout</a>
             </div>
 
         </aside>

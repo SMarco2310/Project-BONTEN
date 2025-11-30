@@ -206,10 +206,11 @@ button:hover {
     border-radius: 5px;
     min-height: 500px;
     display: flex;
-    gap: 9%;
+    gap: 2%;
     border: 0.5px solid #FFFFFF;
     justify-content: space-between;
     background: transparent;
+    flex-wrap: nowrap;
 }
 
 .event-image {
@@ -218,7 +219,8 @@ button:hover {
     border: 1px solid #292929;
     overflow: hidden;
     background-position: center;
-    width: 80%;
+    width: 65%;
+    flex-shrink: 0;
     background-size: cover;
     border-radius: 5px;
     background-repeat: no-repeat;
@@ -233,22 +235,22 @@ button:hover {
 
 .desc-comments {
     flex-direction: column;
-
     justify-content: space-between;
-    gap: 5%;
-    width: fit-content;
+    gap: 20px;
+    width: 35%;
+    flex-grow: 1;
     display: flex;
 }
 
 .desc,
 .comments {
     border: 0.5px solid #FFFFFF;
-    gap: 10%;
+    gap: 15px;
     padding: 20px;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     display: flex;
-    height: 50%;
+    flex: 1;
     border-radius: 5px;
 }
 
@@ -558,8 +560,7 @@ button:hover {
     top: 0;
     position: fixed;
     width: 100%;
-    z-index: 1000;
-
+    z-index: 9999;
     display: none;
     justify-content: center;
     align-items: center;
@@ -577,6 +578,7 @@ button:hover {
     position: absolute;
     backdrop-filter: blur(5px);
     left: 0;
+    z-index: 10000;
 }
 
 .modal-content {
@@ -586,10 +588,29 @@ button:hover {
     width: 90%;
     position: relative;
     border-radius: 12px;
-    z-index: 1001;
+    z-index: 10001;
     max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
 
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #0d0d0d;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #d67158;
 }
 
 
@@ -764,9 +785,9 @@ button:hover {
 /* Container for consistent layout */
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100vh;
-
+    position: relative;
 }
 
 /* Sidebar Styles - consistent with other pages */
@@ -903,11 +924,12 @@ button:hover {
     margin: 0;
 }
 
-.main-body-event {
+.main-body-event,
+.main-body {
     padding: 40px;
-
     margin-top: 70px;
     margin-left: 180px;
+    width: calc(100% - 180px);
     min-height: calc(100vh - 70px);
     background-color: var(--primary-color);
 }

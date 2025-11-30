@@ -137,7 +137,7 @@ $username = $user['username'];
 
             <div class="lower-menu">
                 <a href="./settings.php" class="nav-item active" data-translate="settings">Settings</a>
-                <a href="./index.php" class="logout" data-translate="logout">Logout</a>
+                <a href="./logout.php" class="logout" data-translate="logout">Logout</a>
             </div>
 
         </aside>
@@ -177,13 +177,13 @@ $username = $user['username'];
                 <?php endif; ?>
 
                 <div class="settings-content">
-                    <!-- Settings Navigation -->
+                   
                     <div class="settings-tabs">
                         <button class="settings-tab active" data-section="profile">Profile</button>
                         <button class="settings-tab" data-section="security">Security</button>
                     </div>
 
-                    <!-- Profile Section -->
+                    
                     <div class="profile-section settings-panel active" id="profile-panel">
 
                         <form method="POST" action="settings.php">
@@ -206,7 +206,7 @@ $username = $user['username'];
                                 <button type="button" class="edit-button" id="main-edit-btn" data-translate="edit">Edit</button>
                             </div>
 
-                            <!-- Left Column - Personal Info -->
+                           
                             <div class="settings-grid">
                                 <div class="settings-left">
                                     <div class="form-group">
@@ -248,7 +248,7 @@ $username = $user['username'];
                                     </div>
                                 </div>
 
-                                <!-- Right Column - Contact Info -->
+                               
                                 <div class="settings-right">
 
                                     <div class="contact-section">
@@ -392,7 +392,7 @@ $username = $user['username'];
             });
         });
 
-        // Profile picture upload functionality
+        
         const profileUpload = document.getElementById('profile-upload');
         const profileAvatarImg = document.getElementById('profile-avatar-img');
 
