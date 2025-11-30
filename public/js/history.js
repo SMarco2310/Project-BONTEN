@@ -1,57 +1,72 @@
-// History page JavaScript - handles Cancel RSVP and Write Review functionality
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all cancel and review buttons
+
     const cancelButtons = document.querySelectorAll('.cancel-btn');
+    
     const reviewButtons = document.querySelectorAll('.review-btn');
 
-    // Cancel RSVP Modal Elements
+
     const cancelModal = document.getElementById('cancel-modal');
+    
     const cancelModalOverlay = cancelModal?.querySelector('.modal-overlay');
+    
     const cancelModalClose = cancelModal?.querySelector('.modal-close');
+    
     const cancelConfirmBtn = document.getElementById('cancel-confirm-btn');
+    
     const cancelCancelBtn = document.getElementById('cancel-cancel-btn');
 
-    // Review Modal Elements
+
+    
     const reviewModal = document.getElementById('review-modal');
+    
     const reviewModalOverlay = reviewModal?.querySelector('.modal-overlay');
+    
     const reviewModalClose = reviewModal?.querySelector('.modal-close');
+    
     const submitReviewBtn = document.getElementById('submit-review-btn');
+    
     const reviewForm = document.getElementById('review-form');
 
-    // Star rating elements
+
+    
     const starRatingContainer = document.getElementById('star-rating');
     let selectedRating = 0;
 
-    // Current event ID for tracking
+
+    
     let currentEventId = null;
 
-    // ========== Cancel RSVP Functionality ==========
 
-    // Open cancel modal when cancel button is clicked
+    
     cancelButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent card click
+            
+            e.stopPropagation();
+            
             const card = button.closest('.history-card');
+            
             currentEventId = card?.getAttribute('data-event-id');
+            
             const eventName = card?.querySelector('.event-name')?.textContent || 'this event';
 
-            // Update modal with event name
+            
             const eventNameSpan = document.getElementById('cancel-event-name');
             if (eventNameSpan) {
                 eventNameSpan.textContent = eventName;
             }
 
-            // Show modal
+           
             if (cancelModal) {
                 cancelModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent background scroll
+                document.body.style.overflow = 'hidden';
             }
         });
 
     });
 
-    // Close cancel modal
     const closeCancelModal = () => {
         if (cancelModal) {
             cancelModal.style.display = 'none';
@@ -72,14 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelCancelBtn.addEventListener('click', closeCancelModal);
     }
 
-    // Confirm cancellation
+    
     if (cancelConfirmBtn) {
         cancelConfirmBtn.addEventListener('click', () => {
             if (currentEventId) {
-                // Here you would make an API call to cancel the RSVP
+
+                
                 console.log('Cancelling RSVP for event:', currentEventId);
 
-                // Remove the event card from the page
+
+                
                 const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
                 if (card) {
                     card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -89,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         card.remove();
 
-                        // Check if there are no more upcoming events
+                        
                         const upcomingSection = document.querySelector('.history-section:first-child .events-grid');
                         if (upcomingSection && upcomingSection.children.length === 0) {
                             upcomingSection.innerHTML = '<p style="color: #888; text-align: center; padding: 40px;">No upcoming events</p>';
@@ -100,38 +117,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 closeCancelModal();
 
-                // Show success message (you could create a toast notification)
+                
+
                 showSuccessMessage('RSVP cancelled successfully');
             }
         });
     }
 
-    // ========== Write Review Functionality ==========
-
-    // Open review modal when review button is clicked
+ 
+    
     reviewButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent card click
+            
+            e.stopPropagation(); 
+            
             const card = button.closest('.history-card');
 
             currentEventId = card?.getAttribute('data-event-id');
+            
             const eventName = card?.querySelector('.event-name')?.textContent || 'this event';
 
-            // Update modal with event name
+           
             const eventNameSpan = document.getElementById('review-event-name');
 
             if (eventNameSpan) {
                 eventNameSpan.textContent = eventName;
             }
 
-            // Reset form
+            
             if (reviewForm) {
                 reviewForm.reset();
             }
             selectedRating = 0;
+            
             updateStarDisplay();
 
-            // Show modal
+
+
+           
             if (reviewModal) {
                 reviewModal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
@@ -139,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Close review modal
+    
     const closeReviewModal = () => {
         if (reviewModal) {
             reviewModal.style.display = 'none';
@@ -149,44 +172,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     };
 
+    
     if (reviewModalClose) {
         reviewModalClose.addEventListener('click', closeReviewModal);
     }
 
+    
     if (reviewModalOverlay) {
         reviewModalOverlay.addEventListener('click', closeReviewModal);
     }
 
-    // Star rating functionality
+    
     if (starRatingContainer) {
         const stars = starRatingContainer.querySelectorAll('.star');
 
         stars.forEach((star, index) => {
-            // Click to select rating
+            
             star.addEventListener('click', () => {
                 selectedRating = index + 1;
                 updateStarDisplay();
             });
 
 
-            // Hover effect
+        
             star.addEventListener('mouseenter', () => {
                 highlightStars(index + 1);
             });
         });
 
-        // Reset to selected rating on mouse leave
+        
         starRatingContainer.addEventListener('mouseleave', () => {
             updateStarDisplay();
         });
     }
 
-    // Update star display based on selected rating
+    
     function updateStarDisplay() {
         highlightStars(selectedRating);
     }
 
-    // Highlight stars up to the given rating
+    
+    
     function highlightStars(rating) {
         const stars = starRatingContainer?.querySelectorAll('.star');
         stars?.forEach((star, index) => {
@@ -198,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Submit review
+    
     if (submitReviewBtn) {
         submitReviewBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -206,7 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const reviewTitle = document.getElementById('review-title')?.value;
             const reviewText = document.getElementById('review-text')?.value;
 
-            // Validate form
+           
+            
             if (selectedRating === 0) {
                 showErrorMessage('Please select a rating');
                 return;
@@ -222,7 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Create review object
+            
+            
             const review = {
 
                 eventId: currentEventId,
@@ -232,10 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
 
-            // Here you would make an API call to submit the review
+           
+            
             console.log('Submitting review:', review);
 
-            // Update the button to show review submitted
+            
+            
             const card = document.querySelector(`[data-event-id="${currentEventId}"]`);
             const reviewButton = card?.querySelector('.review-btn');
             if (reviewButton) {
@@ -252,9 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========== Helper Functions ==========
 
-    // Show success message
+    
     function showSuccessMessage(message) {
         const toast = createToast(message, 'success');
 
@@ -272,7 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Show error message
+
+    
     function showErrorMessage(message) {
         const toast = createToast(message, 'error');
         document.body.appendChild(toast);
@@ -289,7 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Create toast notification
+    
+    
     function createToast(message, type = 'success') {
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;

@@ -2,14 +2,19 @@
 class EventDataService {
     constructor() {
         this.apiBaseUrl = '/api';
+        
         this.useMockData = true;
     }
 
     async createEvent(eventData) {
         if (this.useMockData) return this._getMockCreateEvent(eventData);
+        
         const response = await fetch(`${this.apiBaseUrl}/events`, {
+        
             method: 'POST',
+        
             headers: { 'Content-Type': 'application/json' },
+        
             body: JSON.stringify(eventData)
         });
         if (!response.ok) throw new Error('Failed to create event');
@@ -41,8 +46,11 @@ class EventDataService {
 
     async getEvent(eventId) {
         if (this.useMockData) return this._getMockGetEvent(eventId);
+       
         const response = await fetch(`${this.apiBaseUrl}/events/${eventId}`);
+       
         if (!response.ok) throw new Error('Failed to fetch event');
+       
         return response.json();
     }
 
@@ -57,14 +65,18 @@ class EventDataService {
         return response.json();
     }
 
-    // Mock implementations
+
     _getMockCreateEvent(eventData) {
+        
         const eventId = 'evt_' + Date.now();
+        
         console.log('Creating event:', { id: eventId, ...eventData });
 
-        // Store in sessionStorage for demo purposes
+       
         const events = JSON.parse(sessionStorage.getItem('createdEvents') || '[]');
+       
         events.push({ id: eventId, ...eventData, status: 'active', createdAt: new Date().toISOString() });
+       
         sessionStorage.setItem('createdEvents', JSON.stringify(events));
 
         return Promise.resolve({
@@ -75,12 +87,16 @@ class EventDataService {
     }
 
     _getMockSaveDraft(eventData) {
+        
         const draftId = 'draft_' + Date.now();
+        
         console.log('Saving draft:', { id: draftId, ...eventData });
 
         
         const drafts = JSON.parse(sessionStorage.getItem('eventDrafts') || '[]');
+        
         drafts.push({ id: draftId, ...eventData, status: 'draft', savedAt: new Date().toISOString() });
+        
         sessionStorage.setItem('eventDrafts', JSON.stringify(drafts));
 
         return Promise.resolve({
@@ -93,6 +109,7 @@ class EventDataService {
     _getMockUploadImage(file) {
         
         const url = URL.createObjectURL(file);
+        
         return Promise.resolve({
             success: true,
             url,
@@ -103,7 +120,9 @@ class EventDataService {
     _getMockGetEvent(eventId) {
         
         const events = JSON.parse(sessionStorage.getItem('createdEvents') || '[]');
+        
         const event = events.find(e => e.id === eventId);
+        
         return Promise.resolve(event || null);
     }
 
@@ -132,49 +151,77 @@ class EventDataService {
 
 class CreateEventController {
     constructor() {
+        
         this.dataService = new EventDataService();
+        
         this.currentStep = 1;
+        
         this.totalSteps = 4;
+        
         this.formData = {};
+        
         this.tags = [];
+        
         this.tickets = [];
+        
         this.ticketCounter = 0;
+        
         this.imageFile = null;
+        
         this.imagePreviewUrl = null;
+        
         this.hasUnsavedChanges = false;
 
-        // Edit/Duplicate mode flags
+        
         this.isEditMode = false;
+        
         this.isDuplicateMode = false;
+        
         this.editingEventId = null;
 
         this.init();
     }
 
     init() {
+        
         this.setupStepNavigation();
+        
         this.setupFormInputs();
+        
         this.setupImageUpload();
+        
         this.setupTagsInput();
+        
         this.setupTicketSystem();
+        
         this.setupEventTypeToggle();
+        
         this.setupModals();
+        
         this.setupBeforeUnload();
+
         this.loadDraftIfExists();
     }
 
 
     setupStepNavigation() {
         const nextBtn = document.getElementById('nextBtn');
+        
         const prevBtn = document.getElementById('prevBtn');
+        
         const publishBtn = document.getElementById('publishBtn');
+        
         const saveDraftBtn = document.getElementById('saveDraftBtn');
 
         nextBtn?.addEventListener('click', () => this.nextStep());
+        
         prevBtn?.addEventListener('click', () => this.prevStep());
+        
         publishBtn?.addEventListener('click', () => this.publishEvent());
+        
         saveDraftBtn?.addEventListener('click', () => this.saveDraft());
     }
+
 
     nextStep() {
         if (!this.validateCurrentStep()) return;
@@ -182,7 +229,9 @@ class CreateEventController {
         this.collectStepData();
 
         if (this.currentStep < this.totalSteps) {
+            
             this.currentStep++;
+            
             this.updateStepUI();
 
             if (this.currentStep === this.totalSteps) {
@@ -199,45 +248,57 @@ class CreateEventController {
     }
 
     updateStepUI() {
-        // Update form steps
+        
         document.querySelectorAll('.form-step').forEach(step => {
+            
             step.classList.remove('active');
+            
             if (parseInt(step.dataset.step) === this.currentStep) {
                 step.classList.add('active');
             }
         });
 
-        // Update progress steps
+        
         document.querySelectorAll('.progress-steps .step').forEach((step, index) => {
             step.classList.remove('active', 'completed');
+            
             if (index + 1 === this.currentStep) {
+            
                 step.classList.add('active');
-            } else if (index + 1 < this.currentStep) {
+            }
+             else if (index + 1 < this.currentStep) {
                 step.classList.add('completed');
             }
         });
 
-        // Update step lines
+        
         document.querySelectorAll('.step-line').forEach((line, index) => {
+            
             line.classList.toggle('active', index < this.currentStep - 1);
         });
 
-        // Update progress bar
+        
         const progressFill = document.getElementById('progressFill');
+        
         if (progressFill) {
+        
             progressFill.style.width = `${(this.currentStep / this.totalSteps) * 100}%`;
+        
         }
 
-        // Update navigation buttons
         const prevBtn = document.getElementById('prevBtn');
+        
         const nextBtn = document.getElementById('nextBtn');
+        
         const publishBtn = document.getElementById('publishBtn');
 
         if (prevBtn) prevBtn.style.display = this.currentStep > 1 ? 'flex' : 'none';
+        
         if (nextBtn) nextBtn.style.display = this.currentStep < this.totalSteps ? 'flex' : 'none';
+        
         if (publishBtn) publishBtn.style.display = this.currentStep === this.totalSteps ? 'flex' : 'none';
 
-        // Scroll to top
+       
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -245,9 +306,13 @@ class CreateEventController {
 
     validateCurrentStep() {
         const validations = {
+            
             1: () => this.validateStep1(),
+            
             2: () => this.validateStep2(),
+            
             3: () => this.validateStep3(),
+            
             4: () => true
         };
 
@@ -256,44 +321,63 @@ class CreateEventController {
 
     validateStep1() {
         let isValid = true;
+        
         const errors = [];
 
         const eventName = document.getElementById('eventName');
+        
         const eventCategory = document.getElementById('eventCategory');
+        
         const eventDescription = document.getElementById('eventDescription');
 
         
         this.clearErrors();
 
         if (!eventName?.value.trim()) {
+            
             this.showFieldError(eventName, 'Event name is required');
+            
             errors.push('Event name');
+            
             isValid = false;
         }
 
         if (!eventCategory?.value) {
+            
             this.showFieldError(eventCategory, 'Please select a category');
+            
             errors.push('Category');
+            
             isValid = false;
         }
 
         if (!eventDescription?.value.trim()) {
+            
             this.showFieldError(eventDescription, 'Description is required');
+            
             errors.push('Description');
+            
             isValid = false;
-        } else if (eventDescription.value.trim().length < 50) {
+        } 
+        else if (eventDescription.value.trim().length < 50) {
+            
             this.showFieldError(eventDescription, 'Description must be at least 50 characters');
+            
             errors.push('Description length');
+            
             isValid = false;
         }
 
 
         if (!this.imageFile && !this.imagePreviewUrl) {
+            
             this.showToast('Please upload an event image', 'error');
+            
             isValid = false;
         }
 
         if (!isValid) {
+            
             this.showToast('Please fill in all required fields', 'error');
         }
 
@@ -306,9 +390,13 @@ class CreateEventController {
         this.clearErrors();
 
         const startDate = document.getElementById('eventStartDate');
+        
         const startTime = document.getElementById('eventStartTime');
+        
         const endDate = document.getElementById('eventEndDate');
+        
         const endTime = document.getElementById('eventEndTime');
+        
         const eventType = document.querySelector('input[name="eventType"]:checked')?.value;
 
         if (!startDate?.value) {
@@ -332,8 +420,9 @@ class CreateEventController {
             isValid = false;
         }
 
-        // Validate end date/time is after start
+        
         if (startDate?.value && endDate?.value && startTime?.value && endTime?.value) {
+           
             const start = new Date(`${startDate.value}T${startTime.value}`);
 
             const end = new Date(`${endDate.value}T${endTime.value}`);
@@ -346,6 +435,7 @@ class CreateEventController {
 
         
         if (eventType === 'in-person' || eventType === 'hybrid') {
+            
             const venue = document.getElementById('eventVenue');
 
             const city = document.getElementById('eventCity');
@@ -422,40 +512,66 @@ class CreateEventController {
     collectStepData() {
         switch (this.currentStep) {
             case 1:
-                this.formData.name = document.getElementById('eventName')?.value.trim();
-                this.formData.category = document.getElementById('eventCategory')?.value;
-                this.formData.visibility = document.getElementById('eventVisibility')?.value;
-                this.formData.description = document.getElementById('eventDescription')?.value.trim();
-                this.formData.tags = [...this.tags];
-                this.formData.image = this.imagePreviewUrl;
-                break;
+                
+            this.formData.name = document.getElementById('eventName')?.value.trim();
+                
+            this.formData.category = document.getElementById('eventCategory')?.value;
+            
+            this.formData.visibility = document.getElementById('eventVisibility')?.value;
+             
+            this.formData.description = document.getElementById('eventDescription')?.value.trim();
+            
+            this.formData.tags = [...this.tags];
+            
+            this.formData.image = this.imagePreviewUrl;
+            
+            break;
 
             case 2:
                 this.formData.startDate = document.getElementById('eventStartDate')?.value;
+            
                 this.formData.startTime = document.getElementById('eventStartTime')?.value;
+            
                 this.formData.endDate = document.getElementById('eventEndDate')?.value;
                 this.formData.endTime = document.getElementById('eventEndTime')?.value;
+            
                 this.formData.timezone = document.getElementById('eventTimezone')?.value;
+            
                 this.formData.eventType = document.querySelector('input[name="eventType"]:checked')?.value;
+            
                 this.formData.venue = document.getElementById('eventVenue')?.value.trim();
                 this.formData.address = document.getElementById('eventAddress')?.value.trim();
                 this.formData.city = document.getElementById('eventCity')?.value.trim();
+            
                 this.formData.region = document.getElementById('eventRegion')?.value;
+            
                 this.formData.platform = document.getElementById('eventPlatform')?.value;
+            
                 this.formData.streamUrl = document.getElementById('eventStreamUrl')?.value.trim();
+            
                 this.formData.capacity = document.getElementById('eventCapacity')?.value;
+            
                 break;
 
             case 3:
-                this.formData.ticketType = document.querySelector('input[name="ticketType"]:checked')?.value;
+            
+            this.formData.ticketType = document.querySelector('input[name="ticketType"]:checked')?.value;
                 if (this.formData.ticketType === 'free') {
+            
                     this.formData.freeQuantity = document.getElementById('freeTicketQuantity')?.value;
+            
                 } else {
+            
                     this.formData.tickets = [...this.tickets];
                 }
+            
                 this.formData.requireApproval = document.getElementById('requireApproval')?.checked;
+            
                 this.formData.collectPhone = document.getElementById('collectPhone')?.checked;
+        
                 this.formData.allowRefunds = document.getElementById('allowRefunds')?.checked;
+        
+
                 break;
         }
 
@@ -466,12 +582,16 @@ class CreateEventController {
     setupFormInputs() {
        
         const eventName = document.getElementById('eventName');
+       
         const eventDescription = document.getElementById('eventDescription');
+       
         const nameCount = document.getElementById('nameCount');
+       
         const descCount = document.getElementById('descCount');
 
         eventName?.addEventListener('input', () => {
             if (nameCount) nameCount.textContent = eventName.value.length;
+       
             if (eventName.value.length > 100) {
                 eventName.value = eventName.value.substring(0, 100);
             }
@@ -480,24 +600,33 @@ class CreateEventController {
 
         eventDescription?.addEventListener('input', () => {
             if (descCount) descCount.textContent = eventDescription.value.length;
+       
             if (eventDescription.value.length > 2000) {
                 eventDescription.value = eventDescription.value.substring(0, 2000);
             }
             this.hasUnsavedChanges = true;
+       
         });
 
         
         const today = new Date().toISOString().split('T')[0];
+       
         const startDate = document.getElementById('eventStartDate');
+        
         const endDate = document.getElementById('eventEndDate');
 
+
         if (startDate) startDate.min = today;
+        
         if (endDate) endDate.min = today;
 
-        // Sync end date with start date
+       
         startDate?.addEventListener('change', () => {
+       
             if (endDate && startDate.value) {
+       
                 endDate.min = startDate.value;
+       
                 if (!endDate.value || endDate.value < startDate.value) {
                     endDate.value = startDate.value;
                 }
@@ -508,8 +637,11 @@ class CreateEventController {
 
 
     setupImageUpload() {
+       
         const imagePreview = document.getElementById('imagePreview');
+        
         const imageInput = document.getElementById('eventImage');
+
 
         imagePreview?.addEventListener('click', () => {
             imageInput?.click();
@@ -536,19 +668,27 @@ class CreateEventController {
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.imagePreviewUrl = e.target.result;
+                
                 imagePreview.style.backgroundImage = `url(${e.target.result})`;
+                
                 imagePreview.classList.add('has-image');
 
                
                 if (!imagePreview.querySelector('.remove-image')) {
+                
                     const removeBtn = document.createElement('button');
+                
                     removeBtn.type = 'button';
+                
                     removeBtn.className = 'remove-image';
+                
                     removeBtn.innerHTML = '&times;';
+                
                     removeBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         this.removeImage();
                     });
+                
                     imagePreview.appendChild(removeBtn);
                 }
             };
@@ -559,7 +699,9 @@ class CreateEventController {
 
         
         imagePreview?.addEventListener('dragover', (e) => {
+            
             e.preventDefault();
+            
             imagePreview.style.borderColor = 'var(--secondary-color)';
         });
 
@@ -579,7 +721,9 @@ class CreateEventController {
                 const dt = new DataTransfer();
 
                 dt.items.add(file);
+                
                 imageInput.files = dt.files;
+                
                 imageInput.dispatchEvent(new Event('change'));
             }
         });
@@ -587,14 +731,19 @@ class CreateEventController {
 
     removeImage() {
         const imagePreview = document.getElementById('imagePreview');
+        
         const imageInput = document.getElementById('eventImage');
 
         this.imageFile = null;
+        
         this.imagePreviewUrl = null;
+
 
         if (imagePreview) {
             imagePreview.style.backgroundImage = '';
+        
             imagePreview.classList.remove('has-image');
+        
             const removeBtn = imagePreview.querySelector('.remove-image');
             if (removeBtn) removeBtn.remove();
         }
@@ -605,6 +754,7 @@ class CreateEventController {
 
     setupTagsInput() {
         const tagsInput = document.getElementById('tagsInput');
+        
         const tagsList = document.getElementById('tagsList');
 
         tagsInput?.addEventListener('keydown', (e) => {
@@ -621,7 +771,9 @@ class CreateEventController {
         if (!tag || this.tags.length >= 5 || this.tags.includes(tag)) return;
 
         this.tags.push(tag);
+        
         this.renderTags();
+        
         this.hasUnsavedChanges = true;
     }
 
@@ -1015,7 +1167,9 @@ class CreateEventController {
             if (nameCount) nameCount.textContent = data.name.length;
         }
         if (data.category && eventCategory) eventCategory.value = data.category;
+       
         if (data.visibility && eventVisibility) eventVisibility.value = data.visibility;
+       
         if (data.description && eventDescription) {
             eventDescription.value = data.description;
             if (descCount) descCount.textContent = data.description.length;
@@ -1023,22 +1177,32 @@ class CreateEventController {
 
       
         if (data.image || data.imageUrl) {
+       
             const imagePreview = document.getElementById('imagePreview');
+       
             this.imagePreviewUrl = data.image || data.imageUrl;
+       
             if (imagePreview) {
+       
                 imagePreview.style.backgroundImage = `url(${this.imagePreviewUrl})`;
+       
                 imagePreview.classList.add('has-image');
 
                
                 if (!imagePreview.querySelector('.remove-image')) {
                     const removeBtn = document.createElement('button');
+       
                     removeBtn.type = 'button';
+                    
                     removeBtn.className = 'remove-image';
+
                     removeBtn.innerHTML = '&times;';
+                    
                     removeBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         this.removeImage();
                     });
+                    
                     imagePreview.appendChild(removeBtn);
                 }
             }
@@ -1046,34 +1210,56 @@ class CreateEventController {
 
         
         this.tags = data.tags || [];
+        
         this.renderTags();
 
         
         const eventStartDate = document.getElementById('eventStartDate');
+       
         const eventStartTime = document.getElementById('eventStartTime');
+       
         const eventEndDate = document.getElementById('eventEndDate');
+       
         const eventEndTime = document.getElementById('eventEndTime');
+        
         const eventTimezone = document.getElementById('eventTimezone');
+        
         const eventVenue = document.getElementById('eventVenue');
+        
         const eventAddress = document.getElementById('eventAddress');
+       
         const eventCity = document.getElementById('eventCity');
+       
         const eventRegion = document.getElementById('eventRegion');
+        
         const eventPlatform = document.getElementById('eventPlatform');
+
 
         const eventStreamUrl = document.getElementById('eventStreamUrl');
         const eventCapacity = document.getElementById('eventCapacity');
 
         if (data.startDate && eventStartDate) eventStartDate.value = data.startDate;
+       
         if (data.startTime && eventStartTime) eventStartTime.value = data.startTime;
+       
         if (data.endDate && eventEndDate) eventEndDate.value = data.endDate;
+       
         if (data.endTime && eventEndTime) eventEndTime.value = data.endTime;
+       
         if (data.timezone && eventTimezone) eventTimezone.value = data.timezone;
+       
         if (data.venue && eventVenue) eventVenue.value = data.venue;
+       
         if (data.address && eventAddress) eventAddress.value = data.address;
+       
         if (data.city && eventCity) eventCity.value = data.city;
+       
         if (data.region && eventRegion) eventRegion.value = data.region;
+       
         if (data.platform && eventPlatform) eventPlatform.value = data.platform;
+       
         if (data.streamUrl && eventStreamUrl) eventStreamUrl.value = data.streamUrl;
+       
         if (data.capacity && eventCapacity) eventCapacity.value = data.capacity;
 
        
@@ -1087,25 +1273,37 @@ class CreateEventController {
 
 
         const freeTicketQuantity = document.getElementById('freeTicketQuantity');
+        
         const requireApproval = document.getElementById('requireApproval');
+        
         const collectPhone = document.getElementById('collectPhone');
+        
         const allowRefunds = document.getElementById('allowRefunds');
 
 
         
         if (data.ticketType) {
+            
             const ticketTypeRadio = document.querySelector(`input[name="ticketType"][value="${data.ticketType}"]`);
+            
             if (ticketTypeRadio) {
+               
                 ticketTypeRadio.checked = true;
 
                 const freeSection = document.getElementById('freeTicketSection');
+                
                 const paidSection = document.getElementById('paidTicketsSection');
 
                 if (data.ticketType === 'paid') {
+                   
                     if (freeSection) freeSection.style.display = 'none';
+                   
                     if (paidSection) paidSection.style.display = 'block';
-                } else {
+                } 
+                else {
+                
                     if (freeSection) freeSection.style.display = 'block';
+                
                     if (paidSection) paidSection.style.display = 'none';
                 }
 
@@ -1125,7 +1323,9 @@ class CreateEventController {
         }
 
         if (data.requireApproval !== undefined && requireApproval) requireApproval.checked = data.requireApproval;
+        
         if (data.collectPhone !== undefined && collectPhone) collectPhone.checked = data.collectPhone;
+        
         if (data.allowRefunds !== undefined && allowRefunds) allowRefunds.checked = data.allowRefunds;
     }
 
@@ -1133,6 +1333,7 @@ class CreateEventController {
     setupModals() {
        
         const viewEventBtn = document.getElementById('viewEventBtn');
+       
         const goToDashboardBtn = document.getElementById('goToDashboardBtn');
 
         viewEventBtn?.addEventListener('click', () => {
@@ -1150,7 +1351,9 @@ class CreateEventController {
 
        
         const discardModal = document.getElementById('discard-modal');
+       
         const keepEditingBtn = document.getElementById('keepEditingBtn');
+       
         const discardBtn = document.getElementById('discardBtn');
 
         keepEditingBtn?.addEventListener('click', () => {
@@ -1203,6 +1406,7 @@ class CreateEventController {
     }
 
     setupBeforeUnload() {
+       
         window.addEventListener('beforeunload', (e) => {
             if (this.hasUnsavedChanges) {
                 e.preventDefault();
@@ -1212,7 +1416,9 @@ class CreateEventController {
 
         
         document.querySelectorAll('.nav-item, .logout').forEach(link => {
+            
             link.addEventListener('click', (e) => {
+            
                 if (this.hasUnsavedChanges) {
                     e.preventDefault();
                     this.pendingNavigation = link.href;

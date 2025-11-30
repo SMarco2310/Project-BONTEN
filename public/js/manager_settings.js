@@ -13,11 +13,17 @@ class ManagerSettingsController {
 
     init() {
         this.loadUserProfile();
+        
         this.loadPaymentData();
+        
         this.setupNavigationHandlers();
+        
         this.setupProfileHandlers();
+        
         this.setupPaymentHandlers();
+        
         this.setupSecurityHandlers();
+        
         this.setupModalHandlers();
     }
 
@@ -35,16 +41,16 @@ class ManagerSettingsController {
             const headerName = document.getElementById('headerName');
 
             if (firstName && user.firstName) firstName.value = user.firstName;
+            
             if (lastName && user.lastName) lastName.value = user.lastName;
+            
             if (email && user.email) email.value = user.email;
+            
             if (headerName) headerName.textContent = `${user.firstName || 'User'} ${user.lastName || ''}`;
         }
     }
 
-    // ========================================================================
-    // NAVIGATION
-    // ========================================================================
-
+    
     setupNavigationHandlers() {
         const navItems = document.querySelectorAll('.settings-nav-item');
 
@@ -57,12 +63,14 @@ class ManagerSettingsController {
     }
 
     switchSection(section) {
-        // Update nav items
+        
+        
         document.querySelectorAll('.settings-nav-item').forEach(item => {
+        
             item.classList.toggle('active', item.dataset.section === section);
         });
 
-        // Update sections
+        
         document.querySelectorAll('.settings-section').forEach(sec => {
             sec.classList.remove('active');
         });
@@ -78,9 +86,13 @@ class ManagerSettingsController {
 
     setupProfileHandlers() {
         const profileForm = document.getElementById('profileForm');
+        
         const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+        
         const removeAvatarBtn = document.getElementById('removeAvatarBtn');
+        
         const avatarInput = document.getElementById('avatarInput');
+        
         const cancelProfileBtn = document.getElementById('cancelProfileBtn');
 
         changeAvatarBtn?.addEventListener('click', () => {
@@ -124,9 +136,11 @@ class ManagerSettingsController {
         const reader = new FileReader();
         reader.onload = (e) => {
             const profileAvatar = document.getElementById('profileAvatar');
+            
             const headerAvatar = document.getElementById('headerAvatar');
 
             if (profileAvatar) profileAvatar.src = e.target.result;
+            
             if (headerAvatar) headerAvatar.src = e.target.result;
 
             this.showToast('Avatar updated', 'success');
@@ -138,9 +152,11 @@ class ManagerSettingsController {
         const defaultAvatar = '../assets/jerome.jpeg';
 
         const profileAvatar = document.getElementById('profileAvatar');
+        
         const headerAvatar = document.getElementById('headerAvatar');
 
         if (profileAvatar) profileAvatar.src = defaultAvatar;
+        
         if (headerAvatar) headerAvatar.src = defaultAvatar;
 
         this.showToast('Avatar removed', 'success');
@@ -150,30 +166,41 @@ class ManagerSettingsController {
         const firstName = document.getElementById('firstName')?.value;
 
         const lastName = document.getElementById('lastName')?.value;
+        
         const email = document.getElementById('email')?.value;
+        
         const phone = document.getElementById('phone')?.value;
+        
         const bio = document.getElementById('bio')?.value;
+        
         const company = document.getElementById('company')?.value;
 
-        // Validate
+        
         if (!firstName || !lastName || !email) {
             this.showToast('Please fill in all required fields', 'error');
             return;
         }
 
 
-        // Save to sessionStorage
+  
         const userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
+        
         userData.firstName = firstName;
+        
         userData.lastName = lastName;
+        
         userData.email = email;
+        
         userData.phone = phone;
+        
         userData.bio = bio;
+        
         userData.company = company;
+        
         sessionStorage.setItem('userData', JSON.stringify(userData));
 
-        // Update header
         const headerName = document.getElementById('headerName');
+        
         if (headerName) headerName.textContent = `${firstName} ${lastName}`;
 
         this.showToast('Profile saved successfully', 'success');
@@ -182,6 +209,7 @@ class ManagerSettingsController {
 
     loadPaymentData() {
         const paymentData = sessionStorage.getItem('paymentData');
+        
         if (paymentData) {
             this.paymentData = JSON.parse(paymentData);
             this.updatePaymentUI();
@@ -194,57 +222,86 @@ class ManagerSettingsController {
     }
 
     updatePaymentUI() {
-        // Bank Account
+     
         if (this.paymentData.bank) {
+            
             const bankStatus = document.getElementById('bankStatus');
+            
             const bankDetails = document.getElementById('bankDetails');
+            
             const addBankBtn = document.getElementById('addBankBtn');
 
             if (bankStatus) {
+                
                 bankStatus.textContent = 'Connected';
+                
                 bankStatus.classList.add('configured');
             }
             if (addBankBtn) addBankBtn.textContent = 'Edit';
+            
             if (bankDetails) {
+                
                 bankDetails.style.display = 'block';
+                
                 document.getElementById('bankName').textContent = this.paymentData.bank.bankName;
+                
                 document.getElementById('accountName').textContent = this.paymentData.bank.accountName;
+                
                 document.getElementById('accountNumber').textContent = this.maskAccountNumber(this.paymentData.bank.accountNumber);
+                
                 document.getElementById('bankBranch').textContent = this.paymentData.bank.branch || '-';
             }
         }
 
-        // Mobile Money
+       
         if (this.paymentData.momo) {
+            
             const momoStatus = document.getElementById('momoStatus');
+            
             const momoDetails = document.getElementById('momoDetails');
+            
             const addMomoBtn = document.getElementById('addMomoBtn');
 
             if (momoStatus) {
+                
                 momoStatus.textContent = 'Connected';
+                
                 momoStatus.classList.add('configured');
             }
             if (addMomoBtn) addMomoBtn.textContent = 'Edit';
+            
             if (momoDetails) {
+                
                 momoDetails.style.display = 'block';
+                
                 document.getElementById('momoProvider').textContent = this.paymentData.momo.provider;
+                
                 document.getElementById('momoNumber').textContent = this.paymentData.momo.phoneNumber;
+                
                 document.getElementById('momoAccountName').textContent = this.paymentData.momo.accountName;
             }
         }
 
-        // Paystack
+       
         if (this.paymentData.paystack) {
+           
             const paystackStatus = document.getElementById('paystackStatus');
+           
             const connectBtn = document.getElementById('connectPaystackBtn');
 
             if (paystackStatus) {
+              
                 paystackStatus.textContent = 'Connected';
+              
                 paystackStatus.classList.add('configured');
             }
+            
             if (connectBtn) {
+                
                 connectBtn.textContent = 'Disconnect';
+                
                 connectBtn.classList.remove('btn-primary');
+                
                 connectBtn.classList.add('btn-secondary');
             }
         }
@@ -252,81 +309,112 @@ class ManagerSettingsController {
 
     maskAccountNumber(number) {
         if (!number || number.length < 4) return number;
+        
         return '****' + number.slice(-4);
     }
 
     setupPaymentHandlers() {
+        
         const addBankBtn = document.getElementById('addBankBtn');
+        
         const addMomoBtn = document.getElementById('addMomoBtn');
+        
         const connectPaystackBtn = document.getElementById('connectPaystackBtn');
+        
+        
         const bankForm = document.getElementById('bankForm');
+        
         const momoForm = document.getElementById('momoForm');
 
         addBankBtn?.addEventListener('click', () => {
             this.openModal('bank-modal');
             if (this.paymentData.bank) {
-                // Pre-fill form for editing
+                
                 document.getElementById('bankNameInput').value = this.paymentData.bank.bankName;
+                
                 document.getElementById('accountNameInput').value = this.paymentData.bank.accountName;
+                
                 document.getElementById('accountNumberInput').value = this.paymentData.bank.accountNumber;
+                
                 document.getElementById('branchInput').value = this.paymentData.bank.branch || '';
             }
         });
 
 
         addMomoBtn?.addEventListener('click', () => {
+            
             this.openModal('momo-modal');
+            
             if (this.paymentData.momo) {
-                // Pre-fill form for editing
+                
                 document.getElementById('momoProviderInput').value = this.paymentData.momo.provider;
+                
                 document.getElementById('momoNumberInput').value = this.paymentData.momo.phoneNumber;
+                
                 document.getElementById('momoNameInput').value = this.paymentData.momo.accountName;
             }
         });
 
         connectPaystackBtn?.addEventListener('click', () => {
             if (this.paymentData.paystack) {
-                // Disconnect
+               
                 this.paymentData.paystack = null;
+                
                 this.savePaymentData();
+                
                 this.showToast('Paystack disconnected', 'success');
 
                 const paystackStatus = document.getElementById('paystackStatus');
+                
                 if (paystackStatus) {
+                
                     paystackStatus.textContent = 'Connect for instant payouts';
+                
                     paystackStatus.classList.remove('configured');
                 }
                 connectPaystackBtn.textContent = 'Connect Paystack';
+                
                 connectPaystackBtn.classList.remove('btn-secondary');
+                
                 connectPaystackBtn.classList.add('btn-primary');
             } else {
-                // Connect (simulate OAuth flow)
+               
                 this.showToast('Redirecting to Paystack...', 'info');
+                
                 setTimeout(() => {
+                
                     this.paymentData.paystack = {
                         connected: true,
                         connectedAt: new Date().toISOString()
                     };
+                
                     this.savePaymentData();
+                
                     this.updatePaymentUI();
+                
                     this.showToast('Paystack connected successfully!', 'success');
                 }, 1500);
             }
         });
 
         bankForm?.addEventListener('submit', (e) => {
+            
             e.preventDefault();
+            
             this.saveBankAccount();
         });
 
 
         momoForm?.addEventListener('submit', (e) => {
+            
             e.preventDefault();
+            
             this.saveMomoAccount();
         });
 
-        // Payout settings
+       
         const payoutSchedule = document.getElementById('payoutSchedule');
+        
         const minimumPayout = document.getElementById('minimumPayout');
 
         payoutSchedule?.addEventListener('change', () => {
@@ -347,9 +435,11 @@ class ManagerSettingsController {
 
     saveBankAccount() {
         const bankName = document.getElementById('bankNameInput')?.value;
+        
         const accountName = document.getElementById('accountNameInput')?.value;
 
         const accountNumber = document.getElementById('accountNumberInput')?.value;
+        
         const branch = document.getElementById('branchInput')?.value;
 
         if (!bankName || !accountName || !accountNumber) {
@@ -365,14 +455,20 @@ class ManagerSettingsController {
         };
 
         this.savePaymentData();
+        
         this.updatePaymentUI();
+        
         this.closeModal('bank-modal');
+        
         this.showToast('Bank account saved successfully', 'success');
     }
 
     saveMomoAccount() {
+
         const provider = document.getElementById('momoProviderInput')?.value;
+        
         const phoneNumber = document.getElementById('momoNumberInput')?.value;
+        
         const accountName = document.getElementById('momoNameInput')?.value;
 
         if (!provider || !phoneNumber || !accountName) {
@@ -387,8 +483,11 @@ class ManagerSettingsController {
         };
 
         this.savePaymentData();
+        
         this.updatePaymentUI();
+        
         this.closeModal('momo-modal');
+        
         this.showToast('Mobile Money saved successfully', 'success');
     }
 
@@ -405,7 +504,9 @@ class ManagerSettingsController {
 
     updatePassword() {
         const currentPassword = document.getElementById('currentPassword')?.value;
+        
         const newPassword = document.getElementById('newPassword')?.value;
+        
         const confirmPassword = document.getElementById('confirmPassword')?.value;
 
 
@@ -424,9 +525,10 @@ class ManagerSettingsController {
             return;
         }
 
-        // Clear fields
         document.getElementById('currentPassword').value = '';
+        
         document.getElementById('newPassword').value = '';
+        
         document.getElementById('confirmPassword').value = '';
 
         this.showToast('Password updated successfully', 'success');
@@ -434,16 +536,17 @@ class ManagerSettingsController {
 
 
     setupModalHandlers() {
-        // Bank modal
+       
         const cancelBankBtn = document.getElementById('cancelBankBtn');
 
         cancelBankBtn?.addEventListener('click', () => this.closeModal('bank-modal'));
 
-        // Momo modal
+        
         const cancelMomoBtn = document.getElementById('cancelMomoBtn');
+        
         cancelMomoBtn?.addEventListener('click', () => this.closeModal('momo-modal'));
 
-        // Close on overlay click
+
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', () => {
                 const modal = overlay.closest('.modal');
@@ -451,7 +554,7 @@ class ManagerSettingsController {
             });
         });
 
-        // Close buttons
+       
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = btn.closest('.modal');
@@ -488,7 +591,7 @@ class ManagerSettingsController {
     }
 }
 
-// Initialize
+
 document.addEventListener('DOMContentLoaded', () => {
     new ManagerSettingsController();
 });

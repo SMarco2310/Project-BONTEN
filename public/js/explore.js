@@ -2,9 +2,13 @@
 // https://css-tricks.com/css-only-carousel/
 
 document.addEventListener('DOMContentLoaded', () => {
+    
     document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
+        
         const carousel = wrapper.querySelector('.events-carousel');
+        
         const prevBtn = wrapper.querySelector('.carousel-arrow.prev');
+        
         const nextBtn = wrapper.querySelector('.carousel-arrow.next');
 
         if (!carousel || !prevBtn || !nextBtn) return;
@@ -90,14 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
 
-        // Start auto-scroll after content loads
+       
         setTimeout(() => {
+            
             const hasScrollableContent = carousel.scrollWidth > carousel.clientWidth;
+            
             console.log('Carousel check:', {
+                
                 id: carousel.id || 'unnamed',
+                
                 scrollWidth: carousel.scrollWidth,
+                
                 clientWidth: carousel.clientWidth,
+                
                 hasScrollableContent: hasScrollableContent,
+                
                 cardCount: carousel.querySelectorAll('.event-card').length
             });
             
@@ -114,12 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.bookmark-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
+       
         e.preventDefault();
+       
         e.stopPropagation();
+       
         if (btn.classList.contains('bookmarked')) {
             btn.classList.remove('bookmarked');
             btn.textContent = '⬜';
-        } else {
+        } 
+        
+        else {
             btn.classList.add('bookmarked');
             btn.textContent = '🔖';
         }
@@ -133,8 +149,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const eventName = card.querySelector('.event-name').textContent.trim();
+            
             const eventImage = card.querySelector('.card-image img').src;
+            
             const eventBadge = card.querySelector('.event-badge')?.textContent.trim() || 'Event';
+            
             const eventLocation = card.querySelector('.event-location')?.textContent.trim() || '';
 
             const eventId = eventName.toLowerCase().replace(/\s+/g, '-');
@@ -155,8 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const searchInput = document.getElementById('search-input');
+    
     const searchBtn = document.getElementById('search-btn');
+    
     const categoryFilter = document.getElementById('category-filter');
+    
     const locationFilter = document.getElementById('location-filter');
 
 
@@ -164,14 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
+        
         const selectedCategory = categoryFilter.value.toLowerCase();
+        
         const selectedLocation = locationFilter.value.toLowerCase();
 
         let visibleCount = 0;
 
         allEventCards.forEach(card => {
             const eventName = card.querySelector('.event-name')?.textContent.toLowerCase() || '';
+            
+            
             const eventBadge = card.querySelector('.event-badge')?.textContent.toLowerCase() || '';
+            
             const eventLocation = card.querySelector('.event-location')?.textContent.toLowerCase() || '';
 
             const matchesSearch = searchTerm === '' ||
@@ -180,6 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 eventLocation.includes(searchTerm);
 
             const matchesCategory = selectedCategory === '' || eventBadge.includes(selectedCategory);
+           
+           
             const matchesLocation = selectedLocation === '' || eventLocation.includes(selectedLocation);
 
             if (matchesSearch && matchesCategory && matchesLocation) {
@@ -241,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (categoryFilter) {
+        
         categoryFilter.addEventListener('change', performSearch);
     }
 
@@ -251,7 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hash = window.location.hash;
     if (hash === '#search-section') {
+        
         const searchSection = document.getElementById('search-section');
+        
         if (searchSection) {
             setTimeout(() => {
                 searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -1,7 +1,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Carousel navigation functionality
+    
     const carousel = document.querySelector('.events_carousel');
 
     const prevBtn = document.querySelector('.carousel_nav.prev');
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isHovered && !document.hidden) {
                 const maxScroll = carousel.scrollWidth - carousel.clientWidth;
 
-                // Only auto-scroll if there's content to scroll
                 if (maxScroll > 0) {
                     if (carousel.scrollLeft >= maxScroll - 5) {
                         console.log('Resetting carousel to start');
@@ -62,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Hover detection to pause auto-scroll
+   
     carousel.addEventListener('mouseenter', () => {
         isHovered = true;
     });
@@ -71,48 +70,66 @@ document.addEventListener('DOMContentLoaded', () => {
         isHovered = false;
     });
 
-    // Manual navigation buttons
+    
+    
     prevBtn.addEventListener('click', () => {
+        
         scrollCarousel('prev');
+        
         stopAutoScroll();
+        
         setTimeout(startAutoScroll, 5000);
     });
 
     nextBtn.addEventListener('click', () => {
+        
         scrollCarousel('next');
+        
         stopAutoScroll();
+        
         setTimeout(startAutoScroll, 5000);
     });
 
 
-    // Pause auto-scroll when page is not visible
+  
     document.addEventListener('visibilitychange', () => {
+        
         if (document.hidden) {
             stopAutoScroll();
-        } else {
+        }
+         else {
             startAutoScroll();
         }
     });
 
-    // Start auto-scroll after content loads
+    
     setTimeout(() => {
+        
         const hasScrollableContent = carousel.scrollWidth > carousel.clientWidth;
+        
         console.log('Homepage Carousel check:', {
+            
             scrollWidth: carousel.scrollWidth,
+            
             clientWidth: carousel.clientWidth,
+            
             hasScrollableContent: hasScrollableContent,
+            
             cardCount: carousel.querySelectorAll('.event_card').length
         });
         
         if (hasScrollableContent) {
+            
             startAutoScroll();
+            
             console.log('Auto-scroll started for homepage carousel');
-        } else {
+        } 
+        else {
             console.log(' Homepage carousel does not have scrollable content');
         }
     }, 1000);
 
-    // Bookmark functionality
+    
     const bookmarkIcons = document.querySelectorAll('.bookmark_icon');
 
     bookmarkIcons.forEach(icon => {

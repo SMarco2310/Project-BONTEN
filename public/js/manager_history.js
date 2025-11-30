@@ -5,7 +5,6 @@ class HistoryDataService {
         this.apiBaseUrl = '../api/manager_events.php';
     }
 
-
     async getManagerEvents(filters = {}) {
         const params = new URLSearchParams({
             action: 'list',
@@ -16,7 +15,6 @@ class HistoryDataService {
         return response.json();
     }
 
-
     async getEventDetails(eventId) {
         const realId = eventId.replace('event-', '');
         const response = await fetch(`${this.apiBaseUrl}?action=details&id=${realId}`);
@@ -24,11 +22,9 @@ class HistoryDataService {
         return response.json();
     }
 
-
     async getSummaryStats() {
         return Promise.resolve({});
     }
-
 
     async cancelEvent(eventId, reason) {
         const realId = eventId.replace('event-', '');
@@ -41,7 +37,6 @@ class HistoryDataService {
         return response.json();
     }
 
-
     async deleteEvent(eventId) {
         const realId = eventId.replace('event-', '');
         const response = await fetch(`${this.apiBaseUrl}?action=delete`, {
@@ -53,8 +48,6 @@ class HistoryDataService {
         return response.json();
     }
 
-
-    
     async exportHistory(format = 'csv') {
         const params = new URLSearchParams({
             action: 'export',
@@ -74,7 +67,6 @@ Export Data,N/A,0,0,N/A,N/A`;
     }
 
 }
-
 
 class HistoryController {
     constructor() {
@@ -111,14 +103,12 @@ class HistoryController {
         }
 
         const sortBy = document.getElementById('sortBy');
-
         if (sortBy) {
             sortBy.addEventListener('change', (e) => {
                 this.currentFilters.sort = e.target.value;
                 this.loadEvents();
             });
         }
-
 
         const searchInput = document.getElementById('eventSearch');
         if (searchInput) {
@@ -136,7 +126,6 @@ class HistoryController {
         if (exportBtn) {
             exportBtn.addEventListener('click', () => this.handleExport());
         }
-
 
         const otherHeader = document.getElementById('otherEventsHeader');
         if (otherHeader) {
@@ -169,14 +158,12 @@ class HistoryController {
                     sessionStorage.setItem('analyticsEventId', this.currentEventId);
                     window.location.href = `event_analytics.html?id=${this.currentEventId}`;
                 }
-
             });
         }
 
         const confirmModal = document.getElementById('confirm-modal');
         if (confirmModal) {
             const overlay = confirmModal.querySelector('.modal-overlay');
-
             const closeBtn = confirmModal.querySelector('.modal-close');
             const cancelBtn = document.getElementById('confirmCancelBtn');
             const actionBtn = document.getElementById('confirmActionBtn');
@@ -204,7 +191,6 @@ class HistoryController {
             this.showToast('Failed to load events', 'error');
         }
     }
-
 
     renderActiveEvents(events) {
         const tbody = document.getElementById('activeEventsBody');
@@ -306,7 +292,6 @@ class HistoryController {
             `;
             return;
         }
-
 
         tbody.innerHTML = events.map(event => `
             <tr data-event-id="${event.id}">
@@ -503,10 +488,8 @@ class HistoryController {
             this.showToast('Preparing export...');
             const blob = await this.dataService.exportHistory('csv');
 
-
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-
             a.href = url;
             a.download = `event-history-${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
@@ -529,7 +512,6 @@ class HistoryController {
         }
     }
 
-
     closeModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -549,7 +531,6 @@ class HistoryController {
 
     escapeHtml(text) {
         const div = document.createElement('div');
-
         div.textContent = text;
         return div.innerHTML;
     }
@@ -557,7 +538,6 @@ class HistoryController {
     capitalizeFirst(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
-
 
     showToast(message, type = 'info') {
         const existingToast = document.querySelector('.toast');
@@ -571,8 +551,6 @@ class HistoryController {
         setTimeout(() => toast.remove(), 3000);
     }
 }
-
-
 
 let historyController;
 
