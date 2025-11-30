@@ -90,6 +90,8 @@ CREATE TABLE bookmarks (
     FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
 );
 
+-- Bookings table for Paystack payment transactions
+-- Used by initialize_transaction.php to store payment references
 CREATE TABLE bookings (
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
     reference VARCHAR(255) NOT NULL UNIQUE,
