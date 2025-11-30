@@ -25,11 +25,13 @@ class LogoutHandler {
         fetch('./logout.php', {
             method: 'POST',
             credentials: 'same-origin'
-        }).then(() => {
-            
-            window.location.href = './index.php';
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = './index.php';
+            } else {
+                window.location.href = './logout.php';
+            }
         }).catch(() => {
-            
             window.location.href = './logout.php';
         });
     }

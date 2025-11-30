@@ -181,7 +181,8 @@ function is_manager() {
 function require_auth() {
     if (!is_authenticated()) {
         log_security_event("Unauthorized access attempt to: " . $_SERVER['REQUEST_URI'], 'WARNING');
-        header("Location: /views/index.php");
+        // Use relative path that works from views directory
+        header("Location: index.php");
         exit();
     }
 }
@@ -190,7 +191,8 @@ function require_manager() {
     require_auth();
     if (!is_manager()) {
         log_security_event("Non-manager tried to access manager resource: " . $_SERVER['REQUEST_URI'], 'WARNING');
-        header("Location: /views/user_homepage.php");
+        // Use relative path that works from views directory
+        header("Location: user_homepage.php");
         exit();
     }
 }
