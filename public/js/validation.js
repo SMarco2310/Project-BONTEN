@@ -6,41 +6,14 @@ function isValidEmail(email) {
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-
   return emailPattern.test(email);
 }
 
 function isValidPassword(password) {
 
-  if (!password || password.trim() === '') {
-    return false;
-  }
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-
-  if (password.length < 8) {
-    return false;
-  }
-
-
-  const hasNumber = /[0-9]/.test(password);
-  if (!hasNumber) {
-    return false;
-  }
-
-
-  const hasUppercase = /[A-Z]/.test(password);
-  if (!hasUppercase) {
-    return false;
-  }
-
-
-  const hasLowercase = /[a-z]/.test(password);
-  if (!hasLowercase) {
-    return false;
-  }
-
-
-  return true;
+  return passwordPattern.test(password);
 }
 
 
