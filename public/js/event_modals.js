@@ -163,7 +163,7 @@ if (checkoutBtn) {
   checkoutBtn.addEventListener("click", payWithPaystack);
 }
 
-function payWithPaystack() {
+async function payWithPaystack() {
   console.log("payWithPaystack called");
 
   // Try multiple ways to get the email
@@ -267,7 +267,7 @@ function payWithPaystack() {
         }
       }
     })
-    .then((data) => {
+    .then(async (data) => {
       console.log("Parsed response data:", data);
 
       if (data.status) {
@@ -277,11 +277,22 @@ function payWithPaystack() {
           reference: data.reference,
         });
 
-        // Check if PaystackPop is available
+        // Check if PaystackPop is available, wait a bit if not loaded yet
         if (typeof PaystackPop === "undefined") {
-          throw new Error(
-            "Paystack library not loaded. Please refresh the page and try again."
-          );
+          // Wait up to 3 seconds for Paystack to load
+          let attempts = 0;
+          const maxAttempts = 30; // 30 attempts * 100ms = 3 seconds
+
+          while (typeof PaystackPop === "undefined" && attempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            attempts++;
+          }
+
+          if (typeof PaystackPop === "undefined") {
+            throw new Error(
+              "Paystack library not loaded. Please refresh the page and try again."
+            );
+          }
         }
 
         const handler = PaystackPop.setup({
@@ -427,4 +438,18 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(
     "Page loaded. Run testPaystackConnection() in console to test payment setup"
   );
+
+  // Check if Paystack script is loaded after a short delay
+  setTimeout(() => {
+    if (typeof PaystackPop === "undefined") {
+      console.warn(
+        "⚠️ Paystack library not loaded. This may cause payment issues."
+      );
+      console.warn(
+        "Make sure the script tag is present: <script src='https://js.paystack.co/v1/inline.js'></script>"
+      );
+    } else {
+      console.log("✅ Paystack library loaded successfully");
+    }
+  }, 1000);
 });
