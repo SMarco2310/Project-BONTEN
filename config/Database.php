@@ -4,7 +4,7 @@
 class Database
 {
     
-    private $host = "169.239.251.102";
+    private $host = "localhost";
     private $port = "3306";
 
     private $db_name = "webtech_2025A_marc_sossou";
