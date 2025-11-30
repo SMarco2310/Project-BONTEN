@@ -12,7 +12,7 @@ body{
 }
 
 /* make the style the inputes  */
-#email-field,#password-field,#name-field,#role-field,#first-name-field,#last-name-field,#phoneNumber-field {
+#email-field,#password-field,#name-field,#role-field,#first-name-field,#last-name-field,#phoneNumber-field,#signup-password-field, #signup-email-field {
     border: solid 1px #f9f9f8;
 
     background-color: #020b13;
