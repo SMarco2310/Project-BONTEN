@@ -1,33 +1,54 @@
 <?php
 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 header("Access-Control-Allow-Origin: *");
+
 header("Content-Type: application/json");
+
 header("Access-Control-Allow-Methods: POST");
 
-
-include_once "../../config/Database.php";
+try {
+   
+    include_once "../../config/Database.php";
 
 $secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3";
+
 $public_key = "pk_test_d1f61fd4add0486460c5a543b1a51e97015d1207";
 
 
 
-$input = json_decode(file_get_contents("php://input"), true);
-$email = $input["email"] ?? "";
-$regular_quantity = $input["regular_quantity"] ?? 0;
+   
+    $input = json_decode(file_get_contents("php://input"), true);
+    
+  
+    error_log("Received input: " . print_r($input, true));
+    
+    $email = $input["email"] ?? "";
+  
+    $regular_quantity = $input["regular_quantity"] ?? 0;
+  
+    $vip_quantity = $input["vip_quantity"] ?? 0;
+  
+    $event_id = $input["event_id"] ?? 0;
 
-$vip_quantity = $input["vip_quantity"] ?? 0;
-$event_id = $input["event_id"] ?? 0;
+    if (empty($email) || ($regular_quantity == 0 && $vip_quantity == 0) || $event_id == 0) {
+        echo json_encode(["status" => false, "message" => "Invalid input: email=$email, regular_qty=$regular_quantity, vip_qty=$vip_quantity, event_id=$event_id"]);
+        exit();
+    }
 
-if (empty($email) || ($regular_quantity == 0 && $vip_quantity == 0) || $event_id == 0) {
-    echo json_encode(["status" => false, "message" => "Invalid input"]);
-    exit();
-}
+   
+    $database = new Database();
+   
+    $conn = $database->connect();
 
-
-$database = new Database();
-$conn = $database->connect();
+    if (!$conn) {
+        echo json_encode(["status" => false, "message" => "Database connection failed"]);
+        exit();
+    }
 
 $price_regular = 0;
 $price_vip = 0;
@@ -82,7 +103,7 @@ $fields = [
     "amount" => $amount_kobo,
     "currency" => "GHS",
     "callback_url" =>
-        "http://localhost/project-bonten/views/verify_payment.php", // UPDATE THIS URL
+        "http://localhost/project-bonten/views/verify_payment.php", 
     "metadata" => [
         "event_id" => $event_id,
         "regular_quantity" => $regular_quantity,
@@ -175,7 +196,11 @@ if ($response["status"]) {
 
     $conn->close();
 } else {
-
     echo json_encode(["status" => false, "message" => $response["message"]]);
+}
+
+} catch (Exception $e) {
+    error_log("Payment initialization error: " . $e->getMessage());
+    echo json_encode(["status" => false, "message" => "Server error: " . $e->getMessage()]);
 }
 ?>

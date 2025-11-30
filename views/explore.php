@@ -2,6 +2,7 @@
 <?php
 
 require_once '../config/security.php';
+require_once '../config/image_helpers.php';
 
 set_security_headers();
 
@@ -174,7 +175,7 @@ $db->close();
                                 <a href="event.php?id=<?php echo $event['event_id']; ?>" style="text-decoration: none; color: inherit;">
                                     <div class="event-card">
                                         <div class="card-image">
-                                            <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/hero.png'); ?>"
+                                            <img src="<?php echo htmlspecialchars(get_event_image_path($event['image_path'])); ?>"
                                                  alt="<?php echo htmlspecialchars($event['name']); ?>">
                                             <span class="event-badge"><?php echo htmlspecialchars($event['category_name'] ?? 'Event'); ?></span>
                                         </div>

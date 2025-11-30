@@ -145,7 +145,29 @@ $db->close();
                             <?php while ($event = $upcoming_events->fetch_assoc()): ?>
                                 <div class="history-card" data-event-id="<?php echo $event['event_id']; ?>">
                                     <div class="card-image-wrapper">
-                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
+                                        <?php
+                                        
+                                        
+                                        $image_src = '../public/assets/bonten.png'; 
+                                        
+                                        if (!empty($event['image_path'])) {
+                                            $event_image = $event['image_path'];
+                                            
+                                            
+                                            if (strpos($event_image, '../public/') === 0) {
+
+                                                $image_src = substr($event_image, 3);
+
+                                            } else if (strpos($event_image, 'public/') === 0) {
+                                                
+                                                $image_src = '../' . $event_image;
+                                            } else {
+                                                
+                                                $image_src = '../public/assets/' . $event_image;
+                                            }
+                                        }
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="card-image">
                                         <span class="event-status upcoming">Registered</span>
                                     </div>
                                     <div class="card-content">
@@ -180,7 +202,28 @@ $db->close();
                             <?php while ($event = $past_events->fetch_assoc()): ?>
                                 <div class="past-event-card" data-event-id="<?php echo $event['event_id']; ?>" data-event-name="<?php echo htmlspecialchars($event['name']); ?>">
                                     <div class="past-event-image-container">
-                                        <img src="<?php echo htmlspecialchars($event['image_path'] ?? '../public/assets/bonten.png'); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="past-event-image">
+                                        <?php
+                                       
+                                        $image_src = '../public/assets/bonten.png'; // default
+                                        
+                                        if (!empty($event['image_path'])) {
+                                            $event_image = $event['image_path'];
+                                            
+                                           
+                                            if (strpos($event_image, '../public/') === 0) {
+                                                $image_src = substr($event_image, 3);
+                                                
+                                            } else if (strpos($event_image, 'public/') === 0) {
+                                                
+                                                $image_src = '../' . $event_image;
+
+                                            } else {
+                                                
+                                                $image_src = '../public/assets/' . $event_image;
+                                            }
+                                        }
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($event['name']); ?>" class="past-event-image">
                                         <span class="attended-badge">Attended</span>
                                     </div>
 
@@ -217,12 +260,18 @@ $db->close();
     <div id="cancel-modal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-content cancel-modal-content">
-            <button class="modal-close">&times;</button>
-            <h2 class="modal-title">Cancel RSVP</h2>
-            <div class="modal-body">
-                <p class="cancel-message">Are you sure you want to cancel your RSVP for <strong><span id="cancel-event-name"></span></strong>?</p>
-                <p class="cancel-warning">This action cannot be undone.</p>
-            </div>
+            
+        <button class="modal-close">&times;</button>
+        
+        <h2 class="modal-title">Cancel RSVP</h2>
+        
+        <div class="modal-body">
+        
+        <p class="cancel-message">Are you sure you want to cancel your RSVP for <strong><span id="cancel-event-name"></span></strong>?</p>
+        
+        <p class="cancel-warning">This action cannot be undone.</p>
+        
+    </div>
             <div class="modal-actions">
                 <button id="cancel-cancel-btn" class="btn-secondary">Keep RSVP</button>
                 <button id="cancel-confirm-btn" class="btn-danger">Yes, Cancel RSVP</button>
@@ -271,7 +320,9 @@ $db->close();
     </div>
 
     <script src="../public/js/language.js"></script>
+    
     <script src="../public/js/logout_handler.js" defer></script>
+    
     <script src="../public/js/history.js" defer></script>
 
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>

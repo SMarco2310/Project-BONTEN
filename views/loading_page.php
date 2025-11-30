@@ -26,10 +26,11 @@ if (isset($_SESSION['user_id'])) {
     <div class="loader">
     </div>
     <script>
-        // Redirect to login page after 3 seconds
-        setTimeout(() => {
-            window.location.href = 'index.php';
-        }, 3000);
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                window.location.href = 'index.php';
+            }, 3000);
+        });
     </script>
 <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
 </body>

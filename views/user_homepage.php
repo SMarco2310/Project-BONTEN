@@ -30,8 +30,11 @@ $stmt = $conn->prepare("SELECT e.event_id, e.name, e.event_date, e.event_time, e
                         WHERE r.user_id = ? AND e.event_date >= CURDATE()
                         ORDER BY e.event_date ASC LIMIT 5");
 $stmt->bind_param("i", $user_id);
+
 $stmt->execute();
+
 $user_events = $stmt->get_result();
+
 $stmt->close();
 
 $stmt = $conn->prepare("SELECT event_id, name, description, image_path, category_id
@@ -173,8 +176,27 @@ $db->close();
               
               <?php while ($event = $user_events->fetch_assoc()): ?>
                 <div class="event">
+                  <?php
+                  // Handle different image path formats
+                  $image_src = '../public/assets/bonten.png'; // default
+                  
+                  if (!empty($event['image_path'])) {
+                      $event_image = $event['image_path'];
+                      
+                      // If the path starts with '../public/', remove the '../' part
+                      if (strpos($event_image, '../public/') === 0) {
+                          $image_src = substr($event_image, 3); // Remove '../'
+                      } else if (strpos($event_image, 'public/') === 0) {
+                          // If it starts with 'public/', add '../'
+                          $image_src = '../' . $event_image;
+                      } else {
+                          // If it's just a filename, assume it's in assets folder
+                          $image_src = '../public/assets/' . $event_image;
+                      }
+                  }
+                  ?>
                   <img
-                    src="../public/assets/<?php echo htmlspecialchars($event['image_path'] ?: 'bonten.png'); ?>"
+                    src="<?php echo htmlspecialchars($image_src); ?>"
                     alt="Event Icon"
                     class="event_icon"
                   />
@@ -224,8 +246,27 @@ $db->close();
                   <div class="event_card">
                     <span class="event_badge">Event</span>
                     <div class="bookmark_icon">⬜</div>
+                    <?php
+                    // Handle different image path formats
+                    $image_src = '../public/assets/bonten.png'; // default
+                    
+                    if (!empty($event['image_path'])) {
+                        $event_image = $event['image_path'];
+                        
+                        // If the path starts with '../public/', remove the '../' part
+                        if (strpos($event_image, '../public/') === 0) {
+                            $image_src = substr($event_image, 3); // Remove '../'
+                        } else if (strpos($event_image, 'public/') === 0) {
+                            // If it starts with 'public/', add '../'
+                            $image_src = '../' . $event_image;
+                        } else {
+                            // If it's just a filename, assume it's in assets folder
+                            $image_src = '../public/assets/' . $event_image;
+                        }
+                    }
+                    ?>
                     <img
-                      src="../public/assets/<?php echo htmlspecialchars($event['image_path'] ?: 'bonten.png'); ?>"
+                      src="<?php echo htmlspecialchars($image_src); ?>"
                       alt="<?php echo htmlspecialchars($event['name']); ?>"
                       class="event_image"
                     />
