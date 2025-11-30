@@ -23,6 +23,7 @@ $event = null;
 
 $tickets = [];
 $reviews = [];
+$comments = [];
 $category_name = '';
 
 if ($event_id > 0) {
@@ -75,6 +76,24 @@ if ($event_id > 0) {
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
             $reviews[] = $row;
+        }
+        $stmt->close();
+        
+        // Fetch comments for this event
+        $comments = [];
+        $stmt = $conn->prepare("
+            SELECT c.*, u.full_name, u.profile_picture
+            FROM comments c
+            JOIN users u ON c.user_id = u.user_id
+            WHERE c.event_id = ?
+            ORDER BY c.created_at DESC
+            LIMIT 20
+        ");
+        $stmt->bind_param("i", $event_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $comments[] = $row;
         }
         $stmt->close();
     }
@@ -148,8 +167,63 @@ function timeAgo($datetime) {
     <script src="../public/js/profile_loader.js"></script>
     <script src="../public/js/logout_handler.js" defer></script>
     <script src="../public/js/validation.js"></script>
+    <!-- Load Paystack script without defer/async to ensure it loads before event_modals.js -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="../public/js/event_modals.js?v=<?php echo time(); ?>" defer></script>
+    <script>
+      // Verify Paystack loaded and wait if needed
+      (function() {
+        // First, check if it's already loaded
+        if (typeof PaystackPop !== 'undefined') {
+          console.log('✅ Paystack library already loaded');
+          window.paystackReady = true;
+          return;
+        }
+        
+        // Wait for the script tag to load
+        function waitForPaystack(callback, maxAttempts = 100) {
+          let attempts = 0;
+          const checkInterval = setInterval(function() {
+            attempts++;
+            if (typeof PaystackPop !== 'undefined') {
+              clearInterval(checkInterval);
+              console.log('✅ Paystack library loaded after ' + (attempts * 100) + 'ms');
+              window.paystackReady = true;
+              if (callback) callback();
+            } else if (attempts >= maxAttempts) {
+              clearInterval(checkInterval);
+              console.error('❌ Paystack library failed to load after ' + (maxAttempts * 100) + 'ms');
+              console.error('This might be due to:');
+              console.error('1. Network connectivity issues');
+              console.error('2. Content Security Policy (CSP) blocking the script');
+              console.error('3. Ad blockers or browser extensions');
+              console.error('Please check the browser console for CSP violations');
+              
+              // Try to load again with error handling
+              const script = document.createElement('script');
+              script.src = 'https://js.paystack.co/v1/inline.js';
+              script.async = false;
+              script.onload = function() {
+                console.log('✅ Paystack library loaded on retry');
+                window.paystackReady = true;
+                if (callback) callback();
+              };
+              script.onerror = function() {
+                console.error('❌ Failed to load Paystack script on retry - check network or CSP settings');
+                window.paystackReady = false;
+              };
+              document.head.appendChild(script);
+            }
+          }, 100);
+        }
+        
+        // Wait for Paystack before allowing payment functions
+        waitForPaystack(function() {
+          window.paystackReady = true;
+          console.log('Paystack is ready for payments');
+        });
+      })();
+    </script>
+    <script src="../public/js/event_modals.js?v=<?php echo time(); ?>"></script>
   </head>
 
   <body>
@@ -263,37 +337,61 @@ function timeAgo($datetime) {
               <div class="comments-box">
                 <h2 class="section-header">Comments</h2>
 
-                <div class="comments-scroll">
-                  <?php if(count($reviews) > 0): ?>
-                    <?php foreach($reviews as $review): ?>
+                <div class="comments-scroll" id="comments-container">
+                  <?php if(count($comments) > 0): ?>
+                    <?php foreach($comments as $comment): ?>
 
                     <div class="single-comment">
                       <div class="comment-top">
 
-                        <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
+                        <img src="../public/assets/<?php echo htmlspecialchars($comment['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
                         <div class="comment-info">
-                          <p class="commenter-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
-
-                          <div class="star-rating">
-                            <?php for($i = 1; $i <= 5; $i++): ?>
-                            <span class="star <?php echo $i <= $review['rating'] ? 'filled' : 'empty'; ?>">★</span>
-
-                            <?php endfor; ?>
-                          </div>
+                          <p class="commenter-name"><?php echo htmlspecialchars($comment['full_name']); ?></p>
                         </div>
                       </div>
 
-                      <p class="comment-content"><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
-                      <span class="comment-timestamp"><?php echo timeAgo($review['created_at']); ?></span>
+                      <p class="comment-content"><?php echo nl2br(htmlspecialchars($comment['comment_text'])); ?></p>
+                      <span class="comment-timestamp"><?php echo timeAgo($comment['created_at']); ?></span>
                     </div>
                     <?php endforeach; ?>
-
                   <?php else: ?>
-                    <p style="color: #999; text-align: center;">No reviews yet</p>
+                    <p style="color: #999; text-align: center;">No comments yet</p>
                   <?php endif; ?>
                 </div>
 
               </div>
+              
+              <?php if(count($reviews) > 0): ?>
+              <div class="comments-box" style="margin-top: 30px;">
+                <h2 class="section-header">Reviews</h2>
+
+                <div class="comments-scroll">
+                  <?php foreach($reviews as $review): ?>
+
+                  <div class="single-comment">
+                    <div class="comment-top">
+
+                      <img src="../public/assets/<?php echo htmlspecialchars($review['profile_picture'] ?: 'user.jpg'); ?>" alt="user" class="comment-avatar" />
+                      <div class="comment-info">
+                        <p class="commenter-name"><?php echo htmlspecialchars($review['full_name']); ?></p>
+
+                        <div class="star-rating">
+                          <?php for($i = 1; $i <= 5; $i++): ?>
+                          <span class="star <?php echo $i <= $review['rating'] ? 'filled' : 'empty'; ?>">★</span>
+
+                          <?php endfor; ?>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p class="comment-content"><?php echo nl2br(htmlspecialchars($review['review_text'])); ?></p>
+                    <span class="comment-timestamp"><?php echo timeAgo($review['created_at']); ?></span>
+                  </div>
+                  <?php endforeach; ?>
+                </div>
+
+              </div>
+              <?php endif; ?>
             </div>
 
           </div>
@@ -446,10 +544,6 @@ function timeAgo($datetime) {
       const userEmail = "<?php echo $is_logged_in ? htmlspecialchars($_SESSION['email']) : ''; ?>";
     </script>
     <script src="../public/js/event.js" defer></script>
-    <script
-      src="https://cdn.userway.org/widget.js"
-      data-account="yHxBfPK57z"
-      data-position="3"
-    ></script>
+    <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
   </body>
 </html>

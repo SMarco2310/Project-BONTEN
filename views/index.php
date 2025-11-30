@@ -226,6 +226,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     log_security_event("New user registered: $email", 'INFO');
 
+                    // Clear any error messages before redirect
+                    $error = '';
+                    unset($_SESSION['error_message']);
                     
                     if ($user_type === 'manager') {
                         header("Location: manager_dashboard.php");
@@ -271,6 +274,7 @@ $csrf_token = generate_csrf_token();
     <link rel="stylesheet" href="../public/css/login_style.css" />
     <title class="tab-name">Authentication</title>
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
+    <script src="../public/js/validation.js"></script>
   </head>
   <body>
     <script src="../public/js/script.js" defer async></script>
@@ -304,8 +308,13 @@ $csrf_token = generate_csrf_token();
           welcome back! Please enter your details.
         </p>
 
-        <?php if ($error): ?>
-        <p style="color: red; font-size: small;"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
+        <?php if (!empty($error)): ?>
+        <p style="color: red; font-size: small; margin-bottom: 10px;"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['error_message'])): ?>
+        <p style="color: red; font-size: small; margin-bottom: 10px;"><?php echo htmlspecialchars($_SESSION['error_message'], ENT_QUOTES, 'UTF-8'); ?></p>
+        <?php unset($_SESSION['error_message']); ?>
         <?php endif; ?>
 
         <form id="login-form" name="login-form" method="POST">
@@ -506,10 +515,6 @@ $csrf_token = generate_csrf_token();
         </form>
       </div>
     </div>
-    <script
-      src="https://cdn.userway.org/widget.js"
-      data-account="yHxBfPK57z"
-      data-position="3"
-    ></script>
+    <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
   </body>
 </html>

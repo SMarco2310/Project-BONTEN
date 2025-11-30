@@ -4,12 +4,20 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0); 
 ini_set('log_errors', 1);
 
+// Set CORS headers first, before any output
 header("Access-Control-Allow-Origin: *");
-
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-header("Access-Control-Allow-Methods: POST");
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
+// Do NOT include security.php here as it sets restrictive headers that conflict with CORS
+// Only include Database.php for database connection
 try {
    
     include_once "../../config/Database.php";

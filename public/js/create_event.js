@@ -11,13 +11,13 @@ class EventDataService {
     const formData = new FormData();
 
     // Append all event data fields
-    Object.keys(eventData).forEach(key => {
-      if (key === 'tickets' || key === 'tags') {
+    Object.keys(eventData).forEach((key) => {
+      if (key === "tickets" || key === "tags") {
         // Handle arrays/objects
         if (Array.isArray(eventData[key])) {
           eventData[key].forEach((item, index) => {
-            if (typeof item === 'object') {
-              Object.keys(item).forEach(subKey => {
+            if (typeof item === "object") {
+              Object.keys(item).forEach((subKey) => {
                 formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
               });
             } else {
@@ -32,7 +32,7 @@ class EventDataService {
 
     // Append image if available
     if (imageFile) {
-      formData.append('eventImage', imageFile);
+      formData.append("eventImage", imageFile);
     }
 
     const response = await fetch(`../src/Controllers/handle_create_event.php`, {
@@ -44,12 +44,13 @@ class EventDataService {
     const text = await response.text();
     try {
       const data = JSON.parse(text);
-      if (!data.success && !response.ok) throw new Error(data.message || "Failed to create event");
+      if (!data.success && !response.ok)
+        throw new Error(data.message || "Failed to create event");
       return data;
     } catch (e) {
       console.error("Server response:", text);
       // If the response was a redirect (common in PHP), treat as success if we can infer it
-      if (response.redirected || response.url.includes('dashboard')) {
+      if (response.redirected || response.url.includes("dashboard")) {
         return { success: true };
       }
       throw new Error("Invalid server response");
@@ -312,8 +313,9 @@ class CreateEventController {
     const progressFill = document.getElementById("progressFill");
 
     if (progressFill) {
-      progressFill.style.width = `${(this.currentStep / this.totalSteps) * 100
-        }%`;
+      progressFill.style.width = `${
+        (this.currentStep / this.totalSteps) * 100
+      }%`;
     }
 
     const prevBtn = document.getElementById("prevBtn");
@@ -792,8 +794,8 @@ class CreateEventController {
             <span class="tag-item">
                 ${this.escapeHtml(tag)}
                 <button type="button" onclick="createEventController.removeTag('${this.escapeHtml(
-          tag
-        )}')">&times;</button>
+                  tag
+                )}')">&times;</button>
             </span>
         `
       )
@@ -866,8 +868,9 @@ class CreateEventController {
             <div class="ticket-item" data-ticket-id="${ticket.id}">
                 <div class="ticket-item-header">
                     <h4>Ticket Type ${index + 1}</h4>
-                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${ticket.id
-          }')">
+                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${
+                      ticket.id
+                    }')">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -878,35 +881,40 @@ class CreateEventController {
                     <div class="form-group">
                         <label>Ticket Name <span class="required">*</span></label>
                         <input type="text" value="${this.escapeHtml(
-            ticket.name
-          )}"
+                          ticket.name
+                        )}"
                                placeholder="e.g., Early Bird, VIP, Regular"
-                               onchange="createEventController.updateTicket('${ticket.id
-          }', 'name', this.value)">
+                               onchange="createEventController.updateTicket('${
+                                 ticket.id
+                               }', 'name', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Price (GHC) <span class="required">*</span></label>
-                        <input type="number" value="${ticket.price
-          }" min="0" step="0.01"
+                        <input type="number" value="${
+                          ticket.price
+                        }" min="0" step="0.01"
                                placeholder="0.00"
-                               onchange="createEventController.updateTicket('${ticket.id
-          }', 'price', this.value)">
+                               onchange="createEventController.updateTicket('${
+                                 ticket.id
+                               }', 'price', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Quantity <span class="required">*</span></label>
                         <input type="number" value="${ticket.quantity}" min="1"
                                placeholder="Number available"
-                               onchange="createEventController.updateTicket('${ticket.id
-          }', 'quantity', this.value)">
+                               onchange="createEventController.updateTicket('${
+                                 ticket.id
+                               }', 'quantity', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
                         <input type="text" value="${this.escapeHtml(
-            ticket.description
-          )}"
+                          ticket.description
+                        )}"
                                placeholder="What's included?"
-                               onchange="createEventController.updateTicket('${ticket.id
-          }', 'description', this.value)">
+                               onchange="createEventController.updateTicket('${
+                                 ticket.id
+                               }', 'description', this.value)">
                     </div>
                 </div>
             </div>
@@ -992,8 +1000,9 @@ class CreateEventController {
         reviewTickets.innerHTML = `
                     <div class="review-ticket-item">
                         <span class="review-ticket-name">Free Registration</span>
-                        <span class="review-ticket-price">${this.formData.freeQuantity || 100
-          } available</span>
+                        <span class="review-ticket-price">${
+                          this.formData.freeQuantity || 100
+                        } available</span>
                     </div>
                 `;
       } else if (this.formData.tickets?.length) {
@@ -1002,11 +1011,11 @@ class CreateEventController {
             (ticket) => `
                     <div class="review-ticket-item">
                         <span class="review-ticket-name">${this.escapeHtml(
-              ticket.name
-            )}</span>
+                          ticket.name
+                        )}</span>
                         <span class="review-ticket-price">GHC ${parseFloat(
-              ticket.price
-            ).toFixed(2)}</span>
+                          ticket.price
+                        ).toFixed(2)}</span>
                     </div>
                 `
           )
@@ -1034,7 +1043,8 @@ class CreateEventController {
       reviewSettings.innerHTML = settings
         .map(
           (s) =>
-            `<span class="review-setting-tag ${s.active ? "active" : ""}">${s.label
+            `<span class="review-setting-tag ${s.active ? "active" : ""}">${
+              s.label
             }</span>`
         )
         .join("");
@@ -1042,12 +1052,10 @@ class CreateEventController {
   }
 
   async publishEvent() {
-    // Validate all steps before submitting
-    if (!this.validateCurrentStep()) {
-      return;
-    }
+    // Collect data from all steps first
+    this.collectStepData();
 
-    // Validate the final step (review step doesn't need validation, but check all previous steps)
+    // Validate all steps before submitting
     if (
       !this.validateStep1() ||
       !this.validateStep2() ||
@@ -1057,12 +1065,15 @@ class CreateEventController {
       if (!this.validateStep1()) {
         this.currentStep = 1;
         this.updateStepUI();
+        this.showToast("Please complete step 1 correctly", "error");
       } else if (!this.validateStep2()) {
         this.currentStep = 2;
         this.updateStepUI();
+        this.showToast("Please complete step 2 correctly", "error");
       } else if (!this.validateStep3()) {
         this.currentStep = 3;
         this.updateStepUI();
+        this.showToast("Please complete step 3 correctly", "error");
       }
       return;
     }
@@ -1074,38 +1085,113 @@ class CreateEventController {
       return;
     }
 
-    // For step 4 (review), skip HTML5 validation since there are no input fields
-    // The validation was already done in previous steps
-    if (this.currentStep !== 4) {
-      // Check HTML5 validation for steps 1-3
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        this.showToast("Please fill in all required fields correctly", "error");
-        return;
-      }
+    // Ensure all form fields are populated from collected data
+    // Step 1 fields
+    const eventName = document.getElementById("eventName");
+    const eventCategory = document.getElementById("eventCategory");
+    const eventDescription = document.getElementById("eventDescription");
+    const eventStatus = document.getElementById("eventStatus");
+
+    if (eventName && this.formData.name) eventName.value = this.formData.name;
+    if (eventCategory && this.formData.category)
+      eventCategory.value = this.formData.category;
+    if (eventDescription && this.formData.description)
+      eventDescription.value = this.formData.description;
+    if (eventStatus && this.formData.status)
+      eventStatus.value = this.formData.status;
+
+    // Step 2 fields
+    const eventStartDate = document.getElementById("eventStartDate");
+    const eventStartTime = document.getElementById("eventStartTime");
+    const eventType = document.querySelector(
+      `input[name="eventType"][value="${this.formData.eventType}"]`
+    );
+    const eventVenue = document.getElementById("eventVenue");
+    const eventCity = document.getElementById("eventCity");
+    const eventCapacity = document.getElementById("eventCapacity");
+
+    if (eventStartDate && this.formData.startDate)
+      eventStartDate.value = this.formData.startDate;
+    if (eventStartTime && this.formData.startTime)
+      eventStartTime.value = this.formData.startTime;
+    if (eventType) eventType.checked = true;
+    if (eventVenue && this.formData.venue)
+      eventVenue.value = this.formData.venue;
+    if (eventCity && this.formData.city) eventCity.value = this.formData.city;
+    if (eventCapacity && this.formData.capacity)
+      eventCapacity.value = this.formData.capacity;
+
+    // Step 3 fields - tickets
+    const ticketType = document.querySelector(
+      `input[name="ticketType"][value="${this.formData.ticketType}"]`
+    );
+    if (ticketType) ticketType.checked = true;
+
+    if (this.formData.ticketType === "free") {
+      const freeQuantity = document.getElementById("freeTicketQuantity");
+      if (freeQuantity && this.formData.freeQuantity)
+        freeQuantity.value = this.formData.freeQuantity;
+    } else if (this.formData.tickets && this.formData.tickets.length > 0) {
+      // For paid tickets, we need to add hidden inputs or ensure tickets are in the form
+      // Since tickets are added dynamically, we'll handle them via hidden fields
+      // Remove any existing hidden ticket fields
+      document
+        .querySelectorAll('input[name^="tickets["]')
+        .forEach((input) => input.remove());
+
+      // Add hidden fields for each ticket
+      this.formData.tickets.forEach((ticket, index) => {
+        const nameInput = document.createElement("input");
+        nameInput.type = "hidden";
+        nameInput.name = `tickets[${index}][name]`;
+        nameInput.value = ticket.name;
+        form.appendChild(nameInput);
+
+        const priceInput = document.createElement("input");
+        priceInput.type = "hidden";
+        priceInput.name = `tickets[${index}][price]`;
+        priceInput.value = ticket.price;
+        form.appendChild(priceInput);
+
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "hidden";
+        quantityInput.name = `tickets[${index}][quantity]`;
+        quantityInput.value = ticket.quantity;
+        form.appendChild(quantityInput);
+      });
     }
 
-    // Show loading message
-    this.showToast("Publishing event...", "info");
-
-    try {
-      const result = await this.dataService.createEvent(this.formData, this.imageFile);
-
-      if (result.success) {
-        this.showToast("Event created successfully!", "success");
-        this.hasUnsavedChanges = false;
-
-        // Redirect to dashboard or the new event page
-        setTimeout(() => {
-          window.location.href = "manager_dashboard.php?event_created=1";
-        }, 1500);
-      } else {
-        this.showToast(result.message || "Failed to create event", "error");
+    // Ensure image file is attached to form if we have one
+    if (this.imageFile) {
+      // Check if there's already an image input
+      let imageInput = document.getElementById("eventImage");
+      if (!imageInput) {
+        imageInput = document.createElement("input");
+        imageInput.type = "file";
+        imageInput.id = "eventImage";
+        imageInput.name = "eventImage";
+        form.appendChild(imageInput);
       }
-    } catch (error) {
-      console.error("Publish failed:", error);
-      this.showToast(error.message || "An error occurred while publishing", "error");
+
+      // Create a new FileList with our file
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(this.imageFile);
+      imageInput.files = dataTransfer.files;
     }
+
+    // Check HTML5 validation
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      this.showToast("Please fill in all required fields correctly", "error");
+      return;
+    }
+
+    // Clear unsaved changes flag
+    this.hasUnsavedChanges = false;
+
+    // Submit the form natively (this will redirect to handle_create_event.php)
+    // The PHP will redirect to manager_dashboard.php after successful creation
+    form.submit();
   }
 
   async saveDraft() {

@@ -195,6 +195,14 @@ for($i = 11; $i >= 0; $i--) {
     ];
 }
 
+// Check if event was just created
+$success_message = $_SESSION['success_message'] ?? '';
+$created_event_id = $_SESSION['created_event_id'] ?? null;
+if ($success_message) {
+    unset($_SESSION['success_message']);
+    unset($_SESSION['created_event_id']);
+}
+
 $db->close();
 
 ?>
@@ -258,6 +266,14 @@ $db->close();
         </div>
 
         <main class="main-content">
+            <?php if ($success_message && $created_event_id): ?>
+            <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; margin: 20px 0; border-radius: 5px; border: 1px solid #c3e6cb;">
+                <strong>✓ Success!</strong> <?php echo htmlspecialchars($success_message); ?>
+                <a href="./event.php?id=<?php echo $created_event_id; ?>" style="margin-left: 10px; color: #155724; text-decoration: underline; font-weight: bold;">View Event</a> | 
+                <a href="./manager_history.php" style="color: #155724; text-decoration: underline; font-weight: bold;">View All Events</a>
+            </div>
+            <?php endif; ?>
+            
             <div class="welcome-header">
                 <div class="welcome-text">
                     <h1><span class="italic">Welcome</span> back, <span id="welcomeName"><?php echo htmlspecialchars($first_name); ?></span>!</h1>
@@ -472,6 +488,6 @@ const dashboardData = {
     }
 };
 </script>
-<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
+<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
 </body>
 </html>

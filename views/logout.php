@@ -57,5 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         window.location.href = 'index.php';
     </script>
+    <script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z"></script>
 </body>
 </html>
