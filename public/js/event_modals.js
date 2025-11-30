@@ -324,22 +324,39 @@ async function payWithPaystack() {
             alert("Transaction was closed.");
           },
           callback: function (response) {
-            console.log("Payment successful:", response);
-            alert("Payment successful! Reference: " + response.reference);
+            console.log("Payment successful at Paystack:", response);
 
-            // Close tickets modal and reset form
-            if (ticketsModal) ticketsModal.style.display = "none";
+            // Show verifying status
+            checkoutBtn.innerText = "Verifying...";
 
-            const regularInput = document.getElementById("regular");
-            const vipInput = document.getElementById("vip");
-            if (regularInput) regularInput.value = 0;
-            if (vipInput) vipInput.value = 0;
-            updateTotals();
+            // Verify transaction with backend
+            fetch(`../src/Controllers/verify_transaction.php?reference=${response.reference}`)
+              .then(res => res.json())
+              .then(verifyData => {
+                console.log("Verification response:", verifyData);
 
-            // Redirect to history page or refresh
-            setTimeout(() => {
-              window.location.href = "./history.php";
-            }, 1500);
+                if (verifyData.status) {
+                  alert("Payment successful! Reference: " + response.reference);
+
+                  // Close tickets modal and reset form
+                  if (ticketsModal) ticketsModal.style.display = "none";
+
+                  const regularInput = document.getElementById("regular");
+                  const vipInput = document.getElementById("vip");
+                  if (regularInput) regularInput.value = 0;
+                  if (vipInput) vipInput.value = 0;
+                  updateTotals();
+
+                  // Redirect to history page
+                  window.location.href = "./history.php";
+                } else {
+                  alert("Payment verification failed: " + (verifyData.message || "Unknown error"));
+                }
+              })
+              .catch(err => {
+                console.error("Verification error:", err);
+                alert("Payment was successful but verification failed. Please contact support with reference: " + response.reference);
+              });
           },
         });
         handler.openIframe();
@@ -369,8 +386,8 @@ async function payWithPaystack() {
       alert(errorMessage);
     })
     .finally(() => {
-      // Restore button state
-      if (checkoutBtn) {
+      // Restore button state only if we're not verifying
+      if (checkoutBtn && checkoutBtn.innerText !== "Verifying...") {
         checkoutBtn.innerText = originalText;
         checkoutBtn.disabled = false;
       }
