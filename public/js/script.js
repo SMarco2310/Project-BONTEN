@@ -19,13 +19,13 @@ function showLoginForm() {
   loginForm.style.cssText =
     "display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;gap: 10px;padding: 20px;";
   const paragraphs = loginForm.querySelectorAll("label p");
-  
+
   paragraphs.forEach((paragraph) => {
     paragraph.style.cssText = "padding-bottom: 10px;";
   });
 
   loginForm.style.transition = "all 0.7s ease-in-out";
-  
+
   tabNameText.textContent = "Login";
 }
 
@@ -55,18 +55,13 @@ switchToSignUpLink.addEventListener("click", (e) => {
 
 showLoginForm();
 
-function togglePasswordVisibility() {
-  
-  const signupPasswordField = document.getElementById("signup-password-field");
-  const loginPasswordField = document.getElementById("password-field");
-  
-  
-  const isSignupForm = signUpForm.style.display !== "none";
-  const passwordField = isSignupForm ? signupPasswordField : loginPasswordField;
-  
+function togglePasswordVisibility(button) {
+  const passwordWrapper = button.closest('.password-wrapper');
+  const passwordField = passwordWrapper.querySelector('input');
+  const eyeIcon = button.querySelector('svg');
+
   if (!passwordField) return;
-  const eyeIcon = document.getElementById("eye-icon");
-  
+
   if (passwordField.type === "password") {
     passwordField.type = "text";
     eyeIcon.innerHTML =
@@ -78,7 +73,9 @@ function togglePasswordVisibility() {
   }
 }
 
-passwordFieldBtn.addEventListener("click", togglePasswordVisibility);
+document.querySelectorAll('.pwd-eye').forEach(button => {
+  button.addEventListener('click', () => togglePasswordVisibility(button));
+});
 
 const images = [
   "../public/assets/ashchella.JPG",
@@ -101,42 +98,42 @@ setInterval(changeBackgroundImage, 2500);
 changeBackgroundImage();
 
 
-signUpForm.addEventListener('submit', function(e) {
+signUpForm.addEventListener('submit', function (e) {
   const firstName = document.getElementById('first-name-field').value.trim();
   const lastName = document.getElementById('last-name-field').value.trim();
   const email = document.getElementById('signup-email-field').value.trim();
   const password = document.getElementById('signup-password-field').value;
   const phone = document.getElementById('phoneNumber-field').value.trim();
   const role = document.getElementById('role-field').value;
-  
- 
+
+
   if (!firstName || !lastName || !email || !password || !phone || !role) {
     alert('Please fill in all fields');
     e.preventDefault();
     return false;
   }
-  
+
   if (password.length < 8) {
     alert('Password must be at least 8 characters long');
     e.preventDefault();
     return false;
   }
-  
-  
+
+
   return true;
 });
 
 function validatePassword() {
- 
+
   const signupPasswordField = document.getElementById("signup-password-field");
   const loginPasswordField = document.getElementById("password-field");
-  
+
 
   const isSignupForm = signUpForm.style.display !== "none";
   const passwordField = isSignupForm ? signupPasswordField : loginPasswordField;
-  
+
   if (!passwordField) return true;
-  
+
   const password = passwordField.value;
   const passwordCue = document.getElementById("password-cue");
 

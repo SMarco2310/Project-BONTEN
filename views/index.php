@@ -273,7 +273,20 @@ $csrf_token = generate_csrf_token();
     <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
   </head>
   <body>
-    <script src="../public/js/script.js" defer async></script>
+    <script src="../public/js/script.js"></script>
+    <?php if (isset($_POST['signup']) && !empty($error)): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showSignUpForm();
+        });
+    </script>
+    <?php else: ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoginForm();
+        });
+    </script>
+    <?php endif; ?>
 
     <div class="login-container" style="color: white">
       <div class="left-side">
