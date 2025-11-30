@@ -1,5 +1,8 @@
 <?php
-session_start();
+
+require_once '../config/security.php';
+
+set_security_headers();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'manager') {
     header("Location: index.php");
