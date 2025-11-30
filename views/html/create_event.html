@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - Bonten</title>
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="../public/css/create_event.css">
+    <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="../public/js/create_event.js" defer></script>
+</head>
+<body>
+    <div class="container">
+
+        <aside class="sidebar">
+            <a href="./manager_dashboard.html" style="text-decoration: none;">
+                <div class="logo">
+                    <h3 class="left">Bon</h3>
+                    <h3>ten</h3>
+                </div>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="./manager_dashboard.html" class="nav-item">Home</a>
+                <a href="./manager_history.html" class="nav-item">History</a>
+                <a href="./create_event.html" class="nav-item active">Create Event</a>
+            </nav>
+
+            <div class="lower-menu">
+                <a href="./manager_settings.html" class="nav-item">Settings</a>
+                <a href="./index.html" class="logout">Logout</a>
+            </div>
+
+        </aside>
+
+        <div class="topnav">
+            <a
+                href="./manager_settings.html"
+                class="user_section"
+                style="cursor: pointer; text-decoration: none"
+            >
+                <img
+                    src="../public/assets/jerome.jpeg"
+                    alt="Profile Picture"
+                    class="profile_picture"
+                />
+                <div class="user_info">
+                    <h4 class="username" id="managerName">Jerome Adedze</h4>
+                </div>
+            </a>
+        </div>
+
+        <main class="main-content">
+            <div class="page-header">
+                <div class="header-text">
+                    <h1>Create <span class="italic">New Event</span></h1>
+                    <p>Fill in the details to create your event</p>
+                </div>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="progress-container">
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <span class="step-label">Basic Info</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <span class="step-label">Date & Location</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <span class="step-label">Tickets</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <span class="step-label">Review</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <form id="createEventForm" class="event-form">
+
+                <!-- Step 1: Basic Information -->
+                <div class="form-step active" data-step="1">
+                    <div class="step-content">
+                        <h2 class="step-title">Basic Information</h2>
+                        <p class="step-description">Let's start with the essentials about your event</p>
+
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="eventName">Event Name <span class="required">*</span></label>
+                                <input type="text" id="eventName" name="eventName" placeholder="Enter your event name" required>
+                                <span class="char-count"><span id="nameCount">0</span>/100</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventCategory">Category <span class="required">*</span></label>
+                                <select id="eventCategory" name="eventCategory" required>
+                                    <option value="" disabled selected>Select category</option>
+                                    <option value="concert">Concert</option>
+                                    <option value="festival">Festival</option>
+                                    <option value="conference">Conference</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="food">Food & Drinks</option>
+                                    <option value="networking">Networking</option>
+                                    <option value="party">Party</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventVisibility">Visibility <span class="required">*</span></label>
+                                <select id="eventVisibility" name="eventVisibility" required>
+                                    <option value="public">Public - Anyone can find</option>
+                                    <option value="private">Private - Invite only</option>
+                                    <option value="unlisted">Unlisted - Only with link</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="eventDescription">Description <span class="required">*</span></label>
+                                <textarea id="eventDescription" name="eventDescription" rows="5" placeholder="Describe your event, what attendees can expect, highlights, etc." required></textarea>
+                                <span class="char-count"><span id="descCount">0</span>/2000</span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Event Image <span class="required">*</span></label>
+                                <div class="image-upload-container">
+                                    <div class="image-preview" id="imagePreview">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                            <polyline points="21 15 16 10 5 21"></polyline>
+                                        </svg>
+                                        <p>Click to upload or drag and drop</p>
+                                        <span>PNG, JPG up to 5MB</span>
+                                    </div>
+                                    <input type="file" id="eventImage" name="eventImage" accept="image/*" hidden>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Tags</label>
+                                <div class="tags-input-container">
+                                    <div class="tags-list" id="tagsList"></div>
+                                    <input type="text" id="tagsInput" placeholder="Type and press Enter to add tags">
+                                </div>
+                                <span class="helper-text">Add up to 5 tags to help people discover your event</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Date & Location -->
+                <div class="form-step" data-step="2">
+                    <div class="step-content">
+                        <h2 class="step-title">Date & Location</h2>
+                        <p class="step-description">When and where is your event happening?</p>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="eventStartDate">Start Date <span class="required">*</span></label>
+                                <input type="date" id="eventStartDate" name="eventStartDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventStartTime">Start Time <span class="required">*</span></label>
+                                <input type="time" id="eventStartTime" name="eventStartTime" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventEndDate">End Date <span class="required">*</span></label>
+                                <input type="date" id="eventEndDate" name="eventEndDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventEndTime">End Time <span class="required">*</span></label>
+                                <input type="time" id="eventEndTime" name="eventEndTime" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="eventTimezone">Timezone</label>
+                                <select id="eventTimezone" name="eventTimezone">
+                                    <option value="GMT">GMT (Greenwich Mean Time)</option>
+                                    <option value="WAT" selected>WAT (West Africa Time)</option>
+                                    <option value="CAT">CAT (Central Africa Time)</option>
+                                    <option value="EAT">EAT (East Africa Time)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Event Type</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="eventType" value="in-person" checked>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">In-Person</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="eventType" value="online">
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Online</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="eventType" value="hybrid">
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Hybrid</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width location-fields" id="locationFields">
+                                <label for="eventVenue">Venue Name <span class="required">*</span></label>
+                                <input type="text" id="eventVenue" name="eventVenue" placeholder="e.g., Ashesi University, Labadi Beach">
+                            </div>
+
+                            <div class="form-group full-width location-fields">
+                                <label for="eventAddress">Address <span class="required">*</span></label>
+                                <input type="text" id="eventAddress" name="eventAddress" placeholder="Street address">
+                            </div>
+
+                            <div class="form-group location-fields">
+                                <label for="eventCity">City <span class="required">*</span></label>
+                                <input type="text" id="eventCity" name="eventCity" placeholder="e.g., Accra">
+                            </div>
+
+                            <div class="form-group location-fields">
+                                <label for="eventRegion">Region</label>
+                                <select id="eventRegion" name="eventRegion">
+                                    <option value="">Select region</option>
+                                    <option value="greater-accra">Greater Accra</option>
+                                    <option value="ashanti">Ashanti</option>
+                                    <option value="western">Western</option>
+                                    <option value="eastern">Eastern</option>
+                                    <option value="central">Central</option>
+                                    <option value="northern">Northern</option>
+                                    <option value="volta">Volta</option>
+                                    <option value="upper-east">Upper East</option>
+                                    <option value="upper-west">Upper West</option>
+                                    <option value="brong-ahafo">Brong Ahafo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width online-fields" id="onlineFields" style="display: none;">
+                                <label for="eventPlatform">Online Platform</label>
+                                <select id="eventPlatform" name="eventPlatform">
+                                    <option value="">Select platform</option>
+                                    <option value="zoom">Zoom</option>
+                                    <option value="meet">Google Meet</option>
+                                    <option value="teams">Microsoft Teams</option>
+                                    <option value="youtube">YouTube Live</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width online-fields" style="display: none;">
+                                <label for="eventStreamUrl">Stream/Meeting URL</label>
+                                <input type="url" id="eventStreamUrl" name="eventStreamUrl" placeholder="https://">
+                                <span class="helper-text">This will be shared with ticket holders only</span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="eventCapacity">Event Capacity</label>
+                                <input type="number" id="eventCapacity" name="eventCapacity" placeholder="Maximum number of attendees" min="1">
+                                <span class="helper-text">Leave empty for unlimited</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Tickets -->
+                <div class="form-step" data-step="3">
+                    <div class="step-content">
+                        <h2 class="step-title">Tickets</h2>
+                        <p class="step-description">Set up your ticket types and pricing</p>
+
+                        <div class="ticket-type-toggle">
+                            <label class="toggle-option">
+                                <input type="radio" name="ticketType" value="free" checked>
+                                <span class="toggle-btn">Free Event</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="radio" name="ticketType" value="paid">
+                                <span class="toggle-btn">Paid Event</span>
+                            </label>
+                        </div>
+
+                        <div class="tickets-container" id="ticketsContainer">
+                            <!-- Free ticket section -->
+                            <div class="free-ticket-section" id="freeTicketSection">
+                                <div class="ticket-card">
+                                    <div class="ticket-header">
+                                        <span class="ticket-icon">🎟️</span>
+                                        <h3>Free Registration</h3>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="freeTicketQuantity">Number of Free Tickets</label>
+                                        <input type="number" id="freeTicketQuantity" name="freeTicketQuantity" value="100" min="1">
+                                        <span class="helper-text">How many free registrations are available?</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Paid tickets section -->
+                            <div class="paid-tickets-section" id="paidTicketsSection" style="display: none;">
+                                <div class="tickets-list" id="ticketsList">
+                                    <!-- Ticket items will be added here -->
+                                </div>
+                                <button type="button" class="add-ticket-btn" id="addTicketBtn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Add Ticket Type
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="additional-options">
+                            <h3>Additional Options</h3>
+
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="requireApproval" name="requireApproval">
+                                <span class="checkbox-custom"></span>
+                                <div class="checkbox-content">
+                                    <span class="checkbox-label">Require approval for registrations</span>
+                                    <span class="checkbox-description">You'll need to manually approve each registration</span>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="collectPhone" name="collectPhone">
+                                <span class="checkbox-custom"></span>
+                                <div class="checkbox-content">
+                                    <span class="checkbox-label">Collect phone numbers</span>
+                                    <span class="checkbox-description">Request attendees' phone numbers during registration</span>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="allowRefunds" name="allowRefunds" checked>
+                                <span class="checkbox-custom"></span>
+                                <div class="checkbox-content">
+                                    <span class="checkbox-label">Allow refunds</span>
+                                    <span class="checkbox-description">Attendees can request refunds up to 24 hours before the event</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review -->
+                <div class="form-step" data-step="4">
+                    <div class="step-content">
+                        <h2 class="step-title">Review Your Event</h2>
+                        <p class="step-description">Double-check everything before publishing</p>
+
+                        <div class="review-container">
+                            <div class="review-preview">
+                                <div class="preview-image" id="reviewImage">
+                                    <img src="../public/assets/hero.png" alt="Event preview" id="reviewImageSrc">
+                                </div>
+                                <div class="preview-content">
+                                    <span class="preview-category" id="reviewCategory">Category</span>
+                                    <h2 class="preview-title" id="reviewTitle">Event Title</h2>
+                                    <p class="preview-description" id="reviewDescription">Event description will appear here...</p>
+                                </div>
+                            </div>
+
+                            <div class="review-details">
+                                <div class="review-section">
+                                    <h3>Date & Time</h3>
+                                    <div class="review-item">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span id="reviewDateTime">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="review-section">
+                                    <h3>Location</h3>
+                                    <div class="review-item">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                            <circle cx="12" cy="10" r="3"></circle>
+                                        </svg>
+                                        <span id="reviewLocation">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="review-section">
+                                    <h3>Tickets</h3>
+                                    <div class="review-tickets" id="reviewTickets">
+                                        <!-- Ticket summary will be inserted here -->
+                                    </div>
+                                </div>
+
+                                <div class="review-section">
+                                    <h3>Settings</h3>
+                                    <div class="review-settings" id="reviewSettings">
+                                        <!-- Settings summary will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Navigation -->
+                <div class="form-navigation">
+                    <button type="button" class="btn-secondary" id="prevBtn" style="display: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="nav-spacer"></div>
+                    <button type="button" class="btn-outline" id="saveDraftBtn">Save as Draft</button>
+                    <button type="button" class="btn-primary" id="nextBtn">
+                        Next
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                    <button type="submit" class="btn-primary" id="publishBtn" style="display: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Publish Event
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            <h2 class="modal-title">Event Created!</h2>
+            <p class="modal-message" id="successMessage">Your event has been published successfully.</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="viewEventBtn">View Event</button>
+                <button class="btn-primary" id="goToDashboardBtn">Go to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discard Confirmation Modal -->
+    <div id="discard-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content confirm-modal">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">Discard Changes?</h2>
+            <p class="modal-message">You have unsaved changes. Are you sure you want to leave? Your progress will be lost.</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="keepEditingBtn">Keep Editing</button>
+                <button class="btn-danger" id="discardBtn">Discard</button>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.userway.org/widget.js" data-account="yHxBfPK57z" data-position="3"></script>
+</body>
+</html>

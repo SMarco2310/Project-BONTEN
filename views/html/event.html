@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event - BONTEN</title>
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="../public/css/event.css" />
+    <link rel="stylesheet" href="../public/css/explore.css" />
+    <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
+    <script src="../public/js/language.js"></script>
+    <script src="../public/js/profile_loader.js"></script>
+    <script src="../public/js/validation.js"></script>
+    <script src="../public/js/event_modals.js" defer></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <a href="./user_homepage.html" style="text-decoration: none">
+          <div class="logo">
+            <h3 class="left">Bon</h3>
+            <h3>ten</h3>
+          </div>
+        </a>
+
+        <nav class="nav-menu">
+          <a href="./user_homepage.html" class="nav-item" data-translate="home"
+            >Home</a
+          >
+          <a href="./explore.html" class="nav-item" data-translate="explore"
+            >Explore</a
+          >
+          <a href="./history.html" class="nav-item" data-translate="history"
+            >History</a
+          >
+        </nav>
+
+        <div class="lower-menu">
+          <a href="./settings.html" class="nav-item" data-translate="settings"
+            >Settings</a
+          >
+          <a href="./index.html" class="logout" data-translate="logout"
+            >Logout</a
+          >
+        </div>
+      </aside>
+
+      <div class="topnav">
+        <a
+          href="./settings.html"
+          class="user_section"
+          style="cursor: pointer; text-decoration: none"
+        >
+          <img
+            src="../public/assets/jerome.jpeg"
+            alt="Profile Picture"
+            class="profile_picture"
+          />
+          <div class="user_info">
+            <h4 class="username">Jerome Adedze</h4>
+          </div>
+        </a>
+      </div>
+
+      <!-- * Main page content -->
+      <div class="main-body">
+        <div class="mid">
+          <div class="event-banner">
+            <div class="event-image" id="event-img">
+              <div class="event-header">
+                <p class="diff-font" id="event-name"></p>
+
+                <button id="event-tag"></button>
+              </div>
+            </div>
+
+            <div class="desc-comments">
+              <div class="desc">
+                <div class="desc-title">
+                  <h2
+                    style="
+                      font-family: 'Inter', sans-serif;
+                      color: #ffffff;
+                      margin: 0;
+                    "
+                    data-translate="description"
+                  >
+                    Description
+                  </h2>
+                </div>
+                <div id="desc-text">
+                  <p id="event-description">
+                    Join us for an unforgettable evening of music, culture, and
+                    community! This exclusive event brings together talented
+                    performers, amazing food, and great company in a vibrant
+                    atmosphere. Whether you're a music enthusiast or just
+                    looking for a great night out, this event promises to
+                    deliver an experience you won't forget. Don't miss out on
+                    this opportunity to connect with fellow culture lovers and
+                    enjoy world-class entertainment.
+                  </p>
+                </div>
+                <div class="rsvp">
+                  <button
+                    id="rsvp-btn"
+                    style="font-family: 'MartianMono Nerd Font', sans-serif"
+                    data-translate="rsvp"
+                  >
+                    RSVP ->
+                  </button>
+                </div>
+              </div>
+              <div class="comments">
+                <div class="desc-title">
+                  <h2
+                    style="
+                      font-family: 'Inter', sans-serif;
+                      color: #ffffff;
+                      margin: 0;
+                    "
+                    data-translate="comments"
+                  >
+                    Comments
+                  </h2>
+                </div>
+
+                <div class="comments-list" id="comments-container">
+                  <!-- Comment items will be dynamically inserted here -->
+                  <!-- Database structure: { id, userId, userName, userAvatar, rating, comment, timestamp } -->
+
+                  <div class="comment-item" data-comment-id="1">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/jerome.jpeg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Jerome Adedze</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star_w.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        This was an absolutely amazing event! The organization
+                        was top-notch and the atmosphere was electric. Would
+                        definitely attend again!
+                      </p>
+                    </div>
+                    <div class="comment-time">2 days ago</div>
+                  </div>
+
+                  <div class="comment-item" data-comment-id="2">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/eldad.jpg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Eldad Kohen</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        Perfect event! Great venue, amazing sound quality, and
+                        friendly staff. Highly recommended!
+                      </p>
+                    </div>
+                    <div class="comment-time">5 days ago</div>
+                  </div>
+
+                  <div class="comment-item" data-comment-id="3">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/jerome.jpeg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Jerome Adedze</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star_w.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star_w.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        Good event overall, but the lines were a bit long. Still
+                        had a great time though!
+                      </p>
+                    </div>
+                    <div class="comment-time">1 week ago</div>
+                  </div>
+
+                  <div class="comment-item" data-comment-id="4">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/eldad.jpg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Eldad Kohen</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star_w.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        Loved every minute! The performers were incredible and
+                        the energy was contagious. Can't wait for the next one!
+                      </p>
+                    </div>
+                    <div class="comment-time">1 week ago</div>
+                  </div>
+
+                  <div class="comment-item" data-comment-id="5">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/jerome.jpeg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Jerome Adedze</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        Outstanding experience from start to finish! The lineup
+                        was incredible and the venue was perfect. Already
+                        looking forward to the next one!
+                      </p>
+                    </div>
+                    <div class="comment-time">2 weeks ago</div>
+                  </div>
+
+                  <div class="comment-item" data-comment-id="6">
+                    <div class="comment-header">
+                      <div class="comment-user-avatar">
+                        <img src="../public/assets/eldad.jpg" alt="user" />
+                      </div>
+                      <div class="comment-user-info">
+                        <p class="comment-user-name">Eldad Kohen</p>
+                        <div class="comment-rating">
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star.svg"
+                            alt="star"
+                          />
+                          <img
+                            src="../public/assets/icons/star_w.svg"
+                            alt="star"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment-text">
+                      <p>
+                        Great vibes and excellent production quality. The food
+                        options were diverse and delicious. Minor sound issues
+                        at the beginning but overall fantastic!
+                      </p>
+                    </div>
+                    <div class="comment-time">3 weeks ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="rsvp-modal" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content rsvp-modal-content">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title" data-translate="rsvp">RSVP</h2>
+        <form id="rsvp-form" class="modal-form">
+          <div class="form-field">
+            <label for="email" data-translate="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              data-translate="enterYourEmail"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="password" data-translate="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button
+            type="button"
+            id="tickets-btn"
+            class="modal-button"
+            data-translate="tickets"
+          >
+            Tickets
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="tickets-modal" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content tickets-modal-content">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title" data-translate="tickets">Tickets</h2>
+        <div class="tickets-form">
+          <div class="ticket-option">
+            <label for="regular" data-translate="regular">Regular</label>
+            <div class="quantity-control">
+              <button type="button" class="qty-btn minus" data-target="regular">
+                -
+              </button>
+              <input
+                type="number"
+                id="regular"
+                class="qty-input"
+                value="0"
+                min="0"
+                readonly
+              />
+              <button type="button" class="qty-btn plus" data-target="regular">
+                +
+              </button>
+            </div>
+          </div>
+          <div class="ticket-option">
+            <label for="vip" data-translate="vip">VIP</label>
+            <div class="quantity-control">
+              <button type="button" class="qty-btn minus" data-target="vip">
+                -
+              </button>
+              <input
+                type="number"
+                id="vip"
+                class="qty-input"
+                value="0"
+                min="0"
+                readonly
+              />
+              <button type="button" class="qty-btn plus" data-target="vip">
+                +
+              </button>
+            </div>
+          </div>
+          <div class="price-details"
+            style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+              <span style="color: #ccc;">Regular (<span id="regular-subtotal">0.00</span> GHS)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #ccc;">VIP (<span id="vip-subtotal">0.00</span> GHS)</span>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">
+              <strong style="color: white;">Total:</strong>
+              <strong style="color: rgb(212, 102, 62);">GHS <span id="grand-total">0.00</span></strong>
+            </div>
+          </div>
+          <button
+            type="button"
+            id="checkout-btn"
+            class="modal-button"
+            data-translate="proceedToCheckout"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../public/js/event.js" defer></script>
+    <script
+      src="https://cdn.userway.org/widget.js"
+      data-account="yHxBfPK57z"
+      data-position="3"
+    ></script>
+  </body>
+</html>

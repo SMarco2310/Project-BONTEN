@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="../public/css/user_homepage.css" />
+    <link rel="icon" href="../public/assets/bonten.png" type="image/x-icon" />
+    <script src="../public/js/language.js"></script>
+    <script src="../public/js/profile_loader.js"></script>
+    <script src="../public/js/user_homepage.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <a href="./user_homepage.html" style="text-decoration: none">
+          <div class="logo">
+            <h3 class="left">Bon</h3>
+            <h3>ten</h3>
+          </div>
+        </a>
+
+        <nav class="nav-menu">
+          <a
+            href="./user_homepage.html"
+            class="nav-item active"
+            data-translate="home"
+            >Home</a
+          >
+          <a href="./explore.html" class="nav-item" data-translate="explore"
+            >Explore</a
+          >
+          <a href="./history.html" class="nav-item" data-translate="history"
+            >History</a
+          >
+        </nav>
+
+        <div class="lower-menu">
+          <a href="./settings.html" class="nav-item" data-translate="settings"
+            >Settings</a
+          >
+          <a href="./index.html" class="logout" data-translate="logout"
+            >Logout</a
+          >
+        </div>
+      </aside>
+
+      <div class="topnav">
+        <a
+          href="./settings.html"
+          class="user_section"
+          style="cursor: pointer; text-decoration: none"
+        >
+          <img
+            src="../public/assets/jerome.jpeg"
+            alt="Profile Picture"
+            class="profile_picture"
+          />
+          <div class="user_info">
+            <h4 class="username">Jerome Adedze</h4>
+          </div>
+        </a>
+      </div>
+
+      <div class="hero_wrapper">
+        <div class="hero">
+          <div class="welcome">
+            <h1>Welcome back, Jerome!</h1>
+            <p>ready to explore what's happening near you?</p>
+          </div>
+          <a href="./explore.html#search-section" style="text-decoration: none">
+            <button class="explore_button">
+              Find Events Near Me
+              <img
+                src="../public/assets/search.png"
+                alt="Search"
+                class="button_icon"
+              />
+            </button>
+          </a>
+        </div>
+
+        <aside class="schedule_widget">
+          <div class="widget_header">
+            <h3 class="widget_title">Your Plans</h3>
+            <select class="month_selector">
+              <option>January</option>
+
+              <option>February</option>
+
+              <option>March</option>
+
+              <option>April</option>
+
+              <option>May</option>
+
+              <option>June</option>
+
+              <option>July</option>
+
+              <option>August</option>
+
+              <option>September</option>
+
+              <option>October</option>
+
+              <option>November</option>
+
+              <option>December</option>
+            </select>
+          </div>
+
+          <div class="Your-plans">
+            <div class="event">
+              <img
+                src="../public/assets/global.jpg"
+                alt="Event Icon"
+                class="event_icon"
+              />
+              <div class="details">
+                <h4 class="event_title">Global Football</h4>
+                <p class="event_time">December 1, 2023 - 6:00 PM</p>
+              </div>
+              <div class="event_actions">
+                <a href="./event.html?id=global-footbal-festival"
+                  ><button class="edit_event">View details</button></a
+                >
+              </div>
+            </div>
+
+            <div class="event">
+              <img
+                src="../public/assets/t&b.jpg"
+                alt="Event Icon"
+                class="event_icon"
+              />
+              <div class="details">
+                <h4 class="event_title">Tanks & Bikinis</h4>
+                <p class="event_time">December 15, 2023 - 7:00 PM</p>
+              </div>
+              <div class="event_actions">
+                <a href="./event.html?id=tanks-and-bikinis"
+                  ><button class="edit_event">View details</button></a
+                >
+              </div>
+            </div>
+
+            <div class="event">
+              <img
+                src="../public/assets/tidalrave.jpg"
+                alt="Event Icon"
+                class="event_icon"
+              />
+              <div class="details">
+                <h4 class="event_title">Tidal Rave</h4>
+                <p class="event_time">December 20, 2023 - 8:00 PM</p>
+              </div>
+              <div class="event_actions">
+                <a href="./event.html?id=tidal-rave"
+                  ><button class="edit_event">View details</button></a
+                >
+              </div>
+            </div>
+
+            <div class="event">
+              <img
+                src="../public/assets/ashchella.jpg"
+                alt="Event Icon"
+                class="event_icon"
+              />
+              <div class="details">
+                <h4 class="event_title">Ashchella</h4>
+                <p class="event_time">December 25, 2023 - 5:00 PM</p>
+              </div>
+              <div class="event_actions">
+                <a href="./event.html?id=ashchella"
+                  ><button class="edit_event">View details</button></a
+                >
+              </div>
+            </div>
+
+            <div class="event">
+              <img
+                src="../public/assets/y2k.JPG"
+                alt="Event Icon"
+                class="event_icon"
+              />
+              <div class="details">
+                <h4 class="event_title">Y2K Neon</h4>
+                <p class="event_time">December 28, 2023 - 9:00 PM</p>
+              </div>
+              <div class="event_actions">
+                <a href="./event.html?id=y2k-neon"
+                  ><button class="edit_event">View details</button></a
+                >
+              </div>
+            </div>
+          </div>
+
+          <a href="./history.html" class="view_more_link">View all plans →</a>
+        </aside>
+      </div>
+
+      <section class="upcoming_events">
+        <h2
+          class="section_title"
+          style="
+            font-style: italic;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 500;
+          "
+          data-translate="eventsForYou"
+        >
+          Events For You
+        </h2>
+        <div class="event-container">
+          <div class="carousel_container">
+            <button class="carousel_nav prev">‹</button>
+
+            <div class="events_carousel">
+              <div class="event_card">
+                <span class="event_badge">Concert</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/detty.webp"
+                  alt="Detty December"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">Detty December</h3>
+                  <p class="event_description">
+                    Ghana's biggest holiday celebration featuring music,
+                    parties, and cultural festivities throughout December
+                  </p>
+                  <a href="./event.html?id=detty-december"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">Concert</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/rapperholic.jpeg"
+                  alt="Rapperholic"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">Rapperholic</h3>
+                  <p class="event_description">
+                    Sarkodie's flagship annual hip-hop concert featuring Ghana's
+                    biggest rap and music stars
+                  </p>
+                  <a href="./event.html?id=rapperholic"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">AsC week</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/ashchella.jpg"
+                  alt="Ashchella"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">Ashchella</h3>
+                  <p class="event_description">
+                    A vibrant celebration of music, art, fashion, and African
+                    culture at Ashesi University
+                  </p>
+                  <a href="./event.html?id=ashchella"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">Fashion</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/y2k.JPG"
+                  alt="Y2K Neon"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">Y2K Neon</h3>
+                  <p class="event_description">
+                    A nostalgic throwback party celebrating early 2000s culture
+                    with neon vibes and retro music
+                  </p>
+                  <a href="./event.html?id=y2k-neon"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">Concert</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/tidalrave.jpg"
+                  alt="Tidal Rave"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">Tidal Rave</h3>
+                  <p class="event_description">
+                    Ghana's biggest beach festival featuring Afrobeats, hip-hop,
+                    and dancehall with multiple experience zones
+                  </p>
+                  <a href="./event.html?id=tidal-rave"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">Football</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/gff.jpg"
+                  alt="GFF"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">GFF</h3>
+                  <p class="event_description">
+                    Ghana's biggest food carnival celebrating culinary culture
+                    with dishes from all 16 regions
+                  </p>
+                  <a href="./event.html?id=global-footbal-festival"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+
+              <div class="event_card">
+                <span class="event_badge">Concert</span>
+                <div class="bookmark_icon">⬜</div>
+                <img
+                  src="../public/assets/imullar.jpg"
+                  alt="iMullar"
+                  class="event_image"
+                />
+                <div class="event_info">
+                  <h3 class="event_title">iMullar</h3>
+                  <p class="event_description">
+                    An exclusive music concert experience featuring top-tier
+                    performances and entertainment
+                  </p>
+                  <a href="./event.html?id=imullar"
+                    ><button class="rsvp_button">Read More →</button></a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <button class="carousel_nav next">›</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="explore_section">
+        <a href="./explore.html" style="text-decoration: none; color: inherit">
+          <h2
+            class="explore_title"
+            style="
+              font-style: italic;
+              font-family: 'Times New Roman', Times, serif;
+              font-weight: 500;
+            "
+          >
+            Explore
+          </h2>
+          <div class="arrow_down">▼</div>
+        </a>
+      </section>
+    </div>
+
+    <script
+      src="https://cdn.userway.org/widget.js"
+      data-account="yHxBfPK57z"
+      data-position="3"
+    ></script>
+  </body>
+</html>
