@@ -17,14 +17,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 function set_security_headers() {
-    header("X-Frame-Options: DENY");
+    header("X-Frame-Options: SAMEORIGIN");
     header("X-Content-Type-Options: nosniff");
     header("X-XSS-Protection: 1; mode=block");
-    header("Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.userway.org; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org;");
+    header("Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.userway.org https://js.paystack.co; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://js.paystack.co; frame-src 'self' https://standard.paystack.co https://paystack.com;");
     header("X-Powered-By: ");
     header("Referrer-Policy: strict-origin-when-cross-origin");
 }
-
 function generate_csrf_token() {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
