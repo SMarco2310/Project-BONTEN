@@ -141,15 +141,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->close();
 
                 } else {
-
-                    
+                    // Paid event - create tickets
                     if (isset($_POST['tickets']) && is_array($_POST['tickets'])) {
+                        $tickets_created = 0;
                         foreach ($_POST['tickets'] as $ticket) {
-                            $ticket_name = $ticket['name'] ?? '';
+                            $ticket_name = trim($ticket['name'] ?? '');
                             $ticket_price = floatval($ticket['price'] ?? 0);
                             $ticket_quantity = (int)($ticket['quantity'] ?? 0);
 
-                            if (!empty($ticket_name) && $ticket_quantity > 0) {
+                            // Validate ticket data - name, price, and quantity are all required
+                            if (!empty($ticket_name) && $ticket_price >= 0 && $ticket_quantity > 0) {
                                 $stmt = $conn->prepare("
                                     INSERT INTO tickets (event_id, ticket_name, price, quantity, sold)
                                     VALUES (?, ?, ?, ?, 0)
@@ -160,10 +161,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     throw new Exception('Failed to create ticket: ' . $stmt->error);
                                 }
                                 $stmt->close();
+                                $tickets_created++;
                             }
-
                         }
-
+                        
+                        // If paid event but no valid tickets were created, throw an error
+                        if ($tickets_created === 0) {
+                            throw new Exception('Paid events must have at least one valid ticket with name, price, and quantity.');
+                        }
+                    } else {
+                        throw new Exception('Paid events require ticket information.');
                     }
                 }
 
@@ -195,8 +202,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $db->close();
 
-
-$_SESSION['error_message'] = $error_message;
-header("Location: ../../views/create_event.php");
-exit();
+// Only redirect with error if there's actually an error and we haven't already redirected
+if (!empty($error_message) && !$success) {
+    $_SESSION['error_message'] = $error_message;
+    header("Location: ../../views/create_event.php");
+    exit();
+}
 ?>

@@ -1,12 +1,16 @@
 <?php
-
 header("Content-Type: application/json");
 include_once "../../config/Database.php";
 
-$secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3"; // REPLACE THIS
+$secret_key = "sk_test_c7f377097220a7682f335d6558b568e8f2f057b3";
 
 if (isset($_GET["reference"])) {
     $reference = $_GET["reference"];
+    
+    if (empty($reference)) {
+        echo json_encode(["status" => false, "message" => "Reference is required"]);
+        exit();
+    }
 
 
 
@@ -33,12 +37,20 @@ if (isset($_GET["reference"])) {
     }
 
     $result = json_decode($response, true);
+    
+    // Check if response is valid
+    if (!$result || !isset($result["status"])) {
+        error_log("Invalid Paystack verification response: " . $response);
+        echo json_encode(["status" => false, "message" => "Payment verification failed"]);
+        exit();
+    }
 
-    if ($result["status"] && $result["data"]["status"] === "success") {
+    if ($result["status"] && isset($result["data"]["status"]) && $result["data"]["status"] === "success") {
         $database = new Database();
         $conn = $database->connect();
 
-        $status = "success";
+        // Use "successful" to match database ENUM
+        $status = "successful";
 
         // Update booking status
         $stmt = $conn->prepare("UPDATE bookings SET status = ? WHERE reference = ?");

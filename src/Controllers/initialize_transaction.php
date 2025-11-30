@@ -1,14 +1,11 @@
 <?php
-
-
+// Error reporting - disable in production
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+ini_set('display_errors', 0); // Disable display, log errors instead
+ini_set('log_errors', 1);
 
 header("Access-Control-Allow-Origin: *");
-
 header("Content-Type: application/json");
-
 header("Access-Control-Allow-Methods: POST");
 
 try {
@@ -103,7 +100,10 @@ $fields = [
     "amount" => $amount_kobo,
     "currency" => "GHS",
     "callback_url" =>
-        "http://localhost/project-bonten/views/verify_payment.php", 
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . 
+        "://" . $_SERVER['HTTP_HOST'] . 
+        dirname(dirname($_SERVER['PHP_SELF'])) . 
+        "/views/verify_payment.php", 
     "metadata" => [
         "event_id" => $event_id,
         "regular_quantity" => $regular_quantity,
@@ -135,6 +135,13 @@ if ($err) {
 
 $response = json_decode($result, true);
 
+// Check if response is valid
+if (!$response || !isset($response["status"])) {
+    error_log("Invalid Paystack response: " . $result);
+    echo json_encode(["status" => false, "message" => "Payment service error. Please try again."]);
+    $conn->close();
+    exit();
+}
 
 if ($response["status"]) {
     $reference = $response["data"]["reference"];
@@ -151,46 +158,45 @@ if ($response["status"]) {
 
 
     $stmt = $conn->prepare(
-        "INSERT INTO bookings (reference, email, event_id, ticket_type, quantity, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO bookings (reference, email, event_id, ticket_type, quantity, amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)"
     );
 
     if ($stmt) {
-
-        
+        // Parameter types: s=string, i=integer, d=double/decimal
+        // reference (s), email (s), event_id (i), ticket_type (s), quantity (i), amount (d), status (s)
         $stmt->bind_param(
-            "ssiisis",
+            "ssisids",
             $reference,
             $email,
             $event_id,
             $ticketType,
             $total_quantity,
             $amount_ghs,
-            $status,
+            $status
         );
 
         if ($stmt->execute()) {
             echo json_encode([
                 "status" => true,
-
                 "authorization_url" => $response["data"]["authorization_url"],
                 "access_code" => $response["data"]["access_code"],
-
                 "reference" => $response["data"]["reference"],
                 "public_key" => $public_key,
-
                 "amount" => $amount_kobo
             ]);
         } else {
+            error_log("Database execute error: " . $stmt->error);
             echo json_encode([
                 "status" => false,
-                "message" => "DB Execute Error: " . $stmt->error,
+                "message" => "Failed to save booking. Please try again.",
             ]);
         }
         $stmt->close();
     } else {
+        error_log("Database prepare error: " . $conn->error);
         echo json_encode([
             "status" => false,
-            "message" => "DB Prepare Error: " . $conn->error,
+            "message" => "Database error. Please try again later.",
         ]);
     }
 

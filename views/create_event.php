@@ -469,32 +469,9 @@ unset($_SESSION['error_message']);
     </div>
 
 <script>
-
+// This script ensures the form submits properly
+// The main form handling is done by create_event.js
 document.addEventListener('DOMContentLoaded', function() {
-    const publishBtn = document.getElementById('publishBtn');
-
-    const form = document.getElementById('createEventForm');
-
-    if (publishBtn && form) {
-        
-        const newPublishBtn = publishBtn.cloneNode(true);
-        publishBtn.parentNode.replaceChild(newPublishBtn, publishBtn);
-
-       
-        newPublishBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            if (form.checkValidity()) {
-                form.submit();
-            } else {
-                form.reportValidity();
-            }
-
-        });
-    }
-
-
-
     const goToDashboardBtn = document.getElementById('goToDashboardBtn');
 
     if (goToDashboardBtn) {
@@ -503,6 +480,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Ensure form validation works
+    const form = document.getElementById('createEventForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Let the JavaScript handle validation and submission
+            // If we get here, the form is being submitted
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Publishing...';
+            }
+        });
+    }
 });
 </script>
 

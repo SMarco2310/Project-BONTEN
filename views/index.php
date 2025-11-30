@@ -120,18 +120,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param("ssssss", $email, $password, $username, $full_name, $phone, $user_type);
 
                 if ($stmt->execute()) {
-                    $_SESSION['user_id'] = $conn->insert_id;
+                    // Get the newly inserted user ID
+                    $new_user_id = $conn->insert_id;
+                    
+                    // Set session variables
+                    $_SESSION['user_id'] = $new_user_id;
                     $_SESSION['email'] = $email;
                     $_SESSION['full_name'] = $full_name;
                     $_SESSION['user_type'] = $user_type;
                     $_SESSION['profile_picture'] = 'user.jpg';
+                    
+                    // Ensure session is written before redirect
+                    session_write_close();
 
                     log_security_event("New user registered: $email", 'INFO');
 
+                    // Redirect based on user type
                     if ($user_type === 'manager') {
                         header("Location: manager_dashboard.php");
-                    }
-                    else {
+                    } else {
                         header("Location: user_homepage.php");
                     }
                     exit();

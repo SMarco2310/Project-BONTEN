@@ -217,7 +217,12 @@ class CreateEventController {
         
         prevBtn?.addEventListener('click', () => this.prevStep());
         
-        publishBtn?.addEventListener('click', () => this.publishEvent());
+        // Handle publish button - prevent default form submission, use our validation
+        publishBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.publishEvent();
+        });
         
         saveDraftBtn?.addEventListener('click', () => this.saveDraft());
     }
@@ -393,10 +398,6 @@ class CreateEventController {
         
         const startTime = document.getElementById('eventStartTime');
         
-        const endDate = document.getElementById('eventEndDate');
-        
-        const endTime = document.getElementById('eventEndTime');
-        
         const eventType = document.querySelector('input[name="eventType"]:checked')?.value;
 
         if (!startDate?.value) {
@@ -409,26 +410,12 @@ class CreateEventController {
             isValid = false;
         }
 
-
-        if (!endDate?.value) {
-            this.showFieldError(endDate, 'End date is required');
-            isValid = false;
-        }
-
-        if (!endTime?.value) {
-            this.showFieldError(endTime, 'End time is required');
-            isValid = false;
-        }
-
-        
-        if (startDate?.value && endDate?.value && startTime?.value && endTime?.value) {
-           
+        // Validate date is not in the past
+        if (startDate?.value && startTime?.value) {
             const start = new Date(`${startDate.value}T${startTime.value}`);
-
-            const end = new Date(`${endDate.value}T${endTime.value}`);
-
-            if (end <= start) {
-                this.showFieldError(endDate, 'End date/time must be after start');
+            const now = new Date();
+            if (start < now) {
+                this.showFieldError(startDate, 'Event date/time must be in the future');
                 isValid = false;
             }
         }
@@ -1007,41 +994,46 @@ class CreateEventController {
 
 
     async publishEvent() {
-        this.collectStepData();
-
-        try {
-            const isEditing = this.isEditMode;
-            this.showToast(isEditing ? 'Saving changes...' : 'Publishing event...');
-
-            // Upload image if needed
-            if (this.imageFile) {
-                const uploadResult = await this.dataService.uploadImage(this.imageFile);
-                this.formData.imageUrl = uploadResult.url;
-            }
-
-            let result;
-            if (isEditing) {
-                // Update existing event
-                result = await this.dataService.updateEvent(this.editingEventId, this.formData);
-            } else {
-                // Create new event
-                result = await this.dataService.createEvent(this.formData);
-            }
-
-            if (result.success) {
-                this.hasUnsavedChanges = false;
-                const message = isEditing
-                    ? 'Your event has been updated successfully!'
-                    : 'Your event has been published successfully!';
-                this.showSuccessModal(message);
-            }
-        } catch (error) {
-            console.error('Publish failed:', error);
-            const errorMsg = this.isEditMode
-                ? 'Failed to save changes. Please try again.'
-                : 'Failed to publish event. Please try again.';
-            this.showToast(errorMsg, 'error');
+        // Validate all steps before submitting
+        if (!this.validateCurrentStep()) {
+            return;
         }
+
+        // Validate the final step (review step doesn't need validation, but check all previous steps)
+        if (!this.validateStep1() || !this.validateStep2() || !this.validateStep3()) {
+            // Go back to the first step with errors
+            if (!this.validateStep1()) {
+                this.currentStep = 1;
+                this.updateStepUI();
+            } else if (!this.validateStep2()) {
+                this.currentStep = 2;
+                this.updateStepUI();
+            } else if (!this.validateStep3()) {
+                this.currentStep = 3;
+                this.updateStepUI();
+            }
+            return;
+        }
+
+        // Get the form element
+        const form = document.getElementById('createEventForm');
+        if (!form) {
+            this.showToast('Form not found. Please refresh the page.', 'error');
+            return;
+        }
+
+        // Check HTML5 validation
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            this.showToast('Please fill in all required fields correctly', 'error');
+            return;
+        }
+
+        // Show loading message
+        this.showToast('Publishing event...', 'info');
+
+        // Submit the form to the PHP handler
+        form.submit();
     }
 
     async saveDraft() {
