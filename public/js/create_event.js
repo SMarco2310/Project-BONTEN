@@ -2,21 +2,58 @@ class EventDataService {
   constructor() {
     this.apiBaseUrl = "/api";
 
-    this.useMockData = true;
+    this.useMockData = false;
   }
 
-  async createEvent(eventData) {
+  async createEvent(eventData, imageFile) {
     if (this.useMockData) return this._getMockCreateEvent(eventData);
 
-    const response = await fetch(`${this.apiBaseUrl}/events`, {
-      method: "POST",
+    const formData = new FormData();
 
-      headers: { "Content-Type": "application/json" },
-
-      body: JSON.stringify(eventData),
+    // Append all event data fields
+    Object.keys(eventData).forEach(key => {
+      if (key === 'tickets' || key === 'tags') {
+        // Handle arrays/objects
+        if (Array.isArray(eventData[key])) {
+          eventData[key].forEach((item, index) => {
+            if (typeof item === 'object') {
+              Object.keys(item).forEach(subKey => {
+                formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+              });
+            } else {
+              formData.append(`${key}[]`, item);
+            }
+          });
+        }
+      } else {
+        formData.append(key, eventData[key]);
+      }
     });
-    if (!response.ok) throw new Error("Failed to create event");
-    return response.json();
+
+    // Append image if available
+    if (imageFile) {
+      formData.append('eventImage', imageFile);
+    }
+
+    const response = await fetch(`../src/Controllers/handle_create_event.php`, {
+      method: "POST",
+      body: formData,
+    });
+
+    // Handle non-JSON responses (like HTML errors)
+    const text = await response.text();
+    try {
+      const data = JSON.parse(text);
+      if (!data.success && !response.ok) throw new Error(data.message || "Failed to create event");
+      return data;
+    } catch (e) {
+      console.error("Server response:", text);
+      // If the response was a redirect (common in PHP), treat as success if we can infer it
+      if (response.redirected || response.url.includes('dashboard')) {
+        return { success: true };
+      }
+      throw new Error("Invalid server response");
+    }
   }
 
   async saveDraft(eventData) {
@@ -275,9 +312,8 @@ class CreateEventController {
     const progressFill = document.getElementById("progressFill");
 
     if (progressFill) {
-      progressFill.style.width = `${
-        (this.currentStep / this.totalSteps) * 100
-      }%`;
+      progressFill.style.width = `${(this.currentStep / this.totalSteps) * 100
+        }%`;
     }
 
     const prevBtn = document.getElementById("prevBtn");
@@ -756,8 +792,8 @@ class CreateEventController {
             <span class="tag-item">
                 ${this.escapeHtml(tag)}
                 <button type="button" onclick="createEventController.removeTag('${this.escapeHtml(
-                  tag
-                )}')">&times;</button>
+          tag
+        )}')">&times;</button>
             </span>
         `
       )
@@ -830,9 +866,8 @@ class CreateEventController {
             <div class="ticket-item" data-ticket-id="${ticket.id}">
                 <div class="ticket-item-header">
                     <h4>Ticket Type ${index + 1}</h4>
-                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${
-                      ticket.id
-                    }')">
+                    <button type="button" class="remove-ticket-btn" onclick="createEventController.removeTicket('${ticket.id
+          }')">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -843,40 +878,35 @@ class CreateEventController {
                     <div class="form-group">
                         <label>Ticket Name <span class="required">*</span></label>
                         <input type="text" value="${this.escapeHtml(
-                          ticket.name
-                        )}"
+            ticket.name
+          )}"
                                placeholder="e.g., Early Bird, VIP, Regular"
-                               onchange="createEventController.updateTicket('${
-                                 ticket.id
-                               }', 'name', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'name', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Price (GHC) <span class="required">*</span></label>
-                        <input type="number" value="${
-                          ticket.price
-                        }" min="0" step="0.01"
+                        <input type="number" value="${ticket.price
+          }" min="0" step="0.01"
                                placeholder="0.00"
-                               onchange="createEventController.updateTicket('${
-                                 ticket.id
-                               }', 'price', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'price', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Quantity <span class="required">*</span></label>
                         <input type="number" value="${ticket.quantity}" min="1"
                                placeholder="Number available"
-                               onchange="createEventController.updateTicket('${
-                                 ticket.id
-                               }', 'quantity', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'quantity', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
                         <input type="text" value="${this.escapeHtml(
-                          ticket.description
-                        )}"
+            ticket.description
+          )}"
                                placeholder="What's included?"
-                               onchange="createEventController.updateTicket('${
-                                 ticket.id
-                               }', 'description', this.value)">
+                               onchange="createEventController.updateTicket('${ticket.id
+          }', 'description', this.value)">
                     </div>
                 </div>
             </div>
@@ -962,9 +992,8 @@ class CreateEventController {
         reviewTickets.innerHTML = `
                     <div class="review-ticket-item">
                         <span class="review-ticket-name">Free Registration</span>
-                        <span class="review-ticket-price">${
-                          this.formData.freeQuantity || 100
-                        } available</span>
+                        <span class="review-ticket-price">${this.formData.freeQuantity || 100
+          } available</span>
                     </div>
                 `;
       } else if (this.formData.tickets?.length) {
@@ -973,11 +1002,11 @@ class CreateEventController {
             (ticket) => `
                     <div class="review-ticket-item">
                         <span class="review-ticket-name">${this.escapeHtml(
-                          ticket.name
-                        )}</span>
+              ticket.name
+            )}</span>
                         <span class="review-ticket-price">GHC ${parseFloat(
-                          ticket.price
-                        ).toFixed(2)}</span>
+              ticket.price
+            ).toFixed(2)}</span>
                     </div>
                 `
           )
@@ -1005,8 +1034,7 @@ class CreateEventController {
       reviewSettings.innerHTML = settings
         .map(
           (s) =>
-            `<span class="review-setting-tag ${s.active ? "active" : ""}">${
-              s.label
+            `<span class="review-setting-tag ${s.active ? "active" : ""}">${s.label
             }</span>`
         )
         .join("");
@@ -1060,8 +1088,24 @@ class CreateEventController {
     // Show loading message
     this.showToast("Publishing event...", "info");
 
-    // Submit the form to the PHP handler
-    form.submit();
+    try {
+      const result = await this.dataService.createEvent(this.formData, this.imageFile);
+
+      if (result.success) {
+        this.showToast("Event created successfully!", "success");
+        this.hasUnsavedChanges = false;
+
+        // Redirect to dashboard or the new event page
+        setTimeout(() => {
+          window.location.href = "manager_dashboard.php?event_created=1";
+        }, 1500);
+      } else {
+        this.showToast(result.message || "Failed to create event", "error");
+      }
+    } catch (error) {
+      console.error("Publish failed:", error);
+      this.showToast(error.message || "An error occurred while publishing", "error");
+    }
   }
 
   async saveDraft() {
