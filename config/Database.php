@@ -9,10 +9,10 @@ class Database
 
     private $db_name = "webtech_2025A_marc_sossou";
 
-    private $username = "marc.sossou";
+    private $username = "root";
 
 
-    private $password = "Marco2310#";
+    private $password = "";
 
 
     public $conn;
